@@ -11,11 +11,19 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.ConnectOut"
             tools:targetApi="31">
+
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
+
         <activity
                 android:name=".GreetingActivity"
                 android:exported="false" />
         <activity
                 android:name=".MainActivity"
+                android:exported="false" />
+        <activity
+                android:name=".MapActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

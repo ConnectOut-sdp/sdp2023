@@ -1,0 +1,65 @@
+package com.sdpteam.connectout;
+
+import androidx.fragment.app.FragmentActivity;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.sdpteam.connectout.databinding.ActivityMapBinding;
+
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
+    private ActivityMapBinding binding;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityMapBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng satellite = new LatLng(46.520544, 6.567825);
+        MarkerOptions m = new MarkerOptions().position(satellite).title("Satellite");
+        mMap.addMarker(m);
+        // The zoom value is between 1 and 20 with 1 being a world zoom and 20 being a building scale zoom
+        // 15 is a good value to see the city around an individual
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.520536, 6.568318), 15));
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // on marker click we are getting the title of our marker
+                // which is clicked and displaying it in a toast message.
+                String markerName = marker.getTitle();
+                Toast.makeText(MapActivity.this, "Clicked location is " + markerName + ": coordinates are Lat "+ marker.getPosition().latitude  +"and Lng "+marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+    }
+}
