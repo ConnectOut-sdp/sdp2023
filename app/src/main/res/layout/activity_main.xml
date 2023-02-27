@@ -6,25 +6,15 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/mainName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:hint="Your name" />
-
     <Button
-            android:text="Button"
+            android:text="Log In/Sign Up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/mainGoButton"
+            android:id="@+id/loginButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainName" />
+            tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

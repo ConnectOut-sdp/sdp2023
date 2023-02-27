@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'jacoco'
+    id 'com.google.gms.google-services' //https://firebase.google.com/docs/android/setup#analytics-not-enabled and https://stackoverflow.com/a/72213149/7974174
 }
 
 android {
@@ -41,6 +42,18 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+
+    implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    // Add the dependencies for Firebase products you want to use
+    // See https://firebase.google.com/docs/android/setup#available-libraries
+    // For example, add the dependencies for Firebase Authentication and Cloud Firestore
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
 }
 
 tasks.withType(Test) {
