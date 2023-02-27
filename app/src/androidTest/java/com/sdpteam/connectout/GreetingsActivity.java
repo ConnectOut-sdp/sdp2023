@@ -25,7 +25,7 @@ public class GreetingsActivity {
     @Test
     public void testGreetingActivity() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), GreetingActivity.class);
-        intent.putExtra("key", "coucou lol");
+        intent.putExtra("loginInfo", "coucou lol");
         activityScenarioRule.getScenario().onActivity(activity -> {
             activity.startActivity(intent);
         });
