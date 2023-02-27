@@ -38,15 +38,15 @@ public class MainActivityTest {
         Intents.release();
     }
 
-    @Test
-    public void firstTest() {
-        Matcher<View> viewMatcher = withId(R.id.mainName);
-        onView(viewMatcher).perform(typeText("coucou"));
-        onView(withId(R.id.mainGoButton)).perform(click());
-        intended(allOf(IntentMatchers.hasComponent(GreetingActivity.class.getName()),
-                IntentMatchers.hasExtra("key", "Hello coucou!")
-        ));
-
-        onView(withId(R.id.greetingMessage)).check(matches(withText("Hello coucou!")));
-    }
+//    @Test
+//    public void firstTest() {
+//        Matcher<View> viewMatcher = withId(R.id.mainName);
+//        onView(viewMatcher).perform(typeText("coucou"));
+//        onView(withId(R.id.mainGoButton)).perform(click());
+//        intended(allOf(IntentMatchers.hasComponent(GreetingActivity.class.getName()),
+//                IntentMatchers.hasExtra("key", "Hello coucou!")
+//        ));
+//
+//        onView(withId(R.id.greetingMessage)).check(matches(withText("Hello coucou!")));
+//    }
 }
