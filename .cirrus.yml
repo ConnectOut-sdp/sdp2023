@@ -1,0 +1,42 @@
+container:
+  image: cirrusci/android-sdk:30
+  cpu: 4
+  memory: 16G
+  kvm: true
+
+check_android_task:
+  name: Run Android tests
+  install_emulator_script:
+    sdkmanager --install "system-images;android-30;google_apis;x86"
+  create_avd_script:
+    echo no | avdmanager create avd --force
+    --name emulator
+    --package "system-images;android-30;google_apis;x86"
+  start_avd_background_script:
+    $ANDROID_HOME/emulator/emulator
+    -avd emulator
+    -no-audio
+    -no-boot-anim
+    -gpu swiftshader_indirect
+    -no-snapshot
+    -no-window
+    -camera-back none
+  assemble_instrumented_tests_script: |
+    chmod +x gradlew
+    ./gradlew assembleDebugAndroidTest
+  wait_for_avd_script:
+    adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
+  disable_animations_script: |
+    adb shell settings put global window_animation_scale 0.0
+    adb shell settings put global transition_animation_scale 0.0
+    adb shell settings put global animator_duration_scale 0.0
+  screen_record_background_script:
+    for n in $(seq 1 20); do adb exec-out screenrecord --time-limit=180 --output-format=h264 - > $n.h264; done
+  check_script:
+    ./gradlew check connectedCheck
+  always:
+    wait_for_screenrecord_script: |
+      pkill -2 -x adb
+      sleep 2
+    screenrecord_artifacts:
+      path: "*.h264"
