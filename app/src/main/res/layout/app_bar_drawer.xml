@@ -17,13 +17,11 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/cardview_dark_background"
             app:popupTheme="@style/Theme.ConnectOut.PopupOverlay"
-            app:navigationIcon="@drawable/options_image"
-            />
+            app:navigationIcon="@drawable/options_image" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_drawer" />
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
