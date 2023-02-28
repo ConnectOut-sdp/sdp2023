@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.myEvents.MyEventsFragment"
+    tools:context=".fragments.MyEventsFragment"
     android:background="@color/material_dynamic_neutral90">
 
     <TextView

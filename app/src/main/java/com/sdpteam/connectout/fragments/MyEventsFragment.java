@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.ui.myEvents;
+package com.sdpteam.connectout.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.sdpteam.connectout.databinding.FragmentMyEventsBinding;
@@ -33,5 +36,19 @@ public class MyEventsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public static class MyEventsViewModel extends ViewModel {
+
+        private final MutableLiveData<String> mText;
+
+        public MyEventsViewModel() {
+            mText = new MutableLiveData<>();
+            mText.setValue("This is my event fragment");
+        }
+
+        public LiveData<String> getText() {
+            return mText;
+        }
     }
 }
