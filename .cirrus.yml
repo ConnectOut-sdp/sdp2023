@@ -3,8 +3,6 @@ container:
   cpu: 4
   memory: 16G
   kvm: true
-  environment:
-    JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
 
 env:
   CC_TEST_REPORTER_ID: ENCRYPTED[!eaed117e4687020cb0b53ba79a5d5ab6dfc1f79fe91be28937e655a9391b75c52060374bdaa3ebef3b4c4800f6c245cf!]
