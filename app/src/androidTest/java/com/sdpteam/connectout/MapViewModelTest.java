@@ -25,7 +25,7 @@ public class MapViewModelTest {
 
         CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
 
-        List<Event> events = eventListFuture.orTimeout(10, TimeUnit.SECONDS).join();
+        List<Event> events = eventListFuture.join();
         assertThat(events.size(), is(2));
         assertThat(events.get(0).getTitle(), is("event1"));
         assertThat(events.get(1).getTitle(), is("event2"));
@@ -47,7 +47,7 @@ public class MapViewModelTest {
 
         CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
 
-        List<Event> events = eventListFuture.orTimeout(10, TimeUnit.SECONDS).join();
+        List<Event> events = eventListFuture.join();
         assertThat(events.size(), is(2));
         assertThat(events.get(0).getTitle(), is("event1"));
         assertThat(events.get(1).getTitle(), is("event2"));
@@ -62,11 +62,11 @@ public class MapViewModelTest {
         mvm.init(new FakeMapModel());
         LiveData<List<Event>> events = mvm.getEventList();
         CompletableFuture<List<Event>> future1 = toCompletableFuture(events);
-        future1.orTimeout(10, TimeUnit.SECONDS).join();
+        future1.join();
 
         LiveData<List<Event>> liveData = mvm.refreshEventList();
         CompletableFuture<List<Event>> future2 = toCompletableFuture(liveData);
-        List<Event> eventList = future2.orTimeout(10, TimeUnit.SECONDS).join();
+        List<Event> eventList = future2.join();
 
         assertThat(eventList.size(), is(3));
         assertThat(eventList.get(0).getTitle(), is("event3"));
