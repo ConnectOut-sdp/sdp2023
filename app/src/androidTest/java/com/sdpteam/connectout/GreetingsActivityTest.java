@@ -16,7 +16,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
-public class GreetingsActivity {
+public class GreetingsActivityTest {
 
     @Rule
     public ActivityScenarioRule<GreetingActivity> activityScenarioRule =
