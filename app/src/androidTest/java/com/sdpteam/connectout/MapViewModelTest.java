@@ -26,34 +26,22 @@ public class MapViewModelTest {
     public void testMapViewModel() {
         MapViewModel mvm = new MapViewModel();
         mvm.init(new FakeMapModel());
-
         LiveData<List<Event>> events = mvm.getEventList();
-
         //LiveData is asychronous so calling getValue may return null at this stage
         final LiveData<List<Event>> events1 = events;
         final CountDownLatch latch1 = new CountDownLatch(1);
-
-        Observer<List<Event>> observer1 = new Observer<List<Event>>() {
-            @Override
-            public void onChanged(List<Event> listLiveData) {
-                latch1.countDown(); // this releases all the threads
-                assertThat(listLiveData.get(0).getTitle(), is("event1"));
-                assertThat(listLiveData.get(1).getTitle(), is("event2"));
-            }
+        Observer<List<Event>> observer1 = listLiveData -> {
+            latch1.countDown(); // this releases all the threads
+            assertThat(listLiveData.get(0).getTitle(), is("event1"));
+            assertThat(listLiveData.get(1).getTitle(), is("event2"));
         };
         try {
             latch1.await(1, TimeUnit.SECONDS);
         } catch (Exception e) {
         }
-
         Handler handler = new Handler(Looper.getMainLooper()); //main thread queue
-        handler.post(new Runnable() { // task to run on the main thread queue
-            @Override
-            public void run() {
-                events1.observeForever(observer1);
-            }
-        });
-
+        // task to run on the main thread queue
+        handler.post(() -> events1.observeForever(observer1));
         mvm.setEventList(null);
         events = mvm.getEventList();
         assertThat(events, CoreMatchers.nullValue(null));
@@ -63,39 +51,26 @@ public class MapViewModelTest {
     public void testMapViewModelWithRefresh() {
         MapViewModel mvm = new MapViewModel();
         mvm.init(new FakeMapModel());
-
         LiveData<List<Event>> events = mvm.getEventList();
         try {
             Thread.sleep(1000);
         } catch (Exception e) {
         }
-
         final LiveData<List<Event>> events1 = events = mvm.refreshEventList();
-
         final CountDownLatch latch1 = new CountDownLatch(1);
-
-
-        Observer<List<Event>> observer1 = new Observer<List<Event>>() {
-            @Override
-            public void onChanged(List<Event> listLiveData) {
-                latch1.countDown(); // this releases all the threads
-                assertThat(listLiveData.get(0).getTitle(), is("event3"));
-                assertThat(listLiveData.get(1).getTitle(), is("event4"));
-                assertThat(listLiveData.get(2).getTitle(), is("event5"));
-            }
+        Observer<List<Event>> observer1 = listLiveData -> {
+            latch1.countDown(); // this releases all the threads
+            assertThat(listLiveData.get(0).getTitle(), is("event3"));
+            assertThat(listLiveData.get(1).getTitle(), is("event4"));
+            assertThat(listLiveData.get(2).getTitle(), is("event5"));
         };
         try {
             latch1.await(1, TimeUnit.SECONDS);
         } catch (Exception e) {
         }
-
         Handler handler = new Handler(Looper.getMainLooper()); //main thread queue
-        handler.post(new Runnable() { // task to run on the main thread queue
-            @Override
-            public void run() {
-                events1.observeForever(observer1);
-            }
-        });
+        // task to run on the main thread queue
+        handler.post(() -> events1.observeForever(observer1));
     }
 
     public class FakeMapModel implements InterfaceMapModel {
