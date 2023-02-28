@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">ConnectOut</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Connect Out</string>
+    <string name="nav_header_subtitle">A place to live and share</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_my_events">My activities</string>
+    <string name="menu_my_account">My account</string>
+    <string name="menu_filters">Filters</string>
+    <string name="menu_log_out">Log out</string>
+    <string name="open_drawer">Opens the drawer</string>
+    <string name="close_drawer">Closes the drawer</string>
 </resources>
