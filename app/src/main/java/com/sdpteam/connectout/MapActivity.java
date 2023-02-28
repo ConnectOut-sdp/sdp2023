@@ -1,8 +1,14 @@
 package com.sdpteam.connectout;
 
-import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,10 +19,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.databinding.ActivityMapBinding;
 
+import java.util.List;
+
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Button refreshButton;
+    //Each binding class contains references to the root view and all views that have an ID
     private ActivityMapBinding binding;
+    //container object for the map used for the map lifecycle management and UI capabilities
+    private SupportMapFragment mapFragment;
+    private MapViewModel mapViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +39,38 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         setContentView(binding.getRoot());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
+        mapViewModel.init(new MapModel());
+
+        mapViewModel.getEventList().observe(this, new Observer<List<Event>>() {
+            @Override
+            public void onChanged(@Nullable List<Event> eventList) {
+                showNewMarkerList(eventList);
+            }
+        });
+
+        refreshButton = (Button) findViewById(R.id.refresh_button);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                showNewMarkerList(mapViewModel.refreshEventList().getValue());
+            }
+        });
+    }
+
+    private void showNewMarkerList(List<Event> eventList) {
+        if (mMap == null) {
+            return;
+        }
+        mMap.clear();
+        for (Event e : eventList) {
+            LatLng ll = new LatLng(e.getLat(), e.getLng());
+            MarkerOptions m = new MarkerOptions().position(ll).title(e.getTitle());
+            mMap.addMarker(m);
+        }
     }
 
     /**
@@ -57,7 +99,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 // on marker click we are getting the title of our marker
                 // which is clicked and displaying it in a toast message.
                 String markerName = marker.getTitle();
-                Toast.makeText(MapActivity.this, "Clicked location is " + markerName + ": coordinates are Lat "+ marker.getPosition().latitude  +"and Lng "+marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapActivity.this, "Clicked location is " + markerName + ": coordinates are Lat " + marker.getPosition().latitude + "and Lng " + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
