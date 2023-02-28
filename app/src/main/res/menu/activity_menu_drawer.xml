@@ -5,25 +5,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/menu_home"
             android:icon="@drawable/home_image"
             android:title="@string/menu_home" />
             <item
-                android:id="@+id/filters"
+                android:id="@+id/menu_filters"
                 android:icon="@drawable/filter_image"
                 android:title="@string/menu_filters" />
             <item
-                android:id="@+id/account"
+                android:id="@+id/menu_my_account"
                 android:icon="@drawable/account_image"
                 android:title="@string/menu_my_account" />
             <item
-                android:id="@+id/myEvents"
+                android:id="@+id/menu_my_events"
                 android:icon="@drawable/event_image"
                 android:title="@string/menu_my_events" />
         </group>
 
         <item
-            android:id="@+id/logOut"
+            android:id="@+id/menu_logout"
             android:icon="@drawable/logout_image"
             android:title="@string/menu_log_out" />
 
