@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MyAccountFragment"
-    android:background="@color/teal_200">
+    android:background="@color/teal_200"
+    android:id="@+id/my_account_fragment">
 
     <TextView
         android:id="@+id/text_my_account"
