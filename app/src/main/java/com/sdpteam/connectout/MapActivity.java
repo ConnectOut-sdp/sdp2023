@@ -46,19 +46,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
         mapViewModel.init(new MapModel());
 
-        mapViewModel.getEventList().observe(this, new Observer<List<Event>>() {
-            @Override
-            public void onChanged(@Nullable List<Event> eventList) {
-                showNewMarkerList(eventList);
-            }
-        });
+        mapViewModel.getEventList().observe(this, eventList -> showNewMarkerList(eventList));
 
         refreshButton = (Button) findViewById(R.id.refresh_button);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                showNewMarkerList(mapViewModel.refreshEventList().getValue());
-            }
-        });
+        refreshButton.setOnClickListener(view -> showNewMarkerList(mapViewModel.refreshEventList().getValue()));
     }
 
     private void showNewMarkerList(List<Event> eventList) {
@@ -93,15 +84,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         // 15 is a good value to see the city around an individual
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.520536, 6.568318), 15));
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                // on marker click we are getting the title of our marker
-                // which is clicked and displaying it in a toast message.
-                String markerName = marker.getTitle();
-                Toast.makeText(MapActivity.this, "Clicked location is " + markerName + ": coordinates are Lat " + marker.getPosition().latitude + "and Lng " + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
-                return false;
-            }
+        mMap.setOnMarkerClickListener(marker -> {
+            // on marker click we are getting the title of our marker
+            // which is clicked and displaying it in a toast message.
+            String markerName = marker.getTitle();
+            Toast.makeText(MapActivity.this, "Clicked location is " + markerName + ": coordinates are Lat " + marker.getPosition().latitude + "and Lng " + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+            return false;
         });
     }
 }
