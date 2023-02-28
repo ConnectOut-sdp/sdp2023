@@ -18,7 +18,7 @@ public class FilterFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         //Add to this fragment, the home fragment to filter
-        this.getChildFragmentManager().beginTransaction().add(R.id.filter_container, new HomeFragment()).commit();
+        this.getChildFragmentManager().beginTransaction().replace(R.id.filter_container, new HomeFragment()).commit();
         return inflater.inflate(R.layout.fragment_filter, container, false);
     }
 

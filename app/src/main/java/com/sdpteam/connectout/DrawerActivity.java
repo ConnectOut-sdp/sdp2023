@@ -100,7 +100,7 @@ public class DrawerActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         //Replace the current fragment with the next one
-        fragmentTransaction.add(idOfContainer, fragment);
+        fragmentTransaction.replace(idOfContainer, fragment);
         fragmentTransaction.commit();
     }
 
