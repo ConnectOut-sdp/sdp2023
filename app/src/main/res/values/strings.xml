@@ -15,4 +15,8 @@
     <string name="menu_log_out">Log out</string>
     <string name="open_drawer">Opens the drawer</string>
     <string name="close_drawer">Closes the drawer</string>
+    <string name="login_name">Name</string>
+    <string name="login_password">Password</string>
+    <string name="log_in_button">Log In</string>
+    <string name="sign_in_button">Sign In</string>
 </resources>
