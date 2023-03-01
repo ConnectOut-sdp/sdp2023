@@ -82,30 +82,30 @@ public class DrawerActivity extends AppCompatActivity {
      *
      * @param itemId (int): Id of the wanted fragment
      */
-    private void displayFragment(int itemId){
+    private void displayFragment(int itemId) {
         //Select next view change upon different options
-        if ( itemId == R.id.menu_home) {
+        if (itemId == R.id.menu_home) {
             //Go back to the Map/List view
             replaceFragment(new HomeFragment(), R.id.drawer_fragment_container);
 
         }
-        if(itemId ==  R.id.menu_my_account) {
+        if (itemId == R.id.menu_my_account) {
             //Go check out your account
             replaceFragment(new MyAccountFragment(), R.id.drawer_fragment_container);
 
         }
-        if(itemId == R.id.menu_my_events) {
+        if (itemId == R.id.menu_my_events) {
             //Go check out your events
             replaceFragment(new MyEventsFragment(), R.id.drawer_fragment_container);
 
         }
-        if(itemId == R.id.menu_filters) {
+        if (itemId == R.id.menu_filters) {
             //Add add to the Map/List view, a TextEdit in order to filter what is displayed
             FilterFragment filterFragment = new FilterFragment();
             replaceFragment(filterFragment, R.id.drawer_fragment_container);
 
         }
-        if(itemId == R.id.menu_logout){
+        if (itemId == R.id.menu_logout) {
             Intent logOutIntent = new Intent(getApplicationContext(), LogInActivity.class);
             startActivity(logOutIntent);
 
