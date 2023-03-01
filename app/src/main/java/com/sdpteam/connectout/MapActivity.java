@@ -17,7 +17,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.sdpteam.connectout.databinding.ActivityMapBinding;
 
 import java.util.List;
 
@@ -25,8 +24,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
     private Button refreshButton;
-    //Each binding class contains references to the root view and all views that have an ID
-    private ActivityMapBinding binding;
+
     //container object for the map used for the map lifecycle management and UI capabilities
     private SupportMapFragment mapFragment;
     private MapViewModel mapViewModel;
@@ -35,8 +33,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMapBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_map);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = (SupportMapFragment) getSupportFragmentManager()

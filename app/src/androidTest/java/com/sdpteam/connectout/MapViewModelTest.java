@@ -25,6 +25,7 @@ public class MapViewModelTest {
     /*@Rule
     public TestRule rule = new InstantTaskExecutorRule();
 */
+    
     @Test
     public void testMapViewModel() {
         MapViewModel mvm = new MapViewModel();
