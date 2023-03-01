@@ -16,13 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
         this.startActivity(drawerIntent);
-        EditText t = findViewById(R.id.mainName);
-        Button b = findViewById(R.id.mainGoButton);
-       /* b.setOnClickListener(v -> {
-            Intent myIntent = new Intent(getApplicationContext(), GreetingActivity.class);
-            String msg = "Hello " + t.getText().toString() + "!";
-            myIntent.putExtra("key", msg);
-            MainActivity.this.startActivity(myIntent);
-        });*/
+
     }
 }
