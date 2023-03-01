@@ -37,7 +37,6 @@ public class DrawerActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-
         //Upon click on the tool bar icon, open the drawer of options
         toolbar.setNavigationOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
 
@@ -52,41 +51,16 @@ public class DrawerActivity extends AppCompatActivity {
             item.setChecked(true);
             //closes the drawer upon receiving a click on an option
             drawer.close();
-
-            int itemId = item.getItemId();
-            //Select next view change upon different options
-            if ( itemId== R.id.menu_home) {
-                //Go back to the Map/List view
-                replaceFragment(new HomeFragment(), R.id.drawer_fragment_container);
-
-            }
-            if(itemId ==  R.id.menu_my_account) {
-                //Go check out your account
-                replaceFragment(new MyAccountFragment(), R.id.drawer_fragment_container);
-
-            }
-            if(itemId == R.id.menu_my_events) {
-                //Go check out your events
-                replaceFragment(new MyEventsFragment(), R.id.drawer_fragment_container);
-
-            }
-            if(itemId == R.id.menu_filters) {
-                //Add add to the Map/List view, a TextEdit in order to filter what is displayed
-                FilterFragment filterFragment = new FilterFragment();
-                replaceFragment(filterFragment, R.id.drawer_fragment_container);
-
-            }
-            if(itemId == R.id.menu_logout){
-                Intent logOutIntent = new Intent(getApplicationContext(), LogInActivity.class);
-                startActivity(logOutIntent);
-
-            }
+            //set up new fragment
+            displayFragment(item.getItemId());
             return true;
         });
 
     }
 
     /**
+     * Replaces the current fragment within the container using the given one.
+     *
      * @param fragment      (Fragment): fragment to be used next
      * @param idOfContainer (int): id of the container where the fragment is stored
      */
@@ -101,6 +75,41 @@ public class DrawerActivity extends AppCompatActivity {
         //Replace the current fragment with the next one
         fragmentTransaction.replace(idOfContainer, fragment);
         fragmentTransaction.commit();
+    }
+
+    /**
+     * Displays the selected fragment according to its id.
+     *
+     * @param itemId (int): Id of the wanted fragment
+     */
+    private void displayFragment(int itemId){
+        //Select next view change upon different options
+        if ( itemId == R.id.menu_home) {
+            //Go back to the Map/List view
+            replaceFragment(new HomeFragment(), R.id.drawer_fragment_container);
+
+        }
+        if(itemId ==  R.id.menu_my_account) {
+            //Go check out your account
+            replaceFragment(new MyAccountFragment(), R.id.drawer_fragment_container);
+
+        }
+        if(itemId == R.id.menu_my_events) {
+            //Go check out your events
+            replaceFragment(new MyEventsFragment(), R.id.drawer_fragment_container);
+
+        }
+        if(itemId == R.id.menu_filters) {
+            //Add add to the Map/List view, a TextEdit in order to filter what is displayed
+            FilterFragment filterFragment = new FilterFragment();
+            replaceFragment(filterFragment, R.id.drawer_fragment_container);
+
+        }
+        if(itemId == R.id.menu_logout){
+            Intent logOutIntent = new Intent(getApplicationContext(), LogInActivity.class);
+            startActivity(logOutIntent);
+
+        }
     }
 
 
