@@ -41,7 +41,7 @@ public class DrawerActivityTest {
     }
 
     @Test
-    public void clickDrawerOptionHome_ShowsHomeFragment() {
+    public void clickHomeOptionOpensHomeFragment() {
         // Open the drawer
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
@@ -51,7 +51,7 @@ public class DrawerActivityTest {
     }
 
     @Test
-    public void clickDrawerOptionMyAccount_ShowsMyAccountFragment() {
+    public void clickMyAccountOptionOpenMyAccountFragment() {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
         // Click on the My Account menu item
@@ -60,7 +60,7 @@ public class DrawerActivityTest {
     }
 
     @Test
-    public void clickDrawerOptionMyEvents_ShowsMyEventsFragment() {
+    public void clickMyEventsOptionOpensMyEventsFragment() {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
         // Click on the My Events menu item
@@ -69,7 +69,7 @@ public class DrawerActivityTest {
     }
 
     @Test
-    public void clickDrawerOptionFilters_ShowsFilterFragment() {
+    public void clickFiltersOptionOpensFiltersFragment() {
         // Click on the Filters menu item
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
@@ -78,7 +78,7 @@ public class DrawerActivityTest {
     }
 
     @Test
-    public void clickDrawerOptionLogout_ShowsLoginActivity() {
+    public void clickLogoutOptionOpensLoginActivity() {
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
@@ -88,7 +88,7 @@ public class DrawerActivityTest {
     }
 
     @Test
-    public void drawerIsClosedBeforeInteraction() {
+    public void drawerIsClosedBeforeClick() {
         onView(withId(R.id.drawer_layout)).check(matches(isClosed(GravityCompat.START)));
     }
 
