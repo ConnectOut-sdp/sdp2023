@@ -12,14 +12,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+/*
         EditText t = findViewById(R.id.mainName);
         Button b = findViewById(R.id.mainGoButton);
+        /*
         b.setOnClickListener(v -> {
             Intent myIntent = new Intent(getApplicationContext(), GreetingActivity.class);
             String msg = "Hello " + t.getText().toString() + "!";
             myIntent.putExtra("key", msg);
             MainActivity.this.startActivity(myIntent);
-        });
+        });*/
     }
 }
