@@ -27,6 +27,5 @@ public class MapActivityTest {
         onView(withId(R.id.refresh_button)).perform(click());
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
-
 }
 

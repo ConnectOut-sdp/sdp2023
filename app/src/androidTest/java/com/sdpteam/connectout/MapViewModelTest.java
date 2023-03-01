@@ -10,6 +10,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.internal.IGoogleMapDelegate;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
@@ -101,5 +104,12 @@ public class MapViewModelTest {
 
             dataSet = testList;
         }
+    }
+
+    @Test
+    public void testMapViewModelTwoInits() {
+        MapViewModel mvm = new MapViewModel();
+        mvm.init(new FakeMapModel());
+        mvm.init(new FakeMapModel());
     }
 }

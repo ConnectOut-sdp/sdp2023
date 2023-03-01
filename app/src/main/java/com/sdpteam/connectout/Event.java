@@ -20,24 +20,12 @@ public class Event {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public double getLat() {
         return lat;
     }
 
-    public void setLat(double newLat) {
-        lat = newLat;
-    }
-
     public double getLng() {
         return lng;
-    }
-
-    public void setLng(double newLng) {
-        lng = newLng;
     }
 
 }
