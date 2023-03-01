@@ -16,6 +16,7 @@ public class MapModel implements InterfaceMapModel {
     /*
      * return new List to the ViewModel
      * */
+    @Override
     public MutableLiveData<List<Event>> getEventLiveList() {
         updateData();
         MutableLiveData<List<Event>> data = new MutableLiveData<>();

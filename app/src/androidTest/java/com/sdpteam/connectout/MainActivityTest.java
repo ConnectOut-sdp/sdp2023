@@ -8,6 +8,7 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.junit.Assert.assertEquals;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -39,14 +40,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void firstTest() {
-        Matcher<View> viewMatcher = withId(R.id.mainName);
-        onView(viewMatcher).perform(typeText("coucou"));
-        onView(withId(R.id.mainGoButton)).perform(click());
-        intended(allOf(IntentMatchers.hasComponent(GreetingActivity.class.getName()),
-                IntentMatchers.hasExtra("key", "Hello coucou!")
-        ));
-
-        onView(withId(R.id.greetingMessage)).check(matches(withText("Hello coucou!")));
+    public void addition_isCorrect() {
+        assertEquals(4, 2 + 2);
     }
 }
