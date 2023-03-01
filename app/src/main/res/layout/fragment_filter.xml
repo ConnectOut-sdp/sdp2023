@@ -16,10 +16,11 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="eg: Lausanne, 10km, ..."
+        android:hint="@string/filter_example"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:autofillHints="" />
 
     <FrameLayout
         android:id="@+id/filter_container"
