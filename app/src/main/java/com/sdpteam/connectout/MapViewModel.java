@@ -29,6 +29,9 @@ public class MapViewModel extends ViewModel implements OnMapReadyCallback {
     }
 
     public void setEventList(MutableLiveData<List<Event>> eventLiveList) {
+        if(eventLiveList == null){
+            return;
+        }
         this.eventLiveList = eventLiveList;
     }
 

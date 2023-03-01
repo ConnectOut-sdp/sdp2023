@@ -25,7 +25,7 @@ public class MapViewModelTest {
     /*@Rule
     public TestRule rule = new InstantTaskExecutorRule();
 */
-    
+
     @Test
     public void testMapViewModel() {
         MapViewModel mvm = new MapViewModel();
@@ -47,6 +47,7 @@ public class MapViewModelTest {
         // task to run on the main thread queue
         handler.post(() -> events1.observeForever(observer1));
         mvm.setEventList(null);
+        mvm.setEventList(new MutableLiveData<>());
         events = mvm.getEventList();
         assertThat(events, CoreMatchers.nullValue(null));
     }
