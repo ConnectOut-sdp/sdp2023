@@ -46,10 +46,12 @@ public class MapViewModelTest {
         Handler handler = new Handler(Looper.getMainLooper()); //main thread queue
         // task to run on the main thread queue
         handler.post(() -> events1.observeForever(observer1));
+        MutableLiveData list = new MutableLiveData<>();
+        mvm.setEventList(list);
         mvm.setEventList(null);
-        mvm.setEventList(new MutableLiveData<>());
         events = mvm.getEventList();
-        assertThat(events, CoreMatchers.nullValue(null));
+        //assertThat(events, CoreMatchers.nullValue(null));
+        assertThat(events, is(list));
     }
 
     @Test
