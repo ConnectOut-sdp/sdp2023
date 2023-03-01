@@ -75,7 +75,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-
+        /*  THIS IS THE BOOTCAMP STUFF, IM COMMENTING IT BECAUSE IT MAY BE CAUSING THE COVERAGE TO BE EXTREMELY LOW
         LatLng satellite = new LatLng(46.520544, 6.567825);
         MarkerOptions m = new MarkerOptions().position(satellite).title("Satellite");
         mMap.addMarker(m);
@@ -89,6 +89,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             String markerName = marker.getTitle();
             Toast.makeText(MapActivity.this, "Clicked location is " + markerName + ": coordinates are Lat " + marker.getPosition().latitude + "and Lng " + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
             return false;
-        });
+        });*/
     }
 }
