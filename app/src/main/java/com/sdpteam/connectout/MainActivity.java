@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), BoredApiButtonActivity.class);
         this.startActivity(drawerIntent);
 
     }
