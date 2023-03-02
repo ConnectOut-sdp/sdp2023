@@ -2,8 +2,7 @@ package com.sdpteam.connectout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,5 +21,8 @@ public class MainActivity extends AppCompatActivity {
             myIntent.putExtra("key", msg);
             MainActivity.this.startActivity(myIntent);
         });*/
+
+        Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
+        this.startActivity(drawerIntent);
     }
 }
