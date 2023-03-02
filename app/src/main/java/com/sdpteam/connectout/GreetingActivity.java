@@ -8,7 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GreetingActivity extends AppCompatActivity {
 
-    GoogleAuth googleAuth = new GoogleAuth();
+    Authentication auth = new GoogleAuth();
+
+    public void setAuthenticationService(Authentication auth) {
+        this.auth = auth;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +31,7 @@ public class GreetingActivity extends AppCompatActivity {
     }
 
     private void logOut() {
-        googleAuth.logout();
+        auth.logout();
         finish(); // go to previous activity (login page)
     }
 }

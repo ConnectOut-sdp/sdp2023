@@ -1,9 +1,13 @@
 package com.sdpteam.connectout;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.assertEquals;
+
+import java.util.concurrent.CompletableFuture;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,5 +36,36 @@ public class GreetingsActivityTest {
 
         onView(withId(R.id.greetingMessage)).check(matches(isDisplayed()));
         onView(withId(R.id.greetingMessage)).check(matches(ViewMatchers.withText("coucou lol")));
+    }
+
+    @Test
+    public void clickingLogoutPerformsTheLogout() {
+        CompletableFuture<Boolean> logoutTriggered = new CompletableFuture<>();
+        activityScenarioRule.getScenario().onActivity(activity -> {
+            // Set the fake service provider on the activity
+            activity.setAuthenticationService(new Authentication() {
+                @Override
+                public boolean isLoggedIn() {
+                    return false;
+                }
+
+                @Override
+                public AuthenticatedUser loggedUser() {
+                    return null;
+                }
+
+                @Override
+                public void logout() {
+                    logoutTriggered.complete(true);
+                }
+
+                @Override
+                public Intent buildIntent() {
+                    return null;
+                }
+            });
+        });
+        onView(withId(R.id.logoutButton)).perform(click());
+        assertEquals(true, logoutTriggered.join());
     }
 }

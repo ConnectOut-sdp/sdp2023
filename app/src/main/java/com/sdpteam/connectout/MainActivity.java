@@ -1,49 +1,43 @@
 package com.sdpteam.connectout;
 
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private GoogleAuth googleAuth;
+    private Authentication authentication = new GoogleAuth();
+
+    public void setAuthenticationService(Authentication a) {
+        this.authentication = a;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        googleAuth = new GoogleAuth();
-
         Button b = findViewById(R.id.loginButton);
         b.setOnClickListener(v -> {
-            signInLauncher.launch(googleAuth.buildIntent());
+            fireBaseSignInLauncher.launch(authentication.buildIntent());
         });
 
         redirectIfAuthenticated();
     }
 
-    final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
+    final ActivityResultLauncher<Intent> fireBaseSignInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
-            new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
-                @Override
-                public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    System.out.println(result.getResultCode());
-                    redirectIfAuthenticated();
-                }
+            firebaseActivityResult -> {
+                redirectIfAuthenticated();
             });
 
-    private void redirectIfAuthenticated() {
-        if (googleAuth.isLoggedIn()) {
-            AuthenticatedUser authenticatedUser = googleAuth.loggedUser();
-            if (authenticatedUser != null) {
-                navigateToSecondActivity(authenticatedUser);
-            }
+    void redirectIfAuthenticated() {
+        AuthenticatedUser authenticatedUser = authentication.loggedUser();
+        if (authenticatedUser != null) {
+            navigateToSecondActivity(authenticatedUser);
         }
     }
 

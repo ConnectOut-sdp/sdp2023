@@ -1,5 +1,7 @@
 package com.sdpteam.connectout;
 
+import android.content.Intent;
+
 public interface Authentication {
 
     /**
@@ -16,5 +18,10 @@ public interface Authentication {
      * log out the current user
      */
     void logout();
+
+    /**
+     * @return the intent to use to launch the UI that will signup/login the user
+     */
+    Intent buildIntent();
 }
 

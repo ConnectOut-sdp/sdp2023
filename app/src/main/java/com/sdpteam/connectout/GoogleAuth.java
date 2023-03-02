@@ -14,14 +14,12 @@ public class GoogleAuth implements Authentication {
 
     @Override
     public boolean isLoggedIn() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        return currentUser != null;
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
     @Override
     public AuthenticatedUser loggedUser() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        return firebaseUserToAuthenticatedUser(currentUser);
+        return firebaseUserToAuthenticatedUser(FirebaseAuth.getInstance().getCurrentUser());
     }
 
     @Override
@@ -32,6 +30,7 @@ public class GoogleAuth implements Authentication {
     /**
      * Parameters for Google's login UI
      */
+    @Override
     public Intent buildIntent() {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
