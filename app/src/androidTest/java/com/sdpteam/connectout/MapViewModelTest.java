@@ -1,57 +1,60 @@
 package com.sdpteam.connectout;
 
+import static com.sdpteam.connectout.LiveDataTestUtil.toCompletableFuture;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import android.os.Handler;
-import android.os.Looper;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.internal.IGoogleMapDelegate;
-
-import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.CompletableFuture;
+
+import org.junit.Test;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class MapViewModelTest {
-    /*@Rule
-    public TestRule rule = new InstantTaskExecutorRule();
-*/
 
     @Test
-    public void testMapViewModel() {
-        MapViewModel mvm = new MapViewModel();
-        mvm.init(new FakeMapModel());
-        LiveData<List<Event>> events = mvm.getEventList();
-        //LiveData is asychronous so calling getValue may return null at this stage
-        final LiveData<List<Event>> events1 = events;
-        final CountDownLatch latch1 = new CountDownLatch(1);
-        Observer<List<Event>> observer1 = listLiveData -> {
-            latch1.countDown(); // this releases all the threads
-            assertThat(listLiveData.get(0).getTitle(), is("event1"));
-            assertThat(listLiveData.get(1).getTitle(), is("event2"));
-        };
-        try {
-            latch1.await(1, TimeUnit.SECONDS);
-        } catch (Exception e) {
-        }
-        Handler handler = new Handler(Looper.getMainLooper()); //main thread queue
-        // task to run on the main thread queue
-        handler.post(() -> events1.observeForever(observer1));
-        MutableLiveData list = new MutableLiveData<>();
-        mvm.setEventList(list);
-        mvm.setEventList(null);
-        events = mvm.getEventList();
-        //assertThat(events, CoreMatchers.nullValue(null));
-        assertThat(events, is(list));
+    public void getEventListReturnsTheCorrectEvents() {
+        MapViewModel viewModel = new MapViewModel();
+        viewModel.init(new FakeMapModel());
+        LiveData<List<Event>> eventListLiveData = viewModel.getEventList();
+
+        CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
+
+        List<Event> events = eventListFuture.join();
+        assertThat(events.size(), is(2));
+        assertThat(events.get(0).getTitle(), is("event1"));
+        assertThat(events.get(1).getTitle(), is("event2"));
+    }
+
+    @Test
+    public void setEventListToNull() {
+        MapViewModel viewModel = new MapViewModel();
+        viewModel.init(new FakeMapModel());
+        viewModel.setEventList(null);
+        assertThat(viewModel.getEventList(), notNullValue());
+    }
+
+    @Test
+    public void setEventListToNullAfterMakingAgetEventList() {
+        MapViewModel viewModel = new MapViewModel();
+        viewModel.init(new FakeMapModel());
+        LiveData<List<Event>> eventListLiveData = viewModel.getEventList();
+
+        CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
+
+        List<Event> events = eventListFuture.join();
+        assertThat(events.size(), is(2));
+        assertThat(events.get(0).getTitle(), is("event1"));
+        assertThat(events.get(1).getTitle(), is("event2"));
+
+        viewModel.setEventList(null);
+        assertThat(events.size(), is(2));
+        assertThat(events.get(0).getTitle(), is("event1"));
+        assertThat(events.get(1).getTitle(), is("event2"));
     }
 
     @Test
@@ -59,28 +62,20 @@ public class MapViewModelTest {
         MapViewModel mvm = new MapViewModel();
         mvm.init(new FakeMapModel());
         LiveData<List<Event>> events = mvm.getEventList();
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-        }
-        final LiveData<List<Event>> events1 = events = mvm.refreshEventList();
-        final CountDownLatch latch1 = new CountDownLatch(1);
-        Observer<List<Event>> observer1 = listLiveData -> {
-            latch1.countDown(); // this releases all the threads
-            assertThat(listLiveData.get(0).getTitle(), is("event3"));
-            assertThat(listLiveData.get(1).getTitle(), is("event4"));
-            assertThat(listLiveData.get(2).getTitle(), is("event5"));
-        };
-        try {
-            latch1.await(1, TimeUnit.SECONDS);
-        } catch (Exception e) {
-        }
-        Handler handler = new Handler(Looper.getMainLooper()); //main thread queue
-        // task to run on the main thread queue
-        handler.post(() -> events1.observeForever(observer1));
+        CompletableFuture<List<Event>> future1 = toCompletableFuture(events);
+        future1.join();
+
+        LiveData<List<Event>> liveData = mvm.refreshEventList();
+        CompletableFuture<List<Event>> future2 = toCompletableFuture(liveData);
+        List<Event> eventList = future2.join();
+
+        assertThat(eventList.size(), is(3));
+        assertThat(eventList.get(0).getTitle(), is("event3"));
+        assertThat(eventList.get(1).getTitle(), is("event4"));
+        assertThat(eventList.get(2).getTitle(), is("event5"));
     }
 
-    public class FakeMapModel implements InterfaceMapModel {
+    public static class FakeMapModel implements InterfaceMapModel {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 
@@ -108,12 +103,5 @@ public class MapViewModelTest {
 
             dataSet = testList;
         }
-    }
-
-    @Test
-    public void testMapViewModelTwoInits() {
-        MapViewModel mvm = new MapViewModel();
-        mvm.init(new FakeMapModel());
-        mvm.init(new FakeMapModel());
     }
 }
