@@ -44,7 +44,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private void showNewMarkerList(List<Event> eventList) {
         if (mMap == null) {
-            throw new IllegalStateException();
+            //throw new IllegalStateException();
+            return;
         }
         mMap.clear();
         for (Event e : eventList) {
