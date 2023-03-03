@@ -3,18 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.ConnectOut"
-        tools:targetApi="31">
+            android:allowBackup="true"
+            android:dataExtractionRules="@xml/data_extraction_rules"
+            android:fullBackupContent="@xml/backup_rules"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/Theme.ConnectOut"
+            tools:targetApi="31">
+
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
+
         <activity
             android:name=".LogInActivity"
             android:exported="false" />
         <activity
+                android:name=".MapActivity"
+                android:exported="true"/>
+          <activity
             android:name=".DrawerActivity"
             android:exported="false"
             android:label="@string/title_activity_drawer"
