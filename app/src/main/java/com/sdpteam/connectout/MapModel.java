@@ -8,11 +8,6 @@ import java.util.List;
 public class MapModel implements InterfaceMapModel {
     private ArrayList<Event> dataSet = new ArrayList<>(); //To be defined at a later stage
 
-    public MapModel() {
-        //initialize dataSet
-    }
-
-
     /*
      * return new List to the ViewModel
      * */
