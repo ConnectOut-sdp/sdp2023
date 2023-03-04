@@ -1,18 +1,18 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.map;
 
-import android.os.Bundle;
-import android.widget.Button;
-
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
+import java.util.List;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sdpteam.connectout.R;
 
-import java.util.List;
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -81,7 +81,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             // on marker click we are getting the title of our marker
             // which is clicked and displaying it in a toast message.
             String markerName = marker.getTitle();
-            Toast.makeText(MapActivity.this, "Clicked location is " + markerName + ": coordinates are Lat " + marker.getPosition().latitude + "and Lng " + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MapActivity.this, "Clicked location is " + markerName + ": coordinates are Lat " + marker.getPosition().latitude + "and Lng " + marker.getPosition().longitude, Toast
+            .LENGTH_SHORT).show();
             return false;
         });*/
     }
