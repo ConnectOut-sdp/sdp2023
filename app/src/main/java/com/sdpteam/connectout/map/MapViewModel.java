@@ -1,13 +1,13 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.map;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import java.util.List;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-import java.util.List;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 public class MapViewModel extends ViewModel implements OnMapReadyCallback {
     private MutableLiveData<GoogleMap> mapLiveData;
@@ -29,7 +29,7 @@ public class MapViewModel extends ViewModel implements OnMapReadyCallback {
     }
 
     public void setEventList(MutableLiveData<List<Event>> eventLiveList) {
-        if(eventLiveList == null){
+        if (eventLiveList == null) {
             return;
         }
         this.eventLiveList = eventLiveList;
@@ -43,7 +43,6 @@ public class MapViewModel extends ViewModel implements OnMapReadyCallback {
         setEventList(mapModel.getEventLiveList());
         return eventLiveList;
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
