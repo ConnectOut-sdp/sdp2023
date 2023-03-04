@@ -20,7 +20,7 @@ public class GoogleLoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_google_login);
 
         Button b = findViewById(R.id.loginButton);
         b.setOnClickListener(v -> {

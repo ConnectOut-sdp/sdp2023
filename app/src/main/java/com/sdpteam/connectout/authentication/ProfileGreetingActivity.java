@@ -20,7 +20,7 @@ public class ProfileGreetingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_greeting);
+        setContentView(R.layout.activity_profile_greeting);
 
         Intent intent = getIntent();
         String value = intent.getStringExtra("loginInfo");
