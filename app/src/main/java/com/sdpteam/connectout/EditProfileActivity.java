@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.google.gson.Gson;
+
 public class EditProfileActivity extends AppCompatActivity {
 
     @Override
@@ -25,18 +27,21 @@ public class EditProfileActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int profileID = -1;
+                String jsonMyProfile;
+                Profile myProfile = new Profile(-1, null, null, null,null);
                 Bundle b = getIntent().getExtras();
-                if (b != null) {
-                    profileID = Integer.getInteger(b.getString("key"));
+                if(b != null){
+                    jsonMyProfile = b.getString("myProfile");
+                    myProfile = new Gson().fromJson(jsonMyProfile, Profile.class);
+
                 }
 
-                Profile newProfile = new Profile(profileID,nameET.getText().toString(),
+                Profile newProfile = new Profile(myProfile.getId(), nameET.getText().toString(),
                         emailET.getText().toString(), bioET.getText().toString(), getGender(genderRG));
 
-                //store this new Profile
+                //TODO store this new Profile
 
-                goToProfile(profileID);
+                goToProfile(newProfile);
             }
         });
     }
@@ -54,10 +59,11 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void goToProfile(int profileID){
+    private void goToProfile(Profile p){
         Intent intent = new Intent(EditProfileActivity.this, TOBEREMOVEDProfileActivity.class);
         Bundle b = new Bundle();
-        b.putString("profileID", Integer.toString(profileID));
+        b.putString("myProfile", new Gson().toJson(p));
+        //Json can be fetched back: new Gson().fromJson(jsonMyObject, MyObject.class);
         intent.putExtras(b);
         startActivity(intent);
         finish();

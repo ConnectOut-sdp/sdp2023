@@ -10,7 +10,7 @@ public class Profile {
     private String bio;
     private Gender gender;
 
-    private int id; //value of -1 corresponds to an error
+    private final int id; //value of -1 corresponds to an error
     public Profile(int id, String name, String email, String bio, Gender gender){
         this.id = id;
         this.name = name;
