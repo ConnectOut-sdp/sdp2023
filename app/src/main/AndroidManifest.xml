@@ -12,10 +12,10 @@
             android:theme="@style/Theme.ConnectOut"
             tools:targetApi="31">
         <activity
-                android:name=".GreetingActivity"
+                android:name=".authentication.ProfileGreetingActivity"
                 android:exported="false" />
         <activity
-                android:name=".MainActivity"
+                android:name=".authentication.GoogleLoginActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.authentication;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 import android.content.Intent;
 
 // https://firebase.google.com/docs/auth/android/firebaseui
-public class GoogleAuth implements Authentication {
+class GoogleAuth implements Authentication {
 
     @Override
     public boolean isLoggedIn() {

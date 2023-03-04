@@ -1,4 +1,6 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.authentication;
+
+import com.sdpteam.connectout.R;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,11 +8,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GreetingActivity extends AppCompatActivity {
+public class ProfileGreetingActivity extends AppCompatActivity {
 
-    Authentication auth = new GoogleAuth();
+    private Authentication auth = new GoogleAuth();
 
-    public void setAuthenticationService(Authentication auth) {
+    void setAuthenticationService(Authentication auth) {
+        // useful for mocking in tests
         this.auth = auth;
     }
 

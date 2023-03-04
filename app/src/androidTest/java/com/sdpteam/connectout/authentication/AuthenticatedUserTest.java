@@ -1,4 +1,4 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.authentication;
 
 import static org.junit.Assert.assertEquals;
 

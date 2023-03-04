@@ -1,8 +1,7 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.authentication;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import org.junit.After;
@@ -11,16 +10,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.R;
+
 import android.content.Intent;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class GoogleLoginActivityTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<GoogleLoginActivity> testRule = new ActivityScenarioRule<>(GoogleLoginActivity.class);
 
     @Before
     public void setup() {
@@ -61,6 +63,6 @@ public class MainActivityTest {
 
             activity.redirectIfAuthenticated(); // trick to avoid clicking the firebase button
         });
-        onView(withId(R.id.greetingMessage)).check(matches(withText("David \nemail@gmail.com")));
+        onView(ViewMatchers.withId(R.id.greetingMessage)).check(matches(withText("David \nemail@gmail.com")));
     }
 }

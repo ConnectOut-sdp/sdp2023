@@ -1,6 +1,7 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.authentication;
 
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.sdpteam.connectout.R;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +9,11 @@ import android.widget.Button;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class GoogleLoginActivity extends AppCompatActivity {
     private Authentication authentication = new GoogleAuth();
 
-    public void setAuthenticationService(Authentication a) {
+    void setAuthenticationService(Authentication a) {
+        // useful for mocking in tests
         this.authentication = a;
     }
 
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void navigateToSecondActivity(AuthenticatedUser currentUser) {
-        Intent intent = new Intent(MainActivity.this, GreetingActivity.class);
+        Intent intent = new Intent(GoogleLoginActivity.this, ProfileGreetingActivity.class);
         String msg = currentUser.name + " \n" + currentUser.email;
         intent.putExtra("loginInfo", msg);
         startActivity(intent);
