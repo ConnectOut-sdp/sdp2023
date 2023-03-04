@@ -17,6 +17,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.hamcrest.Matchers.allOf;
 
 import com.google.gson.Gson;
+import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.TOBEREMOVEDProfileActivity;
 
 import org.hamcrest.Matcher;
 import org.junit.After;

@@ -3,6 +3,8 @@ package com.sdpteam.connectout;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+import com.sdpteam.connectout.profile.Profile;
+
 import org.junit.Test;
 
 public class ProfileTest {

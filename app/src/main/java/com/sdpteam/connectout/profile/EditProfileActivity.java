@@ -1,4 +1,4 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.google.gson.Gson;
+import com.sdpteam.connectout.R;
 
 public class EditProfileActivity extends AppCompatActivity {
 

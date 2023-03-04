@@ -1,4 +1,4 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.profile;
 
 public class Profile {
     public enum Gender {
