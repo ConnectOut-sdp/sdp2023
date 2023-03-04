@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">ConnectOut</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="nav_header_title">Connect Out</string>
+    <string name="nav_header_subtitle">A place to live and share</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_my_events">My activities</string>
+    <string name="menu_my_account">My account</string>
+    <string name="menu_filters">Filters</string>
+    <string name="menu_log_out">Log out</string>
+    <string name="open_drawer">Opens the drawer</string>
+    <string name="close_drawer">Closes the drawer</string>
+    <string name="login_name">Name</string>
+    <string name="login_password">Password</string>
+    <string name="log_in_button">Log In</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="filter_example">eg: Lausanne, 10km, …</string>
+    <string name="greetings_text">Greetings</string>
+    <string name="connect_out_logo">Connect out Logo</string>
 </resources>
