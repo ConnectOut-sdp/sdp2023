@@ -1,6 +1,6 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.map;
 
-import static com.sdpteam.connectout.LiveDataTestUtil.toCompletableFuture;
+import static com.sdpteam.connectout.utils.LiveDataTestUtil.toCompletableFuture;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;

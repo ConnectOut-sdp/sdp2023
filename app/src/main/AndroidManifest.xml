@@ -17,19 +17,16 @@
                 android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
 
         <activity
-            android:name=".LogInActivity"
-            android:exported="false" />
-        <activity
-                android:name=".MapActivity"
-                android:exported="true"/>
-          <activity
-            android:name=".DrawerActivity"
-            android:exported="false"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
-        <activity
-                android:name=".GreetingActivity"
+                android:name=".drawer.LogInActivity"
                 android:exported="false" />
+        <activity
+                android:name=".map.MapActivity"
+                android:exported="true" />
+        <activity
+                android:name=".drawer.DrawerActivity"
+                android:exported="false"
+                android:label="@string/title_activity_drawer"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
                 android:name=".authentication.ProfileGreetingActivity"
                 android:exported="false" />

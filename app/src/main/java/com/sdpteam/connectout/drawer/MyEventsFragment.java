@@ -1,14 +1,13 @@
-package com.sdpteam.connectout.fragments;
+package com.sdpteam.connectout.drawer;
+
+import com.sdpteam.connectout.R;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-import com.sdpteam.connectout.R;
 
 public class MyEventsFragment extends Fragment {
 

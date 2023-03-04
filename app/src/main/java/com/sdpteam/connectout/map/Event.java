@@ -1,4 +1,4 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.map;
 
 /**
  * This class describes an event
@@ -6,9 +6,9 @@ package com.sdpteam.connectout;
  */
 public class Event {
 
-    private String title;
-    private double lat;
-    private double lng;
+    private final String title;
+    private final double lat;
+    private final double lng;
 
     public Event(String title, double lat, double lng) {
         this.title = title;
@@ -27,5 +27,4 @@ public class Event {
     public double getLng() {
         return lng;
     }
-
 }

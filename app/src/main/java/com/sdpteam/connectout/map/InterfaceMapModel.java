@@ -1,8 +1,8 @@
-package com.sdpteam.connectout;
-
-import androidx.lifecycle.MutableLiveData;
+package com.sdpteam.connectout.map;
 
 import java.util.List;
+
+import androidx.lifecycle.MutableLiveData;
 
 public interface InterfaceMapModel {
 
