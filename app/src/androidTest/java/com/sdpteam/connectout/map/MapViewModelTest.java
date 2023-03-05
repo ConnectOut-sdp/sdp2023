@@ -14,6 +14,8 @@ import org.junit.Test;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.sdpteam.connectout.event.Event;
+
 public class MapViewModelTest {
 
     @Test
@@ -80,8 +82,8 @@ public class MapViewModelTest {
         private ArrayList<Event> dataSet = new ArrayList<>();
 
         public FakeMapModel() {
-            dataSet.add(new Event("event1", 0, 1));
-            dataSet.add(new Event("event2", 2, 3));
+            dataSet.add(new Event("event1", 0, 1, "E1"));
+            dataSet.add(new Event("event2", 2, 3, "E2"));
         }
 
         public MutableLiveData<List<Event>> getEventLiveList() {
@@ -97,9 +99,9 @@ public class MapViewModelTest {
                 return;
             }
             ArrayList<Event> testList = new ArrayList<>();
-            testList.add(new Event("event3", 46.521, 6.5678));
-            testList.add(new Event("event4", 46.5215, 6.56785));
-            testList.add(new Event("event5", 46.5218, 6.5679));
+            testList.add(new Event("event3", 46.521, 6.5678, "E3"));
+            testList.add(new Event("event4", 46.5215, 6.56785, "E4"));
+            testList.add(new Event("event5", 46.5218, 6.5679, "E5"));
 
             dataSet = testList;
         }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.sdpteam.connectout.event.Event;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
