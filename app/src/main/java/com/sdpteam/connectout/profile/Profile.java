@@ -10,13 +10,23 @@ public class Profile {
     private String bio;
     private Gender gender;
 
-    private final int id; //value of -1 corresponds to an error
-    public Profile(int id, String name, String email, String bio, Gender gender){
-        this.id = id;
+    private double rating;
+
+    private int numRatings;
+
+    private final String uid;
+
+    public Profile(){
+        this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
+    }
+    public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings){
+        this.uid = uid;
         this.name = name;
         this.email = email;
         this.bio = bio;
         this.gender = gender;
+        this.rating = rating;
+        this.numRatings = numRatings;
     }
 
     public Gender getGender() {
@@ -35,8 +45,16 @@ public class Profile {
         return name;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return uid;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public int getNumRatings(){
+        return numRatings;
     }
 
     public void setGender(Gender g){
@@ -51,5 +69,13 @@ public class Profile {
     }
     public void setName(String n){
         name = n;
+    }
+
+    public void setNumRatings(int numRatings) {
+        this.numRatings = numRatings;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }

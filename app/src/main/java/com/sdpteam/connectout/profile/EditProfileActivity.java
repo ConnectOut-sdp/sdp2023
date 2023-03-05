@@ -2,18 +2,25 @@ package com.sdpteam.connectout.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
 
 public class EditProfileActivity extends AppCompatActivity {
-
+    public final static String NULL_USER = "null_user";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,25 +32,29 @@ public class EditProfileActivity extends AppCompatActivity {
         EditText bioET = findViewById(R.id.editTextBio);
         RadioGroup genderRG = findViewById(R.id.genderRadioGroup);
 
-        save.setOnClickListener(new View.OnClickListener() {
+        nameET.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                String jsonMyProfile;
-                Profile myProfile = new Profile(-1, null, null, null,null);
-                Bundle b = getIntent().getExtras();
-                if(b != null){
-                    jsonMyProfile = b.getString("myProfile");
-                    myProfile = new Gson().fromJson(jsonMyProfile, Profile.class);
-
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(nameET.getWindowToken(), 0);
+                    return true;
                 }
-
-                Profile newProfile = new Profile(myProfile.getId(), nameET.getText().toString(),
-                        emailET.getText().toString(), bioET.getText().toString(), getGender(genderRG));
-
-                //TODO store this new Profile
-
-                goToProfile(newProfile);
+                return false;
             }
+        });
+
+        save.setOnClickListener(v -> {
+            AuthenticatedUser au = new GoogleAuth().loggedUser();
+            //get new Values
+            Profile newProfile = new Profile((au == null)? NULL_USER: au.uid, nameET.getText().toString(),
+                    emailET.getText().toString(), bioET.getText().toString(), getGender(genderRG), 1, 1);
+
+            //store new values
+            new ProfileViewModel(new ProfileModel()).saveValue(newProfile);
+
+            //change view
+            goToProfile(newProfile);
         });
     }
 
@@ -62,10 +73,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void goToProfile(Profile p){
         Intent intent = new Intent(EditProfileActivity.this, TOBEREMOVEDProfileActivity.class);
-        Bundle b = new Bundle();
-        b.putString("myProfile", new Gson().toJson(p));
-        //Json can be fetched back: new Gson().fromJson(jsonMyObject, MyObject.class);
-        intent.putExtras(b);
         startActivity(intent);
         finish();
     }
