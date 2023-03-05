@@ -5,16 +5,13 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.map.MapFragment;
+import com.sdpteam.connectout.WithFragmentActivity;
+import com.sdpteam.connectout.map.MapCreatorFragment;
 
-public class EventCreatorActivity extends AppCompatActivity {
+public class EventCreatorActivity extends WithFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +23,7 @@ public class EventCreatorActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //set up the map fragment.
-         Fragment mapFragment  = new MapFragment();
+        MapCreatorFragment mapFragment = new MapCreatorFragment();
         replaceFragment(mapFragment, R.id.event_creator_fragment_container);
 
         //Upon click on the tool bar icon, end this activity and return to previous one.
@@ -36,32 +33,13 @@ public class EventCreatorActivity extends AppCompatActivity {
         EditText eventDescription = findViewById(R.id.event_creator_description);
         Button saveButton = findViewById(R.id.event_creator_save_button);
         saveButton.setOnClickListener(v ->
-        {
-            Log.v("EditText", eventTitle.getText().toString());
-            Log.v("EditText", eventDescription.getText().toString());
-        });
+                Log.v("EventText", mapFragment.markerToEvent()
+                                                   .setTitle(eventTitle.getText().toString())
+                                                   .setDescription(eventDescription.getText().toString())
+                                                   .build()
+                                                   .toString()));
 
 
-    }
-
-    /**
-     * Replaces the current fragment within the container using the given one.
-     *
-     * @param fragment      (FragmentActivity): fragment to be used next
-     * @param idOfContainer (int): id of the container where the fragment is stored
-     */
-    private void replaceFragment(Fragment fragment, int idOfContainer) {
-
-        // Retrieve the fragment's handler
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Initiate the swap of fragments
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        // Replace the current fragment with the next one
-        fragmentTransaction.replace(idOfContainer, fragment);
-
-        fragmentTransaction.commit();
     }
 
 
