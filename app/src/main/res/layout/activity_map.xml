@@ -5,12 +5,16 @@
         android:layout_height="match_parent"
         tools:viewBindingIgnore="true"
         android:id="@+id/map"
-        tools:context=".map.MapActivity"
+        tools:context=".map.MapFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment">
 
-    <Button
+        <ImageButton
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
             android:id="@+id/refresh_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Refresh" />
+            android:src="@drawable/refresh_image"
+             />
+
 </fragment>
