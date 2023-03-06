@@ -25,9 +25,6 @@
             android:name=".drawer.LogInActivity"
             android:exported="false" />
         <activity
-            android:name=".map.MapActivity"
-            android:exported="true" />
-        <activity
             android:name=".drawer.DrawerActivity"
             android:exported="false"
             android:label="@string/title_activity_drawer"
