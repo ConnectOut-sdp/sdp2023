@@ -1,43 +1,33 @@
 package com.sdpteam.connectout.map;
 
-import static com.google.android.gms.maps.GoogleMap.*;
+import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventBuilder;
 
-import java.util.List;
+public class MapCreatorFragment extends MapViewFragment implements OnMapReadyCallback {
 
-public class MapCreatorFragment extends Fragment implements OnMapReadyCallback {
-
-    private MarkerOptions markerOptions;
+    //Movable marker used to get event location
+    private Marker movingMarker;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_map, container, false);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        return rootView;
+        return super.onCreateView(inflater,container, savedInstanceState);
     }
 
 
@@ -52,21 +42,27 @@ public class MapCreatorFragment extends Fragment implements OnMapReadyCallback {
      */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        markerOptions = new MarkerOptions()
+        super.onMapReady(googleMap);
+        //Create the marker, and mark it as movable
+        MarkerOptions markerOptions = new MarkerOptions()
                 .position(new LatLng(0, 0))
-                .draggable(true);
-        Marker marker = googleMap.addMarker(markerOptions);
+                .draggable(true)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        movingMarker = googleMap.addMarker(markerOptions);
+        //Upon moving, update the marker's true position.
         googleMap.setOnMarkerDragListener(new OnMarkerDragListener() {
 
 
             @Override
             public void onMarkerDrag(@NonNull Marker marker) {
-
+                movingMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
             }
 
             @Override
             public void onMarkerDragEnd(@NonNull Marker marker) {
-                    markerOptions.position(marker.getPosition());
+                    movingMarker.setPosition(marker.getPosition());
+                    movingMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
             }
 
             @Override
@@ -78,11 +74,11 @@ public class MapCreatorFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * Uses the marker current position to give the position of the associated event
-     * @return (EventBuilder): Incomplete description of the event selected
+     * Gives the Movable marker last recorded position
+     * @return (LatLng): Position of the movable marker
      */
-    public EventBuilder markerToEvent(){
-        return new EventBuilder(markerOptions.getPosition().latitude, markerOptions.getPosition().longitude);
+    public LatLng getMovingMarkerPosition(){
+        return movingMarker.getPosition();
     }
 
 

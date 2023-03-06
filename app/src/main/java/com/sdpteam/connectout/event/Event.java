@@ -2,6 +2,8 @@ package com.sdpteam.connectout.event;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 /**
  * This class describes an event
  * Every single marker on the map corresponds to a different one

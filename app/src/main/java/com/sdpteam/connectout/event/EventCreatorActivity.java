@@ -29,15 +29,22 @@ public class EventCreatorActivity extends WithFragmentActivity {
         //Upon click on the tool bar icon, end this activity and return to previous one.
         toolbar.setNavigationOnClickListener(v -> this.finish());
 
+        //Find the texts associated to this event
         EditText eventTitle = findViewById(R.id.event_creator_title);
         EditText eventDescription = findViewById(R.id.event_creator_description);
+
+        //upon save, log the current event and return to previous activity.
+        // WARNING : this will be changed through firebase implementation.
         Button saveButton = findViewById(R.id.event_creator_save_button);
         saveButton.setOnClickListener(v ->
-                Log.v("EventText", mapFragment.markerToEvent()
+        {
+                Log.v("EventText", new EventBuilder(mapFragment.getMovingMarkerPosition())
                                                    .setTitle(eventTitle.getText().toString())
                                                    .setDescription(eventDescription.getText().toString())
                                                    .build()
-                                                   .toString()));
+                                                   .toString());
+                this.finish();
+        });
 
 
     }

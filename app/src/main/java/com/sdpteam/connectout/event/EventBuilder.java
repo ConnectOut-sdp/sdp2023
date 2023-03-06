@@ -1,13 +1,15 @@
 package com.sdpteam.connectout.event;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class EventBuilder {
 
     public EventBuilder() {
     }
 
-    public EventBuilder(double lat, double lng) {
-        this.lat = lat;
-        this.lng = lng;
+    public EventBuilder(LatLng latLng) {
+        this.lat = latLng.latitude;
+        this.lng = latLng.longitude;
     }
 
     private String title;
