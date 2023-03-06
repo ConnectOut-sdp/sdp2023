@@ -38,6 +38,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
+
+
+/**
+ * Since these tests are fetching from the database, they are also testing the
+ * Model
+ * */
 public class EditProfileTest {
     @Rule
     public ActivityScenarioRule<EditProfileActivity> testRule = new ActivityScenarioRule<>(EditProfileActivity.class);
@@ -53,29 +59,54 @@ public class EditProfileTest {
     }
 
     @Test
-    public void changeValuesTest(){
+    public void changeValuesTestMale(){
+        testDifferentValues("Aymeric", "aymeric@gmail.com",
+                "Love my friends, I'm on this app to make some more", Profile.Gender.MALE);
+    }
+    @Test
+    public void changeValuesTestFemale(){
+        testDifferentValues("Bob", "bob@gmail.com",
+                "empty", Profile.Gender.FEMALE);
+    }
+    @Test
+    public void changeValuesTestOther(){
+        testDifferentValues("Alice", "alice@gmail.com",
+                "empty for now", Profile.Gender.OTHER);
+    }
+    @Test
+    public void changeValuesTestNone(){
+        testDifferentValues("why do you want to know?", "I have no email",
+                "You want to know too much", null);
+    }
 
-        Profile previousProfile = new Profile(EditProfileActivity.NULL_USER, "Luc", "bob@gmail.com",
+    private static void testDifferentValues(String name, String email, String bio, Profile.Gender gender){
+        Profile previousProfile = new Profile(EditProfileActivity.NULL_USER, "bob", "bob@gmail.com",
                 null, Profile.Gender.MALE, 1, 1);
 
         ProfileModel model = new ProfileModel();
         model.saveValue(previousProfile);
 
-        onView(ViewMatchers.withId(R.id.editTextName)).perform(typeText("Aymeric"));
-        onView(withId(R.id.editTextEmail)).perform(typeText("aymeric@gmail.com"));
-        onView(withId(R.id.editTextBio)).perform(typeText("Love my friends, I'm on this app to make some more"));
+        onView(ViewMatchers.withId(R.id.editTextName)).perform(typeText(name));
+        onView(withId(R.id.editTextEmail)).perform(typeText(email));
+        onView(withId(R.id.editTextBio)).perform(typeText(bio));
 
-        onView(withId(R.id.maleRadioButton)).perform(click());
+        if(gender == Profile.Gender.MALE){
+            onView(withId(R.id.maleRadioButton)).perform(click());
+        }
+        else if((gender == Profile.Gender.FEMALE)){
+            onView(withId(R.id.femaleRadioButton)).perform(click());
+        }
+        else if((gender == Profile.Gender.OTHER)){
+            onView(withId(R.id.otherRadioButton)).perform(click());
+        }
+
         onView(withId(R.id.saveButton)).perform(click());
-
-        Profile testProfile = new Profile(EditProfileActivity.NULL_USER, "Aymeric", "aymeric@gmail.com",
-                "Love my friends, I'm on this app to make some more", Profile.Gender.MALE, 1, 1);
 
         Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.getValue()).join();
 
-        assertThat(fetchedProfile.getEmail(), is(testProfile.getEmail()));
-        assertThat(fetchedProfile.getName(), is(testProfile.getName()));
-        assertThat(fetchedProfile.getId(), is(testProfile.getId()));
-        assertThat(fetchedProfile.getBio(), is(testProfile.getBio()));
+        assertThat(fetchedProfile.getEmail(), is(email));
+        assertThat(fetchedProfile.getName(), is(name));
+        assertThat(fetchedProfile.getBio(), is(bio));
+        assertThat(fetchedProfile.getGender(), is(gender));
     }
 }
