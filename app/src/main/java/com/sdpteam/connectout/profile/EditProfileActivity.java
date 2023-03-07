@@ -32,11 +32,12 @@ public class EditProfileActivity extends AppCompatActivity {
         save.setOnClickListener(v -> {
             AuthenticatedUser au = new GoogleAuth().loggedUser();
             //get new values
-            Profile newProfile = new Profile((au == null) ? NULL_USER : au.uid, nameET.getText().toString(),
+            String uid = (au == null) ? NULL_USER : au.uid;
+            Profile newProfile = new Profile(uid, nameET.getText().toString(),
                     emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
 
             //store new Profile
-            new ProfileViewModel(new ProfileModel()).saveValue(newProfile);
+            new ProfileViewModel(new ProfileModel()).saveValue(newProfile, uid);
             //change view
             goToProfile(newProfile);
         });

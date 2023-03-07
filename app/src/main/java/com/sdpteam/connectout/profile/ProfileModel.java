@@ -16,19 +16,16 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 
 public class ProfileModel implements ProfileDataManager {
     private final DatabaseReference mDatabase;
-    private final String uid;
 
     public ProfileModel() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        AuthenticatedUser au = new GoogleAuth().loggedUser();
-        this.uid = (au == null) ? EditProfileActivity.NULL_USER : au.uid;
     }
 
-    public void saveValue(Profile profile) {
+    public void saveValue(Profile profile, String uid) {
         mDatabase.child("unique id").child(uid).child("Profile").setValue(profile);
     }
 
-    public LiveData<Profile> getValue() {
+    public LiveData<Profile> getValue(String uid) {
         // Get the value from Firebase
         MutableLiveData<Profile> value = new MutableLiveData<>();
         mDatabase.child("unique id").child(uid).child("Profile").addListenerForSingleValueEvent(new ValueEventListener() {
