@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 import android.content.Intent;
 
 // https://firebase.google.com/docs/auth/android/firebaseui
-class GoogleAuth implements Authentication {
+public class GoogleAuth implements Authentication {
 
     @Override
     public boolean isLoggedIn() {
