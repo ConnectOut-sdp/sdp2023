@@ -5,21 +5,22 @@ public class Profile {
         FEMALE, MALE, OTHER
     }
 
-    private String name;
-    private String email;
-    private String bio;
-    private Gender gender;
+    private final String name;
+    private final String email;
+    private final String bio;
+    private final Gender gender;
 
-    private double rating;
+    private final double rating;
 
-    private int numRatings;
+    private final int numRatings;
 
     private final String uid;
 
-    public Profile(){
+    public Profile() {
         this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
     }
-    public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings){
+
+    public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -41,7 +42,7 @@ public class Profile {
         return email;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -53,29 +54,8 @@ public class Profile {
         return rating;
     }
 
-    public int getNumRatings(){
+    public int getNumRatings() {
         return numRatings;
     }
 
-    public void setGender(Gender g){
-        gender = g;
-    }
-
-    public void setBio(String b){
-        bio = b;
-    }
-    public void setEmail(String e){
-        email = e;
-    }
-    public void setName(String n){
-        name = n;
-    }
-
-    public void setNumRatings(int numRatings) {
-        this.numRatings = numRatings;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
 }

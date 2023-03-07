@@ -4,20 +4,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
-import android.graphics.ColorSpace;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 
 public class ProfileViewModelTest {
@@ -49,7 +43,7 @@ public class ProfileViewModelTest {
 
     }
 
-    public static class FakeModel implements IntProfileModel {
+    public static class FakeModel implements ProfileDataManager {
         public Profile mValue;
         private MutableLiveData<Profile> mLiveData = new MutableLiveData<>();
 

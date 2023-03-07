@@ -1,36 +1,21 @@
 package com.sdpteam.connectout.profile;
 
-import static android.app.PendingIntent.getActivity;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.core.Is.is;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-
-import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.core.Is.is;
 
-import com.google.gson.Gson;
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.TOBEREMOVEDProfileActivity;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,11 +25,11 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 
 
-/**
- * Since these tests are fetching from the database, they are also testing the
- * Model
- * */
 public class EditProfileTest {
+    /**
+     * Since these tests are fetching from the database, they are also testing the
+     * Model
+     */
     @Rule
     public ActivityScenarioRule<EditProfileActivity> testRule = new ActivityScenarioRule<>(EditProfileActivity.class);
 
@@ -59,27 +44,30 @@ public class EditProfileTest {
     }
 
     @Test
-    public void changeValuesTestMale(){
+    public void changeValuesTestMale() {
         testDifferentValues("Aymeric", "aymeric@gmail.com",
                 "Love my friends, I'm on this app to make some more", Profile.Gender.MALE);
     }
+
     @Test
-    public void changeValuesTestFemale(){
+    public void changeValuesTestFemale() {
         testDifferentValues("Bob", "bob@gmail.com",
                 "empty", Profile.Gender.FEMALE);
     }
+
     @Test
-    public void changeValuesTestOther(){
+    public void changeValuesTestOther() {
         testDifferentValues("Alice", "alice@gmail.com",
                 "empty for now", Profile.Gender.OTHER);
     }
+
     @Test
-    public void changeValuesTestNone(){
+    public void changeValuesTestNone() {
         testDifferentValues("why do you want to know?", "I have no email",
                 "You want to know too much", null);
     }
 
-    private static void testDifferentValues(String name, String email, String bio, Profile.Gender gender){
+    private static void testDifferentValues(String name, String email, String bio, Profile.Gender gender) {
         Profile previousProfile = new Profile(EditProfileActivity.NULL_USER, "bob", "bob@gmail.com",
                 null, Profile.Gender.MALE, 1, 1);
 
@@ -87,16 +75,17 @@ public class EditProfileTest {
         model.saveValue(previousProfile);
 
         onView(ViewMatchers.withId(R.id.editTextName)).perform(typeText(name));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.editTextEmail)).perform(typeText(email));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.editTextBio)).perform(typeText(bio));
+        Espresso.closeSoftKeyboard();
 
-        if(gender == Profile.Gender.MALE){
+        if (gender == Profile.Gender.MALE) {
             onView(withId(R.id.maleRadioButton)).perform(click());
-        }
-        else if((gender == Profile.Gender.FEMALE)){
+        } else if ((gender == Profile.Gender.FEMALE)) {
             onView(withId(R.id.femaleRadioButton)).perform(click());
-        }
-        else if((gender == Profile.Gender.OTHER)){
+        } else if ((gender == Profile.Gender.OTHER)) {
             onView(withId(R.id.otherRadioButton)).perform(click());
         }
 

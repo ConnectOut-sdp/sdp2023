@@ -14,13 +14,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 
-public class ProfileModel implements IntProfileModel{
-    private DatabaseReference mDatabase;
-    private String uid;
+public class ProfileModel implements ProfileDataManager {
+    private final DatabaseReference mDatabase;
+    private final String uid;
+
     public ProfileModel() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         AuthenticatedUser au = new GoogleAuth().loggedUser();
-        this.uid = (au == null)? EditProfileActivity.NULL_USER: au.uid;
+        this.uid = (au == null) ? EditProfileActivity.NULL_USER : au.uid;
     }
 
     public void saveValue(Profile profile) {

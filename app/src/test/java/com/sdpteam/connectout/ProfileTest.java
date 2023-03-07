@@ -19,10 +19,7 @@ public class ProfileTest {
         assertThat(p.getGender(), is(Profile.Gender.OTHER));
         assertThat(p.getId(), is("12342"));
 
-        p.setBio("I'm not cool");
-        p.setEmail("expresident@gmail.com");
-        p.setGender(Profile.Gender.MALE);
-        p.setName("ExPresident");
+        p = new Profile("12342", "ExPresident", "expresident@gmail.com", "I'm not cool", Profile.Gender.MALE, 1, 1);
 
         assertThat(p.getBio(), is("I'm not cool"));
         assertThat(p.getName(), is("ExPresident"));
