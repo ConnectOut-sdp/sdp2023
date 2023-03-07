@@ -10,8 +10,8 @@
         android:id="@+id/textViewEditProfileTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginBottom="39dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="42dp"
         android:text="PROFILE EDIT"
         app:layout_constraintBottom_toTopOf="@+id/editTextName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,9 +20,11 @@
 
     <EditText
         android:id="@+id/editTextName"
-        android:layout_width="400dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="50dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="52dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -33,9 +35,11 @@
 
     <EditText
         android:id="@+id/editTextEmail"
-        android:layout_width="400dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="53dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="55dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
@@ -46,9 +50,11 @@
 
     <EditText
         android:id="@+id/editTextBio"
-        android:layout_width="400dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="79dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="82dp"
         android:ems="10"
         android:hint="Bio"
         android:inputType="textPersonName"
@@ -59,9 +65,9 @@
 
     <RadioGroup
         android:id="@+id/genderRadioGroup"
-        android:layout_width="405dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="58dp"
+        android:layout_marginBottom="60dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,24 +75,24 @@
 
         <RadioButton
             android:id="@+id/otherRadioButton"
-            android:layout_width="140dp"
-            android:layout_height="61dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Other"
             tools:layout_editor_absoluteX="155dp"
             tools:layout_editor_absoluteY="370dp" />
 
         <RadioButton
             android:id="@+id/maleRadioButton"
-            android:layout_width="140dp"
-            android:layout_height="61dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Male"
             tools:layout_editor_absoluteX="155dp"
             tools:layout_editor_absoluteY="309dp" />
 
         <RadioButton
             android:id="@+id/femaleRadioButton"
-            android:layout_width="125dp"
-            android:layout_height="61dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Female"
             tools:layout_editor_absoluteX="155dp"
             tools:layout_editor_absoluteY="248dp" />
@@ -96,7 +102,7 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="89dp"
+        android:layout_marginBottom="91dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
