@@ -88,6 +88,7 @@ public class EditProfileTest {
         } else if ((gender == Profile.Gender.OTHER)) {
             onView(withId(R.id.otherRadioButton)).perform(click());
         }
+        Espresso.closeSoftKeyboard();
 
         onView(withId(R.id.saveButton)).perform(click());
 

@@ -59,7 +59,7 @@
 
     <RadioGroup
         android:id="@+id/genderRadioGroup"
-        android:layout_width="420dp"
+        android:layout_width="405dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="58dp"
         android:orientation="horizontal"
@@ -85,7 +85,7 @@
 
         <RadioButton
             android:id="@+id/femaleRadioButton"
-            android:layout_width="140dp"
+            android:layout_width="125dp"
             android:layout_height="61dp"
             android:text="Female"
             tools:layout_editor_absoluteX="155dp"
