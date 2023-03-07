@@ -12,11 +12,11 @@ import com.sdpteam.connectout.R;
  * EditProfileActivity must be adapted
  *
  * */
-public class TOBEREMOVEDProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toberemovedprofile);
+        setContentView(R.layout.activity_profile);
     }
 }

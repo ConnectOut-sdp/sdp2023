@@ -55,7 +55,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void goToProfile(Profile p) {
-        Intent intent = new Intent(EditProfileActivity.this, TOBEREMOVEDProfileActivity.class);
+        Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
         startActivity(intent);
         finish();
     }
