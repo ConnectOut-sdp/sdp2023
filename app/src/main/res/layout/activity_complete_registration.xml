@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".registration.CompleteRegistrationActivity" />
+        android:layout_height="match_parent">
+
+    <TextView
+            android:text="Complete Registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/textView2"
+            android:textSize="24sp" />
+
+    <FrameLayout
+            android:paddingHorizontal="10dp"
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".registration.CompleteRegistrationActivity">
+    </FrameLayout>
+</LinearLayout>

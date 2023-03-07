@@ -13,7 +13,7 @@ public class CompleteRegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_complete_registration);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, CompleteRegistrationFragment.newInstance())
+                    .replace(R.id.container, CompleteRegistrationForm.newInstance())
                     .commitNow();
         }
     }

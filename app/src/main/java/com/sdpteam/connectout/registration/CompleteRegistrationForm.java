@@ -15,12 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-public class CompleteRegistrationFragment extends Fragment {
+public class CompleteRegistrationForm extends Fragment {
 
     private RegistrationViewModel mViewModel;
 
-    public static CompleteRegistrationFragment newInstance() {
-        return new CompleteRegistrationFragment();
+    public static CompleteRegistrationForm newInstance() {
+        return new CompleteRegistrationForm();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class CompleteRegistrationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_registration_completion, container, false);
+        return inflater.inflate(R.layout.fragment_completion_registration_form, container, false);
     }
 
     @Override
