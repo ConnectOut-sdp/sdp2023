@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/complete_registration"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".registration.CompleteRegistrationActivity">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="1dp"
+            tools:layout_editor_absoluteX="1dp">
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:editable="false"
+                android:ems="10"
+                android:id="@+id/nameEditText" />
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:text="Email"
+                android:editable="false"
+                android:ems="10"
+                android:id="@+id/emailEditText" />
+
+        <EditText
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:minLines="10"
+                android:gravity="top|start"
+                android:maxLines="10"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:id="@+id/bioEditText" />
+
+        <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <RadioButton
+                    android:id="@+id/radioMale"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Male" />
+
+            <RadioButton
+                    android:id="@+id/radioFemale"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Female" />
+
+            <RadioButton
+                    android:id="@+id/radioOther"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Other" />
+        </RadioGroup>
+
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                tools:layout_editor_absoluteX="1dp"
+                android:id="@+id/linearLayout2">
+
+            <CheckBox
+                    android:text="Accept conditions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkBox" />
+
+            <Button
+                    android:id="@+id/moreInfoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:text="Read"
+                    android:textSize="9dp"
+                    android:editable="false"
+
+                    android:insetTop="10dp"
+                    android:insetBottom="10dp"
+                    android:insetRight="10dp"
+                    android:insetLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                tools:layout_editor_absoluteX="1dp"
+                android:id="@+id/linearLayout3">
+
+            <Button
+                    android:text="Finish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/finishButton" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

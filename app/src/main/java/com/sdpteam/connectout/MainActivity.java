@@ -1,6 +1,6 @@
 package com.sdpteam.connectout;
 
-import com.sdpteam.connectout.drawer.DrawerActivity;
+import com.sdpteam.connectout.registration.CompleteRegistrationActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Don't put anything here, just choose which activity to redirect to
-        Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), CompleteRegistrationActivity.class);
         this.startActivity(drawerIntent);
     }
 }

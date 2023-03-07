@@ -11,6 +11,9 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.ConnectOut"
             tools:targetApi="31">
+        <activity
+                android:name=".registration.CompleteRegistrationActivity"
+                android:exported="false" />
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
@@ -33,7 +36,6 @@
         <activity
                 android:name=".authentication.GoogleLoginActivity"
                 android:exported="false" />
-
         <activity
                 android:name=".MainActivity"
                 android:exported="true">
