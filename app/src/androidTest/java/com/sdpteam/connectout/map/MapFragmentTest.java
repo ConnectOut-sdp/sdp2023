@@ -6,6 +6,8 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import static org.junit.Assert.assertNull;
+
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -13,6 +15,7 @@ import androidx.test.filters.LargeTest;
 
 import com.sdpteam.connectout.MainActivity;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.EventCreatorActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,7 +28,7 @@ import org.junit.runner.RunWith;
 public class MapFragmentTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<EventCreatorActivity> testRule = new ActivityScenarioRule<>(EventCreatorActivity.class);
 
     @Before
     public void setup() {
@@ -42,6 +45,12 @@ public class MapFragmentTest {
         onView(withId(R.id.map)).check(matches(isDisplayed()));
         onView(withId(R.id.refresh_button)).perform(click());
         onView(withId(R.id.map)).check(matches(isDisplayed()));
+    }
+    @Test
+    public void markerIsNullBeforeInstantiation() {
+        MapCreatorFragment mapCreatorFragment = new MapCreatorFragment();
+        assertNull(mapCreatorFragment.getMovingMarkerPosition());
+
     }
 
 
