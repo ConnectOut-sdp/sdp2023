@@ -2,9 +2,9 @@ package com.sdpteam.connectout.event;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.Is.isA;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
-
 import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Test;
@@ -27,7 +27,12 @@ public class EventBuilderTest {
 
     @Test
     public void EmptyConstructorIsNotNull() {
-        assertNotNull(new EventBuilder());
+        assertThat(new EventBuilder(),isA(EventBuilder.class));
+
+    }
+    @Test
+    public void constructorWithNullDoesNotThrowException() {
+        assertThat(new EventBuilder(null),isA(EventBuilder.class));
     }
 
     @Test

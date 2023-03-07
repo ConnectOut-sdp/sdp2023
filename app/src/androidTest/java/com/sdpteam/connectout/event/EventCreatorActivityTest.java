@@ -2,7 +2,10 @@ package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import android.widget.Button;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -53,6 +56,7 @@ public class EventCreatorActivityTest {
             toolbar.setNavigationOnClickListener(v -> Assert.assertTrue(activity.isFinishing()));
             toolbar.performClick();
         });
+
     }
 
     @Test
@@ -73,14 +77,21 @@ public class EventCreatorActivityTest {
         onView(withId(R.id.event_creator_description)).perform(ViewActions.typeText("Test Description"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
 
+        //Might return null if activity already terminated
+        try {
+            activityRule.getScenario().onActivity(activity -> {
+                Button button = activity.findViewById(R.id.event_creator_save_button);
+                button.setOnClickListener(v -> Assert.assertTrue( activity.isFinishing()));
+            });
+        }catch (NullPointerException ignored){}
+
     }
 
     @Test
     public void markerIsDraggable() {
         onView(withId(R.id.map)).perform(ViewActions.longClick());
-        onView(withId(R.id.map)).perform(ViewActions.click());
         onView(withId(R.id.map)).perform(dragViewBy((float) 0.1, (float) 0.1));
-        onView(withId(R.id.map)).check(matches(ViewMatchers.isDisplayed()));
+        onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 
 

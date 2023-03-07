@@ -8,8 +8,10 @@ public class EventBuilder {
     }
 
     public EventBuilder(LatLng latLng) {
-        this.lat = latLng.latitude;
-        this.lng = latLng.longitude;
+        if(latLng != null) {
+            this.lat = latLng.latitude;
+            this.lng = latLng.longitude;
+        }
     }
 
     private String title;

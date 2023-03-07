@@ -33,12 +33,7 @@ public class MapCreatorFragment extends MapViewFragment implements OnMapReadyCal
 
 
     /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     * @inheritDoc
      */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -74,11 +69,11 @@ public class MapCreatorFragment extends MapViewFragment implements OnMapReadyCal
     }
 
     /**
-     * Gives the Movable marker last recorded position
+     * Gives the movable marker last recorded position
      * @return (LatLng): Position of the movable marker
      */
     public LatLng getMovingMarkerPosition(){
-        return movingMarker.getPosition();
+        return movingMarker == null ? null : movingMarker.getPosition();
     }
 
 
