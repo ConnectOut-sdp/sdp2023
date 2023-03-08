@@ -7,12 +7,119 @@
     tools:context=".profile.ProfileActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewProfileTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="100dp"
-        android:text="Profile View Not Yet Implemented"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="42dp"
+        android:text="PROFILE"
+        app:layout_constraintBottom_toTopOf="@+id/editTextName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/subtitleName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="307dp"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/subtitleEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="309dp"
+        android:text="Email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="307dp"
+        android:text="<name>"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitleName" />
+
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="309dp"
+        android:text="<email>"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitleEmail" />
+
+    <TextView
+        android:id="@+id/subtitleBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="342dp"
+        android:text="Bio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
+
+    <TextView
+        android:id="@+id/textViewBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="327dp"
+        android:text="<Bio>"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitleBio" />
+
+    <TextView
+        android:id="@+id/subtitleGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginEnd="319dp"
+        android:text="Gender"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
+
+    <TextView
+        android:id="@+id/textViewGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="304dp"
+        android:text="<gender>"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitleGender" />
+
+    <Button
+        android:id="@+id/buttonEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="581dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

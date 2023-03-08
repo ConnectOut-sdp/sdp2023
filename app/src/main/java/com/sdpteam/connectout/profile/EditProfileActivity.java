@@ -60,3 +60,6 @@ public class EditProfileActivity extends AppCompatActivity {
         finish();
     }
 }
+
+// todo fetch dans profile, send data to edit profile
+// todo activité appelé avec un (dans le intent bundle) et uid
