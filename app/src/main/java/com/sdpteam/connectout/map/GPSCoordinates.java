@@ -14,6 +14,7 @@ public class GPSCoordinates {
         latitude = position.latitude;
         longitude = position.longitude;
     }
+
     public GPSCoordinates(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;

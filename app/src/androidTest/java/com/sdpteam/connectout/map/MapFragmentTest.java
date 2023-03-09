@@ -5,7 +5,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
 import static org.junit.Assert.assertNull;
 
 import androidx.test.espresso.intent.Intents;
@@ -45,6 +44,7 @@ public class MapFragmentTest {
         onView(withId(R.id.refresh_button)).perform(click());
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
+
     @Test
     public void markerIsNullBeforeInstantiation() {
         PositionSelectorFragment positionSelectorFragment = new PositionSelectorFragment();

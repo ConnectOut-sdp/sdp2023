@@ -1,14 +1,15 @@
 package com.sdpteam.connectout.map;
 
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.sdpteam.connectout.event.Event;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import java.util.List;
 
 public class MapViewModel extends ViewModel implements OnMapReadyCallback {
     private MutableLiveData<GoogleMap> mapLiveData;
@@ -46,7 +47,7 @@ public class MapViewModel extends ViewModel implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mapLiveData.setValue(googleMap);
     }
 }

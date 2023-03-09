@@ -1,11 +1,11 @@
 package com.sdpteam.connectout.map;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.sdpteam.connectout.event.Event;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapModel implements InterfaceMapModel {
     private ArrayList<Event> dataSet = new ArrayList<>(); //To be defined at a later stage

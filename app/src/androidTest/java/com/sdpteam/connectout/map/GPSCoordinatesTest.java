@@ -11,13 +11,14 @@ import org.junit.Test;
 public class GPSCoordinatesTest {
     private final static LatLng VALID_POSITION = new LatLng(37.7749, -122.4194);
     private final static LatLng INVALID_POSITION = null;
-    
+
     @Test
     public void testConstructorWithValidLatLngPosition() {
         GPSCoordinates coordinates = new GPSCoordinates(VALID_POSITION);
         assertThat(coordinates.getLatitude(), is(VALID_POSITION.latitude));
         assertThat(coordinates.getLongitude(), is(VALID_POSITION.longitude));
     }
+
     @Test
     public void testConstructorWithTwoCoordinates() {
         GPSCoordinates coordinates = new GPSCoordinates(37.7749, -122.4194);

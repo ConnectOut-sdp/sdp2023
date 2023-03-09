@@ -1,11 +1,6 @@
 package com.sdpteam.connectout.event;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.maps.model.LatLng;
 import com.sdpteam.connectout.map.GPSCoordinates;
-
-import java.util.Objects;
 
 /**
  * This class describes an event

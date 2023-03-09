@@ -2,7 +2,6 @@ package com.sdpteam.connectout.event;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.appcompat.widget.Toolbar;
 
