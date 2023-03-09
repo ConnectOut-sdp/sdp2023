@@ -23,7 +23,7 @@ import java.util.List;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private GoogleMap map;
 
     private MapViewModel mapViewModel;
 
@@ -40,7 +40,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
         mapViewModel.init(new MapModel());
 
-        mapViewModel.getEventList().observe(getViewLifecycleOwner(), eventList -> showNewMarkerList(eventList));
+        mapViewModel.getEventList().observe(getViewLifecycleOwner(), this::showNewMarkerList);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
         refreshButton.setOnClickListener(view -> showNewMarkerList(mapViewModel.refreshEventList().getValue()));
@@ -49,14 +49,13 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void showNewMarkerList(List<Event> eventList) {
-        if (mMap == null) {
+        if (map == null) {
             return;
         }
-        mMap.clear();
+        map.clear();
         for (Event e : eventList) {
-            LatLng ll = new LatLng(e.getLat(), e.getLng());
-            MarkerOptions m = new MarkerOptions().position(ll).title(e.getTitle());
-            mMap.addMarker(m);
+            MarkerOptions m = new MarkerOptions().position(e.getGPSCoordinates().toLatLng()).title(e.getTitle());
+            map.addMarker(m);
         }
     }
 
@@ -71,6 +70,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mapViewModel.onMapReady(googleMap);
-        mMap = googleMap;
+        map = googleMap;
     }
 }

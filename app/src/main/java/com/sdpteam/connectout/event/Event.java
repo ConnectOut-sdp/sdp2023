@@ -2,6 +2,9 @@ package com.sdpteam.connectout.event;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.sdpteam.connectout.map.GPSCoordinates;
+
 import java.util.Objects;
 
 /**
@@ -11,14 +14,12 @@ import java.util.Objects;
 public class Event {
 
     private final String title;
-    private final double lat;
-    private final double lng;
+    private final GPSCoordinates coordinates;
     private final String description;
 
-    public Event(String title, double lat, double lng, String description) {
+    public Event(String title, GPSCoordinates coordinates, String description) {
         this.title = title;
-        this.lat = lat;
-        this.lng = lng;
+        this.coordinates = coordinates;
         this.description = description;
     }
 
@@ -30,18 +31,8 @@ public class Event {
         return title;
     }
 
-    public double getLat() {
-        return lat;
+    public GPSCoordinates getGPSCoordinates() {
+        return coordinates;
     }
 
-    public double getLng() {
-        return lng;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return title+"\n is at "+lat +" and "+ lng;
-
-    }
 }
