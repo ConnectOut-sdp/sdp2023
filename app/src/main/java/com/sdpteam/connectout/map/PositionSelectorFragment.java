@@ -2,13 +2,7 @@ package com.sdpteam.connectout.map;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,19 +12,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapCreatorFragment extends MapViewFragment implements OnMapReadyCallback {
+public class PositionSelectorFragment extends MapViewFragment implements OnMapReadyCallback {
 
     //Movable marker used to get event location
     private Marker movingMarker;
-
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater,container, savedInstanceState);
-    }
-
-
 
     /**
      * @inheritDoc
@@ -55,9 +40,9 @@ public class MapCreatorFragment extends MapViewFragment implements OnMapReadyCal
 
             @Override
             public void onMarkerDragEnd(@NonNull Marker marker) {
-                    movingMarker.setPosition(marker.getPosition());
-                    movingMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+                movingMarker.setPosition(marker.getPosition());
+                movingMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
             }
 
             @Override
@@ -70,12 +55,12 @@ public class MapCreatorFragment extends MapViewFragment implements OnMapReadyCal
 
     /**
      * Gives the movable marker last recorded position
+     *
      * @return (LatLng): Position of the movable marker
      */
-    public LatLng getMovingMarkerPosition(){
+    public LatLng getMovingMarkerPosition() {
         return movingMarker == null ? null : movingMarker.getPosition();
     }
-
 
 
 }

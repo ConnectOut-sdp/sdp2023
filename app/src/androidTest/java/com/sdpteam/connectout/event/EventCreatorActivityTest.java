@@ -16,12 +16,11 @@ import androidx.test.espresso.action.Press;
 import androidx.test.espresso.action.Swipe;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.map.MapCreatorFragment;
+import com.sdpteam.connectout.map.PositionSelectorFragment;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -32,7 +31,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
-
 
     @Rule
     public ActivityScenarioRule<EventCreatorActivity> activityRule = new ActivityScenarioRule<>(EventCreatorActivity.class);
@@ -49,8 +47,6 @@ public class EventCreatorActivityTest {
 
     @Test
     public void clickToolbarIconFinishesActivity() {
-
-
         activityRule.getScenario().onActivity(activity -> {
             Toolbar toolbar = activity.findViewById(R.id.event_creator_toolbar);
             toolbar.setNavigationOnClickListener(v -> Assert.assertTrue(activity.isFinishing()));
@@ -61,18 +57,14 @@ public class EventCreatorActivityTest {
 
     @Test
     public void activityIsOpenedBeforeClickingToolbarIcon() {
-
-
         activityRule.getScenario().onActivity(activity -> {
             Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.event_creator_fragment_container);
-            Assert.assertTrue(fragment instanceof MapCreatorFragment);
+            Assert.assertTrue(fragment instanceof PositionSelectorFragment);
         });
     }
 
     @Test
     public void clickSaveButtonLogsExpectedOutput() {
-
-
         onView(withId(R.id.event_creator_title)).perform(ViewActions.typeText("Test Title"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.event_creator_description)).perform(ViewActions.typeText("Test Description"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
@@ -81,9 +73,10 @@ public class EventCreatorActivityTest {
         try {
             activityRule.getScenario().onActivity(activity -> {
                 Button button = activity.findViewById(R.id.event_creator_save_button);
-                button.setOnClickListener(v -> Assert.assertTrue( activity.isFinishing()));
+                button.setOnClickListener(v -> Assert.assertTrue(activity.isFinishing()));
             });
-        }catch (NullPointerException ignored){}
+        } catch (NullPointerException ignored) {
+        }
 
     }
 
@@ -93,7 +86,6 @@ public class EventCreatorActivityTest {
         onView(withId(R.id.map)).perform(dragViewBy((float) 0.1, (float) 0.1));
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
-
 
     public static ViewAction dragViewBy(float latitude, float longitude) {
         return ViewActions.actionWithAssertions(new GeneralSwipeAction(

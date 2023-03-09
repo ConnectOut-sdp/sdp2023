@@ -13,7 +13,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.sdpteam.connectout.MainActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.EventCreatorActivity;
 
@@ -48,8 +47,8 @@ public class MapFragmentTest {
     }
     @Test
     public void markerIsNullBeforeInstantiation() {
-        MapCreatorFragment mapCreatorFragment = new MapCreatorFragment();
-        assertNull(mapCreatorFragment.getMovingMarkerPosition());
+        PositionSelectorFragment positionSelectorFragment = new PositionSelectorFragment();
+        assertNull(positionSelectorFragment.getMovingMarkerPosition());
 
     }
 
