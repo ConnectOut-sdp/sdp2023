@@ -11,12 +11,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sdpteam.connectout.map.GPSCoordinates;
 
-import java.util.Map;
-import java.util.Objects;
-
-public class EventCreatorModel implements EventDataManager{
+public class EventCreatorModel implements EventDataManager {
 
     private final DatabaseReference database;
 
@@ -57,12 +53,12 @@ public class EventCreatorModel implements EventDataManager{
         database.child("Events").orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                long count =  dataSnapshot.getChildrenCount();
+                long count = dataSnapshot.getChildrenCount();
                 long i = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     i++;
                     Event e = snapshot.getValue(Event.class);
-                    if (e!= null && uid.equals(e.getOwnerId()) && title.equals(e.getTitle())) {
+                    if (e != null && uid.equals(e.getOwnerId()) && title.equals(e.getTitle())) {
                         value.setValue(e);
                         break;
                     }
@@ -81,5 +77,5 @@ public class EventCreatorModel implements EventDataManager{
         return value;
     }
 
-    }
+}
 

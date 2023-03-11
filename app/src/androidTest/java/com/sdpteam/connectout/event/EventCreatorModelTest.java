@@ -19,11 +19,12 @@ public class EventCreatorModelTest {
         Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("invalid")).join();
         assertNull(foundEvent);
     }
+
     @Test
     public void modelReturnNullOnNonExistingEventUId() {
 
         EventCreatorModel model = new EventCreatorModel();
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("invalid","no title")).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("invalid", "no title")).join();
         assertNull(foundEvent);
     }
 
@@ -52,7 +53,7 @@ public class EventCreatorModelTest {
     @Test
     public void testManualSaveAndGetCorrectValues() {
         String title = "Tenis match";
-        String description  = "Search for tenis partner";
+        String description = "Search for tenis partner";
 
         Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
         EventCreatorModel model = new EventCreatorModel();
@@ -67,10 +68,6 @@ public class EventCreatorModelTest {
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
     }
-
-
-
-
 
 
 }

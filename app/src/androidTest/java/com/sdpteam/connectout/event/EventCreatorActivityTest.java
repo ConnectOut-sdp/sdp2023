@@ -7,7 +7,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNull;
 
 import android.widget.Button;
 
@@ -94,7 +93,7 @@ public class EventCreatorActivityTest {
     @Test
     public void testManualSaveAndGetCorrectValues() {
         String title = "Tenis match";
-        String description  = "Search for tenis partner";
+        String description = "Search for tenis partner";
 
         Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
         EventCreatorModel model = new EventCreatorModel();
@@ -113,7 +112,7 @@ public class EventCreatorActivityTest {
     @Test
     public void testAutomaticSaveAndGetCorrectValues() {
         String title = "Tenis match";
-        String description  = "Search for tenis partner";
+        String description = "Search for tenis partner";
 
         EventCreatorModel model = new EventCreatorModel();
 
@@ -132,10 +131,6 @@ public class EventCreatorActivityTest {
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
     }
-
-
-
-
 
 
 }
