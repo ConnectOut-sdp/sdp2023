@@ -43,12 +43,11 @@ public class EventCreatorActivity extends WithFragmentActivity {
         saveButton.setOnClickListener(v -> {
             AuthenticatedUser user = new GoogleAuth().loggedUser();
             String uid = user == null ? EditProfileActivity.NULL_USER : user.uid;
-                Event newEvent = new Event(eventTitle.getText().toString(), new GPSCoordinates(mapFragment.getMovingMarkerPosition()), eventDescription.getText().toString(), uid, UUID.randomUUID().toString());
-                new EventCreatorViewModel(new EventCreatorModel()).saveValue(newEvent);
-                this.finish();
+            Event newEvent = new Event(eventTitle.getText().toString(), new GPSCoordinates(mapFragment.getMovingMarkerPosition()), eventDescription.getText().toString(), uid, UUID.randomUUID().toString());
+            new EventCreatorViewModel(new EventCreatorModel()).saveValue(newEvent);
+            this.finish();
 
         });
-
 
 
     }

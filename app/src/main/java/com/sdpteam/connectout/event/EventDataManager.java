@@ -2,8 +2,6 @@ package com.sdpteam.connectout.event;
 
 import androidx.lifecycle.LiveData;
 
-import com.sdpteam.connectout.profile.Profile;
-
 public interface EventDataManager {
     /**
      * saves the given Event in the firebase database
