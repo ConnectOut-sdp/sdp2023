@@ -59,7 +59,7 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
      * @return (LatLng): Position of the movable marker
      */
     public LatLng getMovingMarkerPosition() {
-        return movingMarker == null ? null : movingMarker.getPosition();
+        return movingMarker == null ? new LatLng(0,0) : movingMarker.getPosition();
     }
 
 
