@@ -1,4 +1,4 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.profile;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
