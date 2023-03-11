@@ -82,8 +82,8 @@ public class MapViewModelTest {
         private ArrayList<Event> dataSet = new ArrayList<>();
 
         public FakeMapModel() {
-            dataSet.add(new Event("event1", new GPSCoordinates(0, 1), "E1"));
-            dataSet.add(new Event("event2", new GPSCoordinates(2, 3), "E2"));
+            dataSet.add(new Event("event1", new GPSCoordinates(0, 1), "E1", "1", "1"));
+            dataSet.add(new Event("event2", new GPSCoordinates(2, 3), "E2", "2", "2"));
         }
 
         public MutableLiveData<List<Event>> getEventLiveList() {
@@ -99,9 +99,9 @@ public class MapViewModelTest {
                 return;
             }
             ArrayList<Event> testList = new ArrayList<>();
-            testList.add(new Event("event3", new GPSCoordinates(46.521, 6.5678), "E3"));
-            testList.add(new Event("event4", new GPSCoordinates(46.5215, 6.56785), "E4"));
-            testList.add(new Event("event5", new GPSCoordinates(46.5218, 6.5679), "E5"));
+            testList.add(new Event("event3", new GPSCoordinates(46.521, 6.5678), "E3", "3", "3"));
+            testList.add(new Event("event4", new GPSCoordinates(46.5215, 6.56785), "E4", "4", "4"));
+            testList.add(new Event("event5", new GPSCoordinates(46.5218, 6.5679), "E5", "5", "6"));
 
             dataSet = testList;
         }
