@@ -7,6 +7,10 @@ public class GPSCoordinates {
     private final double latitude;
     private final double longitude;
 
+    public GPSCoordinates(){
+        this(0,0);
+    }
+
     public GPSCoordinates(LatLng position) {
         if (position == null) {
             throw new IllegalArgumentException("coordinates are null");
@@ -27,6 +31,7 @@ public class GPSCoordinates {
     public double getLongitude() {
         return longitude;
     }
+
 
     public LatLng toLatLng() {
         return new LatLng(latitude, longitude);
