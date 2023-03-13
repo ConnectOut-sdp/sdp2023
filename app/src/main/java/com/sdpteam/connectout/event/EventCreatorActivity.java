@@ -34,16 +34,28 @@ public class EventCreatorActivity extends WithFragmentActivity {
         //Upon click on the tool bar icon, end this activity and return to previous one.
         toolbar.setNavigationOnClickListener(v -> this.finish());
 
-        //upon save, log the current event and return to previous activity.
+        //Find given save button.
         Button saveButton = findViewById(R.id.event_creator_save_button);
 
+        //Find given title and description.
         EditText eventTitle = findViewById(R.id.event_creator_title);
         EditText eventDescription = findViewById(R.id.event_creator_description);
 
+        //upon save, log the current event and return to previous activity.
         saveButton.setOnClickListener(v -> {
             AuthenticatedUser user = new GoogleAuth().loggedUser();
             String uid = user == null ? EditProfileActivity.NULL_USER : user.uid;
-            Event newEvent = new Event(eventTitle.getText().toString(), new GPSCoordinates(mapFragment.getMovingMarkerPosition()), eventDescription.getText().toString(), uid, UUID.randomUUID().toString());
+
+            //Create associated event.
+            Event newEvent = new Event(
+                    eventTitle.getText().toString(),
+                    new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
+                    eventDescription.getText().toString(),
+                    uid,
+                    UUID.randomUUID().toString()
+            );
+
+            //Save the event & return to previous activity.
             new EventCreatorViewModel(new EventCreatorModel()).saveValue(newEvent);
             this.finish();
 
