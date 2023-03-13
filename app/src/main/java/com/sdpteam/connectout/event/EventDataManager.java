@@ -15,16 +15,16 @@ public interface EventDataManager {
      * Fetches the given Event from the firebase database
      *
      * @param eid (String): unique identifier of the event
-     * @return (LiveData<Event>): container that has the event uniquely identified event
+     * @return (LiveData < Event >): container that has the event uniquely identified event
      */
     LiveData<Event> getValue(String eid);
 
     /**
      * Fetches the given Event from the firebase database
      *
-     * @param uid (String): Id of the owner of the event
+     * @param uid   (String): Id of the owner of the event
      * @param title (Title): title of the event
-     * @return (LiveData<Event>): container that has the event uniquely identified event
+     * @return (LiveData < Event >): container that has the event uniquely identified event
      */
     LiveData<Event> getValue(String uid, String title);
 }
