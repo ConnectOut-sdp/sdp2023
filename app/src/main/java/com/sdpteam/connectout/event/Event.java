@@ -15,7 +15,8 @@ public class Event {
     private final String ownerId;
     private final String eventId;
 
-    public Event() {
+    public final static Event NULL_EVENT = new Event();
+    private Event() {
         this(null, null, null, EditProfileActivity.NULL_USER, null);
     }
 
