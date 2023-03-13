@@ -7,7 +7,7 @@ public class GPSCoordinates {
     private final double latitude;
     private final double longitude;
 
-    public GPSCoordinates() {
+    private GPSCoordinates() {
         this(0, 0);
     }
 
