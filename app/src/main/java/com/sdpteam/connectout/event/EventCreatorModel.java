@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sdpteam.connectout.IdValueListener;
 
 public class EventCreatorModel implements EventDataManager {
     public final static String DATABASE_EVENT_PATH = "Events";
@@ -38,18 +39,9 @@ public class EventCreatorModel implements EventDataManager {
     @Override
     public LiveData<Event> getValue(String eid) {
         MutableLiveData<Event> value = new MutableLiveData<>();
-        database.child(DATABASE_EVENT_PATH).child(eid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Event valueFromFirebase = dataSnapshot.getValue(Event.class);
-                value.setValue(valueFromFirebase);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(this.getClass().toString(), "Failed to read event.", databaseError.toException());
-            }
-        });
+        database.child(DATABASE_EVENT_PATH)
+                .child(eid)
+                .addListenerForSingleValueEvent(new IdValueListener<>(Event.class,value));
         return value;
     }
 

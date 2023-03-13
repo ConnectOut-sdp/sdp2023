@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sdpteam.connectout.IdValueListener;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 
@@ -28,18 +29,10 @@ public class ProfileModel implements ProfileDataManager {
     public LiveData<Profile> getValue(String uid) {
         // Get the value from Firebase
         MutableLiveData<Profile> value = new MutableLiveData<>();
-        mDatabase.child("unique id").child(uid).child("Profile").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Profile valueFromFirebase = dataSnapshot.getValue(Profile.class);
-                value.setValue(valueFromFirebase);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(this.getClass().toString(), "Failed to read value.", databaseError.toException());
-            }
-        });
+        mDatabase.child("unique id")
+                .child(uid)
+                .child("Profile")
+                .addListenerForSingleValueEvent(new IdValueListener<>(Profile.class,value));
         return value;
     }
 }
