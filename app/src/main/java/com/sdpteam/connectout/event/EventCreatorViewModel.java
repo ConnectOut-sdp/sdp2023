@@ -20,7 +20,7 @@ public class EventCreatorViewModel extends ViewModel {
         return model.getValue(uid, title);
     }
 
-    public void saveValue(Event event) {
-        model.saveValue(event);
+    public boolean saveValue(Event event) {
+        return model.saveValue(event);
     }
 }
