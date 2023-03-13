@@ -63,8 +63,9 @@ public class EventCreatorViewModelTest {
         }
 
         @Override
-        public void saveValue(Event event) {
+        public boolean saveValue(Event event) {
             EVENT_LIST.add(event);
+            return true;
         }
 
         @Override

@@ -2,10 +2,14 @@ package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Test;
@@ -68,6 +72,33 @@ public class EventCreatorModelTest {
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
     }
+
+    @Test
+    public void doesNotSaveNullEvent() {
+        Event e = null;
+        EventCreatorModel model = new EventCreatorModel();
+        assertFalse(model.saveValue(e));
+
+    }
+    @Test
+    public void RetrievingNonEventsHasNullAttributes() {
+
+        EventCreatorModel model = new EventCreatorModel();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Events").child("NotEid").setValue(new Profile());
+
+
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("NotEid")).join();
+
+
+        assertThat(foundEvent.getTitle(), is(Event.NULL_EVENT.getTitle()));
+        assertThat(foundEvent.getDescription(), is(Event.NULL_EVENT.getDescription()));
+        assertThat(foundEvent.getEventId(), is(Event.NULL_EVENT.getEventId()));
+        assertThat(foundEvent.getGpsCoordinates(), is(Event.NULL_EVENT.getGpsCoordinates()));
+        assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
+    }
+
+
 
 
 }
