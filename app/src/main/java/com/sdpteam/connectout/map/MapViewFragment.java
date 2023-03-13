@@ -53,7 +53,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         }
         map.clear();
         for (Event e : eventList) {
-            MarkerOptions m = new MarkerOptions().position(e.getGPSCoordinates().toLatLng()).title(e.getTitle());
+            MarkerOptions m = new MarkerOptions().position(e.getGpsCoordinates().toLatLng()).title(e.getTitle());
             map.addMarker(m);
         }
     }
