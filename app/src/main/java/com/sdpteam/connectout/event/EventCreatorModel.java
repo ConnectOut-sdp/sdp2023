@@ -13,28 +13,34 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class EventCreatorModel implements EventDataManager {
-
+    public final static String DATABASE_EVENT_PATH  = "Events";
     private final DatabaseReference database;
 
     public EventCreatorModel() {
         database = FirebaseDatabase.getInstance().getReference();
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
-    public void saveValue(Event event) {
-        database.child("Events").child(event.getEventId()).setValue(event);
+    public boolean saveValue(Event event) {
+        if(event != null) {
+            database.child(DATABASE_EVENT_PATH).child(event.getEventId()).setValue(event);
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public LiveData<Event> getValue(String eid) {
         MutableLiveData<Event> value = new MutableLiveData<>();
-        database.child("Events").child(eid).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child(DATABASE_EVENT_PATH).child(eid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                /*Map<String, Object> o = (Map<String, Object>) dataSnapshot.getValue();
-                Map<String, Double> coordinatesMap = (Map<String, Double>) o.get("gpsCoordinates");
-                double latitude = coordinatesMap.get("latitude");
-                double longitude = coordinatesMap.get("longitude");*/
                 Event valueFromFirebase = dataSnapshot.getValue(Event.class);
                 value.setValue(valueFromFirebase);
             }
@@ -47,21 +53,29 @@ public class EventCreatorModel implements EventDataManager {
         return value;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public LiveData<Event> getValue(String uid, String title) {
         MutableLiveData<Event> value = new MutableLiveData<>();
-        database.child("Events").orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child(DATABASE_EVENT_PATH).orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Find current children count in snapshot.
                 long count = dataSnapshot.getChildrenCount();
                 long i = 0;
+                //Iterate on future possible children & given ones.
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     i++;
+                    //Casts child into an event using default constructor.
                     Event e = snapshot.getValue(Event.class);
-                    if (e != null && uid.equals(e.getOwnerId()) && title.equals(e.getTitle())) {
+                    //Fetch the one with matching attributes
+                    if (uid.equals(e.getOwnerId()) && title.equals(e.getTitle())) {
                         value.setValue(e);
                         break;
                     }
+                    //Upon reach of the last given child do not wait longer.
                     if (i == count) {
                         value.setValue(null);
                         break;
