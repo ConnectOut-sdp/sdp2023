@@ -15,7 +15,7 @@ public class IdValueListener<E> implements ValueEventListener {
     private final MutableLiveData<E> value;
 
 
-    public IdValueListener(Class<E> type, MutableLiveData<E> value){
+    public IdValueListener(Class<E> type, MutableLiveData<E> value) {
         this.type = type;
         this.value = value;
     }

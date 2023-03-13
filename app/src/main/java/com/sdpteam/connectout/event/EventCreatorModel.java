@@ -41,7 +41,7 @@ public class EventCreatorModel implements EventDataManager {
         MutableLiveData<Event> value = new MutableLiveData<>();
         database.child(DATABASE_EVENT_PATH)
                 .child(eid)
-                .addListenerForSingleValueEvent(new IdValueListener<>(Event.class,value));
+                .addListenerForSingleValueEvent(new IdValueListener<>(Event.class, value));
         return value;
     }
 

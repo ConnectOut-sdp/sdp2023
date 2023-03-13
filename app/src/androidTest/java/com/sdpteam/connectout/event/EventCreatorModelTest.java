@@ -53,7 +53,6 @@ public class EventCreatorModelTest {
         assertThat(retrievedEvent.getOwnerId(), is(ownerId));
     }
 
-
     @Test
     public void testManualSaveAndGetCorrectValues() {
         String title = "Tenis match";
@@ -72,6 +71,7 @@ public class EventCreatorModelTest {
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
     }
+
     @Test
     public void testManualSaveAndGetOnlyCorrectUId() {
         String title = "Tenis match";
@@ -85,6 +85,7 @@ public class EventCreatorModelTest {
 
         assertNull(foundEvent);
     }
+
     @Test
     public void testManualSaveAndGetOnlyCorrectTitle() {
         String title = "Tenis match";

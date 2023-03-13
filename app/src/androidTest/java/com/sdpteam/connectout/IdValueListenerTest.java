@@ -11,7 +11,7 @@ import org.junit.Test;
 public class IdValueListenerTest {
 
     @Test
-    public void logsCorrectValueOnFail(){
+    public void logsCorrectValueOnFail() {
         MutableLiveData<Event> value = new MutableLiveData<>();
         IdValueListener<Event> eventIdValueListener = new IdValueListener<>(Event.class, value);
         eventIdValueListener.onCancelled(DatabaseError.fromException(new DatabaseException("Test exception")));
