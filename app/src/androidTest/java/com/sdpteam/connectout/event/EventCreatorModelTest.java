@@ -72,6 +72,32 @@ public class EventCreatorModelTest {
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
     }
+    @Test
+    public void testManualSaveAndGetOnlyCorrectUId() {
+        String title = "Tenis match";
+        String description = "Search for tenis partner";
+
+        Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
+        EventCreatorModel model = new EventCreatorModel();
+        model.saveValue(e);
+
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue(EditProfileActivity.NULL_USER, "wrong title")).join();
+
+        assertNull(foundEvent);
+    }
+    @Test
+    public void testManualSaveAndGetOnlyCorrectTitle() {
+        String title = "Tenis match";
+        String description = "Search for tenis partner";
+
+        Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
+        EventCreatorModel model = new EventCreatorModel();
+        model.saveValue(e);
+
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("wrong id", title)).join();
+
+        assertNull(foundEvent);
+    }
 
     @Test
     public void doesNotSaveNullEvent() {

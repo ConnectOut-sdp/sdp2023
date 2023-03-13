@@ -62,25 +62,18 @@ public class EventCreatorModel implements EventDataManager {
         database.child(DATABASE_EVENT_PATH).orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //Find current children count in snapshot.
-                long count = dataSnapshot.getChildrenCount();
-                long i = 0;
-                //Iterate on future possible children & given ones.
+                Event matchingEvent = null;
+                //Iterate on given children.
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    i++;
                     //Casts child into an event using default constructor.
                     Event e = snapshot.getValue(Event.class);
-                    //Fetch the one with matching attributes
+                    //Fetch the one with matching attributes.
                     if (uid.equals(e.getOwnerId()) && title.equals(e.getTitle())) {
-                        value.setValue(e);
-                        break;
-                    }
-                    //Upon reach of the last given child do not wait longer.
-                    if (i == count) {
-                        value.setValue(null);
+                        matchingEvent = e;
                         break;
                     }
                 }
+                value.setValue(matchingEvent);
             }
 
             @Override
