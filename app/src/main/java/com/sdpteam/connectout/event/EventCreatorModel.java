@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class EventCreatorModel implements EventDataManager {
-    public final static String DATABASE_EVENT_PATH  = "Events";
+    public final static String DATABASE_EVENT_PATH = "Events";
     private final DatabaseReference database;
 
     public EventCreatorModel() {
@@ -25,7 +25,7 @@ public class EventCreatorModel implements EventDataManager {
      */
     @Override
     public boolean saveValue(Event event) {
-        if(event != null) {
+        if (event != null) {
             database.child(DATABASE_EVENT_PATH).child(event.getEventId()).setValue(event);
             return true;
         }

@@ -80,8 +80,9 @@ public class EventCreatorModelTest {
         assertFalse(model.saveValue(e));
 
     }
+
     @Test
-    public void RetrievingNonEventsHasNullAttributes() {
+    public void retrievingNonEventsHasNullAttributes() {
 
         EventCreatorModel model = new EventCreatorModel();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -97,8 +98,6 @@ public class EventCreatorModelTest {
         assertThat(foundEvent.getGpsCoordinates(), is(Event.NULL_EVENT.getGpsCoordinates()));
         assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
     }
-
-
 
 
 }
