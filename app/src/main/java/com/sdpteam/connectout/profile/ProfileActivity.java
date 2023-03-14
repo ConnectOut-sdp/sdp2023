@@ -30,30 +30,37 @@ public class ProfileActivity extends AppCompatActivity {
 
         // fetch data
         AuthenticatedUser au = new GoogleAuth().loggedUser();
+
         //get new values
         String uid = (au == null) ? NULL_USER : au.uid;
-        Profile userProfile = pvm.getValue(uid).getValue();
+        Profile userProfile = pvm.getProfile(uid).getValue();
+        pvm.saveValue(userProfile, uid);
+
+        // maybe put them in the local cache
+
+        // todo handle null case
 
         // getting the elements references
         Button editProfile = findViewById(R.id.buttonEditProfile);
-        TextView nameTV = findViewById(R.id.textViewName);
-        TextView emailTV = findViewById(R.id.textViewEmail);
-        TextView bioTV = findViewById(R.id.textViewBio);
-        TextView genderTV = findViewById(R.id.textViewGender);
+        TextView name = findViewById(R.id.profileName);
+        TextView email = findViewById(R.id.profileEmail);
+        TextView bio = findViewById(R.id.profileBio);
+        TextView gender = findViewById(R.id.profileGender);
 
         // setting the fetched data
-        nameTV.setText(userProfile.getName());
-        emailTV.setText(userProfile.getEmail());
-        bioTV.setText(userProfile.getBio());
-        genderTV.setText(userProfile.getGender().name());
+        if(userProfile != null) {
+            name.setText(userProfile.getName());
+            email.setText(userProfile.getEmail());
+            bio.setText(userProfile.getBio());
+            gender.setText(userProfile.getGender().name());
+        }
 
         editProfile.setOnClickListener(v -> {
-            goToEditProfile(userProfile);
+            goToEditProfile();
         });
     }
 
-
-    private void goToEditProfile(Profile p) {
+    private void goToEditProfile() {
         Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
         startActivity(intent);
         finish();

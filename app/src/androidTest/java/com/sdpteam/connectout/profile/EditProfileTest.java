@@ -92,7 +92,7 @@ public class EditProfileTest {
 
         onView(withId(R.id.saveButton)).perform(click());
 
-        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.getValue(EditProfileActivity.NULL_USER)).join();
+        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.getProfile(EditProfileActivity.NULL_USER)).join();
 
         assertThat(fetchedProfile.getEmail(), is(email));
         assertThat(fetchedProfile.getName(), is(name));

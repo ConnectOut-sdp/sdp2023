@@ -31,7 +31,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getValue("test"));
+        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getProfile("test"));
 
         Profile p = future.join();
 
@@ -53,7 +53,7 @@ public class ProfileViewModelTest {
         }
 
         @Override
-        public LiveData<Profile> getValue(String uid) {
+        public LiveData<Profile> getProfile(String uid) {
             mLiveData= new MutableLiveData<>(new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1));
             return mLiveData;
         }

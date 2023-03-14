@@ -25,7 +25,7 @@ public class ProfileModel implements ProfileDataManager {
         mDatabase.child("unique id").child(uid).child("Profile").setValue(profile);
     }
 
-    public LiveData<Profile> getValue(String uid) {
+    public LiveData<Profile> getProfile(String uid) {
         // Get the value from Firebase
         MutableLiveData<Profile> value = new MutableLiveData<>();
         mDatabase.child("unique id").child(uid).child("Profile").addListenerForSingleValueEvent(new ValueEventListener() {

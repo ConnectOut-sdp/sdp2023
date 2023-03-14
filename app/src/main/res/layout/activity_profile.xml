@@ -13,7 +13,6 @@
         android:layout_marginTop="54dp"
         android:layout_marginBottom="42dp"
         android:text="PROFILE"
-        app:layout_constraintBottom_toTopOf="@+id/editTextName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +24,9 @@
         android:layout_marginStart="46dp"
         android:layout_marginTop="107dp"
         android:layout_marginEnd="307dp"
+        android:layout_marginBottom="10dp"
         android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/profileName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,28 +41,28 @@
         android:text="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+        app:layout_constraintTop_toBottomOf="@+id/profileName" />
 
     <TextView
-        android:id="@+id/textViewName"
+        android:id="@+id/profileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="46dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="307dp"
-        android:text="<name>"
+        android:text="'name'"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtitleName" />
 
     <TextView
-        android:id="@+id/textViewEmail"
+        android:id="@+id/profileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="309dp"
-        android:text="<email>"
+        android:text="'email'"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtitleEmail" />
@@ -76,16 +77,16 @@
         android:text="Bio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/profileEmail" />
 
     <TextView
-        android:id="@+id/textViewBio"
+        android:id="@+id/profileBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="49dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="327dp"
-        android:text="<Bio>"
+        android:text="'Bio'"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtitleBio" />
@@ -100,16 +101,16 @@
         android:text="Gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
+        app:layout_constraintTop_toBottomOf="@+id/profileBio" />
 
     <TextView
-        android:id="@+id/textViewGender"
+        android:id="@+id/profileGender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="49dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="304dp"
-        android:text="<gender>"
+        android:text="'gender'"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtitleGender" />
@@ -118,8 +119,14 @@
         android:id="@+id/buttonEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="138dp"
+        android:layout_marginTop="508dp"
+        android:layout_marginEnd="138dp"
+        android:layout_marginBottom="101dp"
         android:text="Edit Profile"
-        tools:layout_editor_absoluteX="138dp"
-        tools:layout_editor_absoluteY="581dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
