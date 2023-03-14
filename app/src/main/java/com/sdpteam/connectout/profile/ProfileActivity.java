@@ -21,7 +21,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
  * */
 public class ProfileActivity extends AppCompatActivity {
 
-    private ProfileViewModel pvm = new ProfileViewModel(new ProfileModel());
+    private final ProfileViewModel pvm = new ProfileViewModel(new ProfileModel());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         // maybe put them in the local cache
 
-        // todo handle null case
-
         // getting the elements references
         Button editProfile = findViewById(R.id.buttonEditProfile);
         TextView name = findViewById(R.id.profileName);
@@ -55,9 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
             gender.setText(userProfile.getGender().name());
         }
 
-        editProfile.setOnClickListener(v -> {
-            goToEditProfile();
-        });
+        editProfile.setOnClickListener(v -> goToEditProfile());
     }
 
     private void goToEditProfile() {
