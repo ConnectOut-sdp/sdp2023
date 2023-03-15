@@ -5,13 +5,14 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
@@ -20,10 +21,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(AndroidJUnit4.class)
 public class ProfileTest {
+
     /**
      * Since these tests are fetching from the database, they are also testing the
      * Model
@@ -68,10 +68,10 @@ public class ProfileTest {
         model.saveValue(userProfile, EditProfileActivity.NULL_USER);
 
         Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.getProfile(EditProfileActivity.NULL_USER)).join();
-        assertThat(fetchedProfile.getEmail(), is(email));
-        assertThat(fetchedProfile.getName(), is(name));
-        assertThat(fetchedProfile.getBio(), is(bio));
-        assertThat(fetchedProfile.getGender(), is(gender));
+        ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));
+        ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
+        ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));
+        ViewMatchers.assertThat(fetchedProfile.getGender(), is(gender));
 
 //        onView(withId(R.id.profileName)).check(matches(withText(name)));
 //        onView(withId(R.id.profileEmail)).check(matches(withText(email)));
@@ -79,11 +79,22 @@ public class ProfileTest {
 //        onView(withId(R.id.profileGender)).check(matches(withText(gender.name())));
     }
 
-    // case current user
+    @Test
+    public void gettersAndSettersTest() {
+        Profile p = new Profile("12342", "Donald Trump", "donaldtrump@gmail.com", "I'm so cool", Profile.Gender.OTHER, 1, 1);
 
-    // show edit profile button
+        assertThat(p.getBio(), is("I'm so cool"));
+        assertThat(p.getName(), is("Donald Trump"));
+        assertThat(p.getEmail(), is("donaldtrump@gmail.com"));
+        assertThat(p.getGender(), is(Profile.Gender.OTHER));
+        assertThat(p.getId(), is("12342"));
 
-    // case other user
+        p = new Profile("12342", "ExPresident", "expresident@gmail.com", "I'm not cool", Profile.Gender.MALE, 1, 1);
 
-    // do not show edit profile button
+        assertThat(p.getBio(), is("I'm not cool"));
+        assertThat(p.getName(), is("ExPresident"));
+        assertThat(p.getEmail(), is("expresident@gmail.com"));
+        assertThat(p.getGender(), is(Profile.Gender.MALE));
+        assertThat(p.getId(), is("12342"));
+    }
 }

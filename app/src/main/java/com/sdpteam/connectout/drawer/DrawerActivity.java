@@ -2,6 +2,7 @@ package com.sdpteam.connectout.drawer;
 
 import com.google.android.material.navigation.NavigationView;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.WithFragmentActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class DrawerActivity extends AppCompatActivity {
+public class DrawerActivity extends WithFragmentActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,24 +53,6 @@ public class DrawerActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Replaces the current fragment within the container using the given one.
-     *
-     * @param fragment      (Fragment): fragment to be used next
-     * @param idOfContainer (int): id of the container where the fragment is stored
-     */
-    private void replaceFragment(Fragment fragment, int idOfContainer) {
-
-        //Retrieve the fragment's handler
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        //Initiate the swap of fragments
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        //Replace the current fragment with the next one
-        fragmentTransaction.replace(idOfContainer, fragment);
-        fragmentTransaction.commit();
-    }
 
     /**
      * Displays the selected fragment according to its id.
