@@ -30,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Profile userProfile;
 
+
         // fetch data
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         // id public id
