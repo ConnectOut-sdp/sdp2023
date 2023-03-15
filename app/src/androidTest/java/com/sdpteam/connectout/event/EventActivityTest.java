@@ -47,7 +47,7 @@ public class EventActivityTest {
 
     @Test
     public void join_event_should_finish_activity() {
-        onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
 
         // Might return null if activity already finished
         try {
