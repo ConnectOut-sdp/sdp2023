@@ -28,18 +28,28 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        Profile userProfile;
+
         // fetch data
         AuthenticatedUser au = new GoogleAuth().loggedUser();
-
-        //get new values
+        // id public id
+        String id = getIntent().getStringExtra("id");
+        // user id
         String uid = (au == null) ? NULL_USER : au.uid;
-        Profile userProfile = pvm.getProfile(uid).getValue();
-        pvm.saveValue(userProfile, uid);
 
-        // maybe put them in the local cache
+        if(id.length() != 0) {
+            // public user profile
+            userProfile = pvm.getProfile(id).getValue();
+        } else {
+            // current user profile
+            userProfile = pvm.getProfile(uid).getValue();
+            pvm.saveValue(userProfile, uid);
 
-        // getting the elements references
-        Button editProfile = findViewById(R.id.buttonEditProfile);
+            // getting the elements references
+            Button editProfile = findViewById(R.id.buttonEditProfile);
+            editProfile.setOnClickListener(v -> goToEditProfile());
+        }
+
         TextView name = findViewById(R.id.profileName);
         TextView email = findViewById(R.id.profileEmail);
         TextView bio = findViewById(R.id.profileBio);
@@ -52,8 +62,6 @@ public class ProfileActivity extends AppCompatActivity {
             bio.setText(userProfile.getBio());
             gender.setText(userProfile.getGender().name());
         }
-
-        editProfile.setOnClickListener(v -> goToEditProfile());
     }
 
     private void goToEditProfile() {

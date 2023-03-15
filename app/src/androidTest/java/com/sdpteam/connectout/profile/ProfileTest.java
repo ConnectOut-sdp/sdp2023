@@ -60,7 +60,6 @@ public class ProfileTest {
     }
 
     public void loggedUserBaseCase(String name, String email, String bio, Profile.Gender gender) {
-
         Profile userProfile = new Profile(EditProfileActivity.NULL_USER, name, email,
                 bio, gender, 1, 1);
 
@@ -72,11 +71,6 @@ public class ProfileTest {
         ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
         ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));
         ViewMatchers.assertThat(fetchedProfile.getGender(), is(gender));
-
-//        onView(withId(R.id.profileName)).check(matches(withText(name)));
-//        onView(withId(R.id.profileEmail)).check(matches(withText(email)));
-//        onView(withId(R.id.profileBio)).check(matches(withText(bio)));
-//        onView(withId(R.id.profileGender)).check(matches(withText(gender.name())));
     }
 
     @Test
