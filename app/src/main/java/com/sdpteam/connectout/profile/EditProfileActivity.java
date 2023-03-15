@@ -33,19 +33,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         String uid = (au == null) ? NULL_USER : au.uid;
-        Profile userProfile = pvm.getProfile(uid).getValue();
-
-        if(userProfile != null) {
-            if(userProfile.getName() != null) {
-                nameET.setText(userProfile.getName());
-            }
-            if(userProfile.getEmail() != null) {
-                emailET.setText(userProfile.getEmail());
-            }
-            if(userProfile.getBio() != null) {
-                bioET.setText(userProfile.getBio());
-            }
-        }
 
         save.setOnClickListener(v -> {
             //get new values
