@@ -12,5 +12,5 @@ public interface ProfileDataManager {
     /**
      * Fetches one's profile from the firebase database
      */
-    LiveData<Profile> getValue(String uid);
+    LiveData<Profile> getProfile(String uid);
 }
