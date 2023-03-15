@@ -4,14 +4,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
+import java.util.concurrent.CompletableFuture;
 
 import org.junit.Test;
 
-import java.util.concurrent.CompletableFuture;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 
 public class ProfileViewModelTest {
@@ -21,7 +21,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        viewModel.saveValue(value, "test");
+        viewModel.saveValue(value);
 
         assertEquals(value, model.mValue);
     }
@@ -48,7 +48,7 @@ public class ProfileViewModelTest {
         private MutableLiveData<Profile> mLiveData = new MutableLiveData<>();
 
         @Override
-        public void saveValue(Profile value, String uid) {
+        public void saveValue(Profile value) {
             mValue = value;
         }
 

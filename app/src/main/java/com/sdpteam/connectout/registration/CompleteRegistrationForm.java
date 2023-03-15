@@ -1,5 +1,9 @@
 package com.sdpteam.connectout.registration;
 
+import static com.sdpteam.connectout.profile.Profile.Gender;
+
+import java.util.Arrays;
+
 import com.sdpteam.connectout.R;
 
 import android.content.Intent;
@@ -9,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,7 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class CompleteRegistrationForm extends Fragment {
 
-    private RegistrationViewModel mViewModel;
+    private RegistrationViewModel registrationViewModel;
 
     public static CompleteRegistrationForm newInstance() {
         return new CompleteRegistrationForm();
@@ -26,8 +32,7 @@ public class CompleteRegistrationForm extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
-        // TODO: Use the ViewModel
+        registrationViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
     }
 
     @Nullable
@@ -39,22 +44,46 @@ public class CompleteRegistrationForm extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        EditText name = view.findViewById(R.id.nameEditText);
-        name.setEnabled(false);
+        EditText nameEditor = view.findViewById(R.id.nameEditText);
+        nameEditor.setText(registrationViewModel.currentName());
 
-        EditText email = view.findViewById(R.id.emailEditText);
-        email.setEnabled(false);
+        EditText emailEditor = view.findViewById(R.id.emailEditText);
+        emailEditor.setText(registrationViewModel.currentEmail());
 
-        EditText bio = view.findViewById(R.id.bioEditText);
-        bio.setHint("Bio");
+        EditText bioEditor = view.findViewById(R.id.bioEditText);
+        bioEditor.setHint("Bio");
+
+        RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
         Button conditionsInfoButton = view.findViewById(R.id.moreInfoText);
         conditionsInfoButton.setOnClickListener(v -> {
-            Uri uri = Uri.parse("https://google.com");
+            Uri uri = Uri.parse("https://firebase.google.com/terms");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
 
+        Button finishButton = view.findViewById(R.id.finishButton);
+        finishButton.setEnabled(false);
+
+        finishButton.setOnClickListener(v -> {
+            int i = radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
+            final Gender gender = Arrays.asList(Gender.MALE, Gender.FEMALE, Gender.OTHER).get(i);
+            final String name = nameEditor.getText().toString();
+            final String email = emailEditor.getText().toString();
+            final String bio = bioEditor.getText().toString();
+            registrationViewModel.completeRegistration(name, email, bio, gender);
+        });
+
+        CheckBox checkBox = view.findViewById(R.id.checkBox);
+        checkBox.setOnClickListener(v -> {
+            finishButton.setEnabled(checkBox.isChecked());
+        });
+
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    // for testing (mocking)
+    public void setRegistrationViewModel(RegistrationViewModel registrationViewModel) {
+        this.registrationViewModel = registrationViewModel;
     }
 }

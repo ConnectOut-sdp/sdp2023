@@ -20,8 +20,8 @@ public class ProfileViewModel extends ViewModel {
     /**
      * Save your new Profile
      */
-    public void saveValue(Profile profile, String uid) {
-        mModel.saveValue(profile, uid);
+    public void saveValue(Profile profile) {
+        mModel.saveValue(profile);
     }
 }
 

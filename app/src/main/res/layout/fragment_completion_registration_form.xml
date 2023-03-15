@@ -18,7 +18,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:text="Name"
-                android:editable="false"
                 android:ems="10"
                 android:id="@+id/nameEditText" />
 
@@ -27,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:text="Email"
-                android:editable="false"
                 android:ems="10"
                 android:id="@+id/emailEditText" />
 
