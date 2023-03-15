@@ -3,6 +3,9 @@ package com.sdpteam.connectout.event;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
 public class EventCreatorViewModel extends ViewModel {
     private final EventDataManager model;
 
@@ -12,15 +15,20 @@ public class EventCreatorViewModel extends ViewModel {
     }
 
 
-    public LiveData<Event> getValue(String eid) {
-        return model.getValue(eid);
+    public LiveData<Event> getValue(String eventId) {
+        return model.getValue(eventId);
     }
 
-    public LiveData<Event> getValue(String uid, String title) {
-        return model.getValue(uid, title);
+    public LiveData<Event> getValue(String userId, String title) {
+        return model.getValue(userId, title);
     }
 
-    public boolean saveValue(Event event) {
-        return model.saveValue(event);
+    public void saveValue(Event event) {
+         model.saveValue(event);
     }
+
+    public  String getUniqueId(){
+        return model.getUniqueId();
+    }
+
 }

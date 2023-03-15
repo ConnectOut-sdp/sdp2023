@@ -11,7 +11,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sdpteam.connectout.IdValueListener;
+
+import java.util.concurrent.CompletableFuture;
 
 public class EventCreatorModel implements EventDataManager {
     public final static String DATABASE_EVENT_PATH = "Events";
@@ -23,6 +24,12 @@ public class EventCreatorModel implements EventDataManager {
 
     /**
      * @inheritDoc
+     * Saves the given Event in the firebase database
+     *
+     * @param event (Event): The given event to save
+     * @return (boolean): True if value is saved
+     *
+     * /!\ the save return value will be useful for the offline mode /!\
      */
     @Override
     public boolean saveValue(Event event) {
@@ -35,36 +42,58 @@ public class EventCreatorModel implements EventDataManager {
 
     /**
      * @inheritDoc
+     * Fetches the wanted Event from the firebase database using its id.
+     *
+     * @param eventId (String): Unique identifier of the event
+     * @return (LiveData<Event>): Container of the wanted event
      */
     @Override
-    public LiveData<Event> getValue(String eid) {
+    public LiveData<Event> getValue(String eventId) {
         MutableLiveData<Event> value = new MutableLiveData<>();
         database.child(DATABASE_EVENT_PATH)
-                .child(eid)
-                .addListenerForSingleValueEvent(new IdValueListener<>(Event.class, value));
+                .child(eventId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Event valueFromFirebase = dataSnapshot.getValue(Event.class);
+                        value.setValue(valueFromFirebase);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(this.getClass().toString(), "Failed to read value.", databaseError.toException());
+                    }
+
+    });
         return value;
     }
 
     /**
      * @inheritDoc
+     * Fetches the wanted Event from the firebase database using its owner id & title.
+     *
+     * @param userId   (String): Id of the owner of the event
+     * @param title (Title): Title of the event
+     * @return (LiveData<Event>): Container of the wanted event
      */
     @Override
-    public LiveData<Event> getValue(String uid, String title) {
+    public LiveData<Event> getValue(String userId, String title) {
         MutableLiveData<Event> value = new MutableLiveData<>();
         database.child(DATABASE_EVENT_PATH).orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Event matchingEvent = null;
-                //Iterate on given children.
+                //Iterate on given children of the snapshot.
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     //Casts child into an event using default constructor.
                     Event e = snapshot.getValue(Event.class);
-                    //Fetch the one with matching attributes.
-                    if (uid.equals(e.getOwnerId()) && title.equals(e.getTitle())) {
+                    //Fetch the event with matching attributes.
+                    if (userId.equals(e.getOwnerId()) && title.equals(e.getTitle())) {
                         matchingEvent = e;
                         break;
                     }
                 }
+                //Send the value back to the container
                 value.setValue(matchingEvent);
             }
 
@@ -74,6 +103,14 @@ public class EventCreatorModel implements EventDataManager {
             }
         });
         return value;
+    }
+
+    /**
+     *
+     * @return (String): Event Id that is truly unique in the model.
+     */
+    public String getUniqueId(){
+        return database.child(DATABASE_EVENT_PATH).push().getKey();
     }
 
 }

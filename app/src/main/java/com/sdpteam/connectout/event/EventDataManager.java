@@ -4,27 +4,35 @@ import androidx.lifecycle.LiveData;
 
 public interface EventDataManager {
     /**
-     * saves the given Event in the firebase database
+     * Saves the given Event in the firebase database
      *
-     * @param event (Event): the given event to save
-     * @return (boolean): true if value is saved
+     * @param event (Event): The given event to save
+     * @return (boolean): True if value is saved
+     *
+     * /!\ the save return value will be useful for the offline mode /!\
      */
     boolean saveValue(Event event);
 
     /**
-     * Fetches the given Event from the firebase database
+     * Fetches the wanted Event from the firebase database using its id.
      *
-     * @param eid (String): unique identifier of the event
-     * @return (LiveData < Event >): container that has the event uniquely identified event
+     * @param eventId (String): Unique identifier of the event
+     * @return (LiveData<Event>): Container of the wanted event
      */
-    LiveData<Event> getValue(String eid);
+    LiveData<Event> getValue(String eventId);
 
     /**
-     * Fetches the given Event from the firebase database
+     * Fetches the wanted Event from the firebase database using its owner id & title.
      *
-     * @param uid   (String): Id of the owner of the event
-     * @param title (Title): title of the event
-     * @return (LiveData < Event >): container that has the event uniquely identified event
+     * @param userId   (String): Id of the owner of the event
+     * @param title (Title): Title of the event
+     * @return (LiveData<Event>): Container of the wanted event
      */
-    LiveData<Event> getValue(String uid, String title);
+    LiveData<Event> getValue(String userId, String title);
+
+    /**
+     *
+     * @return (String): Event Id that is truly unique in the model.
+     */
+    String getUniqueId();
 }

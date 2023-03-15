@@ -17,11 +17,16 @@ import com.sdpteam.connectout.profile.EditProfileActivity;
 import java.util.UUID;
 
 public class EventCreatorActivity extends WithFragmentActivity {
+    private EventCreatorViewModel eventCreatorViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creator);
+
+        if(eventCreatorViewModel == null){
+            eventCreatorViewModel = new EventCreatorViewModel(new EventCreatorModel());
+        }
 
         //Retrieve tool bar and give it the control.
         Toolbar toolbar = findViewById(R.id.event_creator_toolbar);
@@ -41,10 +46,12 @@ public class EventCreatorActivity extends WithFragmentActivity {
         EditText eventTitle = findViewById(R.id.event_creator_title);
         EditText eventDescription = findViewById(R.id.event_creator_description);
 
+
         //upon save, log the current event and return to previous activity.
         saveButton.setOnClickListener(v -> {
             AuthenticatedUser user = new GoogleAuth().loggedUser();
             String uid = user == null ? EditProfileActivity.NULL_USER : user.uid;
+
 
             //Create associated event.
             Event newEvent = new Event(
@@ -52,11 +59,11 @@ public class EventCreatorActivity extends WithFragmentActivity {
                     new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
                     eventDescription.getText().toString(),
                     uid,
-                    UUID.randomUUID().toString()
+                    eventCreatorViewModel.getUniqueId()
             );
 
             //Save the event & return to previous activity.
-            new EventCreatorViewModel(new EventCreatorModel()).saveValue(newEvent);
+            eventCreatorViewModel.saveValue(newEvent);
             this.finish();
 
         });
