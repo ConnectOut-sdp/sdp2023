@@ -11,36 +11,39 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
 
 public class ProfileModel implements ProfileDataManager {
-    private final DatabaseReference mDatabase;
+    private final DatabaseReference database;
+    private final static String[] DATABASE_PROFILE_PATH = {"userId", "Profile"};
 
     public ProfileModel() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void saveValue(Profile profile, String uid) {
-        mDatabase.child("unique id").child(uid).child("Profile").setValue(profile);
+    public void saveProfile(Profile profile, String uid) {
+        database.child(DATABASE_PROFILE_PATH[0]).child(uid).child(DATABASE_PROFILE_PATH[1]).setValue(profile);
     }
 
     public LiveData<Profile> getProfile(String uid) {
         // Get the value from Firebase
         MutableLiveData<Profile> value = new MutableLiveData<>();
-        mDatabase.child("unique id").child(uid).child("Profile").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Profile valueFromFirebase = dataSnapshot.getValue(Profile.class);
-                value.setValue(valueFromFirebase);
-            }
+        database.child(DATABASE_PROFILE_PATH[0])
+                .child(uid)
+                .child(DATABASE_PROFILE_PATH[1])
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Profile valueFromFirebase = dataSnapshot.getValue(Profile.class);
+                        value.setValue(valueFromFirebase);
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(this.getClass().toString(), "Failed to read value.", databaseError.toException());
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(this.getClass().toString(), "Failed to read value.", databaseError.toException());
+                    }
+                });
         return value;
     }
+
 }
 

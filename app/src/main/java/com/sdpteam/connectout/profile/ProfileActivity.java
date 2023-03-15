@@ -44,7 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             // current user profile
             userProfile = pvm.getProfile(uid).getValue();
-            pvm.saveValue(userProfile, uid);
+            pvm.saveProfile(userProfile, uid);
 
             // getting the elements references
             Button editProfile = findViewById(R.id.buttonEditProfile);

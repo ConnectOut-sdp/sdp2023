@@ -21,7 +21,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        viewModel.saveValue(value, "test");
+        viewModel.saveProfile(value, "test");
 
         assertEquals(value, model.mValue);
     }
@@ -48,7 +48,7 @@ public class ProfileViewModelTest {
         private MutableLiveData<Profile> mLiveData = new MutableLiveData<>();
 
         @Override
-        public void saveValue(Profile value, String uid) {
+        public void saveProfile(Profile value, String uid) {
             mValue = value;
         }
 

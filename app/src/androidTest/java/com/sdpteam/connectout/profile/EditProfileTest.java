@@ -72,7 +72,7 @@ public class EditProfileTest {
                 null, Profile.Gender.MALE, 1, 1);
 
         ProfileModel model = new ProfileModel();
-        model.saveValue(previousProfile, EditProfileActivity.NULL_USER);
+        model.saveProfile(previousProfile, EditProfileActivity.NULL_USER);
 
         onView(ViewMatchers.withId(R.id.editTextName)).perform(typeText(name));
         Espresso.closeSoftKeyboard();
