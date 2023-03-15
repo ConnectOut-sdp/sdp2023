@@ -20,40 +20,12 @@ public class MapViewModelTest {
 
     @Test
     public void getEventListReturnsTheCorrectEvents() {
-        MapViewModel viewModel = new MapViewModel();
-        viewModel.init(new FakeMapModel());
+        MapViewModel viewModel = new MapViewModel(new FakeMapModel());
         LiveData<List<Event>> eventListLiveData = viewModel.getEventList();
 
         CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
 
         List<Event> events = eventListFuture.join();
-        assertThat(events.size(), is(2));
-        assertThat(events.get(0).getTitle(), is("event1"));
-        assertThat(events.get(1).getTitle(), is("event2"));
-    }
-
-    @Test
-    public void setEventListToNull() {
-        MapViewModel viewModel = new MapViewModel();
-        viewModel.init(new FakeMapModel());
-        viewModel.setEventList(null);
-        assertThat(viewModel.getEventList(), notNullValue());
-    }
-
-    @Test
-    public void setEventListToNullAfterMakingAgetEventList() {
-        MapViewModel viewModel = new MapViewModel();
-        viewModel.init(new FakeMapModel());
-        LiveData<List<Event>> eventListLiveData = viewModel.getEventList();
-
-        CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
-
-        List<Event> events = eventListFuture.join();
-        assertThat(events.size(), is(2));
-        assertThat(events.get(0).getTitle(), is("event1"));
-        assertThat(events.get(1).getTitle(), is("event2"));
-
-        viewModel.setEventList(null);
         assertThat(events.size(), is(2));
         assertThat(events.get(0).getTitle(), is("event1"));
         assertThat(events.get(1).getTitle(), is("event2"));
@@ -61,8 +33,7 @@ public class MapViewModelTest {
 
     @Test
     public void testMapViewModelWithRefresh() {
-        MapViewModel mvm = new MapViewModel();
-        mvm.init(new FakeMapModel());
+        MapViewModel mvm = new MapViewModel(new FakeMapModel());
         LiveData<List<Event>> events = mvm.getEventList();
         CompletableFuture<List<Event>> future1 = toCompletableFuture(events);
         future1.join();
@@ -77,7 +48,7 @@ public class MapViewModelTest {
         assertThat(eventList.get(2).getTitle(), is("event5"));
     }
 
-    public static class FakeMapModel implements InterfaceMapModel {
+    public static class FakeMapModel implements MapModel {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 

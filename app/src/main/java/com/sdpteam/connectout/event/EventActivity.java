@@ -6,16 +6,24 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.map.MapViewFragment;
+import com.sdpteam.connectout.map.MapViewModel;
+import com.sdpteam.connectout.map.MapViewModelFactory;
 import com.sdpteam.connectout.profile.ProfileID;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends WithFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,21 @@ public class EventActivity extends AppCompatActivity {
         participants.setOnClickListener(v -> showParticipants(event.getParticipants()));
         join.setOnClickListener(v -> joinEvent(event));
 
+        initMapFragment(event);
+    }
+
+    private void initMapFragment(Event event) {
+        final Fragment map = new MapViewFragment();
+        replaceFragment(map, R.id.event_fragment_container);
+
+        final MapViewModelFactory viewModelFactory = new MapViewModelFactory(() -> {
+            final MutableLiveData<List<Event>> data = new MutableLiveData<>();
+            data.setValue(Collections.singletonList(event)); // only show one marker in the map
+            return data;
+        });
+
+        // Implicitly instantiating MapViewModel to use that instance back in MapViewFragment
+        new ViewModelProvider(this, viewModelFactory).get(MapViewModel.class);
     }
 
     private Event getEvent() {
@@ -43,7 +66,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void showParticipants(Set<ProfileID> participants) {
-        // TODO launch new activity with list of profiles
+        // TODO launch new activity (or pop-up) with list of profiles
     }
 
     private void joinEvent(Event event) {
