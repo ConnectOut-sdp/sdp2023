@@ -13,8 +13,8 @@ public class ProfileViewModel extends ViewModel {
     /**
      * Get your own Profile
      */
-    public LiveData<Profile> getValue(String uid) {
-        return mModel.getValue(uid);
+    public LiveData<Profile> getProfile(String uid) {
+        return mModel.getProfile(uid);
     }
 
     /**
