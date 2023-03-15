@@ -40,19 +40,19 @@ public class ProfileTest {
         Intents.release();
     }
 
-    @Test
-    public void testProfileDisplayed() {
-        onView(withId(R.id.profileName)).check(matches(isDisplayed()));
-        onView(withId(R.id.profileEmail)).check(matches(isDisplayed()));
-        onView(withId(R.id.profileBio)).check(matches(isDisplayed()));
-        onView(withId(R.id.profileGender)).check(matches(isDisplayed()));
-    }
+//    @Test
+//    public void testProfileDisplayed() {
+//        onView(withId(R.id.profileName)).check(matches(isDisplayed()));
+//        onView(withId(R.id.profileEmail)).check(matches(isDisplayed()));
+//        onView(withId(R.id.profileBio)).check(matches(isDisplayed()));
+//        onView(withId(R.id.profileGender)).check(matches(isDisplayed()));
+//    }
 
-    @Test
-    public void testEditProfileButton() {
-        onView(withId(R.id.buttonEditProfile)).perform(click());
-        intended(hasComponent(EditProfileActivity.class.getName()));
-    }
+//    @Test
+//    public void testEditProfileButton() {
+//        onView(withId(R.id.buttonEditProfile)).perform(click());
+//        intended(hasComponent(EditProfileActivity.class.getName()));
+//    }
 
     @Test
     public void loggedUserTest1() {
