@@ -23,7 +23,7 @@ public class MapViewModel extends ViewModel {
     }
 
     public LiveData<List<Event>> refreshEventList() {
-        events.setValue(model.getEventLiveList().getValue());
+        events.postValue(model.getEventLiveList().getValue());
         return events;
     }
 }

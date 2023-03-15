@@ -59,9 +59,7 @@ public class MapViewModelTest {
 
         public MutableLiveData<List<Event>> getEventLiveList() {
             updateData();
-            MutableLiveData<List<Event>> data = new MutableLiveData<>();
-            data.postValue(dataSet);
-            return data;
+            return new MutableLiveData<>(dataSet);
         }
 
         private void updateData() {
