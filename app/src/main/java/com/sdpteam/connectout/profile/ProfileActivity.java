@@ -37,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
         // user id
         String uid = (au == null) ? NULL_USER : au.uid;
 
-        if(id.length() != 0) {
+        if(id != null) {
             // public user profile
             userProfile = pvm.getProfile(id).getValue();
         } else {
