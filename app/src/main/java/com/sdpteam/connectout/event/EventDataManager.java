@@ -11,7 +11,7 @@ public interface EventDataManager {
      *
      * /!\ the save return value will be useful for the offline mode /!\
      */
-    boolean saveValue(Event event);
+    boolean saveEvent(Event event);
 
     /**
      * Fetches the wanted Event from the firebase database using its id.
@@ -19,7 +19,7 @@ public interface EventDataManager {
      * @param eventId (String): Unique identifier of the event
      * @return (LiveData<Event>): Container of the wanted event
      */
-    LiveData<Event> getValue(String eventId);
+    LiveData<Event> getEvent(String eventId);
 
     /**
      * Fetches the wanted Event from the firebase database using its owner id & title.
@@ -28,7 +28,7 @@ public interface EventDataManager {
      * @param title (Title): Title of the event
      * @return (LiveData<Event>): Container of the wanted event
      */
-    LiveData<Event> getValue(String userId, String title);
+    LiveData<Event> getEvent(String userId, String title);
 
     /**
      *

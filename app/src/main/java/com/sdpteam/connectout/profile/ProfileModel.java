@@ -20,7 +20,7 @@ public class ProfileModel implements ProfileDataManager {
         database = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void saveValue(Profile profile, String uid) {
+    public void saveProfile(Profile profile, String uid) {
         database.child(DATABASE_PROFILE_PATH[0]).child(uid).child(DATABASE_PROFILE_PATH[1]).setValue(profile);
     }
 

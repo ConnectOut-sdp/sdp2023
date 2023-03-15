@@ -64,7 +64,7 @@ public class ProfileTest {
                 bio, gender, 1, 1);
 
         ProfileModel model = new ProfileModel();
-        model.saveValue(userProfile, EditProfileActivity.NULL_USER);
+        model.saveProfile(userProfile, EditProfileActivity.NULL_USER);
 
         Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.getProfile(EditProfileActivity.NULL_USER)).join();
         ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));

@@ -32,7 +32,7 @@ public class EventCreatorModel implements EventDataManager {
      * /!\ the save return value will be useful for the offline mode /!\
      */
     @Override
-    public boolean saveValue(Event event) {
+    public boolean saveEvent(Event event) {
         if (event != null) {
             database.child(DATABASE_EVENT_PATH).child(event.getEventId()).setValue(event);
             return true;
@@ -48,7 +48,7 @@ public class EventCreatorModel implements EventDataManager {
      * @return (LiveData<Event>): Container of the wanted event
      */
     @Override
-    public LiveData<Event> getValue(String eventId) {
+    public LiveData<Event> getEvent(String eventId) {
         MutableLiveData<Event> value = new MutableLiveData<>();
         database.child(DATABASE_EVENT_PATH)
                 .child(eventId)
@@ -77,7 +77,7 @@ public class EventCreatorModel implements EventDataManager {
      * @return (LiveData<Event>): Container of the wanted event
      */
     @Override
-    public LiveData<Event> getValue(String userId, String title) {
+    public LiveData<Event> getEvent(String userId, String title) {
         MutableLiveData<Event> value = new MutableLiveData<>();
         database.child(DATABASE_EVENT_PATH).orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

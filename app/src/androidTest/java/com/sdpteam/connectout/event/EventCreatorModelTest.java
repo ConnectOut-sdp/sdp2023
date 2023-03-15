@@ -20,7 +20,7 @@ public class EventCreatorModelTest {
     public void modelReturnNullOnNonExistingEventEId() {
 
         EventCreatorModel model = new EventCreatorModel();
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("invalid")).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("invalid")).join();
         assertNull(foundEvent);
     }
 
@@ -28,7 +28,7 @@ public class EventCreatorModelTest {
     public void modelReturnNullOnNonExistingEventUId() {
 
         EventCreatorModel model = new EventCreatorModel();
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("invalid", "no title")).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("invalid", "no title")).join();
         assertNull(foundEvent);
     }
 
@@ -41,10 +41,10 @@ public class EventCreatorModelTest {
         String eventId = "1";
         Event event = new Event(title, gpsCoordinates, description, ownerId, eventId);
         EventCreatorModel model = new EventCreatorModel();
-        model.saveValue(event);
+        model.saveEvent(event);
 
         // retrieve the event from the database using its owner ID and title and check that it matches the original event
-        Event retrievedEvent = LiveDataTestUtil.toCompletableFuture(model.getValue(ownerId, title)).join();
+        Event retrievedEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(ownerId, title)).join();
         assertThat(retrievedEvent.getTitle(), is(title));
         assertThat(retrievedEvent.getEventId(), is("1"));
         assertThat(retrievedEvent.getGpsCoordinates().getLatitude(), is(1.5));
@@ -60,9 +60,9 @@ public class EventCreatorModelTest {
 
         Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
         EventCreatorModel model = new EventCreatorModel();
-        model.saveValue(e);
+        model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("1")).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("1")).join();
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getEventId(), is("1"));
@@ -79,9 +79,9 @@ public class EventCreatorModelTest {
 
         Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
         EventCreatorModel model = new EventCreatorModel();
-        model.saveValue(e);
+        model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue(EditProfileActivity.NULL_USER, "wrong title")).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(EditProfileActivity.NULL_USER, "wrong title")).join();
 
         assertNull(foundEvent);
     }
@@ -93,9 +93,9 @@ public class EventCreatorModelTest {
 
         Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
         EventCreatorModel model = new EventCreatorModel();
-        model.saveValue(e);
+        model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("wrong id", title)).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("wrong id", title)).join();
 
         assertNull(foundEvent);
     }
@@ -104,7 +104,7 @@ public class EventCreatorModelTest {
     public void doesNotSaveNullEvent() {
         Event e = null;
         EventCreatorModel model = new EventCreatorModel();
-        assertFalse(model.saveValue(e));
+        assertFalse(model.saveEvent(e));
 
     }
 
@@ -116,7 +116,7 @@ public class EventCreatorModelTest {
         databaseReference.child("Events").child("NotEid").setValue(Profile.NULL_PROFILE);
 
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("NotEid")).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("NotEid")).join();
 
 
         assertThat(foundEvent.getTitle(), is(Event.NULL_EVENT.getTitle()));

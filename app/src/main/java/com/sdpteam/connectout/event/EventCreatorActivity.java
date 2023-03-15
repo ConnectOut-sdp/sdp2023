@@ -78,7 +78,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         );
 
         //Save the event & return to previous activity.
-        eventCreatorViewModel.saveValue(newEvent);
+        eventCreatorViewModel.saveEvent(newEvent);
     }
 
 

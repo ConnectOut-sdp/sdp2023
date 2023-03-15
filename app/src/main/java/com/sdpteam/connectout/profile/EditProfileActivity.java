@@ -40,7 +40,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
 
             //store new Profile
-            new ProfileViewModel(new ProfileModel()).saveValue(newProfile, uid);
+            new ProfileViewModel(new ProfileModel()).saveProfile(newProfile, uid);
             //change view
             goToProfile(newProfile);
         });

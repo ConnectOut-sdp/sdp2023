@@ -13,15 +13,15 @@ public class ProfileViewModel extends ViewModel {
     /**
      * Get your own Profile
      */
-    public LiveData<Profile> getValue(String uid) {
-        return model.getValue(uid);
+    public LiveData<Profile> getProfile(String uid) {
+        return model.getProfile(uid);
     }
 
     /**
      * Save your new Profile
      */
-    public void saveValue(Profile profile, String uid) {
-        model.saveValue(profile, uid);
+    public void saveProfile(Profile profile, String uid) {
+        model.saveProfile(profile, uid);
     }
 }
 

@@ -7,7 +7,7 @@ public interface ProfileDataManager {
     /**
      * saves the given Profile in the firebase database
      */
-    void saveValue(Profile profile, String uid);
+    void saveProfile(Profile profile, String uid);
 
     /**
      * Fetches one's profile from the firebase database

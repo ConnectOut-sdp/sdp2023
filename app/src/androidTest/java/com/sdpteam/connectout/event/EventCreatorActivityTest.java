@@ -97,9 +97,9 @@ public class EventCreatorActivityTest {
 
         Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
         EventCreatorModel model = new EventCreatorModel();
-        model.saveValue(e);
+        model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("1")).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("1")).join();
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getEventId(), is("1"));
@@ -123,7 +123,7 @@ public class EventCreatorActivityTest {
         onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
         onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue(EditProfileActivity.NULL_USER, title)).join();
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(EditProfileActivity.NULL_USER, title)).join();
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getGpsCoordinates().getLatitude(), is(not(0.0)));
