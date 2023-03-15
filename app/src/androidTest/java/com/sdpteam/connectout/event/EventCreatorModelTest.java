@@ -113,7 +113,7 @@ public class EventCreatorModelTest {
 
         EventCreatorModel model = new EventCreatorModel();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("Events").child("NotEid").setValue(new Profile());
+        databaseReference.child("Events").child("NotEid").setValue(Profile.NULL_PROFILE);
 
 
         Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getValue("NotEid")).join();

@@ -14,20 +14,22 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class EventCreatorViewModelTest {
     public static final Event TEST_EVENT1 = new Event("Tenis", new GPSCoordinates(10, 10), "Searching for a tenis partner", "Eric", "1");
-    public static final Event TEST_EVENT2 = new Event("Climbing", new GPSCoordinates(10, 10), "Searching for a climbing group", "Eric", "2");
 
     @Test
     public void testSavesValueAddsToExistingStore() {
+
         EventCreatorViewModelTest.TestEventCreatorModel model = new TestEventCreatorModel();
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
+        Event event = new Event("Climbing", new GPSCoordinates(10, 10), "Searching for a climbing group", "Eric", viewModel.getUniqueId());
 
-        viewModel.saveValue(TEST_EVENT2);
-        assertTrue(TestEventCreatorModel.EVENT_LIST.contains(TEST_EVENT2));
+        viewModel.saveValue(event);
+        assertTrue(TestEventCreatorModel.EVENT_LIST.contains(event));
     }
 
     @Test
@@ -51,6 +53,8 @@ public class EventCreatorViewModelTest {
 
         assertThat(e, is(TEST_EVENT1));
     }
+
+
 
     public static class TestEventCreatorModel implements EventDataManager {
 
@@ -79,5 +83,11 @@ public class EventCreatorViewModelTest {
             List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getOwnerId().equals(uid) && e.getTitle().equals(title)).collect(Collectors.toList());
             return filtered.isEmpty() ? null : new MutableLiveData<>(filtered.get(0));
         }
+
+        @Override
+        public String getUniqueId() {
+            return UUID.randomUUID().toString();
+        }
+
     }
 }
