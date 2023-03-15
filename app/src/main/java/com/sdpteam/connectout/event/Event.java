@@ -1,6 +1,10 @@
 package com.sdpteam.connectout.event;
 
 import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.profile.ProfileID;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class describes an event
@@ -8,26 +12,52 @@ import com.sdpteam.connectout.map.GPSCoordinates;
  */
 public class Event {
 
+    private final EventID id;
     private final String title;
-    private final GPSCoordinates coordinates;
     private final String description;
+    private final GPSCoordinates coordinates;
+    private final ProfileID organizer;
+    private final Set<ProfileID> participants;
 
     public Event(String title, GPSCoordinates coordinates, String description) {
-        this.title = title;
-        this.coordinates = coordinates;
-        this.description = description;
+        this(EventID.UNSET, title, description, coordinates, null, new HashSet<>());
     }
 
-    public String getDescription() {
-        return description;
+    public Event(EventID id,
+                 String title,
+                 String description,
+                 GPSCoordinates coordinates,
+                 ProfileID organizer,
+                 Set<ProfileID> participants) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.coordinates = coordinates;
+        this.organizer = organizer;
+        this.participants = participants;
+    }
+
+    public EventID getId() {
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public GPSCoordinates getGPSCoordinates() {
         return coordinates;
     }
 
+    public ProfileID getOrganizer() {
+        return organizer;
+    }
+
+    public Set<ProfileID> getParticipants() {
+        return participants;
+    }
 }
