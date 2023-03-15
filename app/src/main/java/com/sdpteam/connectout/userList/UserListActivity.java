@@ -14,8 +14,7 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
-        Fragment fragment;
-        fragment = new UserListFragment();
+        Fragment fragment = new UserListFragment();
         loadFragment(fragment);
     }
 
@@ -23,7 +22,7 @@ public class UserListActivity extends AppCompatActivity {
         // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         //frame_container is your layout name in xml file
-        transaction.replace(R.id.container, fragment);
+        transaction.replace(R.id.container_users_listview, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

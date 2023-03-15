@@ -7,26 +7,26 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/nameTextView"
+        android:id="@+id/nameAdapterTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceMedium"
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/emailTextView"
+        android:id="@+id/emailAdapterTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/bioTextView"
+        android:id="@+id/bioAdapterTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/ratingTextView"
+        android:id="@+id/ratingAdapterTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceSmall" />

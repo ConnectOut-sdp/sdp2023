@@ -14,16 +14,16 @@ import com.sdpteam.connectout.profile.Profile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListModel implements UserListData {
+public class UserListModel implements UserListDataManager {
 
-    private final DatabaseReference mDatabase;
+    private final DatabaseReference database;
 
     public UserListModel() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
-    public LiveData<List<Profile>> getValue() {
+    public LiveData<List<Profile>> getListOfUsers() {
         //TODO: get data from firebase
 
         List<Profile> userlist = new ArrayList<>();

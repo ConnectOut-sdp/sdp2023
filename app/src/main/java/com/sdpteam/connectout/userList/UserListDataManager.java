@@ -6,6 +6,6 @@ import com.sdpteam.connectout.profile.Profile;
 
 import java.util.List;
 
-public interface UserListData {
-    LiveData<List<Profile>> getValue();
+public interface UserListDataManager {
+    LiveData<List<Profile>> getListOfUsers();
 }

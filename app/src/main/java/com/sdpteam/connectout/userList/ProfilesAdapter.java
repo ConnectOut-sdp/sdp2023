@@ -17,13 +17,13 @@ import java.util.List;
 
 public class ProfilesAdapter extends ArrayAdapter<Profile> {
 
-    private final Context mContext;
-    private final int mResource;
+    private final Context context;
+    private final int resource;
 
     public ProfilesAdapter(@NonNull Context context, int resource, @NonNull List<Profile> profiles) {
         super(context, resource, profiles);
-        mContext = context;
-        mResource = resource;
+        this.context = context;
+        this.resource = resource;
     }
 
     @NonNull
@@ -31,16 +31,16 @@ public class ProfilesAdapter extends ArrayAdapter<Profile> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            view = inflater.inflate(mResource, parent, false);
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(resource, parent, false);
         }
 
         Profile profile = getItem(position);
 
-        TextView nameTextView = view.findViewById(R.id.nameTextView);
-        TextView emailTextView = view.findViewById(R.id.emailTextView);
-        TextView bioTextView = view.findViewById(R.id.bioTextView);
-        TextView ratingTextView = view.findViewById(R.id.ratingTextView);
+        TextView nameTextView = view.findViewById(R.id.nameAdapterTextView);
+        TextView emailTextView = view.findViewById(R.id.emailAdapterTextView);
+        TextView bioTextView = view.findViewById(R.id.bioAdapterTextView);
+        TextView ratingTextView = view.findViewById(R.id.ratingAdapterTextView);
 
         nameTextView.setText(profile.getName());
         emailTextView.setText(profile.getEmail());

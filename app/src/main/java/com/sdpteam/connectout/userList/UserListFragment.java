@@ -21,7 +21,7 @@ public class UserListFragment extends Fragment {
         // Inflate the layout for this fragment
         View contentView = inflater.inflate(R.layout.fragment_user_list, container, false);
         UserListViewModel mViewModel = new UserListViewModel(new UserListModel());
-        List<Profile> sortedProfileList = mViewModel.getProfileSorted();
+        List<Profile> sortedProfileList = mViewModel.getProfileSortedByRating();
 
         ProfilesAdapter adapter = new ProfilesAdapter(container.getContext(),  R.layout.adapter_text_view, sortedProfileList);
         ListView listView = contentView.findViewById(R.id.user_list_view);

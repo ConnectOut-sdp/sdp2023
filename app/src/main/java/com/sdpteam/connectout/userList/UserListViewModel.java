@@ -12,14 +12,14 @@ import java.util.Objects;
 
 public class UserListViewModel extends ViewModel {
 
-    private final UserListData mModel;
+    private final UserListDataManager model;
 
-    public UserListViewModel(UserListData mModel) {
-        this.mModel = mModel;
+    public UserListViewModel(UserListDataManager model) {
+        this.model = model;
     }
 
-    List<Profile> getProfileSorted() {
-        List<Profile> toSort = new ArrayList<>(Objects.requireNonNull(mModel.getValue().getValue()));
+    List<Profile> getProfileSortedByRating() {
+        List<Profile> toSort = new ArrayList<>(Objects.requireNonNull(model.getListOfUsers().getValue()));
         //sorting Profile by rating
         toSort.sort(Comparator.comparingDouble(Profile::getRating));
         Collections.reverse(toSort);
