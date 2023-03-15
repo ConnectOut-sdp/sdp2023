@@ -14,8 +14,6 @@ import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.map.PositionSelectorFragment;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 
-import java.util.UUID;
-
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
 
@@ -24,7 +22,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creator);
 
-        if(eventCreatorViewModel == null){
+        if (eventCreatorViewModel == null) {
             eventCreatorViewModel = new EventCreatorViewModel(new EventCreatorModel());
         }
 
@@ -48,27 +46,39 @@ public class EventCreatorActivity extends WithFragmentActivity {
 
 
         //upon save, log the current event and return to previous activity.
-        saveButton.setOnClickListener(v -> {
-            AuthenticatedUser user = new GoogleAuth().loggedUser();
-            String uid = user == null ? EditProfileActivity.NULL_USER : user.uid;
-
-
-            //Create associated event.
-            Event newEvent = new Event(
-                    eventTitle.getText().toString(),
-                    new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
-                    eventDescription.getText().toString(),
-                    uid,
-                    eventCreatorViewModel.getUniqueId()
-            );
-
-            //Save the event & return to previous activity.
-            eventCreatorViewModel.saveValue(newEvent);
+        saveButton.setOnClickListener(v ->
+        {saveEvent(eventTitle.getText().toString(),
+                        new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
+                        eventDescription.getText().toString()
+                );
             this.finish();
-
         });
 
 
+    }
+
+    /**
+     *  Saves the event into the view model.
+     *
+     * @param title (String): title of the event
+     * @param coordinates (GPSCoordinates): position of the event
+     * @param description (String): description of the event
+     */
+    private void saveEvent(String title, GPSCoordinates coordinates, String description) {
+        AuthenticatedUser user = new GoogleAuth().loggedUser();
+        String ownerId = user == null ? EditProfileActivity.NULL_USER : user.uid;
+
+        //Create associated event.
+        Event newEvent = new Event(
+                title,
+                coordinates,
+                description,
+                ownerId,
+                eventCreatorViewModel.getUniqueId()
+        );
+
+        //Save the event & return to previous activity.
+        eventCreatorViewModel.saveValue(newEvent);
     }
 
 
