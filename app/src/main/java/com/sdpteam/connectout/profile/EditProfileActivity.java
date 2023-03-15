@@ -36,9 +36,15 @@ public class EditProfileActivity extends AppCompatActivity {
         Profile userProfile = pvm.getProfile(uid).getValue();
 
         if(userProfile != null) {
-            nameET.setText(userProfile.getName());
-            emailET.setText(userProfile.getEmail());
-            bioET.setText(userProfile.getBio());
+            if(userProfile.getName() != null) {
+                nameET.setText(userProfile.getName());
+            }
+            if(userProfile.getEmail() != null) {
+                emailET.setText(userProfile.getEmail());
+            }
+            if(userProfile.getBio() != null) {
+                bioET.setText(userProfile.getBio());
+            }
         }
 
         save.setOnClickListener(v -> {
@@ -70,6 +76,3 @@ public class EditProfileActivity extends AppCompatActivity {
         finish();
     }
 }
-
-// todo fetch dans profile, send data to edit profile
-// todo activité appelé avec un (dans le intent bundle) et uid
