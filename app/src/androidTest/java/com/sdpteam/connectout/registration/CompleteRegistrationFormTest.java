@@ -33,6 +33,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.PerformException;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -116,6 +117,7 @@ public class CompleteRegistrationFormTest {
     public void fieldsInformationAreSentWhenCompletingTheRegistration() {
         onView(withId(R.id.nameEditText)).perform(typeText(" Trump"));
         onView(withId(R.id.bioEditText)).perform(typeText("My awesome bio"));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.radioMale)).perform(click());
         onView(withId(R.id.checkBox)).perform(click());
         onView(withId(R.id.finishButton)).perform(click());
