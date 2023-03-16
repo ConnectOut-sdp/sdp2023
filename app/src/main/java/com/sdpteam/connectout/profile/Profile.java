@@ -16,7 +16,8 @@ public class Profile {
 
     private final String uid;
 
-    public Profile() {
+    public final static Profile NULL_PROFILE = new Profile();
+    private Profile() {
         this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
     }
 
