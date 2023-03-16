@@ -66,7 +66,7 @@ public class EventActivity extends WithFragmentActivity {
 
     private Event getEvent() {
         // TODO retrieve event from ID using the view-model
-        return new Event("Some title", new GPSCoordinates(37.7749, -122.4194), "Some description");
+        return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 
     private void showParticipants(Set<ProfileID> participants) {

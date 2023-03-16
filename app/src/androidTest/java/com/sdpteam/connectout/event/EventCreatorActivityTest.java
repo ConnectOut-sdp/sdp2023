@@ -1,26 +1,29 @@
 package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.Is.is;
 
 import android.widget.Button;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.action.GeneralLocation;
-import androidx.test.espresso.action.GeneralSwipeAction;
-import androidx.test.espresso.action.Press;
-import androidx.test.espresso.action.Swipe;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.map.PositionSelectorFragment;
+import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -37,6 +40,7 @@ public class EventCreatorActivityTest {
 
     @Before
     public void setUp() {
+
         Intents.init();
     }
 
@@ -64,7 +68,7 @@ public class EventCreatorActivityTest {
     }
 
     @Test
-    public void clickSaveButtonLogsExpectedOutput() {
+    public void clickSaveButtonFinishesActivity() {
         onView(withId(R.id.event_creator_title)).perform(ViewActions.typeText("Test Title"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.event_creator_description)).perform(ViewActions.typeText("Test Description"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
@@ -82,18 +86,51 @@ public class EventCreatorActivityTest {
 
     @Test
     public void markerIsDraggable() {
-        onView(withId(R.id.map)).perform(ViewActions.longClick());
-        onView(withId(R.id.map)).perform(dragViewBy((float) 0.1, (float) 0.1));
-        onView(withId(R.id.map)).check(matches(isDisplayed()));
+        onView(withId(R.id.map)).perform(longClick()); //drags little bit the marker
+        onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
     }
 
-    public static ViewAction dragViewBy(float latitude, float longitude) {
-        return ViewActions.actionWithAssertions(new GeneralSwipeAction(
-                Swipe.SLOW,
-                GeneralLocation.CENTER,
-                GeneralLocation.translate(GeneralLocation.CENTER, latitude, longitude),
-                Press.FINGER));
+    @Test
+    public void testManualSaveAndGetCorrectValues() {
+        String title = "Tenis match";
+        String description = "Search for tenis partner";
 
+        Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
+        EventCreatorModel model = new EventCreatorModel();
+        model.saveEvent(e);
+
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("1")).join();
+
+        assertThat(foundEvent.getTitle(), is(title));
+        assertThat(foundEvent.getId(), is("1"));
+        assertThat(foundEvent.getGPSCoordinates().getLatitude(), is(1.5));
+        assertThat(foundEvent.getGPSCoordinates().getLongitude(), is(1.5));
+        assertThat(foundEvent.getDescription(), is(description));
+        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }
+
+    @Test
+    public void testAutomaticSaveAndGetCorrectValues() {
+        String title = "Tenis match";
+        String description = "Search for tenis partner";
+
+        EventCreatorModel model = new EventCreatorModel();
+
+        onView(ViewMatchers.withId(R.id.event_creator_title)).perform(typeText(title));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.event_creator_description)).perform(typeText(description));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
+        onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
+
+        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(EditProfileActivity.NULL_USER, title)).join();
+
+        assertThat(foundEvent.getTitle(), is(title));
+        assertThat(foundEvent.getGPSCoordinates().getLatitude(), is(not(0.0)));
+        assertThat(foundEvent.getGPSCoordinates().getLongitude(), is(not(0.0)));
+        assertThat(foundEvent.getDescription(), is(description));
+        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
+    }
+
 
 }

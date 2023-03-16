@@ -11,7 +11,7 @@ import org.junit.Test;
 public class EventTest {
 
     private final static GPSCoordinates TEST_COORDINATES = new GPSCoordinates(new LatLng(0.1, 0.2));
-    private final static Event TEST_EVENT = new Event("event1", TEST_COORDINATES, "descr");
+    private final static Event TEST_EVENT = new Event("", "event1", "descr", TEST_COORDINATES, "Bob");
 
     @Test
     public void testConstructorWithTitle() {

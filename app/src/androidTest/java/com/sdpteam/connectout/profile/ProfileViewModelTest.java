@@ -21,7 +21,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        viewModel.saveValue(value, "test");
+        viewModel.saveProfile(value, "test");
 
         assertEquals(value, model.mValue);
     }
@@ -31,7 +31,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getValue("test"));
+        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getProfile("test"));
 
         Profile p = future.join();
 
@@ -48,12 +48,12 @@ public class ProfileViewModelTest {
         private MutableLiveData<Profile> mLiveData = new MutableLiveData<>();
 
         @Override
-        public void saveValue(Profile value, String uid) {
+        public void saveProfile(Profile value, String uid) {
             mValue = value;
         }
 
         @Override
-        public LiveData<Profile> getValue(String uid) {
+        public LiveData<Profile> getProfile(String uid) {
             mLiveData= new MutableLiveData<>(new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1));
             return mLiveData;
         }

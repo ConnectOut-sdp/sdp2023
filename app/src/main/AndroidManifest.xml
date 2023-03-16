@@ -30,6 +30,9 @@
             android:name=".drawer.LogInActivity"
             android:exported="false" />
         <activity
+            android:name=".userList.UserListActivity"
+            android:exported="false" />
+        <activity
             android:name=".drawer.DrawerActivity"
             android:exported="false"
             android:label="@string/title_activity_drawer"
@@ -53,5 +56,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

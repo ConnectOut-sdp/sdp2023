@@ -15,6 +15,8 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 
 public class EditProfileActivity extends AppCompatActivity {
     public final static String NULL_USER = "null_user";
+    private final ProfileViewModel pvm = new ProfileViewModel(new ProfileModel());
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +31,16 @@ public class EditProfileActivity extends AppCompatActivity {
         RadioButton female = findViewById(R.id.femaleRadioButton);
         RadioButton other = findViewById(R.id.otherRadioButton);
 
+        AuthenticatedUser au = new GoogleAuth().loggedUser();
+        String uid = (au == null) ? NULL_USER : au.uid;
+
         save.setOnClickListener(v -> {
-            AuthenticatedUser au = new GoogleAuth().loggedUser();
             //get new values
-            String uid = (au == null) ? NULL_USER : au.uid;
             Profile newProfile = new Profile(uid, nameET.getText().toString(),
                     emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
 
             //store new Profile
-            new ProfileViewModel(new ProfileModel()).saveValue(newProfile, uid);
+            new ProfileViewModel(new ProfileModel()).saveProfile(newProfile, uid);
             //change view
             goToProfile(newProfile);
         });

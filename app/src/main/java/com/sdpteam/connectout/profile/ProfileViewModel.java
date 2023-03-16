@@ -4,24 +4,24 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 public class ProfileViewModel extends ViewModel {
-    public ProfileDataManager mModel;
+    public ProfileDataManager model;
 
-    public ProfileViewModel(ProfileDataManager mModel) {
-        this.mModel = mModel;
+    public ProfileViewModel(ProfileDataManager model) {
+        this.model = model;
     }
 
     /**
      * Get your own Profile
      */
-    public LiveData<Profile> getValue(String uid) {
-        return mModel.getValue(uid);
+    public LiveData<Profile> getProfile(String uid) {
+        return model.getProfile(uid);
     }
 
     /**
      * Save your new Profile
      */
-    public void saveValue(Profile profile, String uid) {
-        mModel.saveValue(profile, uid);
+    public void saveProfile(Profile profile, String uid) {
+        model.saveProfile(profile, uid);
     }
 }
 
