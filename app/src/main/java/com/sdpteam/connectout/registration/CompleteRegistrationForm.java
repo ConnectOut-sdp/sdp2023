@@ -74,19 +74,8 @@ public class CompleteRegistrationForm extends Fragment {
 
         Button finishButton = view.findViewById(R.id.finishButton);
         finishButton.setEnabled(false);
-
         finishButton.setOnClickListener(v -> {
-            int i = radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
-            final Gender gender = Arrays.asList(Gender.MALE, Gender.FEMALE, Gender.OTHER).get(i);
-            final String name = nameEditor.getText().toString();
-            final String email = emailEditor.getText().toString();
-            final String bio = bioEditor.getText().toString();
-            try {
-                registrationViewModel.completeRegistration(name, email, bio, gender);
-            } catch (IllegalStateException e) {
-                // error unhandled for the moment
-                throw e;
-            }
+            submitForm(nameEditor, emailEditor, bioEditor, radioGroup);
         });
 
         CheckBox checkBox = view.findViewById(R.id.checkBox);
@@ -95,5 +84,19 @@ public class CompleteRegistrationForm extends Fragment {
         });
 
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void submitForm(EditText nameEditor, EditText emailEditor, EditText bioEditor, RadioGroup radioGroup) {
+        int i = radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
+        final Gender gender = Arrays.asList(Gender.MALE, Gender.FEMALE, Gender.OTHER).get(i);
+        final String name = nameEditor.getText().toString();
+        final String email = emailEditor.getText().toString();
+        final String bio = bioEditor.getText().toString();
+        try {
+            registrationViewModel.completeRegistration(name, email, bio, gender);
+        } catch (IllegalStateException e) {
+            // error unhandled for the moment
+            throw e;
+        }
     }
 }
