@@ -1,26 +1,18 @@
 package com.sdpteam.connectout.profile;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 public class ProfileTest {
 
@@ -63,10 +55,10 @@ public class ProfileTest {
         Profile userProfile = new Profile(EditProfileActivity.NULL_USER, name, email,
                 bio, gender, 1, 1);
 
-        ProfileModel model = new ProfileModel();
-        model.saveProfile(userProfile, EditProfileActivity.NULL_USER);
+        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
+        model.saveProfile(userProfile);
 
-        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.getProfile(EditProfileActivity.NULL_USER)).join();
+        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.fetchProfile(EditProfileActivity.NULL_USER)).join();
         ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));
         ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
         ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));

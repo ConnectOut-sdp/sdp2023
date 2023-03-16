@@ -2,26 +2,23 @@ package com.sdpteam.connectout.profile;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Once the Profile Activity has been created, this activity can be deleted and the intent in
  * EditProfileActivity must be adapted
- *
- * */
+ */
 public class ProfileActivity extends AppCompatActivity {
 
-    private final ProfileViewModel pvm = new ProfileViewModel(new ProfileModel());
+    private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +27,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         Profile userProfile;
 
-
         // fetch data
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         // id public id
@@ -38,13 +34,14 @@ public class ProfileActivity extends AppCompatActivity {
         // user id
         String uid = (au == null) ? NULL_USER : au.uid;
 
-        if(id != null) {
+        if (id != null) {
             // public user profile
             userProfile = pvm.getProfile(id).getValue();
         } else {
             // current user profile
             userProfile = pvm.getProfile(uid).getValue();
-            pvm.saveProfile(userProfile, uid);
+            //TODO : what is going on here?
+            // pvm.saveProfile(userProfile);
 
             // getting the elements references
             Button editProfile = findViewById(R.id.buttonEditProfile);
@@ -57,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView gender = findViewById(R.id.profileGender);
 
         // setting the fetched data
-        if(userProfile != null) {
+        if (userProfile != null) {
             name.setText(userProfile.getName());
             email.setText(userProfile.getEmail());
             bio.setText(userProfile.getBio());
