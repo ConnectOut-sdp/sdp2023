@@ -5,6 +5,8 @@ import static com.sdpteam.connectout.profile.Profile.Gender;
 import java.util.Arrays;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -25,6 +27,13 @@ import androidx.lifecycle.ViewModelProvider;
 public class CompleteRegistrationForm extends Fragment {
 
     private RegistrationViewModel registrationViewModel;
+
+    /**
+     * ViewModelProvider.Factory is an interface which have create method.
+     * The create method is responsible for creating our ViewModel's instance
+     * It is especially useful to pass either the real ViewModel that uses the real Firebase and Google Auth
+     * Or we can use a fake ViewModel for mocking in tests.
+     */
     public ViewModelProvider.Factory viewModelFactory; // for testing (mocking)
 
     public static CompleteRegistrationForm newInstance() {
@@ -33,7 +42,9 @@ public class CompleteRegistrationForm extends Fragment {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new RegistrationViewModel(); // use the real view model
+                CompleteRegistration registrationToFirebase = new CompleteRegistration(new ProfileFirebaseDataSource());
+                GoogleAuth googleAuth = new GoogleAuth();
+                return (T) new RegistrationViewModel(registrationToFirebase, googleAuth); // use the real view model
             }
         };
         return completeRegistrationForm;

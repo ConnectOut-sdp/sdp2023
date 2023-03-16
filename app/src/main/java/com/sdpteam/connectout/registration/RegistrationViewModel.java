@@ -4,8 +4,6 @@ import static com.sdpteam.connectout.profile.Profile.Gender;
 import static com.sdpteam.connectout.registration.CompleteRegistration.MandatoryFields;
 
 import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import androidx.lifecycle.ViewModel;
 
@@ -14,10 +12,9 @@ public class RegistrationViewModel extends ViewModel {
     private CompleteRegistration registration;
     private Authentication auth;
 
-    public RegistrationViewModel() {
-        final ProfileFirebaseDataSource firebaseProfiles = new ProfileFirebaseDataSource();
-        registration = new CompleteRegistration(firebaseProfiles);
-        auth = new GoogleAuth();
+    public RegistrationViewModel(CompleteRegistration registration, Authentication auth) {
+        this.registration = registration;
+        this.auth = auth;
     }
 
     String currentName() {
@@ -34,15 +31,5 @@ public class RegistrationViewModel extends ViewModel {
         } else {
             throw new IllegalStateException("Cannot complete the registration you're not even logged in.");
         }
-    }
-
-    // for testing (mocking)
-    public void setRegistration(CompleteRegistration registration) {
-        this.registration = registration;
-    }
-
-    // for testing (mocking)
-    public void setAuth(Authentication auth) {
-        this.auth = auth;
     }
 }

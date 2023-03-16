@@ -41,26 +41,25 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 public class CompleteRegistrationFormTest {
 
     private RegistrationViewModel viewModel;
-    private ProfileDataManager fakeProfilesDatabase;
+    private final MutableLiveData<Profile> databaseContent = new MutableLiveData<>();
+    private final ProfileDataManager fakeProfilesDatabase = new ProfileDataManager() {
+        @Override
+        public void saveValue(Profile profile) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                databaseContent.setValue(profile);
+            });
+        }
+
+        @Override
+        public LiveData<Profile> getValue(String uid) {
+            return databaseContent;
+        }
+    };
 
     @Before
     public void setUp() {
-        viewModel = new RegistrationViewModel();
-        MutableLiveData<Profile> databaseContent = new MutableLiveData<>();
-        fakeProfilesDatabase = new ProfileDataManager() {
-            @Override
-            public void saveValue(Profile profile) {
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(() -> {
-                    databaseContent.setValue(profile);
-                });
-            }
 
-            @Override
-            public LiveData<Profile> getValue(String uid) {
-                return databaseContent;
-            }
-        };
         Authentication fakeAuth = new Authentication() {
             @Override
             public boolean isLoggedIn() {
@@ -83,8 +82,7 @@ public class CompleteRegistrationFormTest {
             }
         };
 
-        viewModel.setRegistration(new CompleteRegistration(fakeProfilesDatabase));
-        viewModel.setAuth(fakeAuth);
+        viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), fakeAuth);
         fakeProfilesDatabase.saveValue(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0));
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
@@ -132,7 +130,8 @@ public class CompleteRegistrationFormTest {
 
     @Test
     public void notLoggedShouldThrowException() {
-        viewModel.setAuth(new Authentication() {
+
+        Authentication notLoggedInAuth = new Authentication() {
             @Override
             public boolean isLoggedIn() {
                 return false;
@@ -140,7 +139,7 @@ public class CompleteRegistrationFormTest {
 
             @Override
             public AuthenticatedUser loggedUser() {
-                return null;
+                return new AuthenticatedUser("0", "o", "o");
             }
 
             @Override
@@ -151,6 +150,27 @@ public class CompleteRegistrationFormTest {
             @Override
             public Intent buildIntent() {
                 return null;
+            }
+        };
+        viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
+        fakeProfilesDatabase.saveValue(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0));
+
+        CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
+        myFragment.viewModelFactory = new ViewModelProvider.Factory() {
+            @Override
+            public <T extends ViewModel> T create(Class<T> modelClass) {
+                return (T) viewModel; //mock a fake view model (had to do that because otherwise the fragment will use the real one in onCreate() before I can change it to the mocked one)
+            }
+        };
+        // run myFragment :
+        FragmentScenario<CompleteRegistrationForm> scenario = FragmentScenario.launchInContainer(CompleteRegistrationForm.class, null, new FragmentFactory() {
+            @NonNull
+            @Override
+            public Fragment instantiate(@NonNull ClassLoader classLoader, @NonNull String className) {
+                if (className.equals(CompleteRegistrationForm.class.getName())) {
+                    return myFragment;
+                }
+                return super.instantiate(classLoader, className);
             }
         });
         assertThrows(IllegalStateException.class, () -> {
