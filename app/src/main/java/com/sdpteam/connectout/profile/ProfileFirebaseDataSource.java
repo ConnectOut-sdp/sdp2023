@@ -12,22 +12,22 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class ProfileFirebaseDataSource implements ProfileDirectory {
-    private final DatabaseReference mDatabase;
+    private final DatabaseReference firebaseRef;
     private final String usersPathString = "Users";
     private final String profilePathString = "Profile";
 
     public ProfileFirebaseDataSource() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        firebaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
     public void saveProfile(Profile profile) {
-        mDatabase.child(usersPathString).child(profile.getId()).child(profilePathString).setValue(profile);
+        firebaseRef.child(usersPathString).child(profile.getId()).child(profilePathString).setValue(profile);
     }
 
     public LiveData<Profile> fetchProfile(String uid) {
         // Get the value from Firebase
         MutableLiveData<Profile> value = new MutableLiveData<>();
-        mDatabase.child(usersPathString).child(uid).child(profilePathString).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseRef.child(usersPathString).child(uid).child(profilePathString).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Profile valueFromFirebase = dataSnapshot.getValue(Profile.class);

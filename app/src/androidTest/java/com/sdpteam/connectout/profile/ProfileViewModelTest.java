@@ -21,7 +21,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        viewModel.saveValue(value);
+        viewModel.saveProfile(value);
 
         assertEquals(value, model.mValue);
     }
@@ -31,7 +31,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getValue("test"));
+        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getProfile("test"));
 
         Profile p = future.join();
 

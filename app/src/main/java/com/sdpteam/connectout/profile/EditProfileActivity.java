@@ -36,7 +36,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
 
             //store new Profile
-            new ProfileViewModel(new ProfileFirebaseDataSource()).saveValue(newProfile);
+            new ProfileViewModel(new ProfileFirebaseDataSource()).saveProfile(newProfile);
             //change view
             goToProfile(newProfile);
         });
