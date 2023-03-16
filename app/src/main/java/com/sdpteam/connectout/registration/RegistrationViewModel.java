@@ -1,6 +1,7 @@
 package com.sdpteam.connectout.registration;
 
 import static com.sdpteam.connectout.profile.Profile.Gender;
+import static com.sdpteam.connectout.registration.CompleteRegistration.MandatoryFields;
 
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.authentication.GoogleAuth;
@@ -29,7 +30,7 @@ public class RegistrationViewModel extends ViewModel {
 
     public void completeRegistration(String name, String email, String bio, Gender g) {
         if (auth.isLoggedIn()) {
-            registration.completeRegistration(auth.loggedUser().uid, name, email, bio, g);
+            registration.completeRegistration(auth.loggedUser().uid, new MandatoryFields(name, email, bio, g));
         } else {
             throw new IllegalStateException("Cannot complete the registration you're not even logged in.");
         }

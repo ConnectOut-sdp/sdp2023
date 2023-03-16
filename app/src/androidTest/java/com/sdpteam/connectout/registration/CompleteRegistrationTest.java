@@ -35,7 +35,7 @@ public class CompleteRegistrationTest {
             }
         };
         CompleteRegistration completeRegistration = new CompleteRegistration(fakeProfileDatabase);
-        completeRegistration.completeRegistration("007", "James", "james.bond@gmail.com", "No bio lol", MALE);
+        completeRegistration.completeRegistration("007", new CompleteRegistration.MandatoryFields("James", "james.bond@gmail.com", "No bio lol", MALE));
 
         Profile profile = LiveDataTestUtil.toCompletableFuture(fakeProfileDatabase.getValue("007")).join();
         assertThat(profile.getBio(), is("No bio lol"));
