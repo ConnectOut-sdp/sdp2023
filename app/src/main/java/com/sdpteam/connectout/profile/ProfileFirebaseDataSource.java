@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-public class ProfileFirebaseDataSource implements ProfileDataManager {
+public class ProfileFirebaseDataSource implements ProfileDirectory {
     private final DatabaseReference mDatabase;
     private final String usersPathString = "Users";
     private final String profilePathString = "Profile";
@@ -20,11 +20,11 @@ public class ProfileFirebaseDataSource implements ProfileDataManager {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void saveValue(Profile profile) {
+    public void saveProfile(Profile profile) {
         mDatabase.child(usersPathString).child(profile.getId()).child(profilePathString).setValue(profile);
     }
 
-    public LiveData<Profile> getValue(String uid) {
+    public LiveData<Profile> fetchProfile(String uid) {
         // Get the value from Firebase
         MutableLiveData<Profile> value = new MutableLiveData<>();
         mDatabase.child(usersPathString).child(uid).child(profilePathString).addListenerForSingleValueEvent(new ValueEventListener() {

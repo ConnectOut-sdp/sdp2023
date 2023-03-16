@@ -72,7 +72,7 @@ public class EditProfileTest {
                 null, Profile.Gender.MALE, 1, 1);
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        model.saveValue(previousProfile);
+        model.saveProfile(previousProfile);
 
         onView(ViewMatchers.withId(R.id.editTextName)).perform(typeText(name));
         Espresso.closeSoftKeyboard();
@@ -92,7 +92,7 @@ public class EditProfileTest {
 
         onView(withId(R.id.saveButton)).perform(click());
 
-        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.getValue(EditProfileActivity.NULL_USER)).join();
+        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.fetchProfile(EditProfileActivity.NULL_USER)).join();
 
         assertThat(fetchedProfile.getEmail(), is(email));
         assertThat(fetchedProfile.getName(), is(name));

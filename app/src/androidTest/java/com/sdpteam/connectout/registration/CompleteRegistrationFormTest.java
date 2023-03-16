@@ -19,7 +19,7 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDataManager;
+import com.sdpteam.connectout.profile.ProfileDirectory;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import android.content.Intent;
@@ -42,9 +42,9 @@ public class CompleteRegistrationFormTest {
 
     private RegistrationViewModel viewModel;
     private final MutableLiveData<Profile> databaseContent = new MutableLiveData<>();
-    private final ProfileDataManager fakeProfilesDatabase = new ProfileDataManager() {
+    private final ProfileDirectory fakeProfilesDatabase = new ProfileDirectory() {
         @Override
-        public void saveValue(Profile profile) {
+        public void saveProfile(Profile profile) {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(() -> {
                 databaseContent.setValue(profile);
@@ -52,7 +52,7 @@ public class CompleteRegistrationFormTest {
         }
 
         @Override
-        public LiveData<Profile> getValue(String uid) {
+        public LiveData<Profile> fetchProfile(String uid) {
             return databaseContent;
         }
     };
@@ -83,7 +83,7 @@ public class CompleteRegistrationFormTest {
         };
 
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), fakeAuth);
-        fakeProfilesDatabase.saveValue(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0));
+        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0));
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
@@ -119,7 +119,7 @@ public class CompleteRegistrationFormTest {
         onView(withId(R.id.radioMale)).perform(click());
         onView(withId(R.id.checkBox)).perform(click());
         onView(withId(R.id.finishButton)).perform(click());
-        Profile updatedProfile = LiveDataTestUtil.toCompletableFuture(fakeProfilesDatabase.getValue("007")).join();
+        Profile updatedProfile = LiveDataTestUtil.toCompletableFuture(fakeProfilesDatabase.fetchProfile("007")).join();
 
         MatcherAssert.assertThat(updatedProfile.getId(), is("007"));
         MatcherAssert.assertThat(updatedProfile.getName(), is("Donald Trump"));
@@ -153,7 +153,7 @@ public class CompleteRegistrationFormTest {
             }
         };
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
-        fakeProfilesDatabase.saveValue(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0));
+        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0));
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {

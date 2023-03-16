@@ -3,12 +3,12 @@ package com.sdpteam.connectout.registration;
 import static com.sdpteam.connectout.profile.Profile.Gender;
 
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDataManager;
+import com.sdpteam.connectout.profile.ProfileDirectory;
 
 public class CompleteRegistration {
-    private final ProfileDataManager profiles;
+    private final ProfileDirectory profiles;
 
-    public CompleteRegistration(ProfileDataManager profiles) {
+    public CompleteRegistration(ProfileDirectory profiles) {
         this.profiles = profiles;
     }
 
@@ -19,7 +19,7 @@ public class CompleteRegistration {
         final double defaultRating = 0.0;
         final int defaultNumRatings = 0;
         Profile initialProfile = new Profile(userId, completion.name, completion.email, completion.bio, completion.g, defaultRating, defaultNumRatings);
-        profiles.saveValue(initialProfile);
+        profiles.saveProfile(initialProfile);
     }
 
     /**

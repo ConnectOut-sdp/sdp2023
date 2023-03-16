@@ -43,17 +43,17 @@ public class ProfileViewModelTest {
 
     }
 
-    public static class FakeModel implements ProfileDataManager {
+    public static class FakeModel implements ProfileDirectory {
         public Profile mValue;
         private MutableLiveData<Profile> mLiveData = new MutableLiveData<>();
 
         @Override
-        public void saveValue(Profile value) {
+        public void saveProfile(Profile value) {
             mValue = value;
         }
 
         @Override
-        public LiveData<Profile> getValue(String uid) {
+        public LiveData<Profile> fetchProfile(String uid) {
             mLiveData= new MutableLiveData<>(new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1));
             return mLiveData;
         }
