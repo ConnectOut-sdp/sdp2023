@@ -19,20 +19,30 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 public class CompleteRegistrationForm extends Fragment {
 
     private RegistrationViewModel registrationViewModel;
+    public ViewModelProvider.Factory viewModelFactory; // for testing (mocking)
 
     public static CompleteRegistrationForm newInstance() {
-        return new CompleteRegistrationForm();
+        CompleteRegistrationForm completeRegistrationForm = new CompleteRegistrationForm();
+        completeRegistrationForm.viewModelFactory = new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new RegistrationViewModel(); // use the real view model
+            }
+        };
+        return completeRegistrationForm;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registrationViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
+        registrationViewModel = new ViewModelProvider(this, viewModelFactory).get(RegistrationViewModel.class);
     }
 
     @Nullable
@@ -71,7 +81,12 @@ public class CompleteRegistrationForm extends Fragment {
             final String name = nameEditor.getText().toString();
             final String email = emailEditor.getText().toString();
             final String bio = bioEditor.getText().toString();
-            registrationViewModel.completeRegistration(name, email, bio, gender);
+            try {
+                registrationViewModel.completeRegistration(name, email, bio, gender);
+            } catch (IllegalStateException e) {
+                // error unhandled for the moment
+                throw e;
+            }
         });
 
         CheckBox checkBox = view.findViewById(R.id.checkBox);
@@ -80,10 +95,5 @@ public class CompleteRegistrationForm extends Fragment {
         });
 
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    // for testing (mocking)
-    public void setRegistrationViewModel(RegistrationViewModel registrationViewModel) {
-        this.registrationViewModel = registrationViewModel;
     }
 }

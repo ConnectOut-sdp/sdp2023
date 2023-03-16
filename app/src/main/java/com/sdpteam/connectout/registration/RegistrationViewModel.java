@@ -27,7 +27,7 @@ public class RegistrationViewModel extends ViewModel {
         return auth.loggedUser().email;
     }
 
-    public void completeRegistration(String name, String email, String bio, Gender g) throws IllegalStateException{
+    public void completeRegistration(String name, String email, String bio, Gender g) {
         if (auth.isLoggedIn()) {
             registration.completeRegistration(auth.loggedUser().uid, name, email, bio, g);
         } else {
