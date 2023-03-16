@@ -20,20 +20,18 @@
                 android:exported="false" />
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
 
         <activity
-            android:name=".event.EventCreatorActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar"/>
+                android:name=".event.EventCreatorActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
 
         <activity
                 android:name=".drawer.LogInActivity"
                 android:exported="false" />
-        <activity
-                android:name=".map.MapActivity"
-                android:exported="true" />
+
         <activity
                 android:name=".drawer.DrawerActivity"
                 android:exported="false"
@@ -47,7 +45,7 @@
                 android:exported="false" />
         <activity
                 android:name=".profile.EditProfileActivity"
-                android:exported="false"/>
+                android:exported="false" />
         <activity
                 android:name=".MainActivity"
                 android:exported="true">
