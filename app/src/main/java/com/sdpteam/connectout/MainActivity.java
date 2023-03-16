@@ -1,7 +1,6 @@
 package com.sdpteam.connectout;
 
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
-import com.sdpteam.connectout.drawer.DrawerActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
