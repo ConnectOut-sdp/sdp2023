@@ -37,8 +37,8 @@ public class MapViewModelFactoryTest {
         @Override
         public MutableLiveData<List<Event>> getEventLiveList() {
             return new MutableLiveData<>(Arrays.asList(
-                    new Event("Event 1", new GPSCoordinates(0, 0), "Description 1"),
-                    new Event("Event 2", new GPSCoordinates(1, 1), "Description 2")
+                    new Event("1", "Event 1", "Description 2", new GPSCoordinates(0, 0), "a"),
+                    new Event("2", "Event 2", "Description 2", new GPSCoordinates(1, 1), "b")
             ));
         }
     }
