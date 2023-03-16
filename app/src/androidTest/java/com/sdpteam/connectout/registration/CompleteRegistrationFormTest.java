@@ -3,14 +3,18 @@ package com.sdpteam.connectout.registration;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
 import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThrows;
 
 import org.hamcrest.MatcherAssert;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +27,7 @@ import com.sdpteam.connectout.profile.ProfileDirectory;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.annotation.NonNull;
@@ -35,6 +40,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.PerformException;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
@@ -59,6 +65,7 @@ public class CompleteRegistrationFormTest {
 
     @Before
     public void setUp() {
+        Intents.init();
 
         Authentication fakeAuth = new Authentication() {
             @Override
@@ -103,6 +110,11 @@ public class CompleteRegistrationFormTest {
                 return super.instantiate(classLoader, className);
             }
         });
+    }
+
+    @After
+    public void cleanup() {
+        Intents.release();
     }
 
     @Test
@@ -182,5 +194,12 @@ public class CompleteRegistrationFormTest {
                     }
                 }
         );
+    }
+
+    @Test
+    public void clickConditionsButtonShouldTriggerIntent() {
+        Uri uri = Uri.parse("https://firebase.google.com/terms");
+        onView(withId(R.id.generalConditions)).perform(click());
+        allOf(hasAction(Intent.ACTION_VIEW), hasData(uri));
     }
 }

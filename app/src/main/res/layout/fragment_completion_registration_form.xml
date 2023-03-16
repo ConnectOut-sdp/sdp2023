@@ -84,7 +84,7 @@
                     android:id="@+id/checkBox" />
 
             <Button
-                    android:id="@+id/moreInfoText"
+                    android:id="@+id/generalConditions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoLink="web"

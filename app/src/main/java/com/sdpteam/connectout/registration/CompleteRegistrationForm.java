@@ -76,7 +76,7 @@ public class CompleteRegistrationForm extends Fragment {
 
         RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
-        Button conditionsInfoButton = view.findViewById(R.id.moreInfoText);
+        Button conditionsInfoButton = view.findViewById(R.id.generalConditions);
         conditionsInfoButton.setOnClickListener(v -> {
             Uri uri = Uri.parse("https://firebase.google.com/terms");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);

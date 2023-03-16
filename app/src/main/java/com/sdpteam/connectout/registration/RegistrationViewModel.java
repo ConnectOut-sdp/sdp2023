@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModel;
 
 public class RegistrationViewModel extends ViewModel {
 
-    private CompleteRegistration registration;
-    private Authentication auth;
+    private final CompleteRegistration registration;
+    private final Authentication auth;
 
     public RegistrationViewModel(CompleteRegistration registration, Authentication auth) {
         this.registration = registration;
