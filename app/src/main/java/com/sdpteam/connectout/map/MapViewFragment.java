@@ -55,12 +55,12 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         }
         map.clear();
         for (Event e : eventList) {
-            MarkerOptions m = new MarkerOptions().position(e.getGPSCoordinates().toLatLng()).title(e.getTitle());
+            MarkerOptions m = new MarkerOptions().position(e.getCoordinates().toLatLng()).title(e.getTitle());
             map.addMarker(m);
         }
         // zoom to first event
         if (!eventList.isEmpty()) {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventList.get(0).getGPSCoordinates().toLatLng(), DEFAULT_MAP_ZOOM));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventList.get(0).getCoordinates().toLatLng(), DEFAULT_MAP_ZOOM));
         }
     }
 

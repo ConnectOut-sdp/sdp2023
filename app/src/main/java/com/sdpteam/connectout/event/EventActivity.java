@@ -69,7 +69,7 @@ public class EventActivity extends WithFragmentActivity {
         return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 
-    private void showParticipants(Set<ProfileID> participants) {
+    private void showParticipants(List<ProfileID> participants) {
         // TODO launch new activity (or pop-up) with list of profiles
     }
 

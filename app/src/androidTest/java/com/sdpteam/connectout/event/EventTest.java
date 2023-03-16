@@ -20,8 +20,8 @@ public class EventTest {
 
     @Test
     public void testConstructorWithCoordinates() {
-        assertThat(TEST_EVENT.getGPSCoordinates().getLatitude(), is(0.1));
-        assertThat(TEST_EVENT.getGPSCoordinates().getLongitude(), is(0.2));
+        assertThat(TEST_EVENT.getCoordinates().getLatitude(), is(0.1));
+        assertThat(TEST_EVENT.getCoordinates().getLongitude(), is(0.2));
     }
 
     @Test

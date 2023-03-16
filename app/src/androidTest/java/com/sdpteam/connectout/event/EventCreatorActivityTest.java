@@ -103,8 +103,8 @@ public class EventCreatorActivityTest {
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getId(), is("1"));
-        assertThat(foundEvent.getGPSCoordinates().getLatitude(), is(1.5));
-        assertThat(foundEvent.getGPSCoordinates().getLongitude(), is(1.5));
+        assertThat(foundEvent.getCoordinates().getLatitude(), is(1.5));
+        assertThat(foundEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }
@@ -126,8 +126,8 @@ public class EventCreatorActivityTest {
         Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(EditProfileActivity.NULL_USER, title)).join();
 
         assertThat(foundEvent.getTitle(), is(title));
-        assertThat(foundEvent.getGPSCoordinates().getLatitude(), is(not(0.0)));
-        assertThat(foundEvent.getGPSCoordinates().getLongitude(), is(not(0.0)));
+        assertThat(foundEvent.getCoordinates().getLatitude(), is(not(0.0)));
+        assertThat(foundEvent.getCoordinates().getLongitude(), is(not(0.0)));
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }

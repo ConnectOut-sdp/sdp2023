@@ -10,7 +10,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileID;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Test;
@@ -48,8 +47,8 @@ public class EventCreatorModelTest {
         Event retrievedEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(ownerId, title)).join();
         assertThat(retrievedEvent.getTitle(), is(title));
         assertThat(retrievedEvent.getId(), is("1"));
-        assertThat(retrievedEvent.getGPSCoordinates().getLatitude(), is(1.5));
-        assertThat(retrievedEvent.getGPSCoordinates().getLongitude(), is(1.5));
+        assertThat(retrievedEvent.getCoordinates().getLatitude(), is(1.5));
+        assertThat(retrievedEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(retrievedEvent.getDescription(), is(description));
         assertThat(retrievedEvent.getOrganizer(), is(ownerId));
     }
@@ -67,8 +66,8 @@ public class EventCreatorModelTest {
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getId(), is("1"));
-        assertThat(foundEvent.getGPSCoordinates().getLatitude(), is(1.5));
-        assertThat(foundEvent.getGPSCoordinates().getLongitude(), is(1.5));
+        assertThat(foundEvent.getCoordinates().getLatitude(), is(1.5));
+        assertThat(foundEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }
@@ -123,7 +122,7 @@ public class EventCreatorModelTest {
         assertThat(foundEvent.getTitle(), is(Event.NULL_EVENT.getTitle()));
         assertThat(foundEvent.getDescription(), is(Event.NULL_EVENT.getDescription()));
         assertThat(foundEvent.getId(), is(Event.NULL_EVENT.getId()));
-        assertThat(foundEvent.getGPSCoordinates(), is(Event.NULL_EVENT.getGPSCoordinates()));
+        assertThat(foundEvent.getCoordinates(), is(Event.NULL_EVENT.getCoordinates()));
         assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }
 
