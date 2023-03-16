@@ -27,6 +27,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap map;
     private MapViewModel mapViewModel;
+    private static final int DEFAULT_MAP_ZOOM = 15;
 
     @Nullable
     @Override
@@ -59,7 +60,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         }
         // zoom to first event
         if (!eventList.isEmpty()) {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventList.get(0).getGPSCoordinates().toLatLng(), 15));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventList.get(0).getGPSCoordinates().toLatLng(), DEFAULT_MAP_ZOOM));
         }
     }
 

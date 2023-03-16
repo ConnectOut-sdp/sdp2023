@@ -17,7 +17,7 @@ public class MapViewModelFactoryTest {
 
     @Test
     public void test_ViewModel_uses_the_custom_model_through_factory_instantiation() {
-        final MapViewModelFactory factory = new MapViewModelFactory(new FakeMapModel());
+        final MapViewModelFactory factory = new MapViewModelFactory(new FakeMapModelManager());
         final MapViewModel mapViewModel = factory.create(MapViewModel.class);
         final List<Event> events = mapViewModel.getEventList().getValue();
 
@@ -28,11 +28,11 @@ public class MapViewModelFactoryTest {
 
     @Test
     public void test_factory_cannot_instantiate_ViewModel_when_model_class_is_invalid() {
-        final MapViewModelFactory factory = new MapViewModelFactory(new FakeMapModel());
+        final MapViewModelFactory factory = new MapViewModelFactory(new FakeMapModelManager());
         assertThrows(IllegalArgumentException.class, () -> factory.create(InvalidViewModel.class));
     }
 
-    private static class FakeMapModel implements MapModel {
+    private static class FakeMapModelManager implements MapModelManager {
 
         @Override
         public MutableLiveData<List<Event>> getEventLiveList() {

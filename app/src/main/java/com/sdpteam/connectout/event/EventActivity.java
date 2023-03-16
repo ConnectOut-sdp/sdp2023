@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.map.MapModelManager;
 import com.sdpteam.connectout.map.MapViewFragment;
 import com.sdpteam.connectout.map.MapViewModel;
 import com.sdpteam.connectout.map.MapViewModelFactory;
@@ -34,14 +35,16 @@ public class EventActivity extends WithFragmentActivity {
 
         final TextView title = findViewById(R.id.event_title);
         final TextView description = findViewById(R.id.event_description);
-        final Button participants = findViewById(R.id.event_participants_button);
-        final Button join = findViewById(R.id.event_join_button);
+        final Button joinBtn = findViewById(R.id.event_join_button);
+        final Button participantsBtn = findViewById(R.id.event_participants_button);
 
         title.setText(event.getTitle());
         description.setText(event.getDescription());
-        participants.setText(format(Locale.getDefault(), "%s (%d)", participants.getText(), event.getParticipants().size()));
-        participants.setOnClickListener(v -> showParticipants(event.getParticipants()));
-        join.setOnClickListener(v -> joinEvent(event));
+        joinBtn.setOnClickListener(v -> joinEvent(event));
+
+        final String participantsBtnText = format(Locale.getDefault(), "%s (%d)", participantsBtn.getText(), event.getParticipants().size());
+        participantsBtn.setText(participantsBtnText);
+        participantsBtn.setOnClickListener(v -> showParticipants(event.getParticipants()));
 
         initMapFragment(event);
     }
@@ -50,14 +53,15 @@ public class EventActivity extends WithFragmentActivity {
         final Fragment map = new MapViewFragment();
         replaceFragment(map, R.id.event_fragment_container);
 
-        final MapViewModelFactory viewModelFactory = new MapViewModelFactory(() -> {
+        // Model that returns a singleton of the event as the event list
+        final MapModelManager mapModel = () -> {
             final MutableLiveData<List<Event>> data = new MutableLiveData<>();
             data.setValue(Collections.singletonList(event)); // only show one marker in the map
             return data;
-        });
+        };
 
         // Implicitly instantiating MapViewModel to use that instance back in MapViewFragment
-        new ViewModelProvider(this, viewModelFactory).get(MapViewModel.class);
+        new ViewModelProvider(this, new MapViewModelFactory(mapModel)).get(MapViewModel.class);
     }
 
     private Event getEvent() {

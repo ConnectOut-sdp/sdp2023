@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class Event {
 
-    private final EventID id;
+    private final String id;
     private final String title;
     private final String description;
     private final GPSCoordinates coordinates;
@@ -20,10 +20,10 @@ public class Event {
     private final Set<ProfileID> participants;
 
     public Event(String title, GPSCoordinates coordinates, String description) {
-        this(EventID.UNSET, title, description, coordinates, null, new HashSet<>());
+        this(null, title, description, coordinates, null, new HashSet<>());
     }
 
-    public Event(EventID id,
+    public Event(String id,
                  String title,
                  String description,
                  GPSCoordinates coordinates,
@@ -37,7 +37,7 @@ public class Event {
         this.participants = participants;
     }
 
-    public EventID getId() {
+    public String getId() {
         return id;
     }
 

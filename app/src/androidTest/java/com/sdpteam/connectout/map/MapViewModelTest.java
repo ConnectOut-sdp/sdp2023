@@ -20,7 +20,7 @@ public class MapViewModelTest {
 
     @Test
     public void getEventListReturnsTheCorrectEvents() {
-        MapViewModel viewModel = new MapViewModel(new FakeMapModel());
+        MapViewModel viewModel = new MapViewModel(new FakeMapModelManager());
         LiveData<List<Event>> eventListLiveData = viewModel.getEventList();
 
         CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
@@ -33,7 +33,7 @@ public class MapViewModelTest {
 
     @Test
     public void testMapViewModelWithRefresh() {
-        MapViewModel mvm = new MapViewModel(new FakeMapModel());
+        MapViewModel mvm = new MapViewModel(new FakeMapModelManager());
         LiveData<List<Event>> events = mvm.getEventList();
         CompletableFuture<List<Event>> future1 = toCompletableFuture(events);
         future1.join();
@@ -48,11 +48,11 @@ public class MapViewModelTest {
         assertThat(eventList.get(2).getTitle(), is("event5"));
     }
 
-    public static class FakeMapModel implements MapModel {
+    public static class FakeMapModelManager implements MapModelManager {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 
-        public FakeMapModel() {
+        public FakeMapModelManager() {
             dataSet.add(new Event("event1", new GPSCoordinates(0, 1), "E1"));
             dataSet.add(new Event("event2", new GPSCoordinates(2, 3), "E2"));
         }

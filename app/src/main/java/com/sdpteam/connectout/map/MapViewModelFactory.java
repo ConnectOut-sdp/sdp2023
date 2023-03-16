@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProvider;
  */
 public class MapViewModelFactory implements ViewModelProvider.Factory {
 
-    private final MapModel model;
+    private final MapModelManager model;
 
-    public MapViewModelFactory(MapModel model) {
+    public MapViewModelFactory(MapModelManager model) {
         this.model = model;
     }
 

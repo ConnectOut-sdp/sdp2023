@@ -1,10 +1,10 @@
 package com.sdpteam.connectout.profile;
 
-import com.sdpteam.connectout.common.EntityID;
+public class ProfileID {
 
-public class ProfileID extends EntityID {
+    private final String value;
 
     public ProfileID(String value) {
-        super(value);
+        this.value = value;
     }
 }

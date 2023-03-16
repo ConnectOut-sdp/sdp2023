@@ -10,10 +10,10 @@ import java.util.List;
 
 public class MapViewModel extends ViewModel {
 
-    private final MapModel model;
+    private final MapModelManager model;
     private final MutableLiveData<List<Event>> events;
 
-    public MapViewModel(MapModel model) {
+    public MapViewModel(MapModelManager model) {
         this.model = model;
         this.events = model.getEventLiveList();
     }

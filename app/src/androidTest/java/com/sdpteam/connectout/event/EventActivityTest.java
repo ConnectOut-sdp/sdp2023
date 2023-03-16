@@ -38,7 +38,7 @@ public class EventActivityTest {
     }
 
     @Test
-    public void fragment_is_correctly_added() {
+    public void fragmentIsCorrectlyAdded() {
         activityRule.getScenario().onActivity(activity -> {
             final Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.event_fragment_container);
             Assert.assertTrue(fragment instanceof MapViewFragment);
@@ -46,7 +46,7 @@ public class EventActivityTest {
     }
 
     @Test
-    public void join_event_should_finish_activity() {
+    public void joinEventShouldFinishActivity() {
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
 
         // Might return null if activity already finished
