@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.event;
 
+import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.ProfileID;
@@ -13,7 +15,7 @@ import java.util.List;
  */
 public class Event {
 
-    public static Event NULL_EVENT = new Event(null, null, null, null, null);
+    public static Event NULL_EVENT = new Event();
     private final String id;
     private final String title;
     private final String description;
@@ -22,7 +24,7 @@ public class Event {
     private final List<ProfileID> participants = new ArrayList<>();
 
     private Event() {
-        this(null, null, null, null, EditProfileActivity.NULL_USER);
+        this(null, null, null, null, NULL_USER);
     }
 
     public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {

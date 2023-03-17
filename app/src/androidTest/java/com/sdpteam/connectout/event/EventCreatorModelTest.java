@@ -14,6 +14,8 @@ import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class EventCreatorModelTest {
 
     @Test
@@ -108,22 +110,17 @@ public class EventCreatorModelTest {
 
     }
 
-    // @Test
-    public void retrievingNonEventsHasNullAttributes() {
+    @Test
+    public void retrievingNonEventsIsNull() {
 
         EventCreatorModel model = new EventCreatorModel();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("Events").child("NotEid").setValue(Profile.NULL_PROFILE);
+        databaseReference.child("Events").child("NotEid").setValue(new ArrayList<>());
 
 
         Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("NotEid")).join();
 
-
-        assertThat(foundEvent.getTitle(), is(Event.NULL_EVENT.getTitle()));
-        assertThat(foundEvent.getDescription(), is(Event.NULL_EVENT.getDescription()));
-        assertThat(foundEvent.getId(), is(Event.NULL_EVENT.getId()));
-        assertThat(foundEvent.getCoordinates(), is(Event.NULL_EVENT.getCoordinates()));
-        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
+        assertNull(foundEvent);
     }
 
 

@@ -37,13 +37,15 @@ public class EventCreatorViewModelTest {
         EventCreatorViewModelTest.TestEventCreatorModel model = new TestEventCreatorModel();
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
 
-        CompletableFuture<Event> future = LiveDataTestUtil.toCompletableFuture(viewModel.getEvent("1"));
+        LiveData<Event> mutableLiveData =  viewModel.getEvent("1");
+
+        CompletableFuture<Event> future = LiveDataTestUtil.toCompletableFuture(mutableLiveData);
         Event e = future.join();
 
         assertThat(e, is(TEST_EVENT1));
     }
 
-    // @Test
+    @Test
     public void testGetValueWithUIAndTitleFindsCorrectEvent() {
         EventCreatorViewModelTest.TestEventCreatorModel model = new TestEventCreatorModel();
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
@@ -80,7 +82,7 @@ public class EventCreatorViewModelTest {
 
         @Override
         public LiveData<Event> getEvent(String uid, String title) {
-            List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getId().equals(uid) && e.getTitle().equals(title)).collect(Collectors.toList());
+            List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getOrganizer().equals(uid) && e.getTitle().equals(title)).collect(Collectors.toList());
             return filtered.isEmpty() ? null : new MutableLiveData<>(filtered.get(0));
         }
 
