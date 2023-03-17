@@ -14,6 +14,8 @@ import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class EventCreatorModelTest {
 
     @Test
@@ -39,18 +41,18 @@ public class EventCreatorModelTest {
         String description = "Looking for a tennis partner";
         String ownerId = "user1";
         String eventId = "1";
-        Event event = new Event(title, gpsCoordinates, description, ownerId, eventId);
+        Event event = new Event(eventId, title, description, gpsCoordinates, ownerId);
         EventCreatorModel model = new EventCreatorModel();
         model.saveEvent(event);
 
         // retrieve the event from the database using its owner ID and title and check that it matches the original event
         Event retrievedEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(ownerId, title)).join();
         assertThat(retrievedEvent.getTitle(), is(title));
-        assertThat(retrievedEvent.getEventId(), is("1"));
-        assertThat(retrievedEvent.getGpsCoordinates().getLatitude(), is(1.5));
-        assertThat(retrievedEvent.getGpsCoordinates().getLongitude(), is(1.5));
+        assertThat(retrievedEvent.getId(), is("1"));
+        assertThat(retrievedEvent.getCoordinates().getLatitude(), is(1.5));
+        assertThat(retrievedEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(retrievedEvent.getDescription(), is(description));
-        assertThat(retrievedEvent.getOwnerId(), is(ownerId));
+        assertThat(retrievedEvent.getOrganizer(), is(ownerId));
     }
 
     @Test
@@ -58,18 +60,18 @@ public class EventCreatorModelTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
+        Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventCreatorModel model = new EventCreatorModel();
         model.saveEvent(e);
 
         Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("1")).join();
 
         assertThat(foundEvent.getTitle(), is(title));
-        assertThat(foundEvent.getEventId(), is("1"));
-        assertThat(foundEvent.getGpsCoordinates().getLatitude(), is(1.5));
-        assertThat(foundEvent.getGpsCoordinates().getLongitude(), is(1.5));
+        assertThat(foundEvent.getId(), is("1"));
+        assertThat(foundEvent.getCoordinates().getLatitude(), is(1.5));
+        assertThat(foundEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(foundEvent.getDescription(), is(description));
-        assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
+        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }
 
     @Test
@@ -77,7 +79,7 @@ public class EventCreatorModelTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
+        Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventCreatorModel model = new EventCreatorModel();
         model.saveEvent(e);
 
@@ -91,7 +93,7 @@ public class EventCreatorModelTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
+        Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventCreatorModel model = new EventCreatorModel();
         model.saveEvent(e);
 
@@ -109,21 +111,16 @@ public class EventCreatorModelTest {
     }
 
     @Test
-    public void retrievingNonEventsHasNullAttributes() {
+    public void retrievingNonEventsIsNull() {
 
         EventCreatorModel model = new EventCreatorModel();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("Events").child("NotEid").setValue(Profile.NULL_PROFILE);
+        databaseReference.child("Events").child("NotEid").setValue(new ArrayList<>());
 
 
         Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("NotEid")).join();
 
-
-        assertThat(foundEvent.getTitle(), is(Event.NULL_EVENT.getTitle()));
-        assertThat(foundEvent.getDescription(), is(Event.NULL_EVENT.getDescription()));
-        assertThat(foundEvent.getEventId(), is(Event.NULL_EVENT.getEventId()));
-        assertThat(foundEvent.getGpsCoordinates(), is(Event.NULL_EVENT.getGpsCoordinates()));
-        assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
+        assertNull(foundEvent);
     }
 
 

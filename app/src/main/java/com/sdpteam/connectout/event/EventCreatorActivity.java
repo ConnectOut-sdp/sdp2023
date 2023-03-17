@@ -70,11 +70,11 @@ public class EventCreatorActivity extends WithFragmentActivity {
 
         //Create associated event.
         Event newEvent = new Event(
+                eventCreatorViewModel.getUniqueId(),
                 title,
-                coordinates,
                 description,
-                ownerId,
-                eventCreatorViewModel.getUniqueId()
+                coordinates,
+                ownerId
         );
 
         //Save the event & return to previous activity.

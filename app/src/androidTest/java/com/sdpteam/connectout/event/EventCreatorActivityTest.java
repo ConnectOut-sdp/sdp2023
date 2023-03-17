@@ -95,18 +95,18 @@ public class EventCreatorActivityTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        Event e = new Event(title, new GPSCoordinates(1.5, 1.5), description, EditProfileActivity.NULL_USER, "1");
+        Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventCreatorModel model = new EventCreatorModel();
         model.saveEvent(e);
 
         Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("1")).join();
 
         assertThat(foundEvent.getTitle(), is(title));
-        assertThat(foundEvent.getEventId(), is("1"));
-        assertThat(foundEvent.getGpsCoordinates().getLatitude(), is(1.5));
-        assertThat(foundEvent.getGpsCoordinates().getLongitude(), is(1.5));
+        assertThat(foundEvent.getId(), is("1"));
+        assertThat(foundEvent.getCoordinates().getLatitude(), is(1.5));
+        assertThat(foundEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(foundEvent.getDescription(), is(description));
-        assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
+        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }
 
     @Test
@@ -126,10 +126,10 @@ public class EventCreatorActivityTest {
         Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(EditProfileActivity.NULL_USER, title)).join();
 
         assertThat(foundEvent.getTitle(), is(title));
-        assertThat(foundEvent.getGpsCoordinates().getLatitude(), is(not(0.0)));
-        assertThat(foundEvent.getGpsCoordinates().getLongitude(), is(not(0.0)));
+        assertThat(foundEvent.getCoordinates().getLatitude(), is(not(0.0)));
+        assertThat(foundEvent.getCoordinates().getLongitude(), is(not(0.0)));
         assertThat(foundEvent.getDescription(), is(description));
-        assertThat(foundEvent.getOwnerId(), is(EditProfileActivity.NULL_USER));
+        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }
 
 
