@@ -3,11 +3,16 @@ package com.sdpteam.connectout.event;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-public class EventCreatorViewModel extends ViewModel {
+import com.sdpteam.connectout.mapList.MapListModel;
+import com.sdpteam.connectout.mapList.MapListModelManager;
+import com.sdpteam.connectout.mapList.MapListViewModel;
+
+public class EventCreatorViewModel extends MapListViewModel {
     private final EventDataManager model;
 
 
     public EventCreatorViewModel(EventDataManager model) {
+        super((MapListModelManager) model);
         this.model = model;
     }
 

@@ -11,10 +11,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sdpteam.connectout.mapList.MapListModel;
+import com.sdpteam.connectout.mapList.MapListModelManager;
 
 import java.util.concurrent.CompletableFuture;
 
-public class EventCreatorModel implements EventDataManager {
+public class EventCreatorModel extends MapListModel implements EventDataManager, MapListModelManager {
     public final static String DATABASE_EVENT_PATH = "Events";
     private final DatabaseReference database;
 
