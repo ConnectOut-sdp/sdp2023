@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.mapList;
 
 import static com.sdpteam.connectout.utils.LiveDataTestUtil.toCompletableFuture;
 import static org.hamcrest.CoreMatchers.is;

@@ -12,7 +12,7 @@ public class EventCreatorViewModel extends MapListViewModel {
 
 
     public EventCreatorViewModel(EventDataManager model) {
-        super((MapListModelManager) model);
+        super(model);
         this.model = model;
     }
 

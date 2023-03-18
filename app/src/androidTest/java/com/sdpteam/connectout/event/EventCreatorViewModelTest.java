@@ -91,5 +91,9 @@ public class EventCreatorViewModelTest {
             return UUID.randomUUID().toString();
         }
 
+        @Override
+        public MutableLiveData<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue) {
+            return null;
+        }
     }
 }

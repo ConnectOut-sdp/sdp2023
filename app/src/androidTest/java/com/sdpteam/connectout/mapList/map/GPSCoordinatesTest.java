@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.mapList.map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

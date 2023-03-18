@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.mapList.map;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

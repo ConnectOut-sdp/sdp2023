@@ -2,7 +2,9 @@ package com.sdpteam.connectout.event;
 
 import androidx.lifecycle.LiveData;
 
-public interface EventDataManager {
+import com.sdpteam.connectout.mapList.MapListModelManager;
+
+public interface EventDataManager extends MapListModelManager {
     /**
      * Saves the given Event in the firebase database
      *

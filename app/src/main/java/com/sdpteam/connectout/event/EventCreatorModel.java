@@ -16,7 +16,7 @@ import com.sdpteam.connectout.mapList.MapListModelManager;
 
 import java.util.concurrent.CompletableFuture;
 
-public class EventCreatorModel extends MapListModel implements EventDataManager, MapListModelManager {
+public class EventCreatorModel extends MapListModel implements EventDataManager {
     public final static String DATABASE_EVENT_PATH = "Events";
     private final DatabaseReference database;
 
