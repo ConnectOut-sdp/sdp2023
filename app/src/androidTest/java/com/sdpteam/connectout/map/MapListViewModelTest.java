@@ -9,6 +9,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.mapList.map.GPSCoordinates;
+import com.sdpteam.connectout.mapList.MapListModelManager;
+import com.sdpteam.connectout.mapList.MapListViewModel;
 
 import org.junit.Test;
 
@@ -16,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class MapViewModelTest {
+public class MapListViewModelTest {
 
     @Test
     public void getEventListReturnsTheCorrectEvents() {
-        MapViewModel viewModel = new MapViewModel(new FakeMapModelManager());
+        MapListViewModel viewModel = new MapListViewModel(new FakeMapModelManager());
         LiveData<List<Event>> eventListLiveData = viewModel.getEventList();
 
         CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
@@ -33,7 +36,7 @@ public class MapViewModelTest {
 
     @Test
     public void testMapViewModelWithRefresh() {
-        MapViewModel mvm = new MapViewModel(new FakeMapModelManager());
+        MapListViewModel mvm = new MapListViewModel(new FakeMapModelManager());
         LiveData<List<Event>> events = mvm.getEventList();
         CompletableFuture<List<Event>> future1 = toCompletableFuture(events);
         future1.join();
@@ -48,7 +51,7 @@ public class MapViewModelTest {
         assertThat(eventList.get(2).getTitle(), is("event5"));
     }
 
-    public static class FakeMapModelManager implements MapModelManager {
+    public static class FakeMapModelManager implements MapListModelManager {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 
@@ -57,7 +60,7 @@ public class MapViewModelTest {
             dataSet.add(new Event("2", "event2", "", new GPSCoordinates(2, 3), "b"));
         }
 
-        public MutableLiveData<List<Event>> getEventLiveList() {
+        public MutableLiveData<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue) {
             updateData();
             return new MutableLiveData<>(dataSet);
         }

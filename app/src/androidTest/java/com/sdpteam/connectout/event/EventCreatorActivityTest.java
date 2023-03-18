@@ -20,8 +20,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.PositionSelectorFragment;
+import com.sdpteam.connectout.mapList.map.GPSCoordinates;
+import com.sdpteam.connectout.mapList.map.PositionSelectorFragment;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 

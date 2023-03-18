@@ -10,8 +10,10 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.PositionSelectorFragment;
+import com.sdpteam.connectout.mapList.MapListModel;
+import com.sdpteam.connectout.mapList.MapListViewModel;
+import com.sdpteam.connectout.mapList.map.GPSCoordinates;
+import com.sdpteam.connectout.mapList.map.PositionSelectorFragment;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 
 public class EventCreatorActivity extends WithFragmentActivity {
@@ -31,7 +33,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         setSupportActionBar(toolbar);
 
         //set up the map fragment.
-        PositionSelectorFragment mapFragment = new PositionSelectorFragment();
+        PositionSelectorFragment mapFragment = new PositionSelectorFragment(eventCreatorViewModel);
         replaceFragment(mapFragment, R.id.event_creator_fragment_container);
 
         //Upon click on the tool bar icon, end this activity and return to previous one.

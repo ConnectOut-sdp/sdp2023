@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.mapList.map.GPSCoordinates;
 
 import org.junit.Test;
 

@@ -7,9 +7,8 @@ import static org.junit.Assert.assertNull;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.mapList.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Test;

@@ -14,6 +14,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.EventCreatorActivity;
+import com.sdpteam.connectout.event.EventCreatorModel;
+import com.sdpteam.connectout.event.EventCreatorViewModel;
+import com.sdpteam.connectout.mapList.map.PositionSelectorFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -46,7 +49,7 @@ public class MapFragmentTest {
 
     @Test
     public void defaultPositionBeforeMarkerInstantiation() {
-        PositionSelectorFragment positionSelectorFragment = new PositionSelectorFragment();
+        PositionSelectorFragment positionSelectorFragment = new PositionSelectorFragment(new EventCreatorViewModel(new EventCreatorModel()));
         assertThat(positionSelectorFragment.getMovingMarkerPosition().latitude,is(0.0));
         assertThat(positionSelectorFragment.getMovingMarkerPosition().longitude,is(0.0));
 

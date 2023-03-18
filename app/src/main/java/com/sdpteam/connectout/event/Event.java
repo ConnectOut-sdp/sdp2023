@@ -2,8 +2,7 @@ package com.sdpteam.connectout.event;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.mapList.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.ProfileID;
 
 import java.util.ArrayList;
