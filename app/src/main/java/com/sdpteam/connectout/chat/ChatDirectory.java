@@ -1,8 +1,16 @@
 package com.sdpteam.connectout.chat;
 
+import android.view.View;
+import android.widget.ListAdapter;
+
 import androidx.lifecycle.LiveData;
 
+import com.firebase.ui.database.FirebaseListOptions;
+
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 public interface ChatDirectory {
@@ -17,4 +25,10 @@ public interface ChatDirectory {
     void saveMessage(ChatMessage message);
 
     String getProfileUserName();
+
+    void setUpListAdapter(Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLayout,
+                          Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLifecycleOwner,
+                          BiConsumer<View, ChatMessage> populateView,
+                          Consumer<ListAdapter> setAdapter,
+                          String chatId);
 }
