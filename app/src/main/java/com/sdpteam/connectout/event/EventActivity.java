@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,7 +16,6 @@ import com.sdpteam.connectout.mapList.MapListModelManager;
 import com.sdpteam.connectout.mapList.MapListViewModel;
 import com.sdpteam.connectout.mapList.map.MapViewFragment;
 import com.sdpteam.connectout.mapList.MapListViewModelFactory;
-import com.sdpteam.connectout.profile.ProfileID;
 
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +60,6 @@ public class EventActivity extends WithFragmentActivity {
 
         final MapViewFragment map = new MapViewFragment(mapViewModel);
         replaceFragment(map, R.id.event_fragment_container);
-        map.spotsOn(event);
     }
 
     private Event getEvent() {
@@ -70,7 +67,7 @@ public class EventActivity extends WithFragmentActivity {
         return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 
-    private void showParticipants(List<ProfileID> participants) {
+    private void showParticipants(List<String> participants) {
         // TODO launch new activity (or pop-up) with list of profiles
     }
 
