@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.mapList.map;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
@@ -11,26 +11,50 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.mapList.MapListViewModel;
+
+import java.util.List;
 
 public class PositionSelectorFragment extends MapViewFragment implements OnMapReadyCallback {
 
     //Movable marker used to get event location
     private Marker movingMarker;
+    private GoogleMap map;
+
+    public PositionSelectorFragment(MapListViewModel mapViewModel) {
+        super(mapViewModel);
+    }
+
+
+    @Override
+    public void showNewMarkerList(List<Event> eventList){
+        if(map == null){
+            return;
+        }
+        super.showNewMarkerList(eventList);
+        MarkerOptions markerOptions = new MarkerOptions()
+                    .position(getMovingMarkerPosition())
+                    .draggable(true)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            movingMarker = map.addMarker(markerOptions);
+    }
 
     /**
      * @inheritDoc
      */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        super.onMapReady(googleMap);
+        map = googleMap;
+        super.onMapReady(map);
         //Create the marker, and mark it as movable
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(new LatLng(0, 0))
                 .draggable(true)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        movingMarker = googleMap.addMarker(markerOptions);
+        movingMarker = map.addMarker(markerOptions);
         //Upon moving, update the marker's true position.
-        googleMap.setOnMarkerDragListener(new OnMarkerDragListener() {
+        map.setOnMarkerDragListener(new OnMarkerDragListener() {
 
 
             @Override
@@ -42,7 +66,7 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
             public void onMarkerDragEnd(@NonNull Marker marker) {
                 movingMarker.setPosition(marker.getPosition());
                 movingMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+                map.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
             }
 
             @Override

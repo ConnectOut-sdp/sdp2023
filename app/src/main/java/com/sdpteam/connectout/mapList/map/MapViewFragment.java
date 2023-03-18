@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.mapList.map;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,15 +19,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.mapList.MapListModel;
+import com.sdpteam.connectout.mapList.MapListViewModel;
+import com.sdpteam.connectout.mapList.MapListViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap map;
-    private MapViewModel mapViewModel;
+    private final MapListViewModel mapViewModel;
     private static final int DEFAULT_MAP_ZOOM = 15;
+
+    public MapViewFragment(MapListViewModel mapViewModel){
+        this.mapViewModel = mapViewModel;
+    }
 
     @Nullable
     @Override
@@ -39,8 +47,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        final MapViewModelFactory viewModelFactory = new MapViewModelFactory(() -> new MutableLiveData<>(new ArrayList<>()));
-        mapViewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(MapViewModel.class);
+        //final MapListViewModelFactory viewModelFactory = new MapListViewModelFactory((String filteredAttribute, String expectedValue) -> new MutableLiveData<>(new ArrayList<>()));
+        //mapViewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(MapListViewModel.class);
         mapViewModel.getEventList().observe(getViewLifecycleOwner(), this::showNewMarkerList);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
@@ -49,19 +57,21 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         return rootView;
     }
 
-    private void showNewMarkerList(List<Event> eventList) {
+
+    public void showNewMarkerList(List<Event> eventList) {
         if (map == null) {
             return;
         }
         map.clear();
+        eventList = eventList.stream().filter(e-> e.getCoordinates() != null).collect(Collectors.toList());
+
         for (Event e : eventList) {
             MarkerOptions m = new MarkerOptions().position(e.getCoordinates().toLatLng()).title(e.getTitle());
             map.addMarker(m);
         }
-        // zoom to first event
-        if (!eventList.isEmpty()) {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventList.get(0).getCoordinates().toLatLng(), DEFAULT_MAP_ZOOM));
-        }
+    }
+    public void spotsOn(Event event){
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(event.getCoordinates().toLatLng(), DEFAULT_MAP_ZOOM));
     }
 
     /**
