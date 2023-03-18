@@ -23,7 +23,7 @@ public class MapListModel implements MapListModelManager{
 
     private final MutableLiveData<List<Event>> cachedEvents;
 
-    public MapListModel() {
+    public MapListModel(){
         database = FirebaseDatabase.getInstance().getReference();
         cachedEvents = new MutableLiveData<>(new ArrayList<>());
     }
@@ -32,10 +32,7 @@ public class MapListModel implements MapListModelManager{
     public MutableLiveData<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue) {
 
         Query wantedEvents = database.child(EventCreatorModel.DATABASE_EVENT_PATH).limitToFirst(MAX_EVENTS_FETCHED);
-
-        if (filteredAttribute != null && expectedValue != null) {
-            wantedEvents = wantedEvents.orderByChild(filteredAttribute).startAt(expectedValue).endAt(expectedValue);
-        }
+        //TODO event filtering
 
         wantedEvents.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

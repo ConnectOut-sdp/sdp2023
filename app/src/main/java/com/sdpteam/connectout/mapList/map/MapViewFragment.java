@@ -47,8 +47,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //final MapListViewModelFactory viewModelFactory = new MapListViewModelFactory((String filteredAttribute, String expectedValue) -> new MutableLiveData<>(new ArrayList<>()));
-        //mapViewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(MapListViewModel.class);
         mapViewModel.getEventList().observe(getViewLifecycleOwner(), this::showNewMarkerList);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
@@ -69,9 +67,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             MarkerOptions m = new MarkerOptions().position(e.getCoordinates().toLatLng()).title(e.getTitle());
             map.addMarker(m);
         }
-    }
-    public void spotsOn(Event event){
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(event.getCoordinates().toLatLng(), DEFAULT_MAP_ZOOM));
     }
 
     /**
