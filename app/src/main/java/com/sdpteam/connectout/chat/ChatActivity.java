@@ -48,10 +48,6 @@ public class ChatActivity extends AppCompatActivity {
         chatId = getIntent().getStringExtra("chatId");
         chatId = (chatId == null)? NULL_CHAT : chatId;
 
-        /*viewModel.saveMessage(new ChatMessage("Luc", "Luc", "Il est trop fort Aymeric", chatId));
-        viewModel.saveMessage(new ChatMessage("Mikael", "Mikael", "Vraiment", chatId));
-        viewModel.saveMessage(new ChatMessage("Eric", "Eric", "C'est fou comme je t admire mec", chatId));*/
-
         //we enable the return button in the ActionBar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -63,6 +59,7 @@ public class ChatActivity extends AppCompatActivity {
             input.setText("");
         });
 
+        //set up the ListView
         setUpListAdapter();
     }
 
@@ -82,6 +79,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setUpListAdapter() {
         ListView listOfMessages = findViewById(R.id.list_of_messages);
+        listOfMessages.setStackFromBottom(true);
         //TODO there shouldn't be any Firebase in the view
         //passer populateView au model dans une lambda
         //so a solution is probably to send populate View as a lambda to a function in the Model
@@ -92,7 +90,7 @@ public class ChatActivity extends AppCompatActivity {
                 .limitToLast(50);
 
         FirebaseListOptions<ChatMessage> options = new FirebaseListOptions.Builder<ChatMessage>()
-                .setLayout(R.layout.message)//Note: The guide doesn't mention this method, without it an exception is thrown that the layout has to be set.
+                .setLayout(R.layout.message)
                 .setQuery(query, ChatMessage.class)
                 .setLifecycleOwner(this)   //Added this
                 .build();
