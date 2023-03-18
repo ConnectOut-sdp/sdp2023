@@ -4,9 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.sdpteam.connectout.mapList.MapListModelManager;
-import com.sdpteam.connectout.mapList.MapListViewModel;
-
 /**
  * Used by ViewModelProvider to instantiate the MapListViewModel with custom arguments (here the model)
  */

@@ -3,15 +3,12 @@ package com.sdpteam.connectout.mapList;
 import static com.sdpteam.connectout.utils.LiveDataTestUtil.toCompletableFuture;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.mapList.map.GPSCoordinates;
-import com.sdpteam.connectout.mapList.MapListModelManager;
-import com.sdpteam.connectout.mapList.MapListViewModel;
 
 import org.junit.Test;
 

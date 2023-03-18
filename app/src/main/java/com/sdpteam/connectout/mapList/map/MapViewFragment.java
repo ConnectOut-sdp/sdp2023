@@ -9,21 +9,15 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.mapList.MapListModel;
 import com.sdpteam.connectout.mapList.MapListViewModel;
-import com.sdpteam.connectout.mapList.MapListViewModelFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +27,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private final MapListViewModel mapViewModel;
     private static final int DEFAULT_MAP_ZOOM = 15;
 
-    public MapViewFragment(MapListViewModel mapViewModel){
+    public MapViewFragment(MapListViewModel mapViewModel) {
         this.mapViewModel = mapViewModel;
     }
 
@@ -61,7 +55,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
         map.clear();
-        eventList = eventList.stream().filter(e-> e.getCoordinates() != null).collect(Collectors.toList());
+        eventList = eventList.stream().filter(e -> e.getCoordinates() != null).collect(Collectors.toList());
 
         for (Event e : eventList) {
             MarkerOptions m = new MarkerOptions().position(e.getCoordinates().toLatLng()).title(e.getTitle());

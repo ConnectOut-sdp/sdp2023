@@ -28,16 +28,16 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
 
 
     @Override
-    public void showNewMarkerList(List<Event> eventList){
-        if(map == null){
+    public void showNewMarkerList(List<Event> eventList) {
+        if (map == null) {
             return;
         }
         super.showNewMarkerList(eventList);
         MarkerOptions markerOptions = new MarkerOptions()
-                    .position(getMovingMarkerPosition())
-                    .draggable(true)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-            movingMarker = map.addMarker(markerOptions);
+                .position(getMovingMarkerPosition())
+                .draggable(true)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        movingMarker = map.addMarker(markerOptions);
     }
 
     /**
@@ -83,7 +83,7 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
      * @return (LatLng): Position of the movable marker
      */
     public LatLng getMovingMarkerPosition() {
-        return movingMarker == null ? new LatLng(0,0) : movingMarker.getPosition();
+        return movingMarker == null ? new LatLng(0, 0) : movingMarker.getPosition();
     }
 
 

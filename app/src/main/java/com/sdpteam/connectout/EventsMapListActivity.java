@@ -1,23 +1,16 @@
 package com.sdpteam.connectout;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Switch;
 
-import com.sdpteam.connectout.drawer.FilterFragment;
-import com.sdpteam.connectout.event.Event;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.sdpteam.connectout.mapList.MapListModel;
-import com.sdpteam.connectout.mapList.MapListModelManager;
-import com.sdpteam.connectout.mapList.list.ListViewFragment;
-import com.sdpteam.connectout.mapList.map.MapViewFragment;
 import com.sdpteam.connectout.mapList.MapListViewModel;
 import com.sdpteam.connectout.mapList.MapListViewModelFactory;
-
-import java.util.List;
+import com.sdpteam.connectout.mapList.list.ListViewFragment;
+import com.sdpteam.connectout.mapList.map.MapViewFragment;
 
 public class EventsMapListActivity extends WithFragmentActivity {
 
@@ -38,14 +31,14 @@ public class EventsMapListActivity extends WithFragmentActivity {
         replaceFragment(mapViewFragment, R.id.events_map_list_container);
 
         mapListSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isChecked) {
-                replaceFragment(mapViewFragment, R.id.events_map_list_container);
-                System.out.println("switch is checked");
-            } else {
-                replaceFragment(listViewFragment, R.id.events_map_list_container);
-                System.out.println("switch unchecked");
-            }
-        }
+                    if (!isChecked) {
+                        replaceFragment(mapViewFragment, R.id.events_map_list_container);
+                        System.out.println("switch is checked");
+                    } else {
+                        replaceFragment(listViewFragment, R.id.events_map_list_container);
+                        System.out.println("switch unchecked");
+                    }
+                }
 
         );
 

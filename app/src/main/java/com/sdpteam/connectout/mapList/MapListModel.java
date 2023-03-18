@@ -17,13 +17,13 @@ import com.sdpteam.connectout.event.EventCreatorModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapListModel implements MapListModelManager{
+public class MapListModel implements MapListModelManager {
     private final DatabaseReference database;
     private final static int MAX_EVENTS_FETCHED = 50;
 
     private final MutableLiveData<List<Event>> cachedEvents;
 
-    public MapListModel(){
+    public MapListModel() {
         database = FirebaseDatabase.getInstance().getReference();
         cachedEvents = new MutableLiveData<>(new ArrayList<>());
     }
@@ -38,7 +38,7 @@ public class MapListModel implements MapListModelManager{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Event> eventList = new ArrayList<>();
-                if(snapshot.exists() && snapshot.getChildrenCount() > 0){
+                if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                     snapshot.getChildren().forEach(child -> eventList.add(child.getValue(Event.class)));
                 }
                 cachedEvents.setValue(eventList);

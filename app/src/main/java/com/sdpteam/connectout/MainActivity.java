@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Don't put anything here, just choose which activity to redirect to
-        Intent drawerIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
-        this.startActivity(drawerIntent);
+        Intent intent = new Intent(getApplicationContext(), EventsMapListActivity.class);
+        this.startActivity(intent);
     }
 }
