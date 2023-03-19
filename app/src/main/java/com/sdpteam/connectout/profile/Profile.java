@@ -14,21 +14,26 @@ public class Profile {
 
     private final int numRatings;
 
-    private final String uid;
+    private final String id;
 
     public final static Profile NULL_PROFILE = new Profile();
     private Profile() {
         this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
     }
 
+
     public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings) {
-        this.uid = uid;
+        this.id = uid;
         this.name = name;
         this.email = email;
         this.bio = bio;
         this.gender = gender;
         this.rating = rating;
         this.numRatings = numRatings;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Gender getGender() {
@@ -45,10 +50,6 @@ public class Profile {
 
     public String getName() {
         return name;
-    }
-
-    public String getId() {
-        return uid;
     }
 
     public double getRating() {
