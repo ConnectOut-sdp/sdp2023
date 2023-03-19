@@ -24,11 +24,7 @@ public class ChatMessage {
 
     /**if no time is specified, then the time that the constructor is called is used*/
     public ChatMessage(String userName, String userId, String messageText, String chatId) {
-        this.userName = userName;
-        this.userId = userId;
-        this.messageText = messageText;
-        messageTime = new Date().getTime();
-        this.chatId = chatId;
+        this(userName, userId, messageText, new Date().getTime(), chatId);
     }
     public ChatMessage(){
         this(NULL_USER, NULL_USER, "", 0, NULL_CHAT);

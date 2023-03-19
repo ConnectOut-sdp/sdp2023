@@ -18,11 +18,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
@@ -32,17 +29,16 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ChatActivity extends AppCompatActivity {
-    ChatViewModel viewModel = new ChatViewModel(new ChatModel());
-    AuthenticatedUser au = new GoogleAuth().loggedUser();
 
-    String uid = (au == null) ? NULL_USER : au.uid;
+    private final String YOU = "You";
+    public ChatViewModel viewModel = new ChatViewModel(new ChatModel());
+    public AuthenticatedUser au = new GoogleAuth().loggedUser();
 
-    private FirebaseListAdapter<ChatMessage> adapter;
+    public String uid = (au == null) ? NULL_USER : au.uid;
 
+    public final String userName = viewModel.getProfileUserName();
 
-    private final String userName = viewModel.getProfileUserName();
-
-    String chatId;
+    public String chatId;
 
     public static final String NULL_CHAT = "null_chat";
     @Override
@@ -104,17 +100,13 @@ public class ChatActivity extends AppCompatActivity {
             // Format the date before showing it
             messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
                     chatMessage.getMessageTime()));
-
+            messageTime.setGravity(Gravity.END);
             if (chatMessage.getUserId().equals(uid)){//your messages are to the right of the screen
-                messageText.setGravity(Gravity.RIGHT);
-                messageUser.setText("You");
+                messageText.setGravity(Gravity.END);
+                messageUser.setText(YOU);
                 messageUser.setGravity(Gravity.CENTER);
-                messageTime.setGravity(Gravity.RIGHT);
                 Drawable backgroundDrawable = DrawableCompat.wrap(v.getBackground()).mutate();
-                backgroundDrawable.setColorFilter( 0x58F8F800, PorterDuff.Mode.ADD );
-            }
-            else{
-                messageTime.setGravity(Gravity.RIGHT);
+                backgroundDrawable.setColorFilter( 0x58F8F800, PorterDuff.Mode.ADD);
             }
         };
     }

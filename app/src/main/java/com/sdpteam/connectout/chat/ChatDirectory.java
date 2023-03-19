@@ -14,10 +14,6 @@ import java.util.function.Function;
 
 
 public interface ChatDirectory {
-    /**
-     * Get the n last ChatMessages from the chat with the given id
-     */
-    LiveData<List<ChatMessage>> getMessages(int n, String chatId);
 
     /**
      * Save your new ChatMessage
