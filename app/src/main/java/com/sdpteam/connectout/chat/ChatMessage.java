@@ -14,7 +14,7 @@ public class ChatMessage {
 
     private final String chatId;
 
-    public ChatMessage(String userName, String userId, String messageText, long messageTime, String chatId){
+    public ChatMessage(String userName, String userId, String messageText, long messageTime, String chatId) {
         this.userName = userName;
         this.userId = userId;
         this.messageText = messageText;
@@ -22,11 +22,14 @@ public class ChatMessage {
         this.chatId = chatId;
     }
 
-    /**if no time is specified, then the time that the constructor is called is used*/
+    /**
+     * if no time is specified, then the time that the constructor is called is used
+     */
     public ChatMessage(String userName, String userId, String messageText, String chatId) {
         this(userName, userId, messageText, new Date().getTime(), chatId);
     }
-    public ChatMessage(){
+
+    public ChatMessage() {
         this(NULL_USER, NULL_USER, "", 0, NULL_CHAT);
     }
 

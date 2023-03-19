@@ -14,18 +14,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class ChatModel implements ChatDirectory{
+public class ChatModel implements ChatDirectory {
 
     private final DatabaseReference firebaseRef;
-    public String CHATS_PATH_STRING = "Chats"; //may be changed to Test/Chats in test mode
+    public final String CHATS_PATH_STRING = "Chats";
 
     public final static int NUM_IMPORTED_MESSAGES = 50;
     private final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    private final String userName = (currentUser == null)? NULL_USER : currentUser.getDisplayName();
+    private final String userName = (currentUser == null) ? NULL_USER : currentUser.getDisplayName();
 
     private FirebaseListAdapter<ChatMessage> adapter;
 
@@ -33,22 +34,31 @@ public class ChatModel implements ChatDirectory{
         firebaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
+    /**
+     * Saves a given chatMessage to firebase
+     */
     @Override
     public void saveMessage(ChatMessage message) {
         firebaseRef.child(CHATS_PATH_STRING).child(message.getChatId()).push().setValue(message);
     }
 
+    /**
+     * Called by the ChatView
+     */
     @Override
     public String getProfileUserName() {
         return userName;
     }
 
+    /**
+     * sets up the FirebaseListAdapter for the chat view
+     */
     @Override
     public void setUpListAdapter(Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLayout,
                                  Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLifecycleOwner,
                                  BiConsumer<View, ChatMessage> populateView,
                                  Consumer<ListAdapter> setAdapter,
-                                 String chatId){
+                                 String chatId) {
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
@@ -57,11 +67,11 @@ public class ChatModel implements ChatDirectory{
                 .limitToLast(NUM_IMPORTED_MESSAGES);
 
         FirebaseListOptions<ChatMessage> options = setLifecycleOwner.apply(
-                setLayout.apply(new FirebaseListOptions.Builder<ChatMessage>())
-                        .setQuery(query, ChatMessage.class))
+                        setLayout.apply(new FirebaseListOptions.Builder<ChatMessage>())
+                                .setQuery(query, ChatMessage.class))
                 .build();
 
-        adapter = new FirebaseListAdapter<ChatMessage>(options){
+        adapter = new FirebaseListAdapter<ChatMessage>(options) {
             @Override
             protected void populateView(@NonNull View v, @NonNull ChatMessage chatMessage, int position) {
                 populateView.accept(v, chatMessage);
@@ -71,12 +81,12 @@ public class ChatModel implements ChatDirectory{
         setAdapter.accept(adapter);
     }
 
-    public void enterTestMode(){
-        CHATS_PATH_STRING = "Test/Chats";
-    }
-
-    public void emptyTestMode(){
+    /**
+     * Testing is done in the chat called TestChat, but it is important to delete the chat messages
+     * generated during the test which is what this method does
+     */
+    public void emptyTestMode() {
         //hardcoded value to avoid unwanted errors
-        firebaseRef.child("Test/Chats").removeValue();
+        firebaseRef.child("Chats/TestChat").removeValue();
     }
 }

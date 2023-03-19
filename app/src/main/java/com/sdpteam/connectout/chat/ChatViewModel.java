@@ -25,15 +25,21 @@ public class ChatViewModel extends ViewModel {
         chatModel.saveMessage(message);
     }
 
-    public String getProfileUserName(){
+    /**
+     * Called by the ChatView
+     */
+    public String getProfileUserName() {
         return chatModel.getProfileUserName();
     }
 
+    /**
+     * sets up the FirebaseListAdapter for the chat view
+     */
     public void setUpListAdapter(Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLayout,
                                  Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLifecycleOwner,
                                  BiConsumer<View, ChatMessage> populateView,
                                  Consumer<ListAdapter> setAdapter,
-                                 String chatId){
+                                 String chatId) {
         chatModel.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, chatId);
     }
 }
