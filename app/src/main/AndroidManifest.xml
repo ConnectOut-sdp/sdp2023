@@ -39,6 +39,7 @@
 
         <activity
             android:name=".userList.UserListActivity"
+            android:theme="@style/Theme.ConnectOut.NoActionBar"
             android:exported="false" />
 
         <activity

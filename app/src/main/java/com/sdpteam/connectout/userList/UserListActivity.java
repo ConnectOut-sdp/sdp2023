@@ -1,29 +1,42 @@
 package com.sdpteam.connectout.userList;
 
 import android.os.Bundle;
+import android.widget.ToggleButton;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.WithFragmentActivity;
+import com.sdpteam.connectout.drawer.FilterFragment;
 
-public class UserListActivity extends AppCompatActivity {
+public class UserListActivity extends WithFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
-        Fragment fragment = new UserListFragment();
-        loadFragment(fragment);
+
+        Toolbar toolbar = findViewById(R.id.user_list_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> this.finish());
+
+        ToggleButton filterButton = findViewById(R.id.user_list_button);
+
+        UserListFragment listFragment = new UserListFragment();
+        replaceFragment(listFragment, R.id.container_users_listview);
+
+        FilterFragment filterFragment  = new FilterFragment();
+
+        filterButton.setOnClickListener(v -> {
+            if (filterButton.isChecked()) {
+                listFragment.stopObservation();
+                replaceFragment(filterFragment, R.id.container_users_listview);
+            } else {
+                filterFragment.stopObservation();
+                replaceFragment(listFragment, R.id.container_users_listview);
+            }
+        });
     }
 
-    private void loadFragment(Fragment fragment) {
-        // load fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        //frame_container is your layout name in xml file
-        transaction.replace(R.id.container_users_listview, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
+
 }

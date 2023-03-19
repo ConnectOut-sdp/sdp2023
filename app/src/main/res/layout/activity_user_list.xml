@@ -1,9 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container_users_listview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".userList.UserListActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/user_list_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+
+        android:theme="@style/Theme.ConnectOut.AppBarOverlay"
+        app:navigationIcon="@drawable/back_arrow_image">
+
+        <ToggleButton
+            android:id="@+id/user_list_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/filter_image"
+            android:drawableBottom="@drawable/filter_image"
+            android:textOff="Filter Off"
+            android:textOn="Filter On"
+            android:textSize="15dp"
+            android:background="?attr/colorPrimary"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/fab_margin"
+            >
+
+
+        </ToggleButton>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <FrameLayout
+        android:id="@+id/container_users_listview"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/user_list_toolbar"
+        android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>
