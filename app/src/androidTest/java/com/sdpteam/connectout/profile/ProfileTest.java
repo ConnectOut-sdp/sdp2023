@@ -3,11 +3,67 @@ package com.sdpteam.connectout.profile;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import com.sdpteam.connectout.profile.Profile;
-
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
 public class ProfileTest {
+
+    /**
+     * Since these tests are fetching from the database, they are also testing the
+     * Model
+     */
+
+    @Rule
+    public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(ProfileActivity.class);
+
+    @Before
+    public void setup() { Intents.init(); }
+
+    @After
+    public void cleanup() {
+        Intents.release();
+    }
+
+//    @Test
+//    public void testProfileDisplayed() {
+//        onView(withId(R.id.profileName)).check(matches(isDisplayed()));
+//        onView(withId(R.id.profileEmail)).check(matches(isDisplayed()));
+//        onView(withId(R.id.profileBio)).check(matches(isDisplayed()));
+//        onView(withId(R.id.profileGender)).check(matches(isDisplayed()));
+//    }
+
+//    @Test
+//    public void testEditProfileButton() {
+//        onView(withId(R.id.buttonEditProfile)).perform(click());
+//        intended(hasComponent(EditProfileActivity.class.getName()));
+//    }
+
+    @Test
+    public void loggedUserTest1() {
+        loggedUserBaseCase("Toto", "toto@gmail.com", "This is my bio, Toto's life", Profile.Gender.MALE);
+    }
+
+    public void loggedUserBaseCase(String name, String email, String bio, Profile.Gender gender) {
+        Profile userProfile = new Profile(EditProfileActivity.NULL_USER, name, email,
+                bio, gender, 1, 1);
+
+        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
+        model.saveProfile(userProfile);
+
+        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.fetchProfile(EditProfileActivity.NULL_USER)).join();
+        ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));
+        ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
+        ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));
+        ViewMatchers.assertThat(fetchedProfile.getGender(), is(gender));
+    }
 
     @Test
     public void gettersAndSettersTest() {

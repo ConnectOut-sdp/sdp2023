@@ -2,15 +2,15 @@ package com.sdpteam.connectout.profile;
 
 import androidx.lifecycle.LiveData;
 
-public interface ProfileDataManager {
+public interface ProfileDirectory {
 
     /**
      * saves the given Profile in the firebase database
      */
-    void saveValue(Profile profile, String uid);
+    void saveProfile(Profile profile);
 
     /**
      * Fetches one's profile from the firebase database
      */
-    LiveData<Profile> getValue(String uid);
+    LiveData<Profile> fetchProfile(String uid);
 }

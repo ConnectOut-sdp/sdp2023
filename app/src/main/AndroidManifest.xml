@@ -15,6 +15,12 @@
             android:name=".ProfileRateActivity"
             android:exported="false" />
         <activity
+            android:name=".registration.CompleteRegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".event.EventActivity"
+            android:exported="false" />
+        <activity
             android:name=".profile.ProfileActivity"
             android:exported="false" />
 
@@ -26,9 +32,15 @@
             android:name=".event.EventCreatorActivity"
             android:exported="false"
             android:theme="@style/Theme.ConnectOut.NoActionBar" />
+
         <activity
             android:name=".drawer.LogInActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".userList.UserListActivity"
+            android:exported="false" />
+
         <activity
             android:name=".drawer.DrawerActivity"
             android:exported="false"
@@ -53,5 +65,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

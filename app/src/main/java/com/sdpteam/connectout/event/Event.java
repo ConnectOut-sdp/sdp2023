@@ -1,6 +1,13 @@
 package com.sdpteam.connectout.event;
 
+import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+
 import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.profile.ProfileID;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class describes an event
@@ -8,26 +15,47 @@ import com.sdpteam.connectout.map.GPSCoordinates;
  */
 public class Event {
 
+    public static Event NULL_EVENT = new Event();
+    private final String id;
     private final String title;
-    private final GPSCoordinates coordinates;
     private final String description;
+    private final GPSCoordinates coordinates;
+    private final String organizer;
+    private final List<ProfileID> participants = new ArrayList<>();
 
-    public Event(String title, GPSCoordinates coordinates, String description) {
-        this.title = title;
-        this.coordinates = coordinates;
-        this.description = description;
+    private Event() {
+        this(null, null, null, null, NULL_USER);
     }
 
-    public String getDescription() {
-        return description;
+    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.coordinates = coordinates;
+        this.organizer = organizer;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public GPSCoordinates getGPSCoordinates() {
+    public String getDescription() {
+        return description;
+    }
+
+    public GPSCoordinates getCoordinates() {
         return coordinates;
     }
 
+    public String getOrganizer() {
+        return organizer;
+    }
+
+    public List<ProfileID> getParticipants() {
+        return participants;
+    }
 }

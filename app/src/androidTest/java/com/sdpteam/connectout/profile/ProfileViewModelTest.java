@@ -4,14 +4,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
+import java.util.concurrent.CompletableFuture;
 
 import org.junit.Test;
 
-import java.util.concurrent.CompletableFuture;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 
 public class ProfileViewModelTest {
@@ -21,7 +21,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        viewModel.saveValue(value, "test");
+        viewModel.saveProfile(value);
 
         assertEquals(value, model.mValue);
     }
@@ -31,7 +31,7 @@ public class ProfileViewModelTest {
         FakeModel model = new FakeModel();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getValue("test"));
+        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getProfile("test"));
 
         Profile p = future.join();
 
@@ -43,17 +43,17 @@ public class ProfileViewModelTest {
 
     }
 
-    public static class FakeModel implements ProfileDataManager {
+    public static class FakeModel implements ProfileDirectory {
         public Profile mValue;
         private MutableLiveData<Profile> mLiveData = new MutableLiveData<>();
 
         @Override
-        public void saveValue(Profile value, String uid) {
+        public void saveProfile(Profile value) {
             mValue = value;
         }
 
         @Override
-        public LiveData<Profile> getValue(String uid) {
+        public LiveData<Profile> fetchProfile(String uid) {
             mLiveData= new MutableLiveData<>(new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1));
             return mLiveData;
         }
