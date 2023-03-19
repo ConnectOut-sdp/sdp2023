@@ -2,7 +2,7 @@ package com.sdpteam.connectout.profile;
 
 import androidx.lifecycle.LiveData;
 
-public interface ProfileDirectory {
+public interface ProfileDataManager {
 
     /**
      * saves the given Profile in the firebase database

@@ -55,7 +55,7 @@ public class ProfileTest {
         Profile userProfile = new Profile(EditProfileActivity.NULL_USER, name, email,
                 bio, gender, 1, 1);
 
-        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
+        ProfileModel model = new ProfileModel();
         model.saveProfile(userProfile);
 
         Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.fetchProfile(EditProfileActivity.NULL_USER)).join();

@@ -68,7 +68,7 @@ public class EditProfileTest {
         Profile previousProfile = new Profile(EditProfileActivity.NULL_USER, "bob", "bob@gmail.com",
                 null, Profile.Gender.MALE, 1, 1);
 
-        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
+        ProfileModel model = new ProfileModel();
         model.saveProfile(previousProfile);
 
         onView(ViewMatchers.withId(R.id.editTextName)).perform(typeText(name));

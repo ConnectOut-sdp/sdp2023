@@ -23,7 +23,7 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDirectory;
+import com.sdpteam.connectout.profile.ProfileDataManager;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import android.content.Intent;
@@ -48,7 +48,7 @@ public class CompleteRegistrationFormTest {
 
     private RegistrationViewModel viewModel;
     private final MutableLiveData<Profile> databaseContent = new MutableLiveData<>();
-    private final ProfileDirectory fakeProfilesDatabase = new ProfileDirectory() {
+    private final ProfileDataManager fakeProfilesDatabase = new ProfileDataManager() {
         @Override
         public void saveProfile(Profile profile) {
             Handler handler = new Handler(Looper.getMainLooper());

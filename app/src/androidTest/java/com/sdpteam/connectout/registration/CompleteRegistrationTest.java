@@ -7,7 +7,7 @@ import static org.hamcrest.core.Is.is;
 import org.junit.Test;
 
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDirectory;
+import com.sdpteam.connectout.profile.ProfileDataManager;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import android.os.Handler;
@@ -20,7 +20,7 @@ public class CompleteRegistrationTest {
     @Test
     public void testCompleteRegistrationActuallySetsCorrectValues() {
         MutableLiveData<Profile> databaseContent = new MutableLiveData<>();
-        ProfileDirectory fakeProfileDatabase = new ProfileDirectory() {
+        ProfileDataManager fakeProfileDatabase = new ProfileDataManager() {
             @Override
             public void saveProfile(Profile profile) {
                 Handler handler = new Handler(Looper.getMainLooper());

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.ProfileModel;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -42,7 +42,7 @@ public class CompleteRegistrationForm extends Fragment {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                CompleteRegistration registrationToFirebase = new CompleteRegistration(new ProfileFirebaseDataSource());
+                CompleteRegistration registrationToFirebase = new CompleteRegistration(new ProfileModel());
                 GoogleAuth googleAuth = new GoogleAuth();
                 return (T) new RegistrationViewModel(registrationToFirebase, googleAuth); // use the real view model
             }
@@ -85,14 +85,10 @@ public class CompleteRegistrationForm extends Fragment {
 
         Button finishButton = view.findViewById(R.id.finishButton);
         finishButton.setEnabled(false);
-        finishButton.setOnClickListener(v -> {
-            submitForm(nameEditor, emailEditor, bioEditor, radioGroup);
-        });
+        finishButton.setOnClickListener(v -> submitForm(nameEditor, emailEditor, bioEditor, radioGroup));
 
         CheckBox checkBox = view.findViewById(R.id.checkBox);
-        checkBox.setOnClickListener(v -> {
-            finishButton.setEnabled(checkBox.isChecked());
-        });
+        checkBox.setOnClickListener(v -> finishButton.setEnabled(checkBox.isChecked()));
 
         super.onViewCreated(view, savedInstanceState);
     }
@@ -106,7 +102,7 @@ public class CompleteRegistrationForm extends Fragment {
         try {
             registrationViewModel.completeRegistration(name, email, bio, gender);
         } catch (IllegalStateException e) {
-            // error unhandled for the moment
+            // TODO error unhandled for the moment
             throw e;
         }
     }

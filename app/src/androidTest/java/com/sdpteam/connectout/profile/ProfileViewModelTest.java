@@ -43,7 +43,7 @@ public class ProfileViewModelTest {
 
     }
 
-    public static class FakeModel implements ProfileDirectory {
+    public static class FakeModel implements ProfileDataManager {
         public Profile mValue;
         private MutableLiveData<Profile> mLiveData = new MutableLiveData<>();
 
