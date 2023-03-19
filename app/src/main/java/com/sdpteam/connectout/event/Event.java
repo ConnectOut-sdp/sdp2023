@@ -1,7 +1,13 @@
 package com.sdpteam.connectout.event;
 
+import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.profile.ProfileID;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class describes an event
@@ -9,44 +15,47 @@ import com.sdpteam.connectout.profile.EditProfileActivity;
  */
 public class Event {
 
+    public static Event NULL_EVENT = new Event();
+    private final String id;
     private final String title;
-    private final GPSCoordinates gpsCoordinates;
     private final String description;
-    private final String ownerId;
-    private final String eventId;
-
-    public final static Event NULL_EVENT = new Event();
+    private final GPSCoordinates coordinates;
+    private final String organizer;
+    private final List<ProfileID> participants = new ArrayList<>();
 
     private Event() {
-        this(null, null, null, EditProfileActivity.NULL_USER, null);
+        this(null, null, null, null, NULL_USER);
     }
 
-    public Event(String title, GPSCoordinates gpsCoordinates, String description, String ownerId, String eventId) {
+    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
+        this.id = id;
         this.title = title;
-        this.gpsCoordinates = gpsCoordinates;
         this.description = description;
-        this.ownerId = ownerId;
-        this.eventId = eventId;
+        this.coordinates = coordinates;
+        this.organizer = organizer;
     }
 
-    public String getDescription() {
-        return description;
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
-
-    public GPSCoordinates getGpsCoordinates() {
-        return gpsCoordinates;
+    public String getDescription() {
+        return description;
     }
 
-    public String getOwnerId() {
-        return ownerId;
+    public GPSCoordinates getCoordinates() {
+        return coordinates;
     }
 
-    public String getEventId() {
-        return eventId;
+    public String getOrganizer() {
+        return organizer;
+    }
+
+    public List<ProfileID> getParticipants() {
+        return participants;
     }
 }

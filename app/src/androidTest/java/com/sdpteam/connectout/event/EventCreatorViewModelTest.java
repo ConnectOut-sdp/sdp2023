@@ -19,14 +19,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class EventCreatorViewModelTest {
-    public static final Event TEST_EVENT1 = new Event("Tenis", new GPSCoordinates(10, 10), "Searching for a tenis partner", "Eric", "1");
+    public static final Event TEST_EVENT1 = new Event("1", "Tenis", "Searching for a tenis partner", new GPSCoordinates(10, 10), "Eric");
 
     @Test
     public void testSavesValueAddsToExistingStore() {
 
         EventCreatorViewModelTest.TestEventCreatorModel model = new TestEventCreatorModel();
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
-        Event event = new Event("Climbing", new GPSCoordinates(10, 10), "Searching for a climbing group", "Eric", viewModel.getUniqueId());
+        Event event = new Event(viewModel.getUniqueId(), "Climbing", "Searching for a climbing group", new GPSCoordinates(10, 10), "Eric");
 
         viewModel.saveEvent(event);
         assertTrue(TestEventCreatorModel.EVENT_LIST.contains(event));
@@ -37,7 +37,9 @@ public class EventCreatorViewModelTest {
         EventCreatorViewModelTest.TestEventCreatorModel model = new TestEventCreatorModel();
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
 
-        CompletableFuture<Event> future = LiveDataTestUtil.toCompletableFuture(viewModel.getEvent("1"));
+        LiveData<Event> mutableLiveData =  viewModel.getEvent("1");
+
+        CompletableFuture<Event> future = LiveDataTestUtil.toCompletableFuture(mutableLiveData);
         Event e = future.join();
 
         assertThat(e, is(TEST_EVENT1));
@@ -74,13 +76,13 @@ public class EventCreatorViewModelTest {
 
         @Override
         public LiveData<Event> getEvent(String eid) {
-            List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getEventId().equals(eid)).collect(Collectors.toList());
+            List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getId().equals(eid)).collect(Collectors.toList());
             return filtered.isEmpty() ? null : new MutableLiveData<>(filtered.get(0));
         }
 
         @Override
         public LiveData<Event> getEvent(String uid, String title) {
-            List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getOwnerId().equals(uid) && e.getTitle().equals(title)).collect(Collectors.toList());
+            List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getOrganizer().equals(uid) && e.getTitle().equals(title)).collect(Collectors.toList());
             return filtered.isEmpty() ? null : new MutableLiveData<>(filtered.get(0));
         }
 

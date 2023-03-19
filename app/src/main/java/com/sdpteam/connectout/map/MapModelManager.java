@@ -6,7 +6,7 @@ import com.sdpteam.connectout.event.Event;
 
 import java.util.List;
 
-public interface InterfaceMapModel {
+public interface MapModelManager {
 
     MutableLiveData<List<Event>> getEventLiveList();
 }

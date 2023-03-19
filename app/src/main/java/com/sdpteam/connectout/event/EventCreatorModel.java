@@ -34,7 +34,7 @@ public class EventCreatorModel implements EventDataManager {
     @Override
     public boolean saveEvent(Event event) {
         if (event != null) {
-            database.child(DATABASE_EVENT_PATH).child(event.getEventId()).setValue(event);
+            database.child(DATABASE_EVENT_PATH).child(event.getId()).setValue(event);
             return true;
         }
         return false;
@@ -88,7 +88,7 @@ public class EventCreatorModel implements EventDataManager {
                     //Casts child into an event using default constructor.
                     Event e = snapshot.getValue(Event.class);
                     //Fetch the event with matching attributes.
-                    if (userId.equals(e.getOwnerId()) && title.equals(e.getTitle())) {
+                    if (userId.equals(e.getOrganizer()) && title.equals(e.getTitle())) {
                         matchingEvent = e;
                         break;
                     }

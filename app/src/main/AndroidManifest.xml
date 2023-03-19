@@ -18,6 +18,9 @@
             android:name=".registration.CompleteRegistrationActivity"
             android:exported="false" />
         <activity
+            android:name=".event.EventActivity"
+            android:exported="false" />
+        <activity
             android:name=".profile.ProfileActivity"
             android:exported="false" />
 
@@ -26,9 +29,10 @@
             android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
 
         <activity
-            android:name=".event.EventCreatorActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".event.EventCreatorActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
+
         <activity
             android:name=".drawer.LogInActivity"
             android:exported="false" />

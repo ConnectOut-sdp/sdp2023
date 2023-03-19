@@ -11,7 +11,7 @@ import org.junit.Test;
 public class EventTest {
 
     private final static GPSCoordinates TEST_COORDINATES = new GPSCoordinates(new LatLng(0.1, 0.2));
-    private final static Event TEST_EVENT = new Event("event1", TEST_COORDINATES, "descr", "Bob", "3");
+    private final static Event TEST_EVENT = new Event("", "event1", "descr", TEST_COORDINATES, "Bob");
 
     @Test
     public void testConstructorWithTitle() {
@@ -20,8 +20,8 @@ public class EventTest {
 
     @Test
     public void testConstructorWithCoordinates() {
-        assertThat(TEST_EVENT.getGpsCoordinates().getLatitude(), is(0.1));
-        assertThat(TEST_EVENT.getGpsCoordinates().getLongitude(), is(0.2));
+        assertThat(TEST_EVENT.getCoordinates().getLatitude(), is(0.1));
+        assertThat(TEST_EVENT.getCoordinates().getLongitude(), is(0.2));
     }
 
     @Test
