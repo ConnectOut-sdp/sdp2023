@@ -16,13 +16,13 @@ public class LiveDataTestUtil {
      * @return a classical completable future (can do .orTimeOut().join() for example!)
      */
     public static <T> CompletableFuture<T> toCompletableFuture(LiveData<T> liveData) {
+        if(liveData == null){
+            return null;
+        }
         CompletableFuture<T> completableFuture = new CompletableFuture<>();
         LiveDataObserver<T> observer = new LiveDataObserver<>(completableFuture);
-        // liveData.observeForever(observer); // does not work, must be done on main thread :
         Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(() -> {
-            liveData.observeForever(observer);
-        });
+        handler.post(() -> liveData.observeForever(observer));
 
         return completableFuture;
     }
