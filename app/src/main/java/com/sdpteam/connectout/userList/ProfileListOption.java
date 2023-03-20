@@ -2,6 +2,9 @@ package com.sdpteam.connectout.userList;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Enum describing the different types of filtering possible.
+ */
 public enum ProfileListOption {
     NONE(""),
     RATING("rating"),

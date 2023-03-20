@@ -9,9 +9,9 @@ import java.util.List;
 public interface ProfileListDataManager {
 
     /**
-     * @param option (String): Attribute by which elements should be ordered
-     * @param values (List<Pair<String, String>>): List of all (Value, Attributes) pairs equalities that should be applied
-     * @return (LiveData < List < Profile > >): List of all profiles found that matches the given values.
+     * @param option (ProfileListOption): option of filtering adopted, random, by name or by rating.
+     * @param values (List<String>): list of parsed users inputs which corresponds to the filters.
+     * @return (LiveData < List < Profile > >): List of all profiles found that matches the given filters.
      */
     LiveData<List<Profile>> getListOfProfile(ProfileListOption option, List<String> values);
 }

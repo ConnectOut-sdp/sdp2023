@@ -72,16 +72,27 @@ public class UserListFragment extends Fragment {
         listView.setAdapter(profilesAdapter);
     }
 
+    /**
+     *
+     * @param option (ProfileListOption): different possible filtering options of the list.
+     * @param arguments (List<String>): parsed user inputs that indicates filters values.
+     */
     public void changeObserved(ProfileListOption option, List<String> arguments) {
+        //If a profile list is already observed.
         if (observed != null) {
+            //Remove the observer from this list.
             observed.removeObserver(profilesObserver);
         }
-
+        //Create the new Observed list with given filters.
         observed = viewModel.getListOfProfile(option, arguments);
+        //Observe the filtered list.
         observed.observe(getViewLifecycleOwner(), profilesObserver);
 
     }
 
+    /**
+     * Remove all observations on the current filtered list.
+     */
     public void stopObservation() {
         if (observed != null) {
             observed.removeObserver(profilesObserver);

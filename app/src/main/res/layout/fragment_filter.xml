@@ -41,8 +41,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginTop="@dimen/fab_margin"
-        android:textOn="To Rating"
-        android:textOff="To Name"
+        android:textOn="@string/rating_toggle_button"
+        android:textOff="@string/name_toggle_button"
         tools:ignore="UseSwitchCompatOrMaterialXml">
 
     </ToggleButton>
@@ -53,8 +53,8 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_alignParentEnd="true"
-        android:textOff="Apply"
-        android:textOn="Apply"
+        android:textOff="@string/apply_button"
+        android:textOn="@string/apply_button"
         android:layout_height="wrap_content"/>
 
 

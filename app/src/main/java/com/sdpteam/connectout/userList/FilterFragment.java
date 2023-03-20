@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.drawer;
+package com.sdpteam.connectout.userList;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.userList.ProfileListOption;
@@ -30,27 +30,42 @@ public class FilterFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Find the filtering fragment.
         View rootView = inflater.inflate(R.layout.fragment_filter, container, false);
-
+        //write into the filtering fragment, the list.
         this.getChildFragmentManager().beginTransaction().replace(R.id.filter_container, userListFragment).commit();
 
+        //Retrieve Filter tools.
         ToggleButton categoryButton = rootView.findViewById(R.id.filter_category_button);
         ToggleButton applicationButton = rootView.findViewById(R.id.filter_apply_button);
         EditText text = rootView.findViewById(R.id.text_filter);
 
-        applicationButton.setOnClickListener(v-> {
-                    if (categoryButton.isChecked()) {
-                        userListFragment.changeObserved(ProfileListOption.NAME, Collections.singletonList(text.getText().toString()));
-                    } else {
-                        String[] rangeText = text.getText().toString().split(",");
-                        userListFragment.changeObserved(ProfileListOption.RATING, Arrays.stream(rangeText).collect(Collectors.toList()));
-                    }
-                }
-        );
+        //Upon click, apply changes on the list.
+        applicationButton.setOnClickListener(v-> swapTypeOnClick(categoryButton.isChecked(), text.getText().toString()));
+        categoryButton.setOnClickListener(v-> swapTypeOnClick(categoryButton.isChecked(), text.getText().toString()));
+
         return rootView;
     }
 
+    /**
+     * Stop observing changes with the given filters on the list view
+     */
     public void stopObservation(){
         userListFragment.stopObservation();
+    }
+
+    /**
+     * Swaps the list's observer with one applying the given filters.
+     *
+     * @param isChecked (boolean): true if ordering users by name, false by rating.
+     * @param userInput (String): filters of name or rating given by the user.
+     */
+    private void swapTypeOnClick(boolean isChecked, String userInput){
+        if (isChecked) {
+            userListFragment.changeObserved(ProfileListOption.NAME, Collections.singletonList(userInput));
+        } else {
+            String[] rangeText = userInput.split(";");
+            userListFragment.changeObserved(ProfileListOption.RATING, Arrays.stream(rangeText).collect(Collectors.toList()));
+        }
     }
 }
