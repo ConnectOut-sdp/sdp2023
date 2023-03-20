@@ -71,13 +71,16 @@ public class UserListFragment extends Fragment {
     }
 
     /**
+     * Update what type of filtered list is being observed on the screen.
      *
-     * @param option (OrderingOption): different possible filtering options of the list.
+     * @param option    (OrderingOption): different possible filtering options of the list.
      * @param userInput (String): user inputs that indicates filters values.
      */
     public void changeObserved(OrderingOption option, String userInput) {
         //If a profile list is already observed.
-        if(viewModel == null){return;}
+        if (viewModel == null) {
+            return;
+        }
         if (observed != null) {
             //Remove the observer from this list.
             observed.removeObserver(profilesObserver);

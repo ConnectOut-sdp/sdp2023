@@ -13,10 +13,12 @@ public enum Path {
 
     private String path;
     private final String initPath;
-    Path(String path){
+
+    Path(String path) {
         this.path = path;
         initPath = path;
     }
+
     @NonNull
     @Override
     public String toString() {
@@ -26,14 +28,15 @@ public enum Path {
     /**
      * Tranform the Paths into a testPaths in order to not pollute user's firebase.
      */
-    public static void applyTest(){
-        Arrays.stream(Path.values()).forEach(p -> p.path = Test.initPath+Slash.initPath+p.path);
+    public static void applyTest() {
+        Arrays.stream(Path.values()).forEach(p -> p.path = Test.initPath + Slash.initPath + p.path);
     }
+
     /**
      * Return the Paths to normal paths in order to act on the user's firebase.
      */
-    public static void removeTest(){
-        Arrays.stream(Path.values()).forEach(p -> p.path  = p.initPath);
+    public static void removeTest() {
+        Arrays.stream(Path.values()).forEach(p -> p.path = p.initPath);
     }
 
 

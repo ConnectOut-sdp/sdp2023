@@ -23,7 +23,7 @@ public class ProfilesAdapter extends ArrayAdapter<Profile> {
     /**
      * Makes the array of profiles, containable in a list.
      *
-     * @param context (Context): context of the current view
+     * @param context  (Context): context of the current view
      * @param resource (int): layout that is being inflated with the given list of profiles
      * @param profiles (List<Profile>): List of the given profile that is required to be displayed.
      */

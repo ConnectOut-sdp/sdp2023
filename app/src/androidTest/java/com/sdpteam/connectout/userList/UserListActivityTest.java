@@ -4,12 +4,9 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
 
@@ -73,11 +70,12 @@ public class UserListActivityTest {
         //If exception is thrown, it means that view is destroyed and freed.
         try {
             onView(withId(R.id.filter_container)).check(matches(not(isDisplayed())));
-        }catch (NoMatchingViewException ignored){}
+        } catch (NoMatchingViewException ignored) {
+        }
     }
 
     @Test
-    public void clickOnProfileLaunchesProfileActivity(){
+    public void clickOnProfileLaunchesProfileActivity() {
         onData(anything())
                 .inAdapterView(withId(R.id.user_list_view))
                 .atPosition(0)

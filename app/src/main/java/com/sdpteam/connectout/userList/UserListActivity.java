@@ -28,7 +28,7 @@ public class UserListActivity extends WithFragmentActivity {
         UserListFragment listFragment = new UserListFragment();
         replaceFragment(listFragment, R.id.container_users_listview);
 
-        FilterFragment filterFragment  = new FilterFragment();
+        FilterFragment filterFragment = new FilterFragment();
 
         //Upon switching filter option
         filterButton.setOnClickListener(v -> {

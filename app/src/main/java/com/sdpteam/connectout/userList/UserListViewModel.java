@@ -32,21 +32,24 @@ public class UserListViewModel extends ViewModel {
             case RATING:
                 // Check if a specific rating range is demanded.
                 if (userInput != null) {
+                    //Check that formatting is respected.
                     String[] rangeText = userInput.split(";");
                     if (rangeText.length == 2 && Arrays.stream(rangeText).allMatch(str -> str.matches(NUMBER_REGEX))) {
                         //If it respect the nomenclature, ask for the range.
                         return model.getListOfProfile(option, Arrays.asList(rangeText));
                     }
                 }
-            //If the user want to order profiles by name:
+                //If the user want to order profiles by name:
             case NAME:
+                //Check if user is null
                 if (userInput != null) {
                     return model.getListOfProfile(option, new ArrayList<>(Collections.singleton(userInput)));
                 }
-
-            return model.getListOfProfile(option, null);
+                //If commands userInput non adoptable, just order by the given option.
+                return model.getListOfProfile(option, null);
 
         }
+        //Otherwise, return default mode, with no filters.
         return model.getListOfProfile(OrderingOption.NONE, null);
 
     }

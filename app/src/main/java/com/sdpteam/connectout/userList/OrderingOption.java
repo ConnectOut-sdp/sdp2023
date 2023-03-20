@@ -12,6 +12,7 @@ public enum OrderingOption {
 
 
     private final String name;
+
     OrderingOption(String name) {
         this.name = name;
     }

@@ -1,7 +1,5 @@
 package com.sdpteam.connectout.userList;
 
-import com.sdpteam.connectout.R;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +10,13 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.sdpteam.connectout.R;
+
 public class FilterFragment extends Fragment {
 
     private final UserListFragment userListFragment;
 
-    public FilterFragment(){
+    public FilterFragment() {
         userListFragment = new UserListFragment();
     }
 
@@ -33,8 +33,8 @@ public class FilterFragment extends Fragment {
         EditText text = rootView.findViewById(R.id.text_filter);
 
         //Upon click, apply changes on the list.
-        applicationButton.setOnClickListener(v-> swapTypeOnClick(categoryButton.isChecked(), text.getText().toString()));
-        categoryButton.setOnClickListener(v-> swapTypeOnClick(categoryButton.isChecked(), text.getText().toString()));
+        applicationButton.setOnClickListener(v -> swapTypeOnClick(categoryButton.isChecked(), text.getText().toString()));
+        categoryButton.setOnClickListener(v -> swapTypeOnClick(categoryButton.isChecked(), text.getText().toString()));
 
         return rootView;
     }
@@ -42,7 +42,7 @@ public class FilterFragment extends Fragment {
     /**
      * Stop observing changes with the given filters on the list view
      */
-    public void stopObservation(){
+    public void stopObservation() {
         userListFragment.stopObservation();
     }
 
@@ -52,7 +52,7 @@ public class FilterFragment extends Fragment {
      * @param isChecked (boolean): true if ordering users by name, false by rating.
      * @param userInput (String): filters of name or rating given by the user.
      */
-    private void swapTypeOnClick(boolean isChecked, String userInput){
+    private void swapTypeOnClick(boolean isChecked, String userInput) {
         if (isChecked) {
             userListFragment.changeObserved(OrderingOption.NAME, userInput);
         } else {

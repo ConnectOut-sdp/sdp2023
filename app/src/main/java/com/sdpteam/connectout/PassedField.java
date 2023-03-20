@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 
 public enum PassedField {
     UserId("UserId");
-    private final  String field;
+    private final String field;
 
-    PassedField(String field){
+    PassedField(String field) {
 
         this.field = field;
     }

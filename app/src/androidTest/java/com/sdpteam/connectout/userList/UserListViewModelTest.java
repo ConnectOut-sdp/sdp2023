@@ -3,7 +3,6 @@ package com.sdpteam.connectout.userList;
 import static com.sdpteam.connectout.userList.OrderingOption.NAME;
 import static com.sdpteam.connectout.userList.OrderingOption.NONE;
 import static com.sdpteam.connectout.userList.OrderingOption.RATING;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -62,6 +61,7 @@ public class UserListViewModelTest {
         List<Profile> obtained = LiveDataTestUtil.toCompletableFuture(ulvm.getListOfProfile(RATING, null)).join();
         assertThat(obtained, is(expected));
     }
+
     @Test
     public void orderNameCorrectlyWithNullArguments() {
         List<Profile> expected = new ArrayList<>();
@@ -74,6 +74,7 @@ public class UserListViewModelTest {
         List<Profile> obtained = LiveDataTestUtil.toCompletableFuture(ulvm.getListOfProfile(NAME, null)).join();
         assertThat(obtained, is(expected));
     }
+
     @Test
     public void orderNameCorrectlyWithCorrectArguments() {
         List<Profile> expected = new ArrayList<>();
@@ -84,6 +85,7 @@ public class UserListViewModelTest {
         List<Profile> obtained = LiveDataTestUtil.toCompletableFuture(ulvm.getListOfProfile(NAME, "Al")).join();
         assertThat(obtained, is(expected));
     }
+
     @Test
     public void orderRatingCorrectlyWithCorrectArguments() {
         List<Profile> expected = new ArrayList<>();
@@ -95,6 +97,7 @@ public class UserListViewModelTest {
         List<Profile> obtained = LiveDataTestUtil.toCompletableFuture(ulvm.getListOfProfile(RATING, "4;5")).join();
         assertThat(obtained, is(expected));
     }
+
     @Test
     public void orderRatingCorrectlyWithWrongArguments() {
         List<Profile> expected = new ArrayList<>();
@@ -110,6 +113,7 @@ public class UserListViewModelTest {
         List<Profile> obtained2 = LiveDataTestUtil.toCompletableFuture(ulvm.getListOfProfile(RATING, "WrongInput Wrong Input :((((")).join();
         assertThat(obtained2, is(expected));
     }
+
     @Test
     public void orderNameGivesNullListWithWrongArguments() {
         List<Profile> expected = new ArrayList<>();
@@ -149,7 +153,7 @@ public class UserListViewModelTest {
             if (values.size() == 2 && option == RATING) {
                 pl = pl
                         .stream()
-                        .filter(p -> p.getRating() >= Double.parseDouble(values.get(0)) && p.getRating() <=Double.parseDouble(values.get(1)))
+                        .filter(p -> p.getRating() >= Double.parseDouble(values.get(0)) && p.getRating() <= Double.parseDouble(values.get(1)))
                         .collect(Collectors.toList());
                 return new MutableLiveData<>(pl);
             }
