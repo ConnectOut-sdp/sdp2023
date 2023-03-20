@@ -38,6 +38,7 @@ public class ProfileModel implements ProfileDataManager, ProfileListDataManager 
     }
 
     public void saveProfile(Profile profile) {
+        CACHED_PROFILES.put(profile.getId(), profile);
         database.child(Path.Users.toString()).child(profile.getId()).child(Path.Profile.toString()).setValue(profile);
     }
 

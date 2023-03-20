@@ -76,6 +76,8 @@ public class ProfileActivity extends AppCompatActivity {
         name.setText(profile.getName());
         email.setText(profile.getEmail());
         bio.setText(profile.getBio());
-        gender.setText(profile.getGender().name());
+        if(profile.getGender() != null) {
+            gender.setText(profile.getGender().name());
+        }
     }
 }
