@@ -26,14 +26,9 @@ public class UserListFragment extends Fragment {
     private ListView listView;
     private ViewGroup container;
     private ProfilesAdapter profilesAdapter;
-    private final UserListViewModel viewModel;
-    private final Observer<List<Profile>> profilesObserver;
+    private UserListViewModel viewModel;
+    private Observer<List<Profile>> profilesObserver;
     private LiveData<List<Profile>> observed;
-
-    public UserListFragment() {
-        profilesObserver = this::showProfileList;
-        viewModel = new UserListViewModel(new ProfileModel());
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +36,11 @@ public class UserListFragment extends Fragment {
         View contentView = inflater.inflate(R.layout.fragment_user_list, container, false);
         this.container = container;
 
+        profilesObserver = this::showProfileList;
+        viewModel = new UserListViewModel(new ProfileModel());
+
         //Observe changes on the profile list.
-        changeObserved(ProfileListOption.NONE, null);
+        changeObserved(OrderingOption.NONE, null);
 
         //Setup the profile Adapter, which will create the view for each given profile & give it to the view.
         profilesAdapter = new ProfilesAdapter(container.getContext(), R.layout.adapter_text_view, new ArrayList<>());
@@ -63,7 +61,7 @@ public class UserListFragment extends Fragment {
      *
      * @param profiles (List<Profile>): new list of profiles to update.
      */
-    public void showProfileList(List<Profile> profiles) {
+    private void showProfileList(List<Profile> profiles) {
         //Filter out all elements with null names
         profiles = profiles.stream().filter(p -> p.getName() != null).collect(Collectors.toList());
 
@@ -74,17 +72,18 @@ public class UserListFragment extends Fragment {
 
     /**
      *
-     * @param option (ProfileListOption): different possible filtering options of the list.
-     * @param arguments (List<String>): parsed user inputs that indicates filters values.
+     * @param option (OrderingOption): different possible filtering options of the list.
+     * @param userInput (String): user inputs that indicates filters values.
      */
-    public void changeObserved(ProfileListOption option, List<String> arguments) {
+    public void changeObserved(OrderingOption option, String userInput) {
         //If a profile list is already observed.
+        if(viewModel == null){return;}
         if (observed != null) {
             //Remove the observer from this list.
             observed.removeObserver(profilesObserver);
         }
         //Create the new Observed list with given filters.
-        observed = viewModel.getListOfProfile(option, arguments);
+        observed = viewModel.getListOfProfile(option, userInput);
         //Observe the filtered list.
         observed.observe(getViewLifecycleOwner(), profilesObserver);
 

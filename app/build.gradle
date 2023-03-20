@@ -45,12 +45,15 @@ dependencies {
     implementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     implementation 'com.google.firebase:firebase-database:20.1.0'
     testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation 'org.mockito:mockito-core:3.8.0'
+
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
     debugImplementation "androidx.fragment:fragment-testing:1.5.5"
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+    androidTestImplementation 'org.mockito:mockito-android:3.12.4'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'

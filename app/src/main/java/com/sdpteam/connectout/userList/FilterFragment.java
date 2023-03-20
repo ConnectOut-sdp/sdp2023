@@ -1,24 +1,16 @@
 package com.sdpteam.connectout.userList;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.userList.ProfileListOption;
-import com.sdpteam.connectout.userList.UserListFragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class FilterFragment extends Fragment {
 
@@ -62,10 +54,9 @@ public class FilterFragment extends Fragment {
      */
     private void swapTypeOnClick(boolean isChecked, String userInput){
         if (isChecked) {
-            userListFragment.changeObserved(ProfileListOption.NAME, Collections.singletonList(userInput));
+            userListFragment.changeObserved(OrderingOption.NAME, userInput);
         } else {
-            String[] rangeText = userInput.split(";");
-            userListFragment.changeObserved(ProfileListOption.RATING, Arrays.stream(rangeText).collect(Collectors.toList()));
+            userListFragment.changeObserved(OrderingOption.RATING, userInput);
         }
     }
 }

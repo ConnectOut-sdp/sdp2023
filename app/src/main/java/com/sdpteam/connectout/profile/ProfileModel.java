@@ -2,9 +2,9 @@ package com.sdpteam.connectout.profile;
 
 import static android.content.ContentValues.TAG;
 
-import static com.sdpteam.connectout.userList.ProfileListOption.NAME;
-import static com.sdpteam.connectout.userList.ProfileListOption.NONE;
-import static com.sdpteam.connectout.userList.ProfileListOption.RATING;
+import static com.sdpteam.connectout.userList.OrderingOption.NAME;
+import static com.sdpteam.connectout.userList.OrderingOption.NONE;
+import static com.sdpteam.connectout.userList.OrderingOption.RATING;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,8 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.sdpteam.connectout.Path;
+import com.sdpteam.connectout.userList.OrderingOption;
 import com.sdpteam.connectout.userList.ProfileListDataManager;
-import com.sdpteam.connectout.userList.ProfileListOption;
 
 import android.util.Log;
 
@@ -62,7 +62,7 @@ public class ProfileModel implements ProfileDataManager, ProfileListDataManager 
     }
 
     @Override
-    public MutableLiveData<List<Profile>> getListOfProfile(ProfileListOption option, List<String> values) {
+    public MutableLiveData<List<Profile>> getListOfProfile(OrderingOption option, List<String> values) {
         MutableLiveData<List<Profile>> value = new MutableLiveData<>(CACHED_PROFILES.values().stream().limit(50).collect(Collectors.toList()));
         Query wantedProfiles = filterProfiles(database.child(Path.Users.toString()), option, values).limitToFirst(50);
         wantedProfiles.addValueEventListener(new ValueEventListener() {
@@ -88,7 +88,7 @@ public class ProfileModel implements ProfileDataManager, ProfileListDataManager 
         return value;
     }
 
-    public Query filterProfiles(Query root, ProfileListOption option, List<String> values) {
+    public Query filterProfiles(Query root, OrderingOption option, List<String> values) {
         Query query = root;
         if(option == NONE){
             return root;

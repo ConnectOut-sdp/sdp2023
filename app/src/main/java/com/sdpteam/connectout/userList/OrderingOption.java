@@ -5,14 +5,14 @@ import androidx.annotation.NonNull;
 /**
  * Enum describing the different types of filtering possible.
  */
-public enum ProfileListOption {
+public enum OrderingOption {
     NONE(""),
     RATING("rating"),
     NAME("name");
 
 
     private final String name;
-    ProfileListOption(String name) {
+    OrderingOption(String name) {
         this.name = name;
     }
 
