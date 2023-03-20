@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
 
 import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -23,6 +24,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.CompletableFuture;
 
 @RunWith(AndroidJUnit4.class)
 public class UserListActivityTest {
@@ -76,10 +79,12 @@ public class UserListActivityTest {
 
     @Test
     public void clickOnProfileLaunchesProfileActivity() {
+        CompletableFuture<ViewInteraction> future = CompletableFuture.supplyAsync(()->
         onData(anything())
                 .inAdapterView(withId(R.id.user_list_view))
                 .atPosition(0)
-                .perform(click());
+                .perform(click()));
+        future.join();
 
         onView(withId(R.id.profileName)).check(matches(isDisplayed()));
     }
