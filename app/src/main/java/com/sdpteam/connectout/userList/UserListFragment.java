@@ -19,6 +19,7 @@ import com.sdpteam.connectout.profile.ProfileModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UserListFragment extends Fragment {
@@ -63,7 +64,7 @@ public class UserListFragment extends Fragment {
      */
     private void showProfileList(List<Profile> profiles) {
         //Filter out all elements with null names
-        profiles = profiles.stream().filter(p -> p.getName() != null).collect(Collectors.toList());
+        profiles = profiles.stream().filter(p -> !Objects.equals(p.getName(), "")).collect(Collectors.toList());
 
         //Setup the view with the new Adapter containing the updated list.
         profilesAdapter = new ProfilesAdapter(container.getContext(), R.layout.adapter_text_view, profiles);

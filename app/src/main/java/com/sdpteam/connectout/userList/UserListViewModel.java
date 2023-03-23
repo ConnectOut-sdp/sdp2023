@@ -26,31 +26,19 @@ public class UserListViewModel extends ViewModel {
      * @return (LiveData < List < Profile > >): all the found profiles matching the inputs filter and ordering
      */
     public LiveData<List<Profile>> getListOfProfile(OrderingOption option, String userInput) {
-        //Parse the user inputs to adapt to different cases.
-        switch (option) {
-            //If the user want to order profiles by rating:
-            case RATING:
-                // Check if a specific rating range is demanded.
-                if (userInput != null) {
-                    //Check that formatting is respected.
-                    String[] rangeText = userInput.split(";");
-                    if (rangeText.length == 2 && Arrays.stream(rangeText).allMatch(str -> str.matches(NUMBER_REGEX))) {
-                        //If it respect the nomenclature, ask for the range.
-                        return model.getListOfProfile(option, Arrays.asList(rangeText));
-                    }
-                }
-                //If the user want to order profiles by name:
-            case NAME:
-                //Check if user is null
-                if (userInput != null) {
-                    return model.getListOfProfile(option, new ArrayList<>(Collections.singleton(userInput)));
-                }
-                //If commands userInput non adoptable, just order by the given option.
-                return model.getListOfProfile(option, null);
+        List<String> inputList = null;
 
+        if (option == OrderingOption.RATING && userInput != null) {
+            // Parse rating range input
+            String[] rangeText = userInput.split(";");
+            if (rangeText.length == 2 && Arrays.stream(rangeText).allMatch(str -> str.matches(NUMBER_REGEX))) {
+                inputList = Arrays.asList(rangeText);
+            }
+        } else if (option == OrderingOption.NAME && userInput != null) {
+            // Use user input as list of names
+            inputList = Collections.singletonList(userInput);
         }
-        //Otherwise, return default mode, with no filters.
-        return model.getListOfProfile(OrderingOption.NONE, null);
 
+        return model.getListOfProfile(option, inputList);
     }
 }

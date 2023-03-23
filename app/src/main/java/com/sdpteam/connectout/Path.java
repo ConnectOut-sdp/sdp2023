@@ -26,7 +26,7 @@ public enum Path {
     }
 
     /**
-     * Tranform the Paths into a testPaths in order to not pollute user's firebase.
+     * Transform the Paths into a testPaths in order to not pollute user's firebase.
      */
     public static void applyTest() {
         Arrays.stream(Path.values()).forEach(p -> p.path = Test.initPath + Slash.initPath + p.path);

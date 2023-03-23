@@ -89,20 +89,19 @@ public class ProfileModel implements ProfileDataManager, ProfileListDataManager 
     }
 
     public Query filterProfiles(Query root, OrderingOption option, List<String> values) {
-        Query query = root;
         if(option == NONE){
             return root;
         }
 
-        query = query.orderByChild(Path.Profile.toString() + Path.Slash + option.toString());
+        Query query = root.orderByChild(Path.Profile.toString() + Path.Slash + option.toString());
 
-        if(values == null){
-            return query;
-        }else if(values.size() == 1 && option == NAME){
-            return query.startAt(values.get(0)).endAt(values.get(0)+ "\uf8ff");
-        }
-        if (values.size() == 2 && option == RATING) {
-            return query.startAt(Double.parseDouble(values.get(0))).endAt(Double.parseDouble(values.get(1)));
+        if (option == NAME && values != null && values.size() == 1) {
+            String name = values.get(0);
+            query = query.startAt(name).endAt(name + "\uf8ff");
+        } else if (option == RATING && values != null && values.size() == 2) {
+            double ratingStart = Double.parseDouble(values.get(0));
+            double ratingEnd = Double.parseDouble(values.get(1));
+            query = query.startAt(ratingStart).endAt(ratingEnd);
         }
 
         return query;

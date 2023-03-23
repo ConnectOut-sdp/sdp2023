@@ -9,6 +9,8 @@ import com.sdpteam.connectout.userList.OrderingOption;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+
 public class ProfileModelTest {
     private final static ProfileModel MODEL = new ProfileModel();
 
@@ -23,14 +25,26 @@ public class ProfileModelTest {
     public void filterProfilesReturnByNameWithNullValues() {
         Query root = Mockito.mock(Query.class);
         Query query = MODEL.filterProfiles(root, OrderingOption.NAME, null);
-        assertEquals(root.orderByChild(Path.Profile.toString() + Path.Slash + OrderingOption.NAME.toString()), query);
+        assertEquals(root.orderByChild(Path.Profile.toString() + Path.Slash + OrderingOption.NAME), query);
+    }
+    @Test
+    public void filterProfilesReturnByNameWithEmptyValues() {
+        Query root = Mockito.mock(Query.class);
+        Query query = MODEL.filterProfiles(root, OrderingOption.NAME, new ArrayList<>());
+        assertEquals(root.orderByChild(Path.Profile.toString() + Path.Slash + OrderingOption.NAME), query);
     }
 
     @Test
     public void filterProfilesReturnByRatingWithNullValues() {
         Query root = Mockito.mock(Query.class);
         Query query =MODEL.filterProfiles(root, OrderingOption.RATING, null);
-        assertEquals(root.orderByChild(Path.Profile.toString() + Path.Slash + OrderingOption.RATING.toString()), query);
+        assertEquals(root.orderByChild(Path.Profile.toString() + Path.Slash + OrderingOption.RATING), query);
+    }
+    @Test
+    public void filterProfilesReturnByRatingWithEmptyValues() {
+        Query root = Mockito.mock(Query.class);
+        Query query =MODEL.filterProfiles(root, OrderingOption.RATING, new ArrayList<>());
+        assertEquals(root.orderByChild(Path.Profile.toString() + Path.Slash + OrderingOption.RATING), query);
     }
 
 
