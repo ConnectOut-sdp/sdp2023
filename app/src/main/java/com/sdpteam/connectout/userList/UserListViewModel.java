@@ -28,17 +28,40 @@ public class UserListViewModel extends ViewModel {
     public LiveData<List<Profile>> getListOfProfile(OrderingOption option, String userInput) {
         List<String> inputList = null;
 
-        if (option == OrderingOption.RATING && userInput != null) {
-            // Parse rating range input
-            String[] rangeText = userInput.split(";");
-            if (rangeText.length == 2 && Arrays.stream(rangeText).allMatch(str -> str.matches(NUMBER_REGEX))) {
-                inputList = Arrays.asList(rangeText);
+        if(userInput != null) {
+            if (option == OrderingOption.RATING) {
+                inputList = parseRangeInput(userInput);
+            } else if (option == OrderingOption.NAME) {
+                inputList = parseNameInput(userInput);
             }
-        } else if (option == OrderingOption.NAME && userInput != null) {
-            // Use user input as list of names
-            inputList = Collections.singletonList(userInput);
         }
 
         return model.getListOfProfile(option, inputList);
     }
+
+
+    /**
+     *
+     * @param userInput (String): input given by the user
+     * @return (List<String>): list containing the name wanted by the user.
+     */
+    private List<String> parseNameInput(String userInput){
+         return Collections.singletonList(userInput);
+    }
+
+    /**
+     *
+     * @param userInput (String): input given by the user
+     * @return (List<String>): list containing the range of ratings wanted by the user.
+     */
+    private List<String> parseRangeInput(String userInput){
+        List<String> inputList = new ArrayList<>();
+
+        String[] rangeText = userInput.split(";");
+        if (rangeText.length == 2 && Arrays.stream(rangeText).allMatch(str -> str.matches(NUMBER_REGEX))) {
+            inputList = Arrays.asList(rangeText);
+        }
+        return inputList;
+    }
+
 }

@@ -30,6 +30,9 @@ import java.util.stream.Collectors;
 
 public class ProfileModel implements ProfileDataManager, ProfileListDataManager {
     private final DatabaseReference database;
+
+    private final static int MAX_PROFILES_FETCHED = 50;
+
     //Caches all the different profiles that have been perceived previously
     private static final Map<String, Profile> CACHED_PROFILES = new HashMap<>();
 
@@ -63,8 +66,8 @@ public class ProfileModel implements ProfileDataManager, ProfileListDataManager 
 
     @Override
     public MutableLiveData<List<Profile>> getListOfProfile(OrderingOption option, List<String> values) {
-        MutableLiveData<List<Profile>> value = new MutableLiveData<>(CACHED_PROFILES.values().stream().limit(50).collect(Collectors.toList()));
-        Query wantedProfiles = filterProfiles(database.child(Path.Users.toString()), option, values).limitToFirst(50);
+        MutableLiveData<List<Profile>> value = new MutableLiveData<>(CACHED_PROFILES.values().stream().limit(MAX_PROFILES_FETCHED).collect(Collectors.toList()));
+        Query wantedProfiles = filterProfiles(database.child(Path.Users.toString()), option, values).limitToFirst(MAX_PROFILES_FETCHED);
         wantedProfiles.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
