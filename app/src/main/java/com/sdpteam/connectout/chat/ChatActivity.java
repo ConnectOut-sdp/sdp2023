@@ -88,8 +88,8 @@ public class ChatActivity extends AppCompatActivity {
         ListView listOfMessages = findViewById(R.id.list_of_messages);
         listOfMessages.setStackFromBottom(true);
 
-        Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLayout = a -> a.setLayout(R.layout.message);
-        Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLifecycleOwner = a -> a.setLifecycleOwner(this);
+        Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout = a -> a.setLayout(R.layout.message);
+        Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner = a -> a.setLifecycleOwner(this);
         BiConsumer<View, ChatMessage> populateView = populateViewBiConsumer();
         Consumer<ListAdapter> setAdapter = adapter -> listOfMessages.setAdapter(adapter);
 

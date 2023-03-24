@@ -22,9 +22,9 @@ import java.util.function.Function;
 public class ChatModel implements ChatDirectory {
 
     private final DatabaseReference firebaseRef;
-    public final String CHATS_PATH_STRING = "Chats";
+    private final String CHATS_PATH_STRING = "Chats";
 
-    public final static int NUM_IMPORTED_MESSAGES = 50;
+    private final static int NUM_IMPORTED_MESSAGES = 50;
     private final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     private final String userName = (currentUser == null) ? NULL_USER : currentUser.getDisplayName();
 
@@ -54,8 +54,8 @@ public class ChatModel implements ChatDirectory {
      * sets up the FirebaseListAdapter for the chat view
      */
     @Override
-    public void setUpListAdapter(Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLayout,
-                                 Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLifecycleOwner,
+    public void setUpListAdapter(Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout,
+                                 Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner,
                                  BiConsumer<View, ChatMessage> populateView,
                                  Consumer<ListAdapter> setAdapter,
                                  String chatId) {
@@ -67,7 +67,7 @@ public class ChatModel implements ChatDirectory {
                 .limitToLast(NUM_IMPORTED_MESSAGES);
 
         FirebaseListOptions<ChatMessage> options = setLifecycleOwner.apply(
-                        setLayout.apply(new FirebaseListOptions.Builder<ChatMessage>())
+                        setLayout.apply(new FirebaseListOptions.Builder<>())
                                 .setQuery(query, ChatMessage.class))
                 .build();
 

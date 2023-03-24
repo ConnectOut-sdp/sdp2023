@@ -35,8 +35,8 @@ public class ChatViewModel extends ViewModel {
     /**
      * sets up the FirebaseListAdapter for the chat view
      */
-    public void setUpListAdapter(Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLayout,
-                                 Function<FirebaseListOptions.Builder, FirebaseListOptions.Builder> setLifecycleOwner,
+    public void setUpListAdapter(Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout,
+                                 Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner,
                                  BiConsumer<View, ChatMessage> populateView,
                                  Consumer<ListAdapter> setAdapter,
                                  String chatId) {
