@@ -2,16 +2,17 @@ package com.sdpteam.connectout.profile;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
 
 /**
  * Once the Profile Activity has been created, this activity can be deleted and the intent in

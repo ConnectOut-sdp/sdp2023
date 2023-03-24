@@ -1,15 +1,16 @@
 package com.sdpteam.connectout.profile;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import android.util.Log;
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 public class ProfileFirebaseDataSource implements ProfileDirectory {
     private final DatabaseReference firebaseRef;
@@ -40,6 +41,10 @@ public class ProfileFirebaseDataSource implements ProfileDirectory {
             }
         });
         return value;
+    }
+
+    public void deleteProfile(String uid) {
+        firebaseRef.child(usersPathString).child(uid).child(profilePathString).removeValue();
     }
 }
 

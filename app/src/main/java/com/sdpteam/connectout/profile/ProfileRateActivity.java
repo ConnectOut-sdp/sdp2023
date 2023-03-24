@@ -1,12 +1,11 @@
 package com.sdpteam.connectout.profile;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdpteam.connectout.R;
 
@@ -26,6 +25,7 @@ public class ProfileRateActivity extends AppCompatActivity {
         Button submitButton = (Button) findViewById(R.id.submitRatingButton);
         // perform click event on button
         setListenerForRating(submitButton, simpleRatingBar, uid);
+        Button reportButton = (Button) findViewById(R.id.reportUser);
     }
 
     private void setListenerForRating(Button submit, RatingBar ratingBar, String uid) {

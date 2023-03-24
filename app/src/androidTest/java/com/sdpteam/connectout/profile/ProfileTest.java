@@ -1,18 +1,32 @@
 package com.sdpteam.connectout.profile;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
+
+import android.content.Intent;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 public class ProfileTest {
 
@@ -25,7 +39,9 @@ public class ProfileTest {
     public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(ProfileActivity.class);
 
     @Before
-    public void setup() { Intents.init(); }
+    public void setup() {
+        Intents.init();
+    }
 
     @After
     public void cleanup() {
@@ -45,6 +61,24 @@ public class ProfileTest {
 //        onView(withId(R.id.buttonEditProfile)).perform(click());
 //        intended(hasComponent(EditProfileActivity.class.getName()));
 //    }
+
+    @Test
+    public void testRateButton() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class);
+        intent.putExtra("id", uid);
+        testRule.getScenario().onActivity(activity -> activity.startActivity(intent));
+
+        // test if buttonRateProfile is displayed
+        onView(ViewMatchers.withId(R.id.buttonRateProfile)).check(matches(isDisplayed()));
+
+        // test if buttonEditProfile is not displayed
+        onView(ViewMatchers.withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
+
+        // test intent
+        onView(ViewMatchers.withId(R.id.buttonRateProfile)).perform(click());
+        intended(allOf(hasComponent(ProfileRateActivity.class.getName()),
+                IntentMatchers.hasExtra("uid", uid)));
+    }
 
     @Test
     public void loggedUserTest1() {
