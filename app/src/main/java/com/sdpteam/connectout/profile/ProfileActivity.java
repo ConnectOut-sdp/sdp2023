@@ -8,6 +8,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,9 +35,15 @@ public class ProfileActivity extends AppCompatActivity {
         // user id
         String uid = (au == null) ? NULL_USER : au.uid;
 
+        Button rateProfile = findViewById(R.id.buttonRateProfile);
+        Button editProfile = findViewById(R.id.buttonEditProfile);
+
         if (id != null) {
             // public user profile
             userProfile = pvm.getProfile(id).getValue();
+
+            editProfile.setVisibility(View.INVISIBLE);
+            rateProfile.setOnClickListener(v -> goToProfileRate(id));
         } else {
             // current user profile
             userProfile = pvm.getProfile(uid).getValue();
@@ -44,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
             // pvm.saveProfile(userProfile);
 
             // getting the elements references
-            Button editProfile = findViewById(R.id.buttonEditProfile);
+            rateProfile.setVisibility(View.INVISIBLE);
             editProfile.setOnClickListener(v -> goToEditProfile());
         }
 
@@ -66,5 +73,11 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void goToProfileRate(String id) {
+        Intent intent = new Intent(ProfileActivity.this, ProfileRateActivity.class);
+        intent.putExtra("uid", id);
+        startActivity(intent);
     }
 }
