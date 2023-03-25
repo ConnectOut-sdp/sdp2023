@@ -60,6 +60,12 @@ public class ProfileActivity extends AppCompatActivity {
             bio.setText(userProfile.getBio());
             gender.setText(userProfile.getGender().name());
         }
+
+        // for demo
+        name.setText("Toto Toto");
+        email.setText("ilovemybeautifulassistants@gmail.com");
+        bio.setText("");
+        gender.setText("MALE");
     }
 
     private void goToEditProfile() {

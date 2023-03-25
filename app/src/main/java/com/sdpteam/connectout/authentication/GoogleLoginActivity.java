@@ -2,6 +2,7 @@ package com.sdpteam.connectout.authentication;
 
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.ProfileActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class GoogleLoginActivity extends AppCompatActivity {
     }
 
     private void navigateToSecondActivity(AuthenticatedUser currentUser) {
-        Intent intent = new Intent(GoogleLoginActivity.this, ProfileGreetingActivity.class);
+        Intent intent = new Intent(GoogleLoginActivity.this, ProfileActivity.class);
         String msg = currentUser.name + " \n" + currentUser.email;
         intent.putExtra("loginInfo", msg);
         startActivity(intent);

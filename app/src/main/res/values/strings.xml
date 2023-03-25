@@ -18,4 +18,5 @@
     <string name="filter_example">eg: Lausanne, 10km, …</string>
     <string name="greetings_text">Greetings</string>
     <string name="connect_out_logo">Connect out Logo</string>
+    <string name="scan">Scan</string>
 </resources>
