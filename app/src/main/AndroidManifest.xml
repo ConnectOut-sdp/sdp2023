@@ -12,6 +12,9 @@
         android:theme="@style/Theme.ConnectOut"
         tools:targetApi="31">
         <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".registration.CompleteRegistrationActivity"
             android:exported="false" />
         <activity
@@ -33,11 +36,9 @@
         <activity
             android:name=".drawer.LogInActivity"
             android:exported="false" />
-
         <activity
             android:name=".userList.UserListActivity"
             android:exported="false" />
-
         <activity
             android:name=".drawer.DrawerActivity"
             android:exported="false"
