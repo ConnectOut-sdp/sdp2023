@@ -30,10 +30,13 @@ public class QRcodeModalActivity extends AppCompatActivity {
 
         // displaying the title and the qr code
         modalTitle.setText(title);
-        QRcode qrCode = new QRcode(); // any other way ?
-        Bitmap qrCodeBitmap = qrCode.generateQRCode(qrCodeData);
-        if (qrCodeBitmap != null) {
+        QRcodeGenerator qrCode = new QRcodeGenerator(); // any other way ?
+        Bitmap qrCodeBitmap = null;
+        try {
+            qrCodeBitmap = qrCode.generateQRCode(qrCodeData);
             qrCodeImageView.setImageBitmap(qrCodeBitmap);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
 
         Button closeButton = findViewById(R.id.close_button);

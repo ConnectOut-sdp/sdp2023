@@ -1,5 +1,6 @@
 package com.sdpteam.connectout;
 
+import com.sdpteam.connectout.qr_code.QRcodeActivity;
 import com.sdpteam.connectout.qr_code.QRcodeProfileActivity;
 
 import android.content.Intent;
@@ -13,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Don't put anything here, just choose which activity to redirect to
-        Intent drawerIntent = new Intent(getApplicationContext(), QRcodeProfileActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), QRcodeActivity.class);
         this.startActivity(drawerIntent);
     }
 }

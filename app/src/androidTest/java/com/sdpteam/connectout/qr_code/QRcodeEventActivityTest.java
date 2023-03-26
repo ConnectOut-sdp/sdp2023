@@ -55,8 +55,8 @@ public class QRcodeEventActivityTest {
     @Test
     public void correctIntentExtraArePassed(){
         Intent intent = new Intent();
-        intent.putExtra("title", "Profile QR code");
-        intent.putExtra("qrCodeData", "https://connect-outs.com/events/0123456789");
+        intent.putExtra("title", "Event QR code");
+        intent.putExtra("qrCodeData", "https://connect-out.com/events/0123456789");
         activityScenarioRule.getScenario().onActivity(activity -> {
             // check if title is correct
             assertEquals("Event QR code", intent.getStringExtra("title"));
