@@ -19,4 +19,6 @@
     <string name="greetings_text">Greetings</string>
     <string name="connect_out_logo">Connect out Logo</string>
     <string name="scan">Scan</string>
+    <string name="event_qr_code">event qr code</string>
+    <string name="profile_qr_code">profile qr code</string>
 </resources>

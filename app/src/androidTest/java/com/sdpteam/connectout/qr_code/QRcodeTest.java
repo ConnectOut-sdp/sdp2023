@@ -10,12 +10,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 import com.sdpteam.connectout.R;
 
 import org.junit.Rule;
@@ -302,9 +306,9 @@ public class QRcodeTest {
 //            Assert.assertFalse(alertDialog.isShowing());
 //        });
 //    }
-//
-//
-//
+
+
+
 //    @Test
 //    public void testScanCodeWithInvalidResult() {
 //        ActivityScenario<QRcodeActivity> scenario = activityScenarioRule.getScenario();

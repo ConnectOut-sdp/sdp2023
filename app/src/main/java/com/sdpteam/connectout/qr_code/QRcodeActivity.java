@@ -14,7 +14,7 @@ import com.sdpteam.connectout.R;
 
 public class QRcodeActivity extends AppCompatActivity {
 
-    Button btn_scan;
+    private Button btn_scan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
