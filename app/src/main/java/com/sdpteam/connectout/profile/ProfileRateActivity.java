@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RatingBar;
@@ -25,7 +26,9 @@ public class ProfileRateActivity extends AppCompatActivity {
         Button submitButton = (Button) findViewById(R.id.submitRatingButton);
         // perform click event on button
         setListenerForRating(submitButton, simpleRatingBar, uid);
+
         Button reportButton = (Button) findViewById(R.id.reportUser);
+        reportButton.setOnClickListener(v -> goToReportProfile(uid));
     }
 
     private void setListenerForRating(Button submit, RatingBar ratingBar, String uid) {
@@ -40,5 +43,12 @@ public class ProfileRateActivity extends AppCompatActivity {
             pvm.updateRating(uid, ratingValue);
             finish();
         });
+    }
+
+    private void goToReportProfile(String id) {
+        Intent intent = new Intent(ProfileRateActivity.this, ReportProfileActivity.class);
+        intent.putExtra("reportUid", id);
+        startActivity(intent);
+        finish();
     }
 }

@@ -21,4 +21,6 @@
     <string name="submit">submit</string>
     <string name="report_description"> report racism, \n hate speech \n or bad behavior</string>
     <string name="rating">Number of stars</string>
+    <string name="reasons_of_the_report">Reasons of the report:</string>
+    <string name="submit_report">submit report</string>
 </resources>

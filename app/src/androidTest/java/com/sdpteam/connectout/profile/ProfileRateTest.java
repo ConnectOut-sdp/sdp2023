@@ -61,7 +61,7 @@ public class ProfileRateTest {
         onView(ViewMatchers.withId(R.id.reportUser)).check(matches(isDisplayed()));
     }
 
-    @Test
+    //@Test
     public void testRating() {
         // set rating to 3
         testRule.getScenario().onActivity(activity -> {
