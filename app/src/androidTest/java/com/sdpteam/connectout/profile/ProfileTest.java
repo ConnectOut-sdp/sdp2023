@@ -6,6 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -48,34 +49,34 @@ public class ProfileTest {
         Intents.release();
     }
 
-//    @Test
-//    public void testProfileDisplayed() {
-//        onView(withId(R.id.profileName)).check(matches(isDisplayed()));
-//        onView(withId(R.id.profileEmail)).check(matches(isDisplayed()));
-//        onView(withId(R.id.profileBio)).check(matches(isDisplayed()));
-//        onView(withId(R.id.profileGender)).check(matches(isDisplayed()));
-//    }
+    @Test
+    public void testProfileDisplayed() {
+        onView(withId(R.id.profileName)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileEmail)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileBio)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileGender)).check(matches(isDisplayed()));
+    }
 
-//    @Test
-//    public void testEditProfileButton() {
-//        onView(withId(R.id.buttonEditProfile)).perform(click());
-//        intended(hasComponent(EditProfileActivity.class.getName()));
-//    }
+    @Test
+    public void testEditProfileButton() {
+        onView(withId(R.id.buttonEditProfile)).perform(click());
+        intended(hasComponent(EditProfileActivity.class.getName()));
+    }
 
-    //@Test
+    @Test
     public void testRateButton() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class);
         intent.putExtra("id", uid);
         testRule.getScenario().onActivity(activity -> activity.startActivity(intent));
 
         // test if buttonRateProfile is displayed
-        onView(ViewMatchers.withId(R.id.buttonRateProfile)).check(matches(isDisplayed()));
+        onView(withId(R.id.buttonRateProfile)).check(matches(isDisplayed()));
 
         // test if buttonEditProfile is not displayed
-        onView(ViewMatchers.withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
 
         // test intent
-        onView(ViewMatchers.withId(R.id.buttonRateProfile)).perform(click());
+        onView(withId(R.id.buttonRateProfile)).perform(click());
         intended(allOf(hasComponent(ProfileRateActivity.class.getName()),
                 IntentMatchers.hasExtra("uid", uid)));
     }
