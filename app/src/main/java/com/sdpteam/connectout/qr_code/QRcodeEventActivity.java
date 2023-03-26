@@ -32,7 +32,7 @@ public class QRcodeEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String qrCodeData = PROFILE_BASE_URI + EVENT_ID;
                 Intent intent = new Intent(QRcodeEventActivity.this, QRcodeModalActivity.class);
-                intent.putExtra("title", "Profile QR code");
+                intent.putExtra("title", "Event QR code");
                 intent.putExtra("qrCodeData", qrCodeData);
                 qrCodeLauncher.launch(intent);
             }
