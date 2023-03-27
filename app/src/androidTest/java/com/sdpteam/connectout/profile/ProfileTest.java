@@ -8,6 +8,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 
 import org.junit.After;
@@ -16,6 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -51,8 +53,12 @@ public class ProfileTest {
 
     @Test
     public void testEditProfileButton() {
-        onView(withId(R.id.buttonEditProfile)).perform(click());
-        intended(hasComponent(EditProfileActivity.class.getName()));
+        if (new GoogleAuth().isLoggedIn()) {
+            onView(withId(R.id.buttonEditProfile)).perform(click());
+            intended(hasComponent(EditProfileActivity.class.getName()));
+        } else {
+            onView(withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
+        }
     }
 
     @Test
