@@ -1,6 +1,7 @@
 package com.sdpteam.connectout.profile;
 
 import static android.view.View.VISIBLE;
+import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.Authentication;
@@ -8,6 +9,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,7 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
                 editProfile.setVisibility(VISIBLE);
                 editProfile.setOnClickListener(v -> goToEditProfile());
             } else {
-                throw new IllegalStateException("Cannot display logged user's page because you aren't logged");
+                Log.println(Log.WARN, "ProfileActivity argument exception", "What user do you want to display? Displaying null user for the moment");
+                userIdToDisplay = NULL_USER;
             }
         }
 
