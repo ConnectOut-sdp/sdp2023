@@ -19,7 +19,7 @@ public class MapViewModelFactoryTest {
     public void test_ViewModel_uses_the_custom_model_through_factory_instantiation() {
         final MapViewModelFactory factory = new MapViewModelFactory(new FakeMapModelManager());
         final MapViewModel mapViewModel = factory.create(MapViewModel.class);
-        final List<Event> events = mapViewModel.getEventList().getValue();
+        final List<Event> events = mapViewModel.getEventListLiveData().getValue();
 
         assertEquals(2, events.size());
         assertEquals("Event 1", events.get(0).getTitle());

@@ -1,10 +1,10 @@
 package com.sdpteam.connectout.map;
 
-import androidx.lifecycle.MutableLiveData;
+import java.util.List;
 
 import com.sdpteam.connectout.event.Event;
 
-import java.util.List;
+import androidx.lifecycle.MutableLiveData;
 
 public interface MapModelManager {
 

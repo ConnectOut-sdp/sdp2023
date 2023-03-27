@@ -1,5 +1,12 @@
 package com.sdpteam.connectout.profile;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -8,7 +15,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
+import com.sdpteam.connectout.R;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -25,26 +32,28 @@ public class ProfileTest {
     public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(ProfileActivity.class);
 
     @Before
-    public void setup() { Intents.init(); }
+    public void setup() {
+        Intents.init();
+    }
 
     @After
     public void cleanup() {
         Intents.release();
     }
 
-//    @Test
-//    public void testProfileDisplayed() {
-//        onView(withId(R.id.profileName)).check(matches(isDisplayed()));
-//        onView(withId(R.id.profileEmail)).check(matches(isDisplayed()));
-//        onView(withId(R.id.profileBio)).check(matches(isDisplayed()));
-//        onView(withId(R.id.profileGender)).check(matches(isDisplayed()));
-//    }
+    @Test
+    public void testProfileDisplayed() {
+        onView(withId(R.id.profileName)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileEmail)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileBio)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileGender)).check(matches(isDisplayed()));
+    }
 
-//    @Test
-//    public void testEditProfileButton() {
-//        onView(withId(R.id.buttonEditProfile)).perform(click());
-//        intended(hasComponent(EditProfileActivity.class.getName()));
-//    }
+    @Test
+    public void testEditProfileButton() {
+        onView(withId(R.id.buttonEditProfile)).perform(click());
+        intended(hasComponent(EditProfileActivity.class.getName()));
+    }
 
     @Test
     public void loggedUserTest1() {
@@ -58,7 +67,7 @@ public class ProfileTest {
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
         model.saveProfile(userProfile);
 
-        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.fetchProfile(EditProfileActivity.NULL_USER)).join();
+        Profile fetchedProfile = model.fetchProfile(EditProfileActivity.NULL_USER).join();
         ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));
         ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
         ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));

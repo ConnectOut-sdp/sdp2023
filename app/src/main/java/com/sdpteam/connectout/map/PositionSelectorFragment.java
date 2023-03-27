@@ -2,8 +2,6 @@ package com.sdpteam.connectout.map;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -11,6 +9,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import androidx.annotation.NonNull;
 
 public class PositionSelectorFragment extends MapViewFragment implements OnMapReadyCallback {
 
@@ -32,7 +32,6 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
         //Upon moving, update the marker's true position.
         googleMap.setOnMarkerDragListener(new OnMarkerDragListener() {
 
-
             @Override
             public void onMarkerDrag(@NonNull Marker marker) {
                 movingMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
@@ -50,7 +49,6 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
 
             }
         });
-
     }
 
     /**
@@ -59,8 +57,6 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
      * @return (LatLng): Position of the movable marker
      */
     public LatLng getMovingMarkerPosition() {
-        return movingMarker == null ? new LatLng(0,0) : movingMarker.getPosition();
+        return movingMarker == null ? new LatLng(0, 0) : movingMarker.getPosition();
     }
-
-
 }

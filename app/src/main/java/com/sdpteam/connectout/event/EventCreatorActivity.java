@@ -1,18 +1,17 @@
 package com.sdpteam.connectout.event;
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-
-import androidx.appcompat.widget.Toolbar;
-
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.map.PositionSelectorFragment;
 import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.widget.Toolbar;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -23,7 +22,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         setContentView(R.layout.activity_event_creator);
 
         if (eventCreatorViewModel == null) {
-            eventCreatorViewModel = new EventCreatorViewModel(new EventCreatorModel());
+            eventCreatorViewModel = new EventCreatorViewModel(new EventFirebaseDataSource());
         }
 
         //Retrieve tool bar and give it the control.
@@ -44,23 +43,21 @@ public class EventCreatorActivity extends WithFragmentActivity {
         EditText eventTitle = findViewById(R.id.event_creator_title);
         EditText eventDescription = findViewById(R.id.event_creator_description);
 
-
         //upon save, log the current event and return to previous activity.
         saveButton.setOnClickListener(v ->
-        {saveEvent(eventTitle.getText().toString(),
-                        new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
-                        eventDescription.getText().toString()
-                );
+        {
+            saveEvent(eventTitle.getText().toString(),
+                    new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
+                    eventDescription.getText().toString()
+            );
             this.finish();
         });
-
-
     }
 
     /**
-     *  Saves the event into the view model.
+     * Saves the event into the view model.
      *
-     * @param title (String): title of the event
+     * @param title       (String): title of the event
      * @param coordinates (GPSCoordinates): position of the event
      * @param description (String): description of the event
      */
@@ -80,6 +77,4 @@ public class EventCreatorActivity extends WithFragmentActivity {
         //Save the event & return to previous activity.
         eventCreatorViewModel.saveEvent(newEvent);
     }
-
-
 }

@@ -26,8 +26,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class CompleteRegistrationForm extends Fragment {
 
-    private RegistrationViewModel registrationViewModel;
-
     /**
      * ViewModelProvider.Factory is an interface which have create method.
      * The create method is responsible for creating our ViewModel's instance
@@ -35,6 +33,7 @@ public class CompleteRegistrationForm extends Fragment {
      * Or we can use a fake ViewModel for mocking in tests.
      */
     public ViewModelProvider.Factory viewModelFactory; // for testing (mocking)
+    private RegistrationViewModel registrationViewModel;
 
     public static CompleteRegistrationForm newInstance() {
         CompleteRegistrationForm completeRegistrationForm = new CompleteRegistrationForm();

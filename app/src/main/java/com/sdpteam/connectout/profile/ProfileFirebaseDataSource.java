@@ -1,45 +1,37 @@
 package com.sdpteam.connectout.profile;
 
+import java.util.concurrent.CompletableFuture;
+
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import android.util.Log;
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-public class ProfileFirebaseDataSource implements ProfileDirectory {
+public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
-    private final String usersPathString = "Users";
-    private final String profilePathString = "Profile";
+    private final String USERS = "Users";
+    private final String PROFILE = "Profile";
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
     public void saveProfile(Profile profile) {
-        firebaseRef.child(usersPathString).child(profile.getId()).child(profilePathString).setValue(profile);
+        firebaseRef.child(USERS).child(profile.getId()).child(PROFILE).setValue(profile);
     }
 
-    public LiveData<Profile> fetchProfile(String uid) {
+    public CompletableFuture<Profile> fetchProfile(String uid) {
         // Get the value from Firebase
-        MutableLiveData<Profile> value = new MutableLiveData<>();
-        firebaseRef.child(usersPathString).child(uid).child(profilePathString).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Profile valueFromFirebase = dataSnapshot.getValue(Profile.class);
-                value.setValue(valueFromFirebase);
+        CompletableFuture<Profile> future = new CompletableFuture<>();
+        Task<DataSnapshot> dataSnapshotTask = firebaseRef.child(USERS).child(uid).child(PROFILE).get();
+        dataSnapshotTask.addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                future.completeExceptionally(task.getException());
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(this.getClass().toString(), "Failed to read value.", databaseError.toException());
-            }
+            Profile valueFromFirebase = task.getResult().getValue(Profile.class);
+            future.complete(valueFromFirebase);
         });
-        return value;
+        return future;
     }
 }
 

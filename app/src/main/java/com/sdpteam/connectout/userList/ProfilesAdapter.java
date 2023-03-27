@@ -1,20 +1,22 @@
 package com.sdpteam.connectout.userList;
 
+import java.util.List;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
-
-import java.util.List;
-
+/**
+ * Android List view stuff
+ */
 public class ProfilesAdapter extends ArrayAdapter<Profile> {
 
     private final Context context;

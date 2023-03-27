@@ -6,56 +6,60 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.CompletableFuture;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-
+@RunWith(AndroidJUnit4.class)
 public class ProfileViewModelTest {
+
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
     @Test
     public void testSaveValue() {
         Profile value = new Profile("test", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1);
-        FakeModel model = new FakeModel();
+        FakeProfileRepository model = new FakeProfileRepository();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
         viewModel.saveProfile(value);
 
-        assertEquals(value, model.mValue);
+        assertEquals(value, model.value);
     }
 
     @Test
     public void testGetValue() {
-        FakeModel model = new FakeModel();
+        FakeProfileRepository model = new FakeProfileRepository();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
-        CompletableFuture<Profile> future = LiveDataTestUtil.toCompletableFuture(viewModel.getProfile("test"));
+        viewModel.fetchProfile("test");
 
-        Profile p = future.join();
-
+        Profile p = LiveDataTestUtil.getOrAwaitValue(viewModel.getProfileLiveData());
         assertThat(p.getId(), is("fakeProfileModel"));
         assertThat(p.getName(), is("aymeric"));
         assertThat(p.getBio(), is("empty"));
         assertThat(p.getEmail(), is("yo@gmail.com"));
-
-
     }
 
-    public static class FakeModel implements ProfileDirectory {
-        public Profile mValue;
-        private MutableLiveData<Profile> mLiveData = new MutableLiveData<>();
+    private class FakeProfileRepository implements ProfileRepository {
+        public Profile value;
+        CompletableFuture<Boolean> done = new CompletableFuture<>();
 
         @Override
         public void saveProfile(Profile value) {
-            mValue = value;
+            this.value = value;
         }
 
         @Override
-        public LiveData<Profile> fetchProfile(String uid) {
-            mLiveData= new MutableLiveData<>(new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1));
-            return mLiveData;
+        public CompletableFuture<Profile> fetchProfile(String uid) {
+            done.complete(true);
+            Profile mLiveData = new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1);
+            return CompletableFuture.completedFuture(mLiveData);
         }
     }
 }

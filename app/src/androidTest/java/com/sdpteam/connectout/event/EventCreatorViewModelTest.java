@@ -4,22 +4,27 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import org.junit.Rule;
+import org.junit.Test;
+
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 public class EventCreatorViewModelTest {
+
     public static final Event TEST_EVENT1 = new Event("1", "Tenis", "Searching for a tenis partner", new GPSCoordinates(10, 10), "Eric");
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Test
     public void testSavesValueAddsToExistingStore() {
@@ -37,10 +42,10 @@ public class EventCreatorViewModelTest {
         EventCreatorViewModelTest.TestEventCreatorModel model = new TestEventCreatorModel();
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
 
-        LiveData<Event> mutableLiveData =  viewModel.getEvent("1");
+        LiveData<Event> mutableLiveData = viewModel.getEventLiveData();
+        viewModel.triggerFetchEvent("1");
 
-        CompletableFuture<Event> future = LiveDataTestUtil.toCompletableFuture(mutableLiveData);
-        Event e = future.join();
+        Event e = LiveDataTestUtil.getOrAwaitValue(mutableLiveData);
 
         assertThat(e, is(TEST_EVENT1));
     }
@@ -49,16 +54,14 @@ public class EventCreatorViewModelTest {
     public void testGetValueWithUIAndTitleFindsCorrectEvent() {
         EventCreatorViewModelTest.TestEventCreatorModel model = new TestEventCreatorModel();
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
-
-        CompletableFuture<Event> future = LiveDataTestUtil.toCompletableFuture(viewModel.getEvent("Eric", "Tenis"));
-        Event e = future.join();
+        MutableLiveData<Event> liveData = viewModel.getEventLiveData();
+        viewModel.triggerFetchEvent("Eric", "Tenis");
+        Event e = LiveDataTestUtil.getOrAwaitValue(liveData);
 
         assertThat(e, is(TEST_EVENT1));
     }
 
-
-
-    public static class TestEventCreatorModel implements EventDataManager {
+    public static class TestEventCreatorModel implements EventRepository {
 
         public static final List<Event> EVENT_LIST = createTestList();
 
@@ -75,21 +78,20 @@ public class EventCreatorViewModelTest {
         }
 
         @Override
-        public LiveData<Event> getEvent(String eid) {
+        public CompletableFuture<Event> getEvent(String eid) {
             List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getId().equals(eid)).collect(Collectors.toList());
-            return filtered.isEmpty() ? null : new MutableLiveData<>(filtered.get(0));
+            return filtered.isEmpty() ? null : CompletableFuture.completedFuture(filtered.get(0));
         }
 
         @Override
-        public LiveData<Event> getEvent(String uid, String title) {
+        public CompletableFuture<Event> getEvent(String uid, String title) {
             List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getOrganizer().equals(uid) && e.getTitle().equals(title)).collect(Collectors.toList());
-            return filtered.isEmpty() ? null : new MutableLiveData<>(filtered.get(0));
+            return filtered.isEmpty() ? null : CompletableFuture.completedFuture(filtered.get(0));
         }
 
         @Override
         public String getUniqueId() {
             return UUID.randomUUID().toString();
         }
-
     }
 }

@@ -1,13 +1,14 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static android.view.View.VISIBLE;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,47 +20,43 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ProfileActivity extends AppCompatActivity {
 
     private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
+    Authentication auth = new GoogleAuth();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Profile userProfile;
+        Button editProfile = findViewById(R.id.buttonEditProfile);
+        editProfile.setVisibility(View.INVISIBLE);
 
-        // fetch data
-        AuthenticatedUser au = new GoogleAuth().loggedUser();
-        // id public id
-        String id = getIntent().getStringExtra("id");
-        // user id
-        String uid = (au == null) ? NULL_USER : au.uid;
-
-        if (id != null) {
-            // public user profile
-            userProfile = pvm.getProfile(id).getValue();
-        } else {
-            // current user profile
-            userProfile = pvm.getProfile(uid).getValue();
-            //TODO : what is going on here?
-            // pvm.saveProfile(userProfile);
-
-            // getting the elements references
-            Button editProfile = findViewById(R.id.buttonEditProfile);
-            editProfile.setOnClickListener(v -> goToEditProfile());
+        String userIdToDisplay = getIntent().getStringExtra("uid");
+        if (userIdToDisplay == null) {
+            if (auth.isLoggedIn()) {
+                userIdToDisplay = auth.loggedUser().uid;
+                editProfile.setVisibility(VISIBLE);
+                editProfile.setOnClickListener(v -> goToEditProfile());
+            } else {
+                throw new IllegalStateException("Cannot display logged user's page because you aren't logged");
+            }
         }
 
+        pvm.fetchProfile(userIdToDisplay);
+        pvm.getProfileLiveData().observe(this, profile -> {
+            setTextViewsTo(profile);
+        });
+    }
+
+    private void setTextViewsTo(Profile user) {
         TextView name = findViewById(R.id.profileName);
         TextView email = findViewById(R.id.profileEmail);
         TextView bio = findViewById(R.id.profileBio);
         TextView gender = findViewById(R.id.profileGender);
 
-        // setting the fetched data
-        if (userProfile != null) {
-            name.setText(userProfile.getName());
-            email.setText(userProfile.getEmail());
-            bio.setText(userProfile.getBio());
-            gender.setText(userProfile.getGender().name());
-        }
+        name.setText(user.getName());
+        email.setText(user.getEmail());
+        bio.setText(user.getBio());
+        gender.setText(user.getGender().name());
     }
 
     private void goToEditProfile() {

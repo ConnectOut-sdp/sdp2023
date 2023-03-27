@@ -1,27 +1,36 @@
 package com.sdpteam.connectout.profile;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class ProfileViewModel extends ViewModel {
-    public ProfileDirectory profileDirectory;
+    private final MutableLiveData<Profile> profileLiveData;
+    public ProfileRepository profileRepository;
 
-    public ProfileViewModel(ProfileDirectory profileDirectory) {
-        this.profileDirectory = profileDirectory;
+    public ProfileViewModel(ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
+        this.profileLiveData = new MutableLiveData<>();
     }
 
     /**
-     * Get your own Profile
+     * trigger a fetch from repo
      */
-    public LiveData<Profile> getProfile(String uid) {
-        return profileDirectory.fetchProfile(uid);
+    public void fetchProfile(String uid) {
+        profileRepository.fetchProfile(uid).thenAccept(profile -> {
+            profileLiveData.setValue(profile);
+        });
     }
 
     /**
      * Save your new Profile
      */
     public void saveProfile(Profile profile) {
-        profileDirectory.saveProfile(profile);
+        profileRepository.saveProfile(profile);
+    }
+
+    public LiveData<Profile> getProfileLiveData() {
+        return profileLiveData;
     }
 }
 

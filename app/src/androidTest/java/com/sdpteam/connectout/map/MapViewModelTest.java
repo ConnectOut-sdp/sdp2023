@@ -3,25 +3,24 @@ package com.sdpteam.connectout.map;
 import static com.sdpteam.connectout.utils.LiveDataTestUtil.toCompletableFuture;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.sdpteam.connectout.event.Event;
-
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import org.junit.Test;
+
+import com.sdpteam.connectout.event.Event;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class MapViewModelTest {
 
     @Test
     public void getEventListReturnsTheCorrectEvents() {
         MapViewModel viewModel = new MapViewModel(new FakeMapModelManager());
-        LiveData<List<Event>> eventListLiveData = viewModel.getEventList();
+        LiveData<List<Event>> eventListLiveData = viewModel.getEventListLiveData();
 
         CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
 
@@ -34,11 +33,12 @@ public class MapViewModelTest {
     @Test
     public void testMapViewModelWithRefresh() {
         MapViewModel mvm = new MapViewModel(new FakeMapModelManager());
-        LiveData<List<Event>> events = mvm.getEventList();
+        LiveData<List<Event>> events = mvm.getEventListLiveData();
         CompletableFuture<List<Event>> future1 = toCompletableFuture(events);
         future1.join();
 
-        LiveData<List<Event>> liveData = mvm.refreshEventList();
+        LiveData<List<Event>> liveData = mvm.getEventListLiveData();
+        mvm.triggerRefreshEventList();
         CompletableFuture<List<Event>> future2 = toCompletableFuture(liveData);
         List<Event> eventList = future2.join();
 

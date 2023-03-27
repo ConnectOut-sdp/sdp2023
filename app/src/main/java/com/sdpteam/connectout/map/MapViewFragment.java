@@ -1,16 +1,7 @@
 package com.sdpteam.connectout.map;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,14 +11,22 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
+    private static final int DEFAULT_MAP_ZOOM = 15;
     private GoogleMap map;
     private MapViewModel mapViewModel;
-    private static final int DEFAULT_MAP_ZOOM = 15;
 
     @Nullable
     @Override
@@ -41,10 +40,12 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
         final MapViewModelFactory viewModelFactory = new MapViewModelFactory(() -> new MutableLiveData<>(new ArrayList<>()));
         mapViewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(MapViewModel.class);
-        mapViewModel.getEventList().observe(getViewLifecycleOwner(), this::showNewMarkerList);
+        mapViewModel.triggerRefreshEventList();
+
+        mapViewModel.getEventListLiveData().observe(getViewLifecycleOwner(), this::showNewMarkerList);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
-        refreshButton.setOnClickListener(view -> showNewMarkerList(mapViewModel.refreshEventList().getValue()));
+        refreshButton.setOnClickListener(view -> mapViewModel.triggerRefreshEventList());
 
         return rootView;
     }
@@ -76,6 +77,5 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        showNewMarkerList(mapViewModel.refreshEventList().getValue());
     }
 }
