@@ -6,17 +6,16 @@
     android:id="@+id/events_activity_id"
     tools:context=".EventsMapListActivity">
 
-    <Switch
+    <ToggleButton
         android:id="@+id/events_switch"
         android:layout_marginTop="@dimen/fab_margin"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:thumb="@drawable/thumb"
-        android:track="@drawable/switch_track"
         android:scaleX="1.25"
-        android:scaleY="1.25"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        android:textOn="@string/to_map"
+        android:textOff="@string/to_list"
+        android:scaleY="1.25" />
 
     <FrameLayout
         android:id="@+id/events_map_list_container"

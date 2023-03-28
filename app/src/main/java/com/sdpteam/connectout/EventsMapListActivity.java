@@ -3,6 +3,7 @@ package com.sdpteam.connectout;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Switch;
+import android.widget.ToggleButton;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -22,21 +23,19 @@ public class EventsMapListActivity extends WithFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode")
-        Switch mapListSwitch = findViewById(R.id.events_switch);
+
+        ToggleButton mapListButton = findViewById(R.id.events_switch);
 
         EventsViewModel viewModel = new ViewModelProvider(this, new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
         mapViewFragment = new MapViewFragment(viewModel);
         listViewFragment = new ListViewFragment();
         replaceFragment(mapViewFragment, R.id.events_map_list_container);
 
-        mapListSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        mapListButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (!isChecked) {
                         replaceFragment(mapViewFragment, R.id.events_map_list_container);
-                        System.out.println("switch is checked");
                     } else {
                         replaceFragment(listViewFragment, R.id.events_map_list_container);
-                        System.out.println("switch unchecked");
                     }
                 }
 
