@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.EventsViewModel;
 import com.sdpteam.connectout.event.EventsViewModelFactory;
-import com.sdpteam.connectout.mapList.list.ListViewFragment;
-import com.sdpteam.connectout.mapList.map.MapViewFragment;
+import com.sdpteam.connectout.eventList.ListViewFragment;
+import com.sdpteam.connectout.map.MapViewFragment;
 
 public class EventsMapListActivity extends WithFragmentActivity {
 

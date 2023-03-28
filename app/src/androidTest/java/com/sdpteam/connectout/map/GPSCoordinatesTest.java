@@ -1,10 +1,11 @@
-package com.sdpteam.connectout.mapList.map;
+package com.sdpteam.connectout.map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThrows;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.sdpteam.connectout.map.GPSCoordinates;
 
 import org.junit.Test;
 

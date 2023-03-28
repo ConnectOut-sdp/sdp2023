@@ -1,6 +1,5 @@
-package com.sdpteam.connectout.mapList;
+package com.sdpteam.connectout.event;
 
-import static com.sdpteam.connectout.utils.LiveDataTestUtil.toCompletableFuture;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -10,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
 import com.sdpteam.connectout.event.EventsViewModel;
-import com.sdpteam.connectout.mapList.map.GPSCoordinates;
+import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Rule;

@@ -10,8 +10,8 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.mapList.map.GPSCoordinates;
-import com.sdpteam.connectout.mapList.map.PositionSelectorFragment;
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.map.PositionSelectorFragment;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 
 public class EventCreatorActivity extends WithFragmentActivity {

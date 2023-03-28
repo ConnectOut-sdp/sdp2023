@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.mapList.list;
+package com.sdpteam.connectout.eventList;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.mapList;
+package com.sdpteam.connectout.event;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isA;
@@ -12,7 +12,7 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
 import com.sdpteam.connectout.event.EventsViewModel;
 import com.sdpteam.connectout.event.EventsViewModelFactory;
-import com.sdpteam.connectout.mapList.map.GPSCoordinates;
+import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 

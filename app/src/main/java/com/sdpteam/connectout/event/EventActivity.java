@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.WithFragmentActivity;
-import com.sdpteam.connectout.mapList.map.GPSCoordinates;
-import com.sdpteam.connectout.mapList.map.MapViewFragment;
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.map.MapViewFragment;
 
 import java.util.Collections;
 import java.util.List;

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
     android:id="@+id/event_list"
-    tools:context=".mapList.list.ListViewFragment">
+    tools:context=".eventList.ListViewFragment">
 
 
 

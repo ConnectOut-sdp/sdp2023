@@ -12,7 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.mapList.map.MapViewFragment;
+import com.sdpteam.connectout.map.MapViewFragment;
 
 import org.junit.After;
 import org.junit.Assert;

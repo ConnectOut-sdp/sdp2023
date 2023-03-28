@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.mapList.map;
+package com.sdpteam.connectout.map;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 

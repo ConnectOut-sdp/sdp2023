@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.mapList.map;
+package com.sdpteam.connectout.map;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -16,6 +16,7 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.EventCreatorActivity;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.EventsViewModel;
+import com.sdpteam.connectout.map.PositionSelectorFragment;
 
 import org.junit.After;
 import org.junit.Before;
