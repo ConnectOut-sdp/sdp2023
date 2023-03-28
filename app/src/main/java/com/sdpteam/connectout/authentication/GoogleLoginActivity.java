@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GoogleLoginActivity extends AppCompatActivity {
     private Authentication authentication = new GoogleAuth();
-    final ActivityResultLauncher<Intent> fireBaseSignInLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> fireBaseSignInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
             firebaseActivityResult -> {
                 redirectIfAuthenticated();

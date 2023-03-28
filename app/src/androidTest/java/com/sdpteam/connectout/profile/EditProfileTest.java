@@ -28,7 +28,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 public class EditProfileTest {
 
-    public static Authentication fakeAuthNotLogged = new Authentication() {
+    private final Authentication fakeAuthNotLogged = new Authentication() {
         @Override
         public boolean isLoggedIn() {
             return false;

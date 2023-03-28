@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
                 editProfile.setVisibility(VISIBLE);
                 editProfile.setOnClickListener(v -> goToEditProfile());
             } else {
-                Log.println(Log.WARN, "ProfileActivity argument exception", "What user do you want to display? Displaying null user for the moment");
+                Log.w("ProfileActivity argument exception", "Displaying a blank user. No user id provided, nor the user is logged in.");
                 userIdToDisplay = NULL_USER;
             }
         }

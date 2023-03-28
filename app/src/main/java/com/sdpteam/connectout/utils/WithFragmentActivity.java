@@ -9,7 +9,7 @@ public class WithFragmentActivity extends AppCompatActivity {
     /**
      * Replaces the current fragment within the container using the given one.
      *
-     * @param fragment    (FragmentActivity): fragment to be used next
+     * @param fragment    (Fragment): fragment to be used next
      * @param containerId (int): id of the container where the fragment is stored
      */
     public void replaceFragment(Fragment fragment, int containerId) {

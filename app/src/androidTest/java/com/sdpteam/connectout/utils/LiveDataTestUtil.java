@@ -34,13 +34,15 @@ public class LiveDataTestUtil {
     }
 
     /**
-     * credits to https://gist.github.com/JoseAlcerreca/1e9ee05dcdd6a6a6fa1cbfc125559bba
+     * Get the value from a LiveData object or waiting for LiveData to emit, for 2 seconds and return it.
      * <p>
-     * DONT FORGET TO PUT:
+     * It is a replacement for .toCompletableFuture().join() which does not work.
+     * <p>
+     * Credits to https://gist.github.com/JoseAlcerreca/1e9ee05dcdd6a6a6fa1cbfc125559bba
+     * <p>
+     * !! DONT FORGET TO PUT this at the beginning of your test class !!
      *
      * @Rule public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-     * <p>
-     * at the beginning of your test class
      **/
     public static <T> T getOrAwaitValue(final LiveData<T> liveData) {
         final Object[] data = new Object[1];
