@@ -20,18 +20,14 @@ public class EventCreatorViewModel extends ViewModel {
      * trigger a fetch
      */
     public void triggerFetchEvent(String eventId) {
-        eventRepository.getEvent(eventId).thenAccept(event -> {
-            eventLiveData.setValue(event);
-        });
+        eventRepository.getEvent(eventId).thenAccept(eventLiveData::setValue);
     }
 
     /**
      * trigger a fetch
      */
     public void triggerFetchEvent(String userId, String title) {
-        eventRepository.getEvent(userId, title).thenAccept(event -> {
-            eventLiveData.setValue(event);
-        });
+        eventRepository.getEvent(userId, title).thenAccept(eventLiveData::setValue);
     }
 
     public void saveEvent(Event event) {
