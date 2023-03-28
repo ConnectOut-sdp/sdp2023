@@ -96,10 +96,10 @@ public class EventCreatorActivityTest {
         String description = "Search for tenis partner";
 
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("1")).join();
+        Event foundEvent = model.getEvent("1").join();
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getId(), is("1"));
@@ -114,7 +114,7 @@ public class EventCreatorActivityTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
 
         onView(ViewMatchers.withId(R.id.event_creator_title)).perform(typeText(title));
         Espresso.closeSoftKeyboard();
@@ -123,7 +123,7 @@ public class EventCreatorActivityTest {
         onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
         onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(EditProfileActivity.NULL_USER, title)).join();
+        Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getCoordinates().getLatitude(), is(not(0.0)));

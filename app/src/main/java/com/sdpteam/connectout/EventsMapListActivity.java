@@ -6,9 +6,9 @@ import android.widget.Switch;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.sdpteam.connectout.mapList.MapListModel;
-import com.sdpteam.connectout.mapList.MapListViewModel;
-import com.sdpteam.connectout.mapList.MapListViewModelFactory;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.EventsViewModel;
+import com.sdpteam.connectout.event.EventsViewModelFactory;
 import com.sdpteam.connectout.mapList.list.ListViewFragment;
 import com.sdpteam.connectout.mapList.map.MapViewFragment;
 
@@ -25,7 +25,7 @@ public class EventsMapListActivity extends WithFragmentActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         Switch mapListSwitch = findViewById(R.id.events_switch);
 
-        MapListViewModel viewModel = new ViewModelProvider(this, new MapListViewModelFactory(new MapListModel())).get(MapListViewModel.class);
+        EventsViewModel viewModel = new ViewModelProvider(this, new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
         mapViewFragment = new MapViewFragment(viewModel);
         listViewFragment = new ListViewFragment();
         replaceFragment(mapViewFragment, R.id.events_map_list_container);

@@ -1,10 +1,10 @@
 package com.sdpteam.connectout.event;
 
-import androidx.lifecycle.LiveData;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import com.sdpteam.connectout.mapList.MapListModelManager;
+public interface EventRepository {
 
-public interface EventDataManager extends MapListModelManager {
     /**
      * Saves the given Event in the firebase database
      *
@@ -21,20 +21,27 @@ public interface EventDataManager extends MapListModelManager {
      * @param eventId (String): Unique identifier of the event
      * @return (LiveData<Event>): Container of the wanted event
      */
-    LiveData<Event> getEvent(String eventId);
+    CompletableFuture<Event> getEvent(String eventId);
 
     /**
      * Fetches the wanted Event from the firebase database using its owner id & title.
      *
-     * @param userId   (String): Id of the owner of the event
-     * @param title (Title): Title of the event
-     * @return (LiveData<Event>): Container of the wanted event
+     * @param userId (String): Id of the owner of the event
+     * @param title  (Title): Title of the event
+     * @return (LiveData < Event >): Container of the wanted event
      */
-    LiveData<Event> getEvent(String userId, String title);
+    CompletableFuture<Event> getEvent(String userId, String title);
 
     /**
      *
      * @return (String): Event Id that is truly unique in the model.
      */
     String getUniqueId();
+
+    /**
+     * @param filteredAttribute (String): attribute upon which the events are filtered.
+     * @param expectedValue     (String): value of the attribute that is expected
+     * @return (MutableLiveData < List < Event > >): a changeable list of different events.
+     */
+    CompletableFuture<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue);
 }

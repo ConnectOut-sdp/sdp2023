@@ -12,14 +12,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.mapList.map.GPSCoordinates;
-import com.sdpteam.connectout.mapList.MapListModelManager;
-import com.sdpteam.connectout.mapList.MapListViewModel;
 import com.sdpteam.connectout.mapList.map.MapViewFragment;
-import com.sdpteam.connectout.mapList.MapListViewModelFactory;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -46,16 +44,40 @@ public class EventActivity extends WithFragmentActivity {
         initMapFragment(event);
     }
 
+
     private void initMapFragment(Event event) {
 
         // Model that returns a singleton of the event as the event list
-        final MapListModelManager mapModel = (String filteredAttribute, String expectedValue) -> {
-            final MutableLiveData<List<Event>> data = new MutableLiveData<>();
-            data.setValue(Collections.singletonList(event)); // only show one marker in the map
-            return data;
+        //TODO connect to firebase.
+        final EventRepository mapModel = new EventRepository() {
+            @Override
+            public boolean saveEvent(Event event) {
+                return false;
+            }
+
+            @Override
+            public CompletableFuture<Event> getEvent(String eventId) {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<Event> getEvent(String userId, String title) {
+                return null;
+            }
+
+            @Override
+            public String getUniqueId() {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue) {
+                return CompletableFuture.completedFuture(Collections.singletonList(event));
+            }
         };
-        // Implicitly instantiating MapListViewModel to use that instance back in MapViewFragment
-        final MapListViewModel mapViewModel = new ViewModelProvider(this, new MapListViewModelFactory(mapModel)).get(MapListViewModel.class);
+
+        // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
+        final EventsViewModel mapViewModel = new ViewModelProvider(this, new EventsViewModelFactory(mapModel)).get(EventsViewModel.class);
 
 
         final MapViewFragment map = new MapViewFragment(mapViewModel);

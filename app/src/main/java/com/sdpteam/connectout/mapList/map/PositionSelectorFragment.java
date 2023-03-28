@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.mapList.MapListViewModel;
+import com.sdpteam.connectout.event.EventsViewModel;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
     private Marker movingMarker;
     private GoogleMap map;
 
-    public PositionSelectorFragment(MapListViewModel mapViewModel) {
+    public PositionSelectorFragment(EventsViewModel mapViewModel) {
         super(mapViewModel);
     }
 

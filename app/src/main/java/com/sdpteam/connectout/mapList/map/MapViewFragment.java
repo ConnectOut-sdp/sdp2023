@@ -16,18 +16,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.mapList.MapListViewModel;
+import com.sdpteam.connectout.event.EventsViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap map;
-    private final MapListViewModel mapViewModel;
+    private final EventsViewModel mapViewModel;
     private static final int DEFAULT_MAP_ZOOM = 15;
 
-    public MapViewFragment(MapListViewModel mapViewModel) {
+    public MapViewFragment(EventsViewModel mapViewModel) {
         this.mapViewModel = mapViewModel;
     }
 
