@@ -4,16 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import org.junit.Rule;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,9 +21,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class EventCreatorViewModelTest {
+    public static final Event TEST_EVENT1 = new Event("1", "Tenis", "Searching for a tenis partner", new GPSCoordinates(10, 10), "Eric");
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-    public static final Event TEST_EVENT1 = new Event("1", "Tenis", "Searching for a tenis partner", new GPSCoordinates(10, 10), "Eric");
 
     @Test
     public void testSavesValueAddsToExistingStore() {
@@ -70,7 +60,6 @@ public class EventCreatorViewModelTest {
 
         assertThat(e, is(TEST_EVENT1));
     }
-
 
     public static class TestEventCreatorModel implements EventRepository {
 

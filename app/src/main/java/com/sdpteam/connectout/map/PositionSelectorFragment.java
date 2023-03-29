@@ -2,6 +2,8 @@ package com.sdpteam.connectout.map;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
+import java.util.List;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -11,8 +13,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventsViewModel;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 
@@ -25,7 +25,6 @@ public class PositionSelectorFragment extends MapViewFragment implements OnMapRe
     public PositionSelectorFragment(EventsViewModel mapViewModel) {
         super(mapViewModel);
     }
-
 
     @Override
     public void showNewMarkerList(List<Event> eventList) {

@@ -42,7 +42,6 @@ public class EventActivity extends WithFragmentActivity {
         initMapFragment(event);
     }
 
-
     private void initMapFragment(Event event) {
 
         // Model that returns a singleton of the event as the event list
@@ -76,7 +75,6 @@ public class EventActivity extends WithFragmentActivity {
 
         // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
         final EventsViewModel mapViewModel = new ViewModelProvider(this, new EventsViewModelFactory(mapModel)).get(EventsViewModel.class);
-
 
         final MapViewFragment map = new MapViewFragment(mapViewModel);
         replaceFragment(map, R.id.event_fragment_container);

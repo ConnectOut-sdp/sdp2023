@@ -1,18 +1,18 @@
 package com.sdpteam.connectout.event;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 public class EventFirebaseDataSource implements EventRepository {
     public final static String DATABASE_EVENT_PATH = "Events";
-    private final DatabaseReference database;
     private final static int MAX_EVENTS_FETCHED = 50;
+    private final DatabaseReference database;
 
     public EventFirebaseDataSource() {
         database = FirebaseDatabase.getInstance().getReference();
@@ -100,8 +100,6 @@ public class EventFirebaseDataSource implements EventRepository {
             value.complete(eventList);
         });
         return value;
-
     }
-
 }
 

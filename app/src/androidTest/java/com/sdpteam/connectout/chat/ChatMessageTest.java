@@ -5,8 +5,6 @@ import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import com.sdpteam.connectout.profile.Profile;
-
 import org.junit.Test;
 
 public class ChatMessageTest {

@@ -1,15 +1,15 @@
 package com.sdpteam.connectout.map;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventsViewModel;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,23 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventsViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int DEFAULT_MAP_ZOOM = 15;
-    private GoogleMap map;
     private final EventsViewModel mapViewModel;
+    private GoogleMap map;
 
     public MapViewFragment(EventsViewModel mapViewModel) {
         this.mapViewModel = mapViewModel;
@@ -61,7 +49,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
         return rootView;
     }
-
 
     public void showNewMarkerList(List<Event> eventList) {
         if (map == null) {

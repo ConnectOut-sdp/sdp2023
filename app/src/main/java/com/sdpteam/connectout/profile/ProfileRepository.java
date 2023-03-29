@@ -19,5 +19,4 @@ public interface ProfileRepository {
      * Fetches all profiles in the repository
      */
     CompletableFuture<List<Profile>> getListOfUsers();
-
 }

@@ -21,7 +21,6 @@ import com.sdpteam.connectout.map.PositionSelectorFragment;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 
 import android.widget.Button;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.test.espresso.Espresso;
@@ -30,18 +29,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.PositionSelectorFragment;
-import com.sdpteam.connectout.profile.EditProfileActivity;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {

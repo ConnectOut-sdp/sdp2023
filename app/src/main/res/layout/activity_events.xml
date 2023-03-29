@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/events_activity_id"
-    tools:context=".event.EventsActivity">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/events_activity_id"
+        tools:context=".event.EventsActivity">
 
     <RadioGroup
-        android:id="@+id/events_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:padding="@dimen/fab_margin"
-        android:orientation="horizontal">
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/list_switch_button"
+            android:id="@+id/events_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="List"
-            android:textAlignment="center"
-            android:checked="false"
-            android:textSize="20sp"
-            android:button="@android:color/transparent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_list_selector"
-            />
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/fab_margin"
+            android:orientation="horizontal">
+
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/map_switch_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Map"
-            android:checked="true"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:button="@android:color/transparent"
-            android:background="@drawable/radio_button_map_selector"
-            android:layout_weight="1"
-            />
-        
+                android:id="@+id/list_switch_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="List"
+                android:textAlignment="center"
+                android:checked="false"
+                android:textSize="20sp"
+                android:button="@android:color/transparent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_list_selector" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/map_switch_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Map"
+                android:checked="true"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_button_map_selector"
+                android:layout_weight="1" />
+
     </RadioGroup>
 
 
-
+    <FrameLayout
+            android:id="@+id/events_map_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/events_task_bar"
+            android:layout_below="@+id/events_switch"
+            android:layout_marginStart="@dimen/fab_margin"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin" />
 
     <FrameLayout
-        android:id="@+id/events_map_list_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/events_task_bar"
-        android:layout_below="@+id/events_switch"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin" />
-    <FrameLayout
-        android:id="@+id/events_task_bar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentBottom="true"
+            android:id="@+id/events_task_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
 
-        />
+            />
 
 </RelativeLayout>

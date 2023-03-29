@@ -29,17 +29,13 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 public class ChatActivity extends AppCompatActivity {
 
+    public static final String NULL_CHAT = "null_chat";
     private final String YOU = "You";
     public ChatViewModel viewModel = new ChatViewModel(new ChatFirebaseDataSource());
-    public AuthenticatedUser au = new GoogleAuth().loggedUser();
-
-    public String uid = (au == null) ? NULL_USER : au.uid;
-
     public final String userName = viewModel.getProfileUserName();
-
+    public AuthenticatedUser au = new GoogleAuth().loggedUser();
+    public String uid = (au == null) ? NULL_USER : au.uid;
     public String chatId;
-
-    public static final String NULL_CHAT = "null_chat";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

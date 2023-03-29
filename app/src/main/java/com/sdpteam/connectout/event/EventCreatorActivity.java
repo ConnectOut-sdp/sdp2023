@@ -1,11 +1,5 @@
 package com.sdpteam.connectout.event;
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-
-import androidx.appcompat.widget.Toolbar;
-
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
@@ -13,6 +7,11 @@ import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.map.PositionSelectorFragment;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.widget.Toolbar;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -47,8 +46,6 @@ public class EventCreatorActivity extends WithFragmentActivity {
             );
             this.finish();
         });
-
-
     }
 
     /**
@@ -74,6 +71,4 @@ public class EventCreatorActivity extends WithFragmentActivity {
         //Save the event & return to previous activity.
         eventCreatorViewModel.saveEvent(newEvent);
     }
-
-
 }

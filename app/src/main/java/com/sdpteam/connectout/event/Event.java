@@ -2,10 +2,10 @@ package com.sdpteam.connectout.event;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import com.sdpteam.connectout.map.GPSCoordinates;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sdpteam.connectout.map.GPSCoordinates;
 
 /**
  * This class describes an event

@@ -5,20 +5,19 @@ import static org.hamcrest.Matchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.ViewModel;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import org.junit.Rule;
+import org.junit.Test;
 
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.ViewModel;
 
 public class EventsViewModelFactoryTest {
 
@@ -37,7 +36,6 @@ public class EventsViewModelFactoryTest {
         // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
         assertThat(new EventsViewModelFactory(mockModel).create(EventsViewModel.class), isA(EventsViewModel.class));
     }
-
 
     @Test
     public void testViewModelUsesCustomModelThroughFactoryInstantiation() {
@@ -89,5 +87,4 @@ public class EventsViewModelFactoryTest {
 
     private static class InvalidViewModel extends ViewModel {
     }
-
 }
