@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
         tools:viewBindingIgnore="true"
         android:id="@+id/map"
-        tools:context=".map.MapViewFragment"
+        tools:context=".event.nearbyEvents.map.EventsMapViewFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment">
 
     <ImageButton
