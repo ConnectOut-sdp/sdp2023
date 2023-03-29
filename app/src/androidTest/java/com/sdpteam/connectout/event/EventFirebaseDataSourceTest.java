@@ -5,14 +5,14 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
+
+import org.junit.Test;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
-
-import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class EventFirebaseDataSourceTest {
 
@@ -105,7 +105,6 @@ public class EventFirebaseDataSourceTest {
         Event e = null;
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         assertFalse(model.saveEvent(e));
-
     }
 
     @Test
@@ -115,11 +114,8 @@ public class EventFirebaseDataSourceTest {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Events").child("NotEid").setValue(new ArrayList<>());
 
-
         Event foundEvent = model.getEvent("NotEid").join();
 
         assertNull(foundEvent);
     }
-
-
 }

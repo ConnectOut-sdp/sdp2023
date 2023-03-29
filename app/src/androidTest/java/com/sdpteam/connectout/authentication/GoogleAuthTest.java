@@ -14,13 +14,15 @@ public class GoogleAuthTest {
         System.out.println(intent.getData());
 //        assertThrows(RuntimeException.class, () -> new GoogleAuth().buildIntent());
     }
+
     @Test
-    public void testIsNotLoggedInBeforeStarting(){
+    public void testIsNotLoggedInBeforeStarting() {
         GoogleAuth ga = new GoogleAuth();
         assertFalse(ga.isLoggedIn());
     }
+
     @Test
-    public void testLogsOutSuccessfully(){
+    public void testLogsOutSuccessfully() {
         GoogleAuth ga = new GoogleAuth();
         ga.logout();
         assertFalse(ga.isLoggedIn());

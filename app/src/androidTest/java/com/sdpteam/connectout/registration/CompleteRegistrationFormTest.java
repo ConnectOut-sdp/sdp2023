@@ -13,6 +13,10 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThrows;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import org.hamcrest.MatcherAssert;
 import org.junit.After;
 import org.junit.Before;
@@ -23,8 +27,7 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDirectory;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
+import com.sdpteam.connectout.profile.ProfileRepository;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -34,8 +37,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentFactory;
 import androidx.fragment.app.testing.FragmentScenario;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.test.espresso.Espresso;
@@ -47,19 +48,24 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 public class CompleteRegistrationFormTest {
 
     private RegistrationViewModel viewModel;
-    private final MutableLiveData<Profile> databaseContent = new MutableLiveData<>();
-    private final ProfileDirectory fakeProfilesDatabase = new ProfileDirectory() {
+    private Profile databaseContent;
+    private final ProfileRepository fakeProfilesDatabase = new ProfileRepository() {
         @Override
         public void saveProfile(Profile profile) {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(() -> {
-                databaseContent.setValue(profile);
+                databaseContent = profile;
             });
         }
 
         @Override
-        public LiveData<Profile> fetchProfile(String uid) {
-            return databaseContent;
+        public CompletableFuture<Profile> fetchProfile(String uid) {
+            return CompletableFuture.completedFuture(databaseContent);
+        }
+
+        @Override
+        public CompletableFuture<List<Profile>> getListOfUsers() {
+            return CompletableFuture.completedFuture(new ArrayList<>());
         }
     };
 
@@ -131,7 +137,7 @@ public class CompleteRegistrationFormTest {
         onView(withId(R.id.radioMale)).perform(click());
         onView(withId(R.id.checkBox)).perform(click());
         onView(withId(R.id.finishButton)).perform(click());
-        Profile updatedProfile = LiveDataTestUtil.toCompletableFuture(fakeProfilesDatabase.fetchProfile("007")).join();
+        Profile updatedProfile = fakeProfilesDatabase.fetchProfile("007").join();
 
         MatcherAssert.assertThat(updatedProfile.getId(), is("007"));
         MatcherAssert.assertThat(updatedProfile.getName(), is("Donald Trump"));

@@ -6,7 +6,6 @@ public class EventCreatorViewModel extends EventsViewModel {
     private final EventRepository model;
     private final MutableLiveData<Event> eventLiveData;
 
-
     public EventCreatorViewModel(EventRepository model) {
         super(model);
         this.model = model;
@@ -32,5 +31,4 @@ public class EventCreatorViewModel extends EventsViewModel {
     public String getUniqueId() {
         return model.getUniqueId();
     }
-
 }

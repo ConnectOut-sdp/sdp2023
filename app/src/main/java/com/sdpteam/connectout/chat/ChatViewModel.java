@@ -1,35 +1,36 @@
 package com.sdpteam.connectout.chat;
 
-import android.view.View;
-import android.widget.ListAdapter;
-
-import androidx.lifecycle.ViewModel;
-
-import com.firebase.ui.database.FirebaseListOptions;
+import static com.sdpteam.connectout.chat.ChatFirebaseDataSource.*;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class ChatViewModel extends ViewModel {
-    public ChatModel chatModel;
+import com.firebase.ui.database.FirebaseListOptions;
 
-    public ChatViewModel(ChatModel chatModel) {
-        this.chatModel = chatModel;
+import android.view.View;
+import android.widget.ListAdapter;
+import androidx.lifecycle.ViewModel;
+
+public class ChatViewModel extends ViewModel {
+    public ChatFirebaseDataSource chatFirebaseDataSource;
+
+    public ChatViewModel(ChatFirebaseDataSource chatFirebaseDataSource) {
+        this.chatFirebaseDataSource = chatFirebaseDataSource;
     }
 
     /**
      * Save your new ChatMessage
      */
     public void saveMessage(ChatMessage message) {
-        chatModel.saveMessage(message);
+        chatFirebaseDataSource.saveMessage(message);
     }
 
     /**
      * Called by the ChatView
      */
     public String getProfileUserName() {
-        return chatModel.getProfileUserName();
+        return chatFirebaseDataSource.getProfileUserName();
     }
 
     /**
@@ -40,7 +41,7 @@ public class ChatViewModel extends ViewModel {
                                  BiConsumer<View, ChatMessage> populateView,
                                  Consumer<ListAdapter> setAdapter,
                                  String chatId) {
-        chatModel.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, chatId);
+        chatFirebaseDataSource.setUpListAdapter(new ChatAdapterFirebaseConfig(setLayout, setLifecycleOwner, populateView, setAdapter), chatId);
     }
 }
 

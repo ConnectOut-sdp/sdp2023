@@ -3,18 +3,18 @@ package com.sdpteam.connectout.event;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
-
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
 
 public class EventsViewModelTest {
 
@@ -24,7 +24,7 @@ public class EventsViewModelTest {
     @Test
     public void getEventListReturnsTheCorrectEvents() {
         EventsViewModel viewModel = new EventsViewModel(new FakeMapModelManager());
-        LiveData<List<Event>> eventListLiveData = viewModel.getEventList();
+        LiveData<List<Event>> eventListLiveData = viewModel.getEventListLiveData();
 
         List<Event> events = LiveDataTestUtil.getOrAwaitValue(eventListLiveData);
         assertThat(events.size(), is(2));
@@ -35,9 +35,10 @@ public class EventsViewModelTest {
     @Test
     public void testMapViewModelWithRefresh() {
         EventsViewModel mvm = new EventsViewModel(new FakeMapModelManager());
-        LiveDataTestUtil.getOrAwaitValue(mvm.getEventList());
+        LiveDataTestUtil.getOrAwaitValue(mvm.getEventListLiveData());
 
-        LiveData<List<Event>> liveData = mvm.refreshEventList();
+        LiveData<List<Event>> liveData = mvm.getEventListLiveData();
+        mvm.refreshEventList();
         List<Event> eventList = LiveDataTestUtil.getOrAwaitValue(liveData);
 
         assertThat(eventList.size(), is(3));

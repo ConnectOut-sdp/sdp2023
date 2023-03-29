@@ -2,21 +2,20 @@ package com.sdpteam.connectout.event;
 
 import static java.lang.String.format;
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.lifecycle.ViewModelProvider;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.WithFragmentActivity;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.MapViewFragment;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.map.MapViewFragment;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.lifecycle.ViewModelProvider;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -42,7 +41,6 @@ public class EventActivity extends WithFragmentActivity {
 
         initMapFragment(event);
     }
-
 
     private void initMapFragment(Event event) {
 
@@ -77,7 +75,6 @@ public class EventActivity extends WithFragmentActivity {
 
         // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
         final EventsViewModel mapViewModel = new ViewModelProvider(this, new EventsViewModelFactory(mapModel)).get(EventsViewModel.class);
-
 
         final MapViewFragment map = new MapViewFragment(mapViewModel);
         replaceFragment(map, R.id.event_fragment_container);

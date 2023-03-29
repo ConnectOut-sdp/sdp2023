@@ -10,27 +10,25 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
-import android.content.Intent;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.R;
+
+import android.content.Intent;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class ChatActivityTest {
-    String nameOfTestChat = "TestChat";
     @Rule
     public ActivityScenarioRule<ChatActivity> activityRule = new ActivityScenarioRule<>(ChatActivity.class);
+    String nameOfTestChat = "TestChat";
 
     @Before
     public final void setUp() {
@@ -38,21 +36,21 @@ public class ChatActivityTest {
         intent.putExtra("chatId", nameOfTestChat);
         activityRule.getScenario().onActivity(activity -> {
             activity.startActivity(intent);
-            activity.viewModel.chatModel.emptyTestMode();
+            activity.viewModel.chatFirebaseDataSource.emptyTestMode();
         });
     }
 
     @After
     public final void tearDown() {
         activityRule.getScenario().onActivity(activity ->
-                activity.viewModel.chatModel.emptyTestMode());
+                activity.viewModel.chatFirebaseDataSource.emptyTestMode());
     }
 
     @Test
     public void testListUsersDisplayed() {
         onView(ViewMatchers.withId(R.id.activity_chat)).check(matches(isDisplayed()));
         activityRule.getScenario().onActivity(activity -> {
-            ChatModel model = activity.viewModel.chatModel;
+            ChatFirebaseDataSource model = activity.viewModel.chatFirebaseDataSource;
             model.saveMessage(new ChatMessage("Bob", "Bob userId", "Hey I m Bob", nameOfTestChat));
             model.saveMessage(new ChatMessage("Alice", "Alice userId", "Hey I m Alice", nameOfTestChat));
             model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Hey I m Dylan", nameOfTestChat));

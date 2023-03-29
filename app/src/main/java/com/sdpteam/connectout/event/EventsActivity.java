@@ -1,15 +1,14 @@
 package com.sdpteam.connectout.event;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.eventList.ListViewFragment;
+import com.sdpteam.connectout.map.MapViewFragment;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
 import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import androidx.lifecycle.ViewModelProvider;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.WithFragmentActivity;
-import com.sdpteam.connectout.eventList.ListViewFragment;
-import com.sdpteam.connectout.map.MapViewFragment;
 
 public class EventsActivity extends WithFragmentActivity {
 
@@ -20,7 +19,6 @@ public class EventsActivity extends WithFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
-
 
         RadioGroup mapListButton = findViewById(R.id.events_switch);
 
@@ -42,6 +40,5 @@ public class EventsActivity extends WithFragmentActivity {
                 }
 
         );
-
     }
 }

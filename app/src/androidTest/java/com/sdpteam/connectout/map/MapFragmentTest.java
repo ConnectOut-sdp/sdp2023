@@ -8,21 +8,20 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.EventCreatorActivity;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.EventsViewModel;
-import com.sdpteam.connectout.map.PositionSelectorFragment;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.EventCreatorActivity;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.EventsViewModel;
+
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class MapFragmentTest {
@@ -52,8 +51,5 @@ public class MapFragmentTest {
         PositionSelectorFragment positionSelectorFragment = new PositionSelectorFragment(new EventsViewModel(new EventFirebaseDataSource()));
         assertThat(positionSelectorFragment.getMovingMarkerPosition().latitude, is(0.0));
         assertThat(positionSelectorFragment.getMovingMarkerPosition().longitude, is(0.0));
-
     }
-
-
 }

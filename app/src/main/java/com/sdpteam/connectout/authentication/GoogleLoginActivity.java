@@ -11,6 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GoogleLoginActivity extends AppCompatActivity {
     private Authentication authentication = new GoogleAuth();
+    private final ActivityResultLauncher<Intent> fireBaseSignInLauncher = registerForActivityResult(
+            new FirebaseAuthUIActivityResultContract(),
+            firebaseActivityResult -> {
+                redirectIfAuthenticated();
+            });
 
     void setAuthenticationService(Authentication a) {
         // useful for mocking in tests
@@ -29,12 +34,6 @@ public class GoogleLoginActivity extends AppCompatActivity {
 
         redirectIfAuthenticated();
     }
-
-    final ActivityResultLauncher<Intent> fireBaseSignInLauncher = registerForActivityResult(
-            new FirebaseAuthUIActivityResultContract(),
-            firebaseActivityResult -> {
-                redirectIfAuthenticated();
-            });
 
     void redirectIfAuthenticated() {
         AuthenticatedUser authenticatedUser = authentication.loggedUser();

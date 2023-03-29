@@ -2,19 +2,15 @@ package com.sdpteam.connectout.drawer;
 
 import com.google.android.material.navigation.NavigationView;
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.WithFragmentActivity;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 public class DrawerActivity extends WithFragmentActivity {
     @SuppressLint("NonConstantResourceId")
@@ -52,7 +48,6 @@ public class DrawerActivity extends WithFragmentActivity {
             return true;
         });
     }
-
 
     /**
      * Displays the selected fragment according to its id.
