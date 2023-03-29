@@ -1,7 +1,6 @@
 package com.sdpteam.connectout;
 
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
-import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Don't put anything here, just choose which activity to redirect to
-        Intent drawerIntent = new Intent(getApplicationContext(), EventsActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
         this.startActivity(drawerIntent);
     }
 }

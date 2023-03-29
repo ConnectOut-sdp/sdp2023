@@ -24,18 +24,16 @@ import androidx.annotation.Nullable;
  */
 public class EventsAdapter extends ArrayAdapter<Event> {
 
-    private final Context context;
-    private final int resource;
+    private final int eventListItemResource;
 
     /**
-     * @param context  The context in which the adapter is being used.
-     * @param resource The resource ID for the layout file of each list item.
-     * @param events   The list of events to display in the ListView.
+     * @param context               The context in which the adapter is being used.
+     * @param eventListItemResource The resource ID for the layout file of each list item.
+     * @param events                The list of events to display in the ListView.
      */
-    public EventsAdapter(@NonNull Context context, int resource, @NonNull List<Event> events) {
-        super(context, resource, events);
-        this.context = context;
-        this.resource = resource;
+    public EventsAdapter(@NonNull Context context, int eventListItemResource, @NonNull List<Event> events) {
+        super(context, eventListItemResource, events);
+        this.eventListItemResource = eventListItemResource;
     }
 
     /**
@@ -46,8 +44,8 @@ public class EventsAdapter extends ArrayAdapter<Event> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(resource, parent, false);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = inflater.inflate(eventListItemResource, parent, false);
         }
 
         Event event = getItem(position);
@@ -70,9 +68,9 @@ public class EventsAdapter extends ArrayAdapter<Event> {
     }
 
     private void openProfile(String profileId) {
-        Intent intent = new Intent(context, ProfileActivity.class);
+        Intent intent = new Intent(getContext(), ProfileActivity.class);
         intent.putExtra("uid", profileId);
-        context.startActivity(intent);
+        getContext().startActivity(intent);
     }
 }
 
