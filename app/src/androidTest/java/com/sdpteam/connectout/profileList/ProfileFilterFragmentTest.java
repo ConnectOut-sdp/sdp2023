@@ -75,7 +75,7 @@ public class ProfileFilterFragmentTest {
     public void filteringByNameIsOrdered() {
         FragmentScenario<ProfileFilterFragment> fc = FragmentScenario.launchInContainer(ProfileFilterFragment.class);
 
-        onView(withId(R.id.filter_category_button)).perform(click());
+        onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
@@ -99,7 +99,7 @@ public class ProfileFilterFragmentTest {
     public void filteringByNameFindsPersonName() {
         FragmentScenario<ProfileFilterFragment> fc = FragmentScenario.launchInContainer(ProfileFilterFragment.class);
 
-        onView(withId(R.id.filter_category_button)).perform(click());
+        onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.text_filter)).perform(typeText("Alice"));
         closeSoftKeyboard();
         onView(withId(R.id.filter_apply_button)).perform(click());
@@ -146,6 +146,9 @@ public class ProfileFilterFragmentTest {
     public void wrongFilteringWithRatingShowsCompleteList() {
         FragmentScenario<ProfileFilterFragment> fc = FragmentScenario.launchInContainer(ProfileFilterFragment.class);
 
+        onView(withId(R.id.name_switch_button)).perform(click());
+        onView(withId(R.id.rating_switch_button)).perform(click());
+        onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.text_filter)).perform(typeText("0;1 I dont know how to use filter "), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.filter_apply_button)).perform(click());
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
@@ -173,7 +176,7 @@ public class ProfileFilterFragmentTest {
         String improbableName = UUID.randomUUID().toString();
         onView(withId(R.id.text_filter)).perform(typeText(improbableName + "I dont know how to use filters ...."));
         closeSoftKeyboard();
-        onView(withId(R.id.filter_category_button)).perform(click());
+        onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 

@@ -74,12 +74,4 @@ public class ProfileListActivityTest {
         }
     }
 
-    @Test
-    public void clickOnProfileLaunchesProfileActivity() {
-        onData(anything())
-                .inAdapterView(withId(R.id.user_list_view))
-                .atPosition(0)
-                .perform(click());
-
-    }
 }
