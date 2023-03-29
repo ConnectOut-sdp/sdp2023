@@ -1,8 +1,16 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.event;
 
-import static com.sdpteam.connectout.utils.LiveDataTestUtil.toCompletableFuture;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
+
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import org.junit.Rule;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +23,17 @@ import com.sdpteam.connectout.event.Event;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-public class MapViewModelTest {
+public class EventsViewModelTest {
+
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Test
     public void getEventListReturnsTheCorrectEvents() {
-        MapViewModel viewModel = new MapViewModel(new FakeMapModelManager());
+        EventsViewModel viewModel = new EventsViewModel(new FakeMapModelManager());
         LiveData<List<Event>> eventListLiveData = viewModel.getEventListLiveData();
 
-        CompletableFuture<List<Event>> eventListFuture = toCompletableFuture(eventListLiveData);
-
-        List<Event> events = eventListFuture.join();
+        List<Event> events = LiveDataTestUtil.getOrAwaitValue(eventListLiveData);
         assertThat(events.size(), is(2));
         assertThat(events.get(0).getTitle(), is("event1"));
         assertThat(events.get(1).getTitle(), is("event2"));
@@ -32,15 +41,12 @@ public class MapViewModelTest {
 
     @Test
     public void testMapViewModelWithRefresh() {
-        MapViewModel mvm = new MapViewModel(new FakeMapModelManager());
-        LiveData<List<Event>> events = mvm.getEventListLiveData();
-        CompletableFuture<List<Event>> future1 = toCompletableFuture(events);
-        future1.join();
+        EventsViewModel mvm = new EventsViewModel(new FakeMapModelManager());
+        LiveDataTestUtil.getOrAwaitValue(mvm.getEventListLiveData());
 
         LiveData<List<Event>> liveData = mvm.getEventListLiveData();
         mvm.triggerRefreshEventList();
-        CompletableFuture<List<Event>> future2 = toCompletableFuture(liveData);
-        List<Event> eventList = future2.join();
+        List<Event> eventList = LiveDataTestUtil.getOrAwaitValue(liveData);
 
         assertThat(eventList.size(), is(3));
         assertThat(eventList.get(0).getTitle(), is("event3"));
@@ -48,7 +54,7 @@ public class MapViewModelTest {
         assertThat(eventList.get(2).getTitle(), is("event5"));
     }
 
-    public static class FakeMapModelManager implements MapModelManager {
+    public static class FakeMapModelManager implements EventRepository {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 
@@ -57,9 +63,29 @@ public class MapViewModelTest {
             dataSet.add(new Event("2", "event2", "", new GPSCoordinates(2, 3), "b"));
         }
 
-        public MutableLiveData<List<Event>> getEventLiveList() {
+        @Override
+        public boolean saveEvent(Event event) {
+            return false;
+        }
+
+        @Override
+        public CompletableFuture<Event> getEvent(String eventId) {
+            return null;
+        }
+
+        @Override
+        public CompletableFuture<Event> getEvent(String userId, String title) {
+            return null;
+        }
+
+        @Override
+        public String getUniqueId() {
+            return null;
+        }
+
+        public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
             updateData();
-            return new MutableLiveData<>(dataSet);
+            return CompletableFuture.completedFuture(dataSet);
         }
 
         private void updateData() {

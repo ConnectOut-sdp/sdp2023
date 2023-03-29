@@ -1,14 +1,15 @@
 package com.sdpteam.connectout.event;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class EventCreatorViewModel extends ViewModel {
-    private final EventRepository eventRepository;
+public class EventCreatorViewModel extends EventsViewModel {
+    private final EventRepository model;
     private final MutableLiveData<Event> eventLiveData;
 
-    public EventCreatorViewModel(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
+
+    public EventCreatorViewModel(EventRepository model) {
+        super(model);
+        this.model = model;
         this.eventLiveData = new MutableLiveData<>();
     }
 
@@ -16,25 +17,19 @@ public class EventCreatorViewModel extends ViewModel {
         return eventLiveData;
     }
 
-    /**
-     * trigger a fetch
-     */
-    public void triggerFetchEvent(String eventId) {
-        eventRepository.getEvent(eventId).thenAccept(eventLiveData::setValue);
+    public void getEvent(String eventId) {
+        model.getEvent(eventId).thenAccept(eventLiveData::setValue);
     }
 
-    /**
-     * trigger a fetch
-     */
-    public void triggerFetchEvent(String userId, String title) {
-        eventRepository.getEvent(userId, title).thenAccept(eventLiveData::setValue);
+    public void getEvent(String userId, String title) {
+        model.getEvent(userId, title).thenAccept(eventLiveData::setValue);
     }
 
     public void saveEvent(Event event) {
-        eventRepository.saveEvent(event);
+        model.saveEvent(event);
     }
 
     public String getUniqueId() {
-        return eventRepository.getUniqueId();
+        return model.getUniqueId();
     }
 }

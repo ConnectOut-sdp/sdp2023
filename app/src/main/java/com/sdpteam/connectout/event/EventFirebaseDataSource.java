@@ -1,15 +1,18 @@
 package com.sdpteam.connectout.event;
 
-import java.util.concurrent.CompletableFuture;
-
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 public class EventFirebaseDataSource implements EventRepository {
     public final static String DATABASE_EVENT_PATH = "Events";
     private final DatabaseReference database;
+    private final static int MAX_EVENTS_FETCHED = 50;
 
     public EventFirebaseDataSource() {
         database = FirebaseDatabase.getInstance().getReference();
@@ -81,5 +84,24 @@ public class EventFirebaseDataSource implements EventRepository {
     public String getUniqueId() {
         return database.child(DATABASE_EVENT_PATH).push().getKey();
     }
+
+    @Override
+    public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
+        CompletableFuture<List<Event>> value = new CompletableFuture<>();
+        Task<DataSnapshot> task = database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH).limitToFirst(MAX_EVENTS_FETCHED).get();
+        //TODO event filtering
+
+        task.addOnCompleteListener(t -> {
+            DataSnapshot snapshot = t.getResult();
+            List<Event> eventList = new ArrayList<>();
+            if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
+                snapshot.getChildren().forEach(child -> eventList.add(child.getValue(Event.class)));
+            }
+            value.complete(eventList);
+        });
+        return value;
+
+    }
+
 }
 

@@ -4,6 +4,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import org.junit.Rule;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,10 +31,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class EventCreatorViewModelTest {
-
-    private static final Event TEST_EVENT1 = new Event("1", "Tenis", "Searching for a tenis partner", new GPSCoordinates(10, 10), "Eric");
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+    public static final Event TEST_EVENT1 = new Event("1", "Tenis", "Searching for a tenis partner", new GPSCoordinates(10, 10), "Eric");
 
     @Test
     public void testSavesValueAddsToExistingStore() {
@@ -43,7 +52,7 @@ public class EventCreatorViewModelTest {
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
 
         LiveData<Event> mutableLiveData = viewModel.getEventLiveData();
-        viewModel.triggerFetchEvent("1");
+        viewModel.getEvent("1");
 
         Event e = LiveDataTestUtil.getOrAwaitValue(mutableLiveData);
 
@@ -54,12 +63,14 @@ public class EventCreatorViewModelTest {
     public void testGetValueWithUIAndTitleFindsCorrectEvent() {
         EventCreatorViewModelTest.TestEventCreatorModel model = new TestEventCreatorModel();
         EventCreatorViewModel viewModel = new EventCreatorViewModel(model);
+
         MutableLiveData<Event> liveData = viewModel.getEventLiveData();
-        viewModel.triggerFetchEvent("Eric", "Tenis");
+        viewModel.getEvent("Eric", "Tenis");
         Event e = LiveDataTestUtil.getOrAwaitValue(liveData);
 
         assertThat(e, is(TEST_EVENT1));
     }
+
 
     public static class TestEventCreatorModel implements EventRepository {
 
@@ -92,6 +103,11 @@ public class EventCreatorViewModelTest {
         @Override
         public String getUniqueId() {
             return UUID.randomUUID().toString();
+        }
+
+        @Override
+        public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
+            return CompletableFuture.completedFuture(EVENT_LIST);
         }
     }
 }

@@ -1,8 +1,10 @@
 package com.sdpteam.connectout.event;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface EventRepository {
+
     /**
      * Saves the given Event in the firebase database
      *
@@ -34,4 +36,11 @@ public interface EventRepository {
      * @return (String): Event Id that is truly unique in the model.
      */
     String getUniqueId();
+
+    /**
+     * @param filteredAttribute (String): attribute upon which the events are filtered.
+     * @param expectedValue     (String): value of the attribute that is expected
+     * @return (MutableLiveData < List < Event > >): a changeable list of different events.
+     */
+    CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue);
 }

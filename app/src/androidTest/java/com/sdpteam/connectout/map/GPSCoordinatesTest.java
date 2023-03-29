@@ -4,9 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThrows;
 
-import org.junit.Test;
-
 import com.google.android.gms.maps.model.LatLng;
+import com.sdpteam.connectout.map.GPSCoordinates;
+
+import org.junit.Test;
 
 public class GPSCoordinatesTest {
     private final static LatLng VALID_POSITION = new LatLng(37.7749, -122.4194);

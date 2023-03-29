@@ -1,17 +1,18 @@
 package com.sdpteam.connectout.event;
 
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+
+import androidx.appcompat.widget.Toolbar;
+
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.map.PositionSelectorFragment;
 import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
-
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import androidx.appcompat.widget.Toolbar;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -25,25 +26,19 @@ public class EventCreatorActivity extends WithFragmentActivity {
             eventCreatorViewModel = new EventCreatorViewModel(new EventFirebaseDataSource());
         }
 
-        //Retrieve tool bar and give it the control.
         Toolbar toolbar = findViewById(R.id.event_creator_toolbar);
         setSupportActionBar(toolbar);
 
-        //set up the map fragment.
-        PositionSelectorFragment mapFragment = new PositionSelectorFragment();
+        PositionSelectorFragment mapFragment = new PositionSelectorFragment(eventCreatorViewModel);
         replaceFragment(mapFragment, R.id.event_creator_fragment_container);
 
-        //Upon click on the tool bar icon, end this activity and return to previous one.
         toolbar.setNavigationOnClickListener(v -> this.finish());
 
-        //Find given save button.
         Button saveButton = findViewById(R.id.event_creator_save_button);
 
-        //Find given title and description.
         EditText eventTitle = findViewById(R.id.event_creator_title);
         EditText eventDescription = findViewById(R.id.event_creator_description);
 
-        //upon save, log the current event and return to previous activity.
         saveButton.setOnClickListener(v ->
         {
             saveEvent(eventTitle.getText().toString(),
@@ -52,6 +47,8 @@ public class EventCreatorActivity extends WithFragmentActivity {
             );
             this.finish();
         });
+
+
     }
 
     /**
@@ -77,4 +74,6 @@ public class EventCreatorActivity extends WithFragmentActivity {
         //Save the event & return to previous activity.
         eventCreatorViewModel.saveEvent(newEvent);
     }
+
+
 }

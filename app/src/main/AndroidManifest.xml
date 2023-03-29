@@ -12,7 +12,12 @@
             android:theme="@style/Theme.ConnectOut"
             tools:targetApi="31">
         <activity
-                android:name=".chat.ChatActivity"
+                android:name=".event.EventsActivity"
+                android:exported="false" />
+        <activity
+                android:name=".event.EventsActivity"
+            android:exported="false" />
+        <activityandroid:name=".chat.ChatActivity"
                 android:exported="false" />
         <activity
                 android:name=".registration.CompleteRegistrationActivity"

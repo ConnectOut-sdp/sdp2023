@@ -8,6 +8,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.EventCreatorActivity;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -47,7 +54,8 @@ public class MapFragmentTest {
     @Test
     public void defaultPositionBeforeMarkerInstantiation() {
         PositionSelectorFragment positionSelectorFragment = new PositionSelectorFragment();
-        assertThat(positionSelectorFragment.getMovingMarkerPosition().latitude, is(0.0));
-        assertThat(positionSelectorFragment.getMovingMarkerPosition().longitude, is(0.0));
+        assertThat(positionSelectorFragment.getMovingMarkerPosition().latitude,is(0.0));
+        assertThat(positionSelectorFragment.getMovingMarkerPosition().longitude,is(0.0));
+
     }
 }
