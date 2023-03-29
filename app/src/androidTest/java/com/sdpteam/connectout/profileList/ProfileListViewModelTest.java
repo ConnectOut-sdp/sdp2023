@@ -187,6 +187,13 @@ public class ProfileListViewModelTest {
                         .collect(Collectors.toList());
                 return CompletableFuture.completedFuture(pl);
             }
+            if (values.size() == 1 && option == RATING) {
+                pl = pl
+                        .stream()
+                        .filter(p -> p.getRating() == Double.parseDouble(values.get(0)))
+                        .collect(Collectors.toList());
+                return CompletableFuture.completedFuture(pl);
+            }
 
             return CompletableFuture.completedFuture(pl);
         }
