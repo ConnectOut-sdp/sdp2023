@@ -23,34 +23,28 @@ public class EventCreatorActivity extends WithFragmentActivity {
         setContentView(R.layout.activity_event_creator);
 
         if (eventCreatorViewModel == null) {
-            eventCreatorViewModel = new EventCreatorViewModel(new EventCreatorModel());
+            eventCreatorViewModel = new EventCreatorViewModel(new EventFirebaseDataSource());
         }
 
-        //Retrieve tool bar and give it the control.
         Toolbar toolbar = findViewById(R.id.event_creator_toolbar);
         setSupportActionBar(toolbar);
 
-        //set up the map fragment.
-        PositionSelectorFragment mapFragment = new PositionSelectorFragment();
+        PositionSelectorFragment mapFragment = new PositionSelectorFragment(eventCreatorViewModel);
         replaceFragment(mapFragment, R.id.event_creator_fragment_container);
 
-        //Upon click on the tool bar icon, end this activity and return to previous one.
         toolbar.setNavigationOnClickListener(v -> this.finish());
 
-        //Find given save button.
         Button saveButton = findViewById(R.id.event_creator_save_button);
 
-        //Find given title and description.
         EditText eventTitle = findViewById(R.id.event_creator_title);
         EditText eventDescription = findViewById(R.id.event_creator_description);
 
-
-        //upon save, log the current event and return to previous activity.
         saveButton.setOnClickListener(v ->
-        {saveEvent(eventTitle.getText().toString(),
-                        new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
-                        eventDescription.getText().toString()
-                );
+        {
+            saveEvent(eventTitle.getText().toString(),
+                    new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
+                    eventDescription.getText().toString()
+            );
             this.finish();
         });
 
@@ -58,9 +52,9 @@ public class EventCreatorActivity extends WithFragmentActivity {
     }
 
     /**
-     *  Saves the event into the view model.
+     * Saves the event into the view model.
      *
-     * @param title (String): title of the event
+     * @param title       (String): title of the event
      * @param coordinates (GPSCoordinates): position of the event
      * @param description (String): description of the event
      */

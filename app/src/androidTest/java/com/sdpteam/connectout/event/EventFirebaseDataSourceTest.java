@@ -9,28 +9,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class EventCreatorModelTest {
+public class EventFirebaseDataSourceTest {
 
     @Test
     public void modelReturnNullOnNonExistingEventEId() {
 
-        EventCreatorModel model = new EventCreatorModel();
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("invalid")).join();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
+        Event foundEvent = model.getEvent("invalid").join();
         assertNull(foundEvent);
     }
 
     @Test
     public void modelReturnNullOnNonExistingEventUId() {
 
-        EventCreatorModel model = new EventCreatorModel();
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("invalid", "no title")).join();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
+        Event foundEvent = model.getEvent("invalid", "no title").join();
         assertNull(foundEvent);
     }
 
@@ -42,11 +40,11 @@ public class EventCreatorModelTest {
         String ownerId = "user1";
         String eventId = "1";
         Event event = new Event(eventId, title, description, gpsCoordinates, ownerId);
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(event);
 
         // retrieve the event from the database using its owner ID and title and check that it matches the original event
-        Event retrievedEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(ownerId, title)).join();
+        Event retrievedEvent = model.getEvent(ownerId, title).join();
         assertThat(retrievedEvent.getTitle(), is(title));
         assertThat(retrievedEvent.getId(), is("1"));
         assertThat(retrievedEvent.getCoordinates().getLatitude(), is(1.5));
@@ -61,10 +59,10 @@ public class EventCreatorModelTest {
         String description = "Search for tenis partner";
 
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("1")).join();
+        Event foundEvent = model.getEvent("1").join();
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getId(), is("1"));
@@ -80,10 +78,10 @@ public class EventCreatorModelTest {
         String description = "Search for tenis partner";
 
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(EditProfileActivity.NULL_USER, "wrong title")).join();
+        Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, "wrong title").join();
 
         assertNull(foundEvent);
     }
@@ -94,10 +92,10 @@ public class EventCreatorModelTest {
         String description = "Search for tenis partner";
 
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("wrong id", title)).join();
+        Event foundEvent = model.getEvent("wrong id", title).join();
 
         assertNull(foundEvent);
     }
@@ -105,7 +103,7 @@ public class EventCreatorModelTest {
     @Test
     public void doesNotSaveNullEvent() {
         Event e = null;
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
         assertFalse(model.saveEvent(e));
 
     }
@@ -113,12 +111,12 @@ public class EventCreatorModelTest {
     @Test
     public void retrievingNonEventsIsNull() {
 
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Events").child("NotEid").setValue(new ArrayList<>());
 
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("NotEid")).join();
+        Event foundEvent = model.getEvent("NotEid").join();
 
         assertNull(foundEvent);
     }
