@@ -13,6 +13,8 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThrows;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.hamcrest.MatcherAssert;
@@ -59,6 +61,11 @@ public class CompleteRegistrationFormTest {
         @Override
         public CompletableFuture<Profile> fetchProfile(String uid) {
             return CompletableFuture.completedFuture(databaseContent);
+        }
+
+        @Override
+        public CompletableFuture<List<Profile>> getListOfUsers() {
+            return CompletableFuture.completedFuture(new ArrayList<>());
         }
     };
 

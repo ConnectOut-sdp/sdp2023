@@ -45,7 +45,7 @@ public class EventsViewModelTest {
         LiveDataTestUtil.getOrAwaitValue(mvm.getEventListLiveData());
 
         LiveData<List<Event>> liveData = mvm.getEventListLiveData();
-        mvm.triggerRefreshEventList();
+        mvm.refreshEventList();
         List<Event> eventList = LiveDataTestUtil.getOrAwaitValue(liveData);
 
         assertThat(eventList.size(), is(3));

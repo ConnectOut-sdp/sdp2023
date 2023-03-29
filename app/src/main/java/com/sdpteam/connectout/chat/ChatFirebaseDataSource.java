@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class ChatModel implements ChatDirectory {
+public class ChatFirebaseDataSource implements ChatDirectory {
 
     private final DatabaseReference firebaseRef;
     private final String CHATS_PATH_STRING = "Chats";
@@ -30,7 +30,7 @@ public class ChatModel implements ChatDirectory {
 
     private FirebaseListAdapter<ChatMessage> adapter;
 
-    public ChatModel() {
+    public ChatFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
     }
 

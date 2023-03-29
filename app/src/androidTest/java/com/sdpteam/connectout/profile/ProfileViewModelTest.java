@@ -4,6 +4,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.junit.Rule;
@@ -60,6 +62,11 @@ public class ProfileViewModelTest {
             done.complete(true);
             Profile mLiveData = new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1);
             return CompletableFuture.completedFuture(mLiveData);
+        }
+
+        @Override
+        public CompletableFuture<List<Profile>> getListOfUsers() {
+            return CompletableFuture.completedFuture(new ArrayList<>());
         }
     }
 }

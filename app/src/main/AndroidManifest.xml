@@ -16,8 +16,9 @@
                 android:exported="false" />
         <activity
                 android:name=".event.EventsActivity"
-            android:exported="false" />
-        <activityandroid:name=".chat.ChatActivity"
+                android:exported="false" />
+        <activity
+                android:name=".chat.ChatActivity"
                 android:exported="false" />
         <activity
                 android:name=".registration.CompleteRegistrationActivity"

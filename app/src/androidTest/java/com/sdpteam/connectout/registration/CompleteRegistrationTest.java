@@ -5,6 +5,8 @@ import static com.sdpteam.connectout.registration.CompleteRegistration.Mandatory
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.junit.Test;
@@ -35,6 +37,11 @@ public class CompleteRegistrationTest {
             @Override
             public CompletableFuture<Profile> fetchProfile(String uid) {
                 return CompletableFuture.completedFuture(databaseContent[0]);
+            }
+
+            @Override
+            public CompletableFuture<List<Profile>> getListOfUsers() {
+                return CompletableFuture.completedFuture(new ArrayList<>());
             }
         };
         CompleteRegistration completeRegistration = new CompleteRegistration(fakeProfileDatabase);

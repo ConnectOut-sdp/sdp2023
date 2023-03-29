@@ -20,12 +20,11 @@ public class EventsViewModel extends ViewModel {
         refreshEventList();
     }
 
-    public LiveData<List<Event>> getEventList() {
+    public LiveData<List<Event>> getEventListLiveData() {
         return events;
     }
 
-    public LiveData<List<Event>> refreshEventList() {
+    public void refreshEventList() {
         model.getEventsByFilter(null, null).thenAccept(events::setValue);
-        return events;
     }
 }

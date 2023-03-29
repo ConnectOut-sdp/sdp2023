@@ -23,6 +23,8 @@ import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.EventCreatorActivity;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.EventsViewModel;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -53,7 +55,7 @@ public class MapFragmentTest {
 
     @Test
     public void defaultPositionBeforeMarkerInstantiation() {
-        PositionSelectorFragment positionSelectorFragment = new PositionSelectorFragment();
+        PositionSelectorFragment positionSelectorFragment = new PositionSelectorFragment(new EventsViewModel(new EventFirebaseDataSource()));
         assertThat(positionSelectorFragment.getMovingMarkerPosition().latitude,is(0.0));
         assertThat(positionSelectorFragment.getMovingMarkerPosition().longitude,is(0.0));
 

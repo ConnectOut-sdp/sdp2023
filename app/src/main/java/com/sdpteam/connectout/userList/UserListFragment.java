@@ -1,6 +1,7 @@
 package com.sdpteam.connectout.userList;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +18,7 @@ public class UserListFragment extends Fragment {
         // Inflate the layout for this fragment
         View contentView = inflater.inflate(R.layout.fragment_user_list, container, false);
 
-        UserListViewModel usersListViewModel = new UserListViewModel(new UserListFirebaseDataSource());
+        UserListViewModel usersListViewModel = new UserListViewModel(new ProfileFirebaseDataSource());
         usersListViewModel.triggerFetchProfileSortedByRating();
 
         usersListViewModel.getUserListLiveData().observeForever(profiles -> {

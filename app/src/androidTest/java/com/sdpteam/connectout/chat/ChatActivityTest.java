@@ -38,21 +38,21 @@ public class ChatActivityTest {
         intent.putExtra("chatId", nameOfTestChat);
         activityRule.getScenario().onActivity(activity -> {
             activity.startActivity(intent);
-            activity.viewModel.chatModel.emptyTestMode();
+            activity.viewModel.chatFirebaseDataSource.emptyTestMode();
         });
     }
 
     @After
     public final void tearDown() {
         activityRule.getScenario().onActivity(activity ->
-                activity.viewModel.chatModel.emptyTestMode());
+                activity.viewModel.chatFirebaseDataSource.emptyTestMode());
     }
 
     @Test
     public void testListUsersDisplayed() {
         onView(ViewMatchers.withId(R.id.activity_chat)).check(matches(isDisplayed()));
         activityRule.getScenario().onActivity(activity -> {
-            ChatModel model = activity.viewModel.chatModel;
+            ChatFirebaseDataSource model = activity.viewModel.chatFirebaseDataSource;
             model.saveMessage(new ChatMessage("Bob", "Bob userId", "Hey I m Bob", nameOfTestChat));
             model.saveMessage(new ChatMessage("Alice", "Alice userId", "Hey I m Alice", nameOfTestChat));
             model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Hey I m Dylan", nameOfTestChat));

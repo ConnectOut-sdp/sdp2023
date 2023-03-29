@@ -7,9 +7,9 @@ import android.widget.RadioGroup;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.eventList.ListViewFragment;
 import com.sdpteam.connectout.map.MapViewFragment;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 public class EventsActivity extends WithFragmentActivity {
 

@@ -12,24 +12,24 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ChatViewModel extends ViewModel {
-    public ChatModel chatModel;
+    public ChatFirebaseDataSource chatFirebaseDataSource;
 
-    public ChatViewModel(ChatModel chatModel) {
-        this.chatModel = chatModel;
+    public ChatViewModel(ChatFirebaseDataSource chatFirebaseDataSource) {
+        this.chatFirebaseDataSource = chatFirebaseDataSource;
     }
 
     /**
      * Save your new ChatMessage
      */
     public void saveMessage(ChatMessage message) {
-        chatModel.saveMessage(message);
+        chatFirebaseDataSource.saveMessage(message);
     }
 
     /**
      * Called by the ChatView
      */
     public String getProfileUserName() {
-        return chatModel.getProfileUserName();
+        return chatFirebaseDataSource.getProfileUserName();
     }
 
     /**
@@ -40,7 +40,7 @@ public class ChatViewModel extends ViewModel {
                                  BiConsumer<View, ChatMessage> populateView,
                                  Consumer<ListAdapter> setAdapter,
                                  String chatId) {
-        chatModel.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, chatId);
+        chatFirebaseDataSource.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, chatId);
     }
 }
 

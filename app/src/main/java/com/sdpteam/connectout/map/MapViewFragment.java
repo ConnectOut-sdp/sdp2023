@@ -52,12 +52,12 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mapViewModel.triggerRefreshEventList();
+        mapViewModel.refreshEventList();
 
         mapViewModel.getEventListLiveData().observe(getViewLifecycleOwner(), this::showNewMarkerList);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
-        refreshButton.setOnClickListener(view -> mapViewModel.triggerRefreshEventList());
+        refreshButton.setOnClickListener(view -> mapViewModel.refreshEventList());
 
         return rootView;
     }

@@ -8,16 +8,17 @@ import java.util.List;
 import java.util.Objects;
 
 import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileRepository;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class UserListViewModel extends ViewModel {
 
-    private final UserRepository model;
+    private final ProfileRepository model;
     private final MutableLiveData<List<Profile>> userListLiveData;
 
-    public UserListViewModel(UserRepository model) {
+    public UserListViewModel(ProfileRepository model) {
         this.model = model;
         this.userListLiveData = new MutableLiveData<>();
     }
