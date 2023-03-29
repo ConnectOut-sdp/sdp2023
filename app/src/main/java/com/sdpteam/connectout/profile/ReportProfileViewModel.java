@@ -4,16 +4,16 @@ import androidx.lifecycle.ViewModel;
 
 public class ReportProfileViewModel extends ViewModel {
 
-    private ReportModel reportModel;
+    private ReportFirebaseDataSource reportFirebaseDataSource;
 
-    public ReportProfileViewModel(ReportModel reportModel) {
-        this.reportModel = reportModel;
+    public ReportProfileViewModel(ReportFirebaseDataSource reportFirebaseDataSource) {
+        this.reportFirebaseDataSource = reportFirebaseDataSource;
     }
 
     /**
      * Save a report
      */
     public void saveReport(String report, String reportedUid, String reporterUid) {
-        reportModel.saveReport(report, reportedUid, reporterUid);
+        reportFirebaseDataSource.saveReport(report, reportedUid, reporterUid);
     }
 }

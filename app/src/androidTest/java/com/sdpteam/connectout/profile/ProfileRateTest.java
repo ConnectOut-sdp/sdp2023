@@ -4,6 +4,8 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_NAME;
+import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
@@ -28,15 +30,17 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ProfileRateTest {
 
-    public static String uid = "testuid";
+    public final static String uid = "testuid";
+    public final static String name = "test";
+
     private final ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-    private final ProfileViewModel viewModel = new ProfileViewModel(model);
 
     static Intent intent;
 
     static {
         intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileRateActivity.class);
-        intent.putExtra("uid", uid);
+        intent.putExtra(RATED_UID, uid);
+        intent.putExtra(RATED_NAME, name);
     }
 
     @Rule
@@ -44,7 +48,7 @@ public class ProfileRateTest {
 
     @Before
     public void setup() {
-        Profile testProfile = new Profile(uid, "test", "test@gmail.com", "test",
+        Profile testProfile = new Profile(uid, name, "test@gmail.com", "test",
                 Profile.Gender.MALE, 0, 0);
         model.saveProfile(testProfile);
     }
@@ -61,7 +65,7 @@ public class ProfileRateTest {
     public void testRating() {
         // set rating to 3
         testRule.getScenario().onActivity(activity -> {
-            RatingBar ratingBar = (RatingBar) activity.findViewById(R.id.simpleRatingBar);
+            RatingBar ratingBar = activity.findViewById(R.id.simpleRatingBar);
             ratingBar.setRating(3);
         });
         onView(ViewMatchers.withId(R.id.submitRatingButton)).perform(click());

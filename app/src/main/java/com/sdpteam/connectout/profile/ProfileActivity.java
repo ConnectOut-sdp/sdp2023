@@ -21,6 +21,8 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
  */
 public class ProfileActivity extends AppCompatActivity {
 
+    public static final String PROFILE_UID = "uid";
+
     private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
     Authentication auth = new GoogleAuth();
 
@@ -30,11 +32,9 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Button editProfile = findViewById(R.id.buttonEditProfile);
-        //editProfile.setVisibility(View.INVISIBLE);
         Button rateProfile = findViewById(R.id.buttonRateProfile);
-        //rateProfile.setVisibility(View.INVISIBLE);
 
-        String userIdToDisplay = getIntent().getStringExtra("uid");
+        String userIdToDisplay = getIntent().getStringExtra(PROFILE_UID);
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         String uid = (au == null) ? NULL_USER : au.uid;
 

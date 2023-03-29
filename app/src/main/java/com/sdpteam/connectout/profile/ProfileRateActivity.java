@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.profile;
 
+import static com.sdpteam.connectout.profile.ReportProfileActivity.REPORTED_UID;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -13,6 +15,8 @@ import com.sdpteam.connectout.R;
 
 public class ProfileRateActivity extends AppCompatActivity {
 
+    public final static String RATED_UID = "uid";
+    public final static String RATED_NAME = "name";
     private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
 
     @Override
@@ -20,8 +24,8 @@ public class ProfileRateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_rate);
         // get the Id of the user
-        String uid = getIntent().getStringExtra("uid");
-        String name = getIntent().getStringExtra("name");
+        String uid = getIntent().getStringExtra(RATED_UID);
+        String name = getIntent().getStringExtra(RATED_NAME);
         // initiate rating bar and a button
         final RatingBar simpleRatingBar = findViewById(R.id.simpleRatingBar);
         Button submitButton = findViewById(R.id.submitRatingButton);
@@ -50,7 +54,7 @@ public class ProfileRateActivity extends AppCompatActivity {
 
     private void goToReportProfile(String id) {
         Intent intent = new Intent(ProfileRateActivity.this, ReportProfileActivity.class);
-        intent.putExtra("reportUid", id);
+        intent.putExtra(REPORTED_UID, id);
         startActivity(intent);
         finish();
     }

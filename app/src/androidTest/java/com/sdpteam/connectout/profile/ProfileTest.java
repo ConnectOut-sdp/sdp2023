@@ -7,6 +7,8 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.profile.ProfileActivity.PROFILE_UID;
+import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
 import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -65,7 +67,7 @@ public class ProfileTest {
     @Test
     public void testRateButton() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class);
-        intent.putExtra("uid", uid);
+        intent.putExtra(PROFILE_UID, uid);
         testRule.getScenario().onActivity(activity -> activity.startActivity(intent));
 
         // test if buttonRateProfile is displayed
@@ -77,7 +79,7 @@ public class ProfileTest {
         // test intent
         onView(withId(R.id.buttonRateProfile)).perform(click());
         intended(allOf(hasComponent(ProfileRateActivity.class.getName()),
-                IntentMatchers.hasExtra("uid", uid)));
+                IntentMatchers.hasExtra(RATED_UID, uid)));
     }
 
     @Test

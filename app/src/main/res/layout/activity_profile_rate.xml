@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,41 +8,36 @@
         android:id="@+id/simpleRatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:numStars="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.29000002" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
     <Button
         android:id="@+id/submitRatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:text="@string/submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/simpleRatingBar" />
+        android:layout_below="@id/simpleRatingBar"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/rateUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:padding="5dp"
         android:text="'user'"
-        app:layout_constraintBottom_toTopOf="@+id/simpleRatingBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_above="@id/simpleRatingBar"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/reportUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:text="report user"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submitRatingButton" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_below="@id/submitRatingButton"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

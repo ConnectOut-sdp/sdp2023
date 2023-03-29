@@ -15,20 +15,22 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 
 public class ReportProfileActivity extends AppCompatActivity {
 
-    private final ReportProfileViewModel rvm = new ReportProfileViewModel(new ReportModel());
+    public final static String REPORTED_UID = "reportUid";
+
+    private final ReportProfileViewModel rvm = new ReportProfileViewModel(new ReportFirebaseDataSource());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_profile);
-        String reportUid = getIntent().getStringExtra("reportUid");
+        String reportUid = getIntent().getStringExtra(REPORTED_UID);
 
         Button submitReportButton = findViewById(R.id.submitReportButton);
         submitReportButton.setOnClickListener(v -> sendReport(reportUid));
     }
 
     private void sendReport(String reportedUid) {
-        EditText text = (EditText) findViewById(R.id.ReportText);
+        EditText text = findViewById(R.id.ReportText);
 
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         String reporterUid = (au == null) ? NULL_USER : au.uid;

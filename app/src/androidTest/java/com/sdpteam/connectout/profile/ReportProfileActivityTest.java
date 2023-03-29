@@ -7,6 +7,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.ReportProfileActivity.REPORTED_UID;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
@@ -33,13 +34,13 @@ import org.junit.runner.RunWith;
 public class ReportProfileActivityTest {
 
     public static String reportedUid = "testuid";
-    private final ReportModel model = new ReportModel();
+    private final ReportFirebaseDataSource model = new ReportFirebaseDataSource();
 
     static Intent intent;
 
     static {
         intent = new Intent(ApplicationProvider.getApplicationContext(), ReportProfileActivity.class);
-        intent.putExtra("reportUid", reportedUid);
+        intent.putExtra(REPORTED_UID, reportedUid);
     }
 
     @Rule
@@ -54,26 +55,12 @@ public class ReportProfileActivityTest {
 
     @Test
     public void testReport() {
-        model.deleteProfile(reportedUid);
+        model.deleteReport(reportedUid);
         onView(withId(R.id.ReportText)).perform(typeText("test report"));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.submitReportButton)).perform(click());
-        addListener();
-    }
-
-    private void addListener() {
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         String reporterUid = (au == null) ? NULL_USER : au.uid;
-        model.getDatabaseReference().child("Report").child(reportedUid).child(reporterUid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                assertEquals("test report" , dataSnapshot.getValue(String.class));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(this.getClass().toString(), "Failed to read value.", databaseError.toException());
-            }
-        });
+        assertEquals("test report" , model.fetchReport(reportedUid, reporterUid).join());
     }
 }
