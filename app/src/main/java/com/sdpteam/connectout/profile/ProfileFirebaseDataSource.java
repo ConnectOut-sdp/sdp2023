@@ -69,13 +69,15 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         if (option == NAME && values != null && values.size() == 1) {
             String name = values.get(0);
             query = query.startAt(name).endAt(name + "\uf8ff");
-        } else if (option == RATING && values != null && values.size() == 2) {
-            double ratingStart = Double.parseDouble(values.get(0));
-            double ratingEnd = Double.parseDouble(values.get(1));
-            query = query.startAt(ratingStart).endAt(ratingEnd);
-        }else if (option == RATING && values != null && values.size() == 1) {
-            double rating = Double.parseDouble(values.get(0));
-            query = query.equalTo(rating);
+        } else if (option == RATING && values != null) {
+            if(values.size() == 2) {
+                double ratingStart = Double.parseDouble(values.get(0));
+                double ratingEnd = Double.parseDouble(values.get(1));
+                query = query.startAt(ratingStart).endAt(ratingEnd);
+            } else if (values.size() == 1) {
+                double rating = Double.parseDouble(values.get(0));
+                query = query.equalTo(rating);
+            }
         }
 
         return query;
