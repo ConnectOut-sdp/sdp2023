@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.profileList.OrderingOption;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -65,7 +66,7 @@ public class ProfileViewModelTest {
         }
 
         @Override
-        public CompletableFuture<List<Profile>> getListOfUsers() {
+        public CompletableFuture<List<Profile>> getListOfProfile(OrderingOption option, List<String> values) {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
     }

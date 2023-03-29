@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * EditProfileActivity must be adapted
  */
 public class ProfileActivity extends AppCompatActivity {
+    public final static String PASSED_ID_KEY = "uid";
 
     private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
     Authentication auth = new GoogleAuth();
@@ -32,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
         Button editProfile = findViewById(R.id.buttonEditProfile);
         editProfile.setVisibility(View.INVISIBLE);
 
-        String userIdToDisplay = getIntent().getStringExtra("uid");
+        String userIdToDisplay = getIntent().getStringExtra(PASSED_ID_KEY);
         if (userIdToDisplay == null) {
             if (auth.isLoggedIn()) {
                 userIdToDisplay = auth.loggedUser().uid;
