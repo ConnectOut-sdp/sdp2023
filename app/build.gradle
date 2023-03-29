@@ -48,9 +48,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
     debugImplementation "androidx.fragment:fragment-testing:1.5.5"
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
@@ -60,8 +62,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
 
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
     // Import the Firebase BoM
@@ -74,8 +74,12 @@ dependencies {
 //    exclude group: 'com.google.protobuf', module: 'protobuf-javalite'
     }
 
-//    implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.code.gson:gson:2.8.7'
+
+    //firebase ui is very useful for connecting firebase to List Views (notably in the ChatActivity)
+    //implementation 'com.firebaseui:firebase-ui:0.6.0'
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.2'
 
     // qr code library
     implementation 'com.google.zxing:core:3.4.1'

@@ -8,8 +8,19 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 
-import android.widget.Button;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.map.PositionSelectorFragment;
+import com.sdpteam.connectout.profile.EditProfileActivity;
+
+import android.widget.Button;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.test.espresso.Espresso;
@@ -18,19 +29,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.PositionSelectorFragment;
-import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
@@ -56,7 +54,6 @@ public class EventCreatorActivityTest {
             toolbar.setNavigationOnClickListener(v -> Assert.assertTrue(activity.isFinishing()));
             toolbar.performClick();
         });
-
     }
 
     @Test
@@ -81,7 +78,6 @@ public class EventCreatorActivityTest {
             });
         } catch (NullPointerException ignored) {
         }
-
     }
 
     @Test
@@ -96,10 +92,10 @@ public class EventCreatorActivityTest {
         String description = "Search for tenis partner";
 
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent("1")).join();
+        Event foundEvent = model.getEvent("1").join();
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getId(), is("1"));
@@ -114,7 +110,7 @@ public class EventCreatorActivityTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        EventCreatorModel model = new EventCreatorModel();
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
 
         onView(ViewMatchers.withId(R.id.event_creator_title)).perform(typeText(title));
         Espresso.closeSoftKeyboard();
@@ -123,7 +119,7 @@ public class EventCreatorActivityTest {
         onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
         onView(withId(R.id.event_creator_save_button)).perform(ViewActions.click());
 
-        Event foundEvent = LiveDataTestUtil.toCompletableFuture(model.getEvent(EditProfileActivity.NULL_USER, title)).join();
+        Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getCoordinates().getLatitude(), is(not(0.0)));
@@ -131,6 +127,4 @@ public class EventCreatorActivityTest {
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }
-
-
 }

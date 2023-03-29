@@ -1,7 +1,7 @@
 package com.sdpteam.connectout.profile;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 
 import android.content.Intent;
@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class EditProfileActivity extends AppCompatActivity {
     public final static String NULL_USER = "null_user";
+    ProfileViewModel profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
+    Authentication auth = new GoogleAuth();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +31,9 @@ public class EditProfileActivity extends AppCompatActivity {
         RadioButton other = findViewById(R.id.otherRadioButton);
 
         save.setOnClickListener(v -> {
-            AuthenticatedUser au = new GoogleAuth().loggedUser();
-            //get new values
-            String uid = (au == null) ? NULL_USER : au.uid;
-            Profile newProfile = new Profile(uid, nameET.getText().toString(),
-                    emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
-
-            //store new Profile
-            new ProfileViewModel(new ProfileFirebaseDataSource()).saveProfile(newProfile);
-            //change view
+            String uid = auth.isLoggedIn() ? auth.loggedUser().uid : NULL_USER;
+            Profile newProfile = new Profile(uid, nameET.getText().toString(), emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
+            profileViewModel.saveProfile(newProfile);
             goToProfile(newProfile);
         });
     }

@@ -21,4 +21,6 @@
     <string name="scan">Scan</string>
     <string name="event_qr_code">event qr code</string>
     <string name="profile_qr_code">profile qr code</string>
+    <string name="to_map">To Map</string>
+    <string name="to_list">To List</string>
 </resources>
