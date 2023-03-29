@@ -25,18 +25,19 @@ public class EventsActivity extends WithFragmentActivity {
 
         EventsViewModel viewModel = new ViewModelProvider(this, new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
         eventsMapViewFragment = new EventsMapViewFragment(viewModel);
-        eventsListViewFragment = new EventsListViewFragment();
-        replaceFragment(eventsMapViewFragment, R.id.events_map_list_container);
+        eventsListViewFragment = new EventsListViewFragment(viewModel);
+
+        replaceFragment(eventsMapViewFragment, R.id.nearby_events_container);
         RadioButton mapButton = findViewById(R.id.map_switch_button);
         RadioButton listButton = findViewById(R.id.list_switch_button);
 
         mapListButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (R.id.map_switch_button == isChecked) {
                         listButton.setChecked(false);
-                        replaceFragment(eventsMapViewFragment, R.id.events_map_list_container);
+                        replaceFragment(eventsMapViewFragment, R.id.nearby_events_container);
                     } else {
                         mapButton.setChecked(false);
-                        replaceFragment(eventsListViewFragment, R.id.events_map_list_container);
+                        replaceFragment(eventsListViewFragment, R.id.nearby_events_container);
                     }
                 }
 

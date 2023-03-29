@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+    <!-- Profile Picture on the left -->
+    <ImageButton
+            android:id="@+id/event_list_profile_button"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/account_image"
+            android:background="@color/white" />
+
+    <!-- Event Title and Description in the middle -->
+    <LinearLayout
+            android:id="@+id/event_details_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:paddingHorizontal="16dp"
+            android:orientation="vertical">
+
+        <!-- Event Title -->
+        <TextView
+                android:id="@+id/event_list_event_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Event Title, join us!" />
+
+        <!-- Event Description -->
+        <TextView
+                android:id="@+id/event_list_event_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:text="My awesome event description here that is very long because why not" />
+    </LinearLayout>
+
+    <!-- Event Image on the right -->
+    <ImageView
+            android:id="@+id/event_list_event_image"
+            android:scaleType="fitCenter"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/mountain_image"
+            android:background="@color/white" />
+
+</LinearLayout>
