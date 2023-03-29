@@ -72,7 +72,7 @@ public class ChatFirebaseDataSource implements ChatDirectory {
         config.setAdapter.accept(adapter);
     }
 
-    static class ChatAdapterFirebaseConfig {
+    public static class ChatAdapterFirebaseConfig {
         Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout;
         Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner;
         BiConsumer<View, ChatMessage> populateView;
