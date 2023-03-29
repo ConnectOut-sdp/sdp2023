@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.chat;
 
+import static com.sdpteam.connectout.chat.ChatFirebaseDataSource.*;
+
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -39,7 +41,7 @@ public class ChatViewModel extends ViewModel {
                                  BiConsumer<View, ChatMessage> populateView,
                                  Consumer<ListAdapter> setAdapter,
                                  String chatId) {
-        chatFirebaseDataSource.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, chatId);
+        chatFirebaseDataSource.setUpListAdapter(new ChatAdapterFirebaseConfig(setLayout, setLifecycleOwner, populateView, setAdapter), chatId);
     }
 }
 

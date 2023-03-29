@@ -51,12 +51,7 @@ public class ChatFirebaseDataSource implements ChatDirectory {
     /**
      * sets up the FirebaseListAdapter for the chat view
      */
-    @Override
-    public void setUpListAdapter(Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout,
-                                 Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner,
-                                 BiConsumer<View, ChatMessage> populateView,
-                                 Consumer<ListAdapter> setAdapter,
-                                 String chatId) {
+    public void setUpListAdapter(ChatAdapterFirebaseConfig config, String chatId) {
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
@@ -64,19 +59,34 @@ public class ChatFirebaseDataSource implements ChatDirectory {
                 .child(chatId)
                 .limitToLast(NUM_IMPORTED_MESSAGES);
 
-        FirebaseListOptions<ChatMessage> options = setLifecycleOwner.apply(
-                        setLayout.apply(new FirebaseListOptions.Builder<>())
-                                .setQuery(query, ChatMessage.class))
-                .build();
+        FirebaseListOptions<ChatMessage> options = config.setLifecycleOwner.apply(config.setLayout.apply(new FirebaseListOptions.Builder<>())
+                .setQuery(query, ChatMessage.class)).build();
 
         adapter = new FirebaseListAdapter<ChatMessage>(options) {
             @Override
             protected void populateView(@NonNull View v, @NonNull ChatMessage chatMessage, int position) {
-                populateView.accept(v, chatMessage);
+                config.populateView.accept(v, chatMessage);
             }
         };
 
-        setAdapter.accept(adapter);
+        config.setAdapter.accept(adapter);
+    }
+
+    static class ChatAdapterFirebaseConfig {
+        Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout;
+        Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner;
+        BiConsumer<View, ChatMessage> populateView;
+        Consumer<ListAdapter> setAdapter;
+
+        public ChatAdapterFirebaseConfig(Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout,
+                                         Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner,
+                                         BiConsumer<View, ChatMessage> populateView,
+                                         Consumer<ListAdapter> setAdapter) {
+            this.setLayout = setLayout;
+            this.setLifecycleOwner = setLifecycleOwner;
+            this.populateView = populateView;
+            this.setAdapter = setAdapter;
+        }
     }
 
     /**
