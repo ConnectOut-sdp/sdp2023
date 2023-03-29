@@ -68,16 +68,11 @@ public class UserListActivityTest {
 
         UserListViewModel model = new UserListViewModel(new ProfileFirebaseDataSource());
         Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                model.triggerFetchProfileSortedByRating();
-            }
-        });
+        handler.post(model::triggerFetchProfileSortedByRating); // set up the live data in main thread (because we cannot invoke [LiveData].setValue on a background thread)
 
         List<Profile> list = LiveDataTestUtil.getOrAwaitValue(model.getUserListLiveData());
         assertThat(list.size(), greaterThan(0)); // empty list in firebase not excepted for testing
-        int userIndexToCheck = 1;
+        int userIndexToCheck = 0;
 
         String expectedUid = list.get(userIndexToCheck).getId();
 

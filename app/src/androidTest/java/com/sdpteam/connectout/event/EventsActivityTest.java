@@ -72,10 +72,11 @@ public class EventsActivityTest {
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
         List<Event> events = new EventFirebaseDataSource().getEventsByFilter(null, null).join();
-        String expectedTitle = events.get(0).getTitle();
-        String expectedDescription = events.get(0).getDescription();
-        onView(withIndex(withId(R.id.event_list_event_title), 0)).check(matches(withText(expectedTitle)));
-        onView(withIndex(withId(R.id.event_list_event_description), 0)).check(matches(withText(expectedDescription)));
+        int index = 0;
+        String expectedTitle = events.get(index).getTitle();
+        String expectedDescription = events.get(index).getDescription();
+        onView(withIndex(withId(R.id.event_list_event_title), index)).check(matches(withText(expectedTitle)));
+        onView(withIndex(withId(R.id.event_list_event_description), index)).check(matches(withText(expectedDescription)));
     }
 
     @Test
@@ -84,8 +85,9 @@ public class EventsActivityTest {
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
         List<Event> events = new EventFirebaseDataSource().getEventsByFilter(null, null).join();
-        String expectedOrganizer = events.get(0).getOrganizer();
-        onView(withIndex(withId(R.id.event_list_profile_button), 0)).perform(click());
+        int listIdx = 0;
+        String expectedOrganizer = events.get(listIdx).getOrganizer();
+        onView(withIndex(withId(R.id.event_list_profile_button), listIdx)).perform(click());
         intended(Matchers.allOf(hasComponent(ProfileActivity.class.getName()), hasExtra(equalTo("uid"), equalTo(expectedOrganizer))));
     }
 }
