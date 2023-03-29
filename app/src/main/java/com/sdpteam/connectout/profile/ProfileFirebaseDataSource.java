@@ -16,6 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.sdpteam.connectout.profileList.OrderingOption;
 
+import io.reactivex.rxjava3.annotations.NonNull;
+
 public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
     private final static int MAX_PROFILES_FETCHED = 50;
@@ -67,20 +69,40 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         Query query = root.orderByChild(PROFILE + "/" + option.toString());
 
         if (option == NAME && values != null && values.size() == 1) {
-            String name = values.get(0);
-            query = query.startAt(name).endAt(name + "\uf8ff");
+            query = filterByNameProfile(query,  values);
         } else if (option == RATING && values != null) {
-            if(values.size() == 2) {
-                double ratingStart = Double.parseDouble(values.get(0));
-                double ratingEnd = Double.parseDouble(values.get(1));
-                query = query.startAt(ratingStart).endAt(ratingEnd);
-            } else if (values.size() == 1) {
-                double rating = Double.parseDouble(values.get(0));
-                query = query.equalTo(rating);
-            }
+            query = filterByRatingProfile(query, values);
         }
 
         return query;
+    }
+
+    /**
+     *
+     * @param root (Query): given query to process
+     * @param values (List<String>): possible rating to sort with
+     * @return (Query): query that retrieves the desired number or number range.
+     */
+    private Query filterByRatingProfile(@NonNull Query root,@NonNull List<String> values){
+        double ratingStart = Double.parseDouble(values.get(0));
+        double ratingEnd;
+        if(values.size() == 2) {
+            ratingEnd = Double.parseDouble(values.get(1));
+        } else {
+            ratingEnd = ratingStart;
+        }
+        return root.startAt(ratingStart).endAt(ratingEnd);
+    }
+
+    /**
+     *
+     * @param root (Query): given query to process
+     * @param values (List<String>): possible name to sort with
+     * @return (Query): query that retrieves with the desired name.
+     */
+    private Query filterByNameProfile(Query root, List<String> values){
+        String name = values.get(0);
+        return  root.startAt(name).endAt(name + "\uf8ff");
     }
 }
 
