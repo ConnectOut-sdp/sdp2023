@@ -25,7 +25,7 @@
                 android:textSize="20sp"
                 android:button="@android:color/transparent"
                 android:layout_weight="1"
-                android:background="@drawable/radio_button_list_selector" />
+                android:background="@drawable/radio_button_left_selector" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/map_switch_button"
@@ -37,7 +37,7 @@
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:button="@android:color/transparent"
-                android:background="@drawable/radio_button_map_selector"
+                android:background="@drawable/radio_button_right_selector"
                 android:layout_weight="1" />
 
     </RadioGroup>
