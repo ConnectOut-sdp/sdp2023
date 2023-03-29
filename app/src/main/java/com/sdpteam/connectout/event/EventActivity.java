@@ -2,27 +2,20 @@ package com.sdpteam.connectout.event;
 
 import static java.lang.String.format;
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.WithFragmentActivity;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.MapModelManager;
-import com.sdpteam.connectout.map.MapViewFragment;
-import com.sdpteam.connectout.map.MapViewModel;
-import com.sdpteam.connectout.map.MapViewModelFactory;
-import com.sdpteam.connectout.profile.ProfileID;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.map.MapViewFragment;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.lifecycle.ViewModelProvider;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -50,18 +43,41 @@ public class EventActivity extends WithFragmentActivity {
     }
 
     private void initMapFragment(Event event) {
-        final Fragment map = new MapViewFragment();
-        replaceFragment(map, R.id.event_fragment_container);
 
         // Model that returns a singleton of the event as the event list
-        final MapModelManager mapModel = () -> {
-            final MutableLiveData<List<Event>> data = new MutableLiveData<>();
-            data.setValue(Collections.singletonList(event)); // only show one marker in the map
-            return data;
+        //TODO connect to firebase.
+        final EventRepository mapModel = new EventRepository() {
+            @Override
+            public boolean saveEvent(Event event) {
+                return false;
+            }
+
+            @Override
+            public CompletableFuture<Event> getEvent(String eventId) {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<Event> getEvent(String userId, String title) {
+                return null;
+            }
+
+            @Override
+            public String getUniqueId() {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
+                return CompletableFuture.completedFuture(Collections.singletonList(event));
+            }
         };
 
-        // Implicitly instantiating MapViewModel to use that instance back in MapViewFragment
-        new ViewModelProvider(this, new MapViewModelFactory(mapModel)).get(MapViewModel.class);
+        // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
+        final EventsViewModel mapViewModel = new ViewModelProvider(this, new EventsViewModelFactory(mapModel)).get(EventsViewModel.class);
+
+        final MapViewFragment map = new MapViewFragment(mapViewModel);
+        replaceFragment(map, R.id.event_fragment_container);
     }
 
     private Event getEvent() {
@@ -69,7 +85,7 @@ public class EventActivity extends WithFragmentActivity {
         return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 
-    private void showParticipants(List<ProfileID> participants) {
+    private void showParticipants(List<String> participants) {
         // TODO launch new activity (or pop-up) with list of profiles
     }
 

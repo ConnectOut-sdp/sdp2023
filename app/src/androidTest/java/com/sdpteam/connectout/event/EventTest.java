@@ -3,10 +3,10 @@ package com.sdpteam.connectout.event;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.junit.Test;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.sdpteam.connectout.map.GPSCoordinates;
-
-import org.junit.Test;
 
 public class EventTest {
 
@@ -28,5 +28,4 @@ public class EventTest {
     public void testConstructorWithDescription() {
         assertThat(TEST_EVENT.getDescription(), is("descr"));
     }
-
 }

@@ -1,28 +1,39 @@
 package com.sdpteam.connectout.userList;
 
-import androidx.lifecycle.ViewModel;
-
-import com.sdpteam.connectout.profile.Profile;
+import static java.util.Comparator.comparingDouble;
+import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileRepository;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 public class UserListViewModel extends ViewModel {
 
-    private final UserListDataManager model;
+    private final ProfileRepository model;
+    private final MutableLiveData<List<Profile>> userListLiveData;
 
-    public UserListViewModel(UserListDataManager model) {
+    public UserListViewModel(ProfileRepository model) {
         this.model = model;
+        this.userListLiveData = new MutableLiveData<>();
     }
 
-    List<Profile> getProfileSortedByRating() {
-        List<Profile> toSort = new ArrayList<>(Objects.requireNonNull(model.getListOfUsers().getValue()));
+    public MutableLiveData<List<Profile>> getUserListLiveData() {
+        return userListLiveData;
+    }
+
+    void triggerFetchProfileSortedByRating() {
+        List<Profile> profiles = new ArrayList<>(Objects.requireNonNull(model.getListOfUsers().join()));
+
         //sorting Profile by rating
-        toSort.sort(Comparator.comparingDouble(Profile::getRating));
-        Collections.reverse(toSort);
-        return toSort;
+        List<Profile> sorted = profiles.stream()
+                .sorted(comparingDouble(Profile::getRating).reversed())
+                .collect(toList());
+        userListLiveData.setValue(sorted);
     }
 }

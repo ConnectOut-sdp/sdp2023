@@ -23,4 +23,6 @@
     <string name="rating">Number of stars</string>
     <string name="reasons_of_the_report">Reasons of the report:</string>
     <string name="submit_report">submit report</string>
+    <string name="to_map">To Map</string>
+    <string name="to_list">To List</string>
 </resources>

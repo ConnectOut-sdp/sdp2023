@@ -3,12 +3,12 @@ package com.sdpteam.connectout.registration;
 import static com.sdpteam.connectout.profile.Profile.Gender;
 
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDirectory;
+import com.sdpteam.connectout.profile.ProfileRepository;
 
 public class CompleteRegistration {
-    private final ProfileDirectory profiles;
+    private final ProfileRepository profiles;
 
-    public CompleteRegistration(ProfileDirectory profiles) {
+    public CompleteRegistration(ProfileRepository profiles) {
         this.profiles = profiles;
     }
 

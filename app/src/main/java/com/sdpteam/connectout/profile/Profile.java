@@ -1,10 +1,7 @@
 package com.sdpteam.connectout.profile;
 
 public class Profile {
-    public enum Gender {
-        FEMALE, MALE, OTHER
-    }
-
+    public final static Profile NULL_PROFILE = new Profile();
     private final String name;
     private final String email;
     private final String bio;
@@ -16,7 +13,6 @@ public class Profile {
 
     private final String uid;
 
-    public final static Profile NULL_PROFILE = new Profile();
     private Profile() {
         this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
     }
@@ -59,4 +55,7 @@ public class Profile {
         return numRatings;
     }
 
+    public enum Gender {
+        FEMALE, MALE, OTHER
+    }
 }

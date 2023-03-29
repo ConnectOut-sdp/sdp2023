@@ -1,4 +1,4 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,7 +9,7 @@ public class WithFragmentActivity extends AppCompatActivity {
     /**
      * Replaces the current fragment within the container using the given one.
      *
-     * @param fragment      (FragmentActivity): fragment to be used next
+     * @param fragment    (Fragment): fragment to be used next
      * @param containerId (int): id of the container where the fragment is stored
      */
     public void replaceFragment(Fragment fragment, int containerId) {
@@ -25,5 +25,4 @@ public class WithFragmentActivity extends AppCompatActivity {
 
         fragmentTransaction.commit();
     }
-
 }

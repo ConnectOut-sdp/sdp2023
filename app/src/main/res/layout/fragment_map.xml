@@ -8,11 +8,10 @@
         tools:context=".map.MapViewFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment">
 
-        <ImageButton
+    <ImageButton
             android:id="@+id/refresh_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/refresh_image"
-             />
+            android:src="@drawable/refresh_image" />
 
 </fragment>

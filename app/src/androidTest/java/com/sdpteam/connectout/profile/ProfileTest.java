@@ -8,26 +8,30 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
-
-import android.content.Intent;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 public class ProfileTest {
 
@@ -80,6 +84,23 @@ public class ProfileTest {
         intended(allOf(hasComponent(ProfileRateActivity.class.getName()),
                 IntentMatchers.hasExtra("uid", uid)));
     }
+    @Test
+    public void testProfileDisplayed() {
+        onView(withId(R.id.profileName)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileEmail)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileBio)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileGender)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testEditProfileButton() {
+        if (new GoogleAuth().isLoggedIn()) {
+            onView(withId(R.id.buttonEditProfile)).perform(click());
+            intended(hasComponent(EditProfileActivity.class.getName()));
+        } else {
+            onView(withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
+        }
+    }
 
     @Test
     public void loggedUserTest1() {
@@ -93,7 +114,7 @@ public class ProfileTest {
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
         model.saveProfile(userProfile);
 
-        Profile fetchedProfile = LiveDataTestUtil.toCompletableFuture(model.fetchProfile(EditProfileActivity.NULL_USER)).join();
+        Profile fetchedProfile = model.fetchProfile(EditProfileActivity.NULL_USER).join();
         ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));
         ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
         ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));
