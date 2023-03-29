@@ -15,9 +15,12 @@
     <string name="login_password">Password</string>
     <string name="log_in_button">Log In</string>
     <string name="sign_in_button">Sign In</string>
-    <string name="filter_example">eg: Lausanne, 10km, …</string>
+    <string name="filter_example">eg: Alice, Bob, 1;2 …</string>
     <string name="greetings_text">Greetings</string>
     <string name="connect_out_logo">Connect out Logo</string>
     <string name="to_map">To Map</string>
     <string name="to_list">To List</string>
+    <string name="apply_button">APPLY</string>
+    <string name="rating_toggle_button">TO RATING</string>
+    <string name="name_toggle_button">TO NAME</string>
 </resources>
