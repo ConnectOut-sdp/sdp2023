@@ -6,7 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 public class EventTest {
 

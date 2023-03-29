@@ -1,4 +1,8 @@
-package com.sdpteam.connectout.event;
+package com.sdpteam.connectout.event.creator;
+
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 
 import androidx.lifecycle.MutableLiveData;
 

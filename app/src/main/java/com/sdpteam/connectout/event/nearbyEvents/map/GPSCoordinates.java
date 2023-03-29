@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.event.nearbyEvents.map;
 
 import com.google.android.gms.maps.model.LatLng;
 

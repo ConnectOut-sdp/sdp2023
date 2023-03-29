@@ -11,7 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.map.MapViewFragment;
+import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
+import com.sdpteam.connectout.event.viewer.EventActivity;
 
 import android.widget.Button;
 import androidx.fragment.app.Fragment;
@@ -40,7 +41,7 @@ public class EventActivityTest {
     public void fragmentIsCorrectlyAdded() {
         activityRule.getScenario().onActivity(activity -> {
             final Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.event_fragment_container);
-            Assert.assertTrue(fragment instanceof MapViewFragment);
+            Assert.assertTrue(fragment instanceof EventsMapViewFragment);
         });
     }
 

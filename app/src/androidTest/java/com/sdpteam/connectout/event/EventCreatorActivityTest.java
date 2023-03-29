@@ -16,8 +16,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.PositionSelectorFragment;
+import com.sdpteam.connectout.event.creator.EventCreatorActivity;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.event.creator.LocationPicker;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 
 import android.widget.Button;
@@ -60,7 +61,7 @@ public class EventCreatorActivityTest {
     public void activityIsOpenedBeforeClickingToolbarIcon() {
         activityRule.getScenario().onActivity(activity -> {
             Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.event_creator_fragment_container);
-            Assert.assertTrue(fragment instanceof PositionSelectorFragment);
+            Assert.assertTrue(fragment instanceof LocationPicker);
         });
     }
 
