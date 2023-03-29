@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sdpteam.connectout.event.EventsActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

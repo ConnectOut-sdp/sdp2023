@@ -6,9 +6,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventRepository;
-import com.sdpteam.connectout.event.EventsViewModel;
 import com.sdpteam.connectout.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
@@ -77,7 +74,7 @@ public class EventsViewModelTest {
             return null;
         }
 
-        public CompletableFuture<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue) {
+        public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
             updateData();
             return CompletableFuture.completedFuture(dataSet);
         }

@@ -1,16 +1,13 @@
-package com.sdpteam.connectout;
+package com.sdpteam.connectout.event;
 
 import android.os.Bundle;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ToggleButton;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.EventsViewModel;
-import com.sdpteam.connectout.event.EventsViewModelFactory;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.WithFragmentActivity;
 import com.sdpteam.connectout.eventList.ListViewFragment;
 import com.sdpteam.connectout.map.MapViewFragment;
 

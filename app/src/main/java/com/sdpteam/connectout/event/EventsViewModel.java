@@ -4,9 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class EventsViewModel extends ViewModel {
     }
 
     public LiveData<List<Event>> refreshEventList() {
-        model.getEventLiveList(null, null).thenAccept(events::setValue);
+        model.getEventsByFilter(null, null).thenAccept(events::setValue);
         return events;
     }
 }

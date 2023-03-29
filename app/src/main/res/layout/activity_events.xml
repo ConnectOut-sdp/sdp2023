@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/events_activity_id"
-    tools:context=".EventsActivity">
+    tools:context=".event.EventsActivity">
 
     <RadioGroup
         android:id="@+id/events_switch"

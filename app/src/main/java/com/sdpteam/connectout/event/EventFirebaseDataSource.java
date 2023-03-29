@@ -1,17 +1,9 @@
 package com.sdpteam.connectout.event;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
-
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +14,8 @@ public class EventFirebaseDataSource implements EventRepository {
     private final DatabaseReference database;
     private final static int MAX_EVENTS_FETCHED = 50;
 
-    private final MutableLiveData<List<Event>> cachedEvents;
-
     public EventFirebaseDataSource() {
         database = FirebaseDatabase.getInstance().getReference();
-        cachedEvents = new MutableLiveData<>(new ArrayList<>());
     }
 
     /**
@@ -96,7 +85,7 @@ public class EventFirebaseDataSource implements EventRepository {
         return database.child(DATABASE_EVENT_PATH).push().getKey();
     }
     @Override
-    public CompletableFuture<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue) {
+    public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
         CompletableFuture<List<Event>> value = new CompletableFuture<>();
         Task<DataSnapshot> task = database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH).limitToFirst(MAX_EVENTS_FETCHED).get();
         //TODO event filtering

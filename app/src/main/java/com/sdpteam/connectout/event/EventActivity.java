@@ -70,7 +70,7 @@ public class EventActivity extends WithFragmentActivity {
             }
 
             @Override
-            public CompletableFuture<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue) {
+            public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
                 return CompletableFuture.completedFuture(Collections.singletonList(event));
             }
         };

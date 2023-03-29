@@ -43,5 +43,5 @@ public interface EventRepository {
      * @param expectedValue     (String): value of the attribute that is expected
      * @return (MutableLiveData < List < Event > >): a changeable list of different events.
      */
-    CompletableFuture<List<Event>> getEventLiveList(String filteredAttribute, String expectedValue);
+    CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue);
 }
