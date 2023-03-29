@@ -10,7 +10,8 @@ import java.util.concurrent.CompletableFuture;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -38,7 +39,7 @@ public class EventsViewModelTest {
         LiveDataTestUtil.getOrAwaitValue(mvm.getEventListLiveData());
 
         LiveData<List<Event>> liveData = mvm.getEventListLiveData();
-        mvm.refreshEventList();
+        mvm.refreshEvents();
         List<Event> eventList = LiveDataTestUtil.getOrAwaitValue(liveData);
 
         assertThat(eventList.size(), is(3));

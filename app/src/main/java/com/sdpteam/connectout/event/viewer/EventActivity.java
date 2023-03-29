@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.event;
+package com.sdpteam.connectout.event.viewer;
 
 import static java.lang.String.format;
 
@@ -8,8 +8,12 @@ import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.MapViewFragment;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 import android.os.Bundle;
@@ -76,7 +80,7 @@ public class EventActivity extends WithFragmentActivity {
         // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
         final EventsViewModel mapViewModel = new ViewModelProvider(this, new EventsViewModelFactory(mapModel)).get(EventsViewModel.class);
 
-        final MapViewFragment map = new MapViewFragment(mapViewModel);
+        final EventsMapViewFragment map = new EventsMapViewFragment(mapViewModel);
         replaceFragment(map, R.id.event_fragment_container);
     }
 

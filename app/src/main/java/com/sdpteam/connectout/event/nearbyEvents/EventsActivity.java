@@ -1,8 +1,9 @@
-package com.sdpteam.connectout.event;
+package com.sdpteam.connectout.event.nearbyEvents;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.eventList.ListViewFragment;
-import com.sdpteam.connectout.map.MapViewFragment;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
+import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 import android.os.Bundle;
@@ -12,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class EventsActivity extends WithFragmentActivity {
 
-    private MapViewFragment mapViewFragment;
-    private ListViewFragment listViewFragment;
+    private EventsMapViewFragment eventsMapViewFragment;
+    private EventsListViewFragment eventsListViewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +24,20 @@ public class EventsActivity extends WithFragmentActivity {
         RadioGroup mapListButton = findViewById(R.id.events_switch);
 
         EventsViewModel viewModel = new ViewModelProvider(this, new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
-        mapViewFragment = new MapViewFragment(viewModel);
-        listViewFragment = new ListViewFragment();
-        replaceFragment(mapViewFragment, R.id.events_map_list_container);
+        eventsMapViewFragment = new EventsMapViewFragment(viewModel);
+        eventsListViewFragment = new EventsListViewFragment(viewModel);
+
+        replaceFragment(eventsMapViewFragment, R.id.nearby_events_container);
         RadioButton mapButton = findViewById(R.id.map_switch_button);
         RadioButton listButton = findViewById(R.id.list_switch_button);
 
         mapListButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (R.id.map_switch_button == isChecked) {
                         listButton.setChecked(false);
-                        replaceFragment(mapViewFragment, R.id.events_map_list_container);
+                        replaceFragment(eventsMapViewFragment, R.id.nearby_events_container);
                     } else {
                         mapButton.setChecked(false);
-                        replaceFragment(listViewFragment, R.id.events_map_list_container);
+                        replaceFragment(eventsListViewFragment, R.id.nearby_events_container);
                     }
                 }
 

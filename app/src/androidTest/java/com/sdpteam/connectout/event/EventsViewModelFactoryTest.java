@@ -12,7 +12,9 @@ import java.util.concurrent.CompletableFuture;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 

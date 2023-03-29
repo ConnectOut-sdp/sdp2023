@@ -1,4 +1,6 @@
-package com.sdpteam.connectout.event;
+package com.sdpteam.connectout.event.nearbyEvents;
+
+import com.sdpteam.connectout.event.EventRepository;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

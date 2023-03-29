@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/event_creator_id"
-        tools:context=".event.EventCreatorActivity">
+        tools:context=".event.creator.EventCreatorActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/event_creator_appbar"
