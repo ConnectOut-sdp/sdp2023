@@ -84,20 +84,21 @@ public class EventFirebaseDataSource implements EventRepository {
     public String getUniqueId() {
         return database.child(DATABASE_EVENT_PATH).push().getKey();
     }
+
     @Override
     public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
         CompletableFuture<List<Event>> value = new CompletableFuture<>();
         Task<DataSnapshot> task = database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH).limitToFirst(MAX_EVENTS_FETCHED).get();
         //TODO event filtering
 
-        task.addOnCompleteListener(t-> {
+        task.addOnCompleteListener(t -> {
             DataSnapshot snapshot = t.getResult();
-                    List<Event> eventList = new ArrayList<>();
-                    if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
-                        snapshot.getChildren().forEach(child -> eventList.add(child.getValue(Event.class)));
-                    }
-                    value.complete(eventList);
-                });
+            List<Event> eventList = new ArrayList<>();
+            if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
+                snapshot.getChildren().forEach(child -> eventList.add(child.getValue(Event.class)));
+            }
+            value.complete(eventList);
+        });
         return value;
 
     }

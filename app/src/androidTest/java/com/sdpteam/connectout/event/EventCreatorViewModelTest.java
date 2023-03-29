@@ -62,7 +62,6 @@ public class EventCreatorViewModelTest {
     }
 
 
-
     public static class TestEventCreatorModel implements EventRepository {
 
         public static final List<Event> EVENT_LIST = createTestList();

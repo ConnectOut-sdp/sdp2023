@@ -24,6 +24,7 @@ public class EventsViewModelFactoryTest {
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
     @Test
     public void testFailsToCreateViewOnWrongArgument() {
         EventsViewModelFactory mf = new EventsViewModelFactory(new MockModel());
@@ -42,7 +43,7 @@ public class EventsViewModelFactoryTest {
     public void testViewModelUsesCustomModelThroughFactoryInstantiation() {
         final EventsViewModelFactory factory = new EventsViewModelFactory(new MockModel());
         final EventsViewModel mapViewModel = factory.create(EventsViewModel.class);
-        final List<Event> events = LiveDataTestUtil.getOrAwaitValue( mapViewModel.getEventList());
+        final List<Event> events = LiveDataTestUtil.getOrAwaitValue(mapViewModel.getEventList());
 
         assertEquals(2, events.size());
         assertEquals("Event 1", events.get(0).getTitle());

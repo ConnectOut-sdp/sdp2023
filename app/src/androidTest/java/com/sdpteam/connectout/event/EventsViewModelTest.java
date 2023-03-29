@@ -20,6 +20,7 @@ public class EventsViewModelTest {
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
     @Test
     public void getEventListReturnsTheCorrectEvents() {
         EventsViewModel viewModel = new EventsViewModel(new FakeMapModelManager());

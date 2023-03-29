@@ -95,7 +95,7 @@ public class EventFirebaseDataSourceTest {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
-        Event foundEvent =model.getEvent("wrong id", title).join();
+        Event foundEvent = model.getEvent("wrong id", title).join();
 
         assertNull(foundEvent);
     }

@@ -12,6 +12,7 @@ public class EventCreatorViewModel extends EventsViewModel {
         this.model = model;
         this.eventLiveData = new MutableLiveData<>();
     }
+
     public MutableLiveData<Event> getEventLiveData() {
         return eventLiveData;
     }
@@ -21,14 +22,14 @@ public class EventCreatorViewModel extends EventsViewModel {
     }
 
     public void getEvent(String userId, String title) {
-         model.getEvent(userId, title).thenAccept(eventLiveData::setValue);
+        model.getEvent(userId, title).thenAccept(eventLiveData::setValue);
     }
 
     public void saveEvent(Event event) {
-         model.saveEvent(event);
+        model.saveEvent(event);
     }
 
-    public  String getUniqueId(){
+    public String getUniqueId() {
         return model.getUniqueId();
     }
 

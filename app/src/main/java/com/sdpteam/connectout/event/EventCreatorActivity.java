@@ -40,10 +40,11 @@ public class EventCreatorActivity extends WithFragmentActivity {
         EditText eventDescription = findViewById(R.id.event_creator_description);
 
         saveButton.setOnClickListener(v ->
-        {saveEvent(eventTitle.getText().toString(),
-                        new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
-                        eventDescription.getText().toString()
-                );
+        {
+            saveEvent(eventTitle.getText().toString(),
+                    new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
+                    eventDescription.getText().toString()
+            );
             this.finish();
         });
 
@@ -51,9 +52,9 @@ public class EventCreatorActivity extends WithFragmentActivity {
     }
 
     /**
-     *  Saves the event into the view model.
+     * Saves the event into the view model.
      *
-     * @param title (String): title of the event
+     * @param title       (String): title of the event
      * @param coordinates (GPSCoordinates): position of the event
      * @param description (String): description of the event
      */
