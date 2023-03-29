@@ -1,8 +1,9 @@
 package com.sdpteam.connectout;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Switch;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ToggleButton;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -13,7 +14,7 @@ import com.sdpteam.connectout.event.EventsViewModelFactory;
 import com.sdpteam.connectout.eventList.ListViewFragment;
 import com.sdpteam.connectout.map.MapViewFragment;
 
-public class EventsMapListActivity extends WithFragmentActivity {
+public class EventsActivity extends WithFragmentActivity {
 
     private MapViewFragment mapViewFragment;
     private ListViewFragment listViewFragment;
@@ -24,17 +25,21 @@ public class EventsMapListActivity extends WithFragmentActivity {
         setContentView(R.layout.activity_events);
 
 
-        ToggleButton mapListButton = findViewById(R.id.events_switch);
+        RadioGroup mapListButton = findViewById(R.id.events_switch);
 
         EventsViewModel viewModel = new ViewModelProvider(this, new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
         mapViewFragment = new MapViewFragment(viewModel);
         listViewFragment = new ListViewFragment();
         replaceFragment(mapViewFragment, R.id.events_map_list_container);
+        RadioButton mapButton = findViewById(R.id.map_switch_button);
+        RadioButton listButton = findViewById(R.id.list_switch_button);
 
         mapListButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    if (!isChecked) {
+                    if (R.id.map_switch_button == isChecked) {
+                        listButton.setChecked(false);
                         replaceFragment(mapViewFragment, R.id.events_map_list_container);
                     } else {
+                        mapButton.setChecked(false);
                         replaceFragment(listViewFragment, R.id.events_map_list_container);
                     }
                 }

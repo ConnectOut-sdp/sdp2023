@@ -12,7 +12,7 @@
         android:theme="@style/Theme.ConnectOut"
         tools:targetApi="31">
         <activity
-            android:name=".EventsMapListActivity"
+            android:name=".EventsActivity"
             android:exported="false" />
         <activity
             android:name=".registration.CompleteRegistrationActivity"

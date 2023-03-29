@@ -4,18 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/events_activity_id"
-    tools:context=".EventsMapListActivity">
+    tools:context=".EventsActivity">
 
-    <ToggleButton
+    <RadioGroup
         android:id="@+id/events_switch"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleX="1.25"
-        android:textOn="@string/to_map"
-        android:textOff="@string/to_list"
-        android:scaleY="1.25" />
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/fab_margin"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/list_switch_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="List"
+            android:textAlignment="center"
+            android:checked="false"
+            android:textSize="20sp"
+            android:button="@android:color/transparent"
+            android:layout_weight="1"
+            android:background="@drawable/radio_button_list_selector"
+            />
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/map_switch_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Map"
+            android:checked="true"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/radio_button_map_selector"
+            android:layout_weight="1"
+            />
+        
+    </RadioGroup>
+
+
+
 
     <FrameLayout
         android:id="@+id/events_map_list_container"

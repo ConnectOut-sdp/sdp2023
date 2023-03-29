@@ -17,13 +17,11 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.sdpteam.connectout.event.Event;
-
 @RunWith(AndroidJUnit4.class)
-public class EventsMapListActivityTest {
+public class EventsActivityTest {
 
     @Rule
-    public ActivityScenarioRule<EventsMapListActivity> testRule = new ActivityScenarioRule<>(EventsMapListActivity.class);
+    public ActivityScenarioRule<EventsActivity> testRule = new ActivityScenarioRule<>(EventsActivity.class);
 
     @Before
     public void setup() {
@@ -41,16 +39,16 @@ public class EventsMapListActivityTest {
 
     @Test
     public void switchButtonChangesToListView() {
-        onView(withId(R.id.events_switch)).perform(click());
+        onView(withId(R.id.list_switch_button)).perform(click());
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
     }
 
     @Test
     public void switchButtonDoubleClickReturnToMapView() {
         // Click the switch button twice to return to the map view
-        onView(withId(R.id.events_switch)).perform(click());
+        onView(withId(R.id.list_switch_button)).perform(click());
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
-        onView(withId(R.id.events_switch)).perform(click());
+        onView(withId(R.id.map_switch_button)).perform(click());
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 }
