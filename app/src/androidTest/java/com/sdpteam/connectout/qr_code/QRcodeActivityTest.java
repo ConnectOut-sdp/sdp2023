@@ -108,7 +108,7 @@ public class QRcodeActivityTest {
 ////            onView(withText("OK")).inRoot(isDialog()).perform(click());
 //        });
 //    }
-//
+
 //    @Test
 //    public void testHandleScanResultNull() {
 //        activityScenarioRule.getScenario().onActivity(activity -> {
@@ -117,7 +117,7 @@ public class QRcodeActivityTest {
 //            onView(withText("Result")).check(doesNotExist());
 //        });
 //    }
-//
+
 //    @Test
 //    public void testHandleScanResultNonNull() {
 //        activityScenarioRule.getScenario().onActivity(activity -> {
