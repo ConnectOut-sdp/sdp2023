@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,15 +21,17 @@ public class ProfileRateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_rate);
         // get the Id of the user
         String uid = getIntent().getStringExtra("uid");
-        Profile userProfile = pvm.getProfile(uid).getValue();
+        String name = getIntent().getStringExtra("name");
         // initiate rating bar and a button
-        final RatingBar simpleRatingBar = (RatingBar) findViewById(R.id.simpleRatingBar);
-        Button submitButton = (Button) findViewById(R.id.submitRatingButton);
+        final RatingBar simpleRatingBar = findViewById(R.id.simpleRatingBar);
+        Button submitButton = findViewById(R.id.submitRatingButton);
         // perform click event on button
         setListenerForRating(submitButton, simpleRatingBar, uid);
 
-        Button reportButton = (Button) findViewById(R.id.reportUser);
+        Button reportButton = findViewById(R.id.reportUser);
         reportButton.setOnClickListener(v -> goToReportProfile(uid));
+        TextView userText = findViewById(R.id.rateUserTextView);
+        userText.setText("Rate " + name);
     }
 
     private void setListenerForRating(Button submit, RatingBar ratingBar, String uid) {

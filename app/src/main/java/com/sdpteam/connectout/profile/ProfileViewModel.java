@@ -37,20 +37,20 @@ public class ProfileViewModel extends ViewModel {
      * Update rating of a Profile
      */
     public void updateRating(String uid, double newRating) {
-        Profile userProfile = this.getProfile(uid).getValue();
-        assert userProfile != null;
-        double rating = userProfile.getRating();
-        int numRatings = userProfile.getNumRatings();
+        profileRepository.fetchProfile(uid).thenAccept(profile -> {
+            double rating = profile.getRating();
+            int numRatings = profile.getNumRatings();
 
-        //compute new rating
-        rating = (rating * numRatings + newRating) / (numRatings + 1);
-        numRatings++;
+            //compute new rating
+            rating = (rating * numRatings + newRating) / (numRatings + 1);
+            numRatings++;
 
-        //save new rating
-        this.saveProfile(
-                new Profile(uid, userProfile.getName(), userProfile.getEmail(),
-                        userProfile.getBio(), userProfile.getGender(), rating, numRatings
-        ));
+            //save new rating
+            profileRepository.saveProfile(
+                    new Profile(uid, profile.getName(), profile.getEmail(),
+                            profile.getBio(), profile.getGender(), rating, numRatings
+                    ));
+        });
     }
 }
 

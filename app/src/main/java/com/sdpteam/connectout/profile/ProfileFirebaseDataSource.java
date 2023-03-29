@@ -4,20 +4,14 @@ import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
 import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
 import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 import com.google.android.gms.tasks.Task;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;

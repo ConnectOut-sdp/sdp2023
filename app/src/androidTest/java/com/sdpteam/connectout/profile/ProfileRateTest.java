@@ -16,6 +16,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,11 +49,6 @@ public class ProfileRateTest {
         model.saveProfile(testProfile);
     }
 
-    //@After
-    public void cleanup() {
-        model.deleteProfile(uid);
-    }
-
     @Test
     public void testRatingElements() {
         onView(ViewMatchers.withId(R.id.simpleRatingBar)).check(matches(isDisplayed()));
@@ -61,7 +57,7 @@ public class ProfileRateTest {
         onView(ViewMatchers.withId(R.id.reportUser)).check(matches(isDisplayed()));
     }
 
-    //@Test
+    @Test
     public void testRating() {
         // set rating to 3
         testRule.getScenario().onActivity(activity -> {
@@ -69,7 +65,8 @@ public class ProfileRateTest {
             ratingBar.setRating(3);
         });
         onView(ViewMatchers.withId(R.id.submitRatingButton)).perform(click());
-        assertEquals(viewModel.getProfile(uid).getValue().getRating(), 3, 0.001);
-        assertEquals(viewModel.getProfile(uid).getValue().getNumRatings(), 1);
+        assertEquals(model.fetchProfile(uid).join().getRating(), 3, 0.001);
+        assertEquals(model.fetchProfile(uid).join().getNumRatings(), 1);
+        model.deleteProfile(uid);
     }
 }
