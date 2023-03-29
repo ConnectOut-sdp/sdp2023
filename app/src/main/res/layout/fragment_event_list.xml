@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
         tools:viewBindingIgnore="true"
         android:id="@+id/event_list"
-        tools:context=".eventList.ListViewFragment">
+        tools:context=".event.nearbyEvents.list.EventsListViewFragment">
 
 
 </FrameLayout>

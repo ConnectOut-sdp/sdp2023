@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.eventList;
+package com.sdpteam.connectout.event.nearbyEvents.list;
 
 import com.sdpteam.connectout.R;
 
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 //TODO Issue #37 of the sprint.
 
-public class ListViewFragment extends Fragment {
+public class EventsListViewFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.event.creator.EventCreatorViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;

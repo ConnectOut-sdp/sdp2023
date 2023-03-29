@@ -1,10 +1,11 @@
-package com.sdpteam.connectout.event;
+package com.sdpteam.connectout.event.creator;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.map.GPSCoordinates;
-import com.sdpteam.connectout.map.PositionSelectorFragment;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
@@ -28,7 +29,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         Toolbar toolbar = findViewById(R.id.event_creator_toolbar);
         setSupportActionBar(toolbar);
 
-        PositionSelectorFragment mapFragment = new PositionSelectorFragment(eventCreatorViewModel);
+        LocationPicker mapFragment = new LocationPicker(eventCreatorViewModel);
         replaceFragment(mapFragment, R.id.event_creator_fragment_container);
 
         toolbar.setNavigationOnClickListener(v -> this.finish());
@@ -38,12 +39,11 @@ public class EventCreatorActivity extends WithFragmentActivity {
         EditText eventTitle = findViewById(R.id.event_creator_title);
         EditText eventDescription = findViewById(R.id.event_creator_description);
 
-        saveButton.setOnClickListener(v ->
-        {
-            saveEvent(eventTitle.getText().toString(),
-                    new GPSCoordinates(mapFragment.getMovingMarkerPosition()),
-                    eventDescription.getText().toString()
-            );
+        saveButton.setOnClickListener(v -> {
+            final String chosenTitle = eventTitle.getText().toString();
+            final GPSCoordinates chosenCoordinates = new GPSCoordinates(mapFragment.getMovingMarkerPosition());
+            final String chosenDescription = eventDescription.getText().toString();
+            saveEvent(chosenTitle, chosenCoordinates, chosenDescription);
             this.finish();
         });
     }
@@ -60,13 +60,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         String ownerId = user == null ? EditProfileActivity.NULL_USER : user.uid;
 
         //Create associated event.
-        Event newEvent = new Event(
-                eventCreatorViewModel.getUniqueId(),
-                title,
-                description,
-                coordinates,
-                ownerId
-        );
+        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId);
 
         //Save the event & return to previous activity.
         eventCreatorViewModel.saveEvent(newEvent);
