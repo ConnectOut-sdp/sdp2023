@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 
 public class EventFirebaseDataSource implements EventRepository {
     public final static String DATABASE_EVENT_PATH = "Events";
@@ -86,16 +87,20 @@ public class EventFirebaseDataSource implements EventRepository {
     }
 
     @Override
-    public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
+    public CompletableFuture<List<Event>> getEventsByFilter(EventFilter filter) {
         CompletableFuture<List<Event>> value = new CompletableFuture<>();
         Task<DataSnapshot> task = database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH).limitToFirst(MAX_EVENTS_FETCHED).get();
-        //TODO event filtering
 
         task.addOnCompleteListener(t -> {
             DataSnapshot snapshot = t.getResult();
             List<Event> eventList = new ArrayList<>();
             if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
-                snapshot.getChildren().forEach(child -> eventList.add(child.getValue(Event.class)));
+                snapshot.getChildren().forEach(child -> {
+                    final Event event = child.getValue(Event.class);
+                    if (filter.test(event)) {
+                        eventList.add(event);
+                    }
+                });
             }
             value.complete(eventList);
         });

@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.profile.ProfileActivity;
 
 import android.view.View;
@@ -73,7 +74,7 @@ public class EventsActivityTest {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
-        List<Event> events = new EventFirebaseDataSource().getEventsByFilter(null, null).join();
+        List<Event> events = new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE).join();
         String expectedTitle = events.get(0).getTitle();
         String expectedDescription = events.get(0).getDescription();
         onView(withIndex(withId(R.id.event_list_event_title), 0)).check(matches(withText(expectedTitle)));
@@ -85,7 +86,7 @@ public class EventsActivityTest {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
-        List<Event> events = new EventFirebaseDataSource().getEventsByFilter(null, null).join();
+        List<Event> events = new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE).join();
         String expectedOrganizer = events.get(0).getOrganizer();
         onView(withIndex(withId(R.id.event_list_profile_button), 0)).perform(click());
         intended(Matchers.allOf(hasComponent(ProfileActivity.class.getName()), hasExtra(equalTo("uid"), equalTo(expectedOrganizer))));
