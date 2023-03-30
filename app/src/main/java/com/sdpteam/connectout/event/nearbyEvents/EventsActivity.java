@@ -43,16 +43,18 @@ public class EventsActivity extends WithFragmentActivity {
         RadioButton mapButton = findViewById(R.id.map_switch_button);
         RadioButton listButton = findViewById(R.id.list_switch_button);
 
-        mapListButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    if (R.id.map_switch_button == isChecked) {
-                        listButton.setChecked(false);
-                        replaceFragment(eventsMapViewFragment, R.id.nearby_events_container);
-                    } else {
-                        mapButton.setChecked(false);
-                        replaceFragment(eventsListViewFragment, R.id.nearby_events_container);
-                    }
-                }
+        mapListButton.setOnCheckedChangeListener(toggleViewMode(mapButton, listButton));
+    }
 
-        );
+    private RadioGroup.OnCheckedChangeListener toggleViewMode(RadioButton mapButton, RadioButton listButton) {
+        return (buttonView, isChecked) -> {
+            if (R.id.map_switch_button == isChecked) {
+                listButton.setChecked(false);
+                replaceFragment(eventsMapViewFragment, R.id.nearby_events_container);
+            } else {
+                mapButton.setChecked(false);
+                replaceFragment(eventsListViewFragment, R.id.nearby_events_container);
+            }
+        };
     }
 }

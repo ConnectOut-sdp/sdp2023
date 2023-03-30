@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.sdpteam.connectout.R;
@@ -35,7 +36,29 @@ public class EventsFilterDialog extends DialogFragment {
         search.setText(TEXT_FILTER);
         final SeekBar seekBar = view.findViewById(R.id.events_filter_seekbar);
         seekBar.setProgress(SEEKBAR_VALUE);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnSeekBarChangeListener(seekBarHandler(view));
+
+        final Button applyBtn = view.findViewById(R.id.events_filter_apply_btn);
+        applyBtn.setOnClickListener(v -> applyFilter(search, seekBar));
+        return view;
+    }
+
+    private void applyFilter(EditText search, SeekBar seekBar) {
+        final EventFilter textFilter = new TextFilter(search.getText().toString());
+        final EventFilter locationFilter = new LocationFilter(GPSCoordinates.current(), seekBar.getProgress());
+        final EventFilter filter = textFilter.and(locationFilter);
+        eventsViewModel.setFilter(filter);
+        eventsViewModel.refreshEvents();
+
+        // save filter state before dismiss dialog
+        SEEKBAR_VALUE = seekBar.getProgress();
+        TEXT_FILTER = search.getText().toString();
+        dismiss();
+    }
+
+    @NonNull
+    private SeekBar.OnSeekBarChangeListener seekBarHandler(View view) {
+        return new SeekBar.OnSeekBarChangeListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -54,22 +77,6 @@ public class EventsFilterDialog extends DialogFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
-        });
-
-        final Button applyBtn = view.findViewById(R.id.events_filter_apply_btn);
-        applyBtn.setOnClickListener(v -> {
-
-            final EventFilter textFilter = new TextFilter(search.getText().toString());
-            final EventFilter locationFilter = new LocationFilter(GPSCoordinates.current(), seekBar.getProgress());
-            final EventFilter filter = textFilter.and(locationFilter);
-            eventsViewModel.setFilter(filter);
-            eventsViewModel.refreshEvents();
-
-            // save filter state before dismiss dialog
-            SEEKBAR_VALUE = seekBar.getProgress();
-            TEXT_FILTER = search.getText().toString();
-            dismiss();
-        });
-        return view;
+        };
     }
 }
