@@ -1,8 +1,5 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
 import static com.sdpteam.connectout.profileList.OrderingOption.*;
 
 import java.util.ArrayList;
@@ -68,10 +65,12 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
 
         Query query = root.orderByChild(PROFILE + "/" + option.toString());
 
-        if (option == NAME && values != null && values.size() == 1) {
-            query = filterByNameProfile(query,  values);
-        } else if (option == RATING && values != null) {
-            query = filterByRatingProfile(query, values);
+        if(values != null && values.size() > 0){
+            if(option == NAME){
+                query = filterByNameProfile(query,  values);
+            }else {
+                query = filterByRatingProfile(query, values);
+            }
         }
 
         return query;
