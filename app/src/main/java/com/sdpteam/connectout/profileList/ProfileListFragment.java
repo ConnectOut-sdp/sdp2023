@@ -52,12 +52,6 @@ public class ProfileListFragment extends Fragment {
         listView = contentView.findViewById(R.id.user_list_view);
         listView.setAdapter(profilesAdapter);
 
-        //On an item being clicked in the list, launch its profile view.
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent profileIntent = new Intent(getContext(), ProfileActivity.class);
-            profileIntent.putExtra(ProfileActivity.PASSED_ID_KEY, profilesAdapter.getItem(position).getId());
-            startActivity(profileIntent);
-        });
         return contentView;
     }
 

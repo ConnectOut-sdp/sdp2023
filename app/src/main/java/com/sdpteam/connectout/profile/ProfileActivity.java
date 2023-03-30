@@ -79,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
      */
     public static void openProfile(Context fromContext, String profileId) {
         Intent intent = new Intent(fromContext, ProfileActivity.class);
-        intent.putExtra("uid", profileId);
+        intent.putExtra(PASSED_ID_KEY, profileId);
         fromContext.startActivity(intent);
     }
 }
