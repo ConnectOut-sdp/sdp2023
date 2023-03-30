@@ -31,7 +31,7 @@
                 android:stateNotNeeded="true"
                 android:theme="@style/zxing_CaptureTheme" />
         <activity
-                android:name=".event.EventsActivity"
+                android:name=".event.nearbyEvents.EventsActivity"
                 android:exported="false" />
         <activity
                 android:name=".chat.ChatActivity"
@@ -40,7 +40,7 @@
                 android:name=".registration.CompleteRegistrationActivity"
                 android:exported="false" />
         <activity
-                android:name=".event.EventActivity"
+                android:name=".event.viewer.EventActivity"
                 android:exported="false" />
         <activity
                 android:name=".profile.ProfileActivity"
@@ -49,7 +49,7 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
         <activity
-                android:name=".event.EventCreatorActivity"
+                android:name=".event.creator.EventCreatorActivity"
                 android:exported="false"
                 android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity

@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.event.creator;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
@@ -12,26 +12,28 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
 
 import androidx.annotation.NonNull;
 
-public class PositionSelectorFragment extends MapViewFragment implements OnMapReadyCallback {
+// TODO : it is very strange to make a fragment extend another one. especially when they have different purposes.
+public class LocationPicker extends EventsMapViewFragment implements OnMapReadyCallback {
 
     //Movable marker used to get event location
     private Marker movingMarker;
     private GoogleMap map;
 
-    public PositionSelectorFragment(EventsViewModel mapViewModel) {
+    public LocationPicker(EventsViewModel mapViewModel) {
         super(mapViewModel);
     }
 
     @Override
-    public void showNewMarkerList(List<Event> eventList) {
+    public void showEventsOnMap(List<Event> eventList) {
         if (map == null) {
             return;
         }
-        super.showNewMarkerList(eventList);
+        super.showEventsOnMap(eventList);
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(getMovingMarkerPosition())
                 .draggable(true)

@@ -1,7 +1,10 @@
-package com.sdpteam.connectout.event;
+package com.sdpteam.connectout.event.nearbyEvents;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventRepository;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -17,14 +20,14 @@ public class EventsViewModel extends ViewModel {
     public EventsViewModel(EventRepository model) {
         this.model = model;
         events = new MutableLiveData<>(new ArrayList<>());
-        refreshEventList();
+        refreshEvents();
     }
 
     public LiveData<List<Event>> getEventListLiveData() {
         return events;
     }
 
-    public void refreshEventList() {
+    public void refreshEvents() {
         model.getEventsByFilter(null, null).thenAccept(events::setValue);
     }
 }
