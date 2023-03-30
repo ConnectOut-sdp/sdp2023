@@ -13,11 +13,12 @@ import android.widget.Button;
 
 import com.sdpteam.connectout.R;
 
+// TODO this class is to be removed soon - add a button in the event page instead
 public class QRcodeEventActivity extends AppCompatActivity {
 
-    private Button btn_show_qr_code;
+    private Button btnShowQrCode;
 
-    private final String PROFILE_BASE_URI = "https://connect-out.com/events/";
+    private static final String PROFILE_BASE_URI = "https://connect-out.com/events/";
 
     private String EVENT_ID = "0123456789"; // we will need to fetch it from local database (to display our own profile)
 
@@ -26,8 +27,8 @@ public class QRcodeEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode_event);
 
-        btn_show_qr_code = findViewById(R.id.show_qr_code_btn);
-        btn_show_qr_code.setOnClickListener(new View.OnClickListener() {
+        btnShowQrCode = findViewById(R.id.show_qr_code_btn);
+        btnShowQrCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String qrCodeData = PROFILE_BASE_URI + EVENT_ID;

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdpteam.connectout.R;
 
+// TODO this class is to be removed soon - add a button in the profile page instead
 public class QRcodeProfileActivity extends AppCompatActivity {
 
     private Button btn_show_qr_code;

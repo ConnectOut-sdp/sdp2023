@@ -1,6 +1,8 @@
 package com.sdpteam.connectout.qr_code;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -12,10 +14,11 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanIntentResult;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.viewer.EventActivity;
 
 public class QRcodeActivity extends AppCompatActivity {
 
-    private Button btn_scan;
+    private Button btnScan;
     private ActivityResultLauncher<ScanOptions> barLauncher;
 
     @Override
@@ -23,8 +26,8 @@ public class QRcodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
 
-        btn_scan = findViewById(R.id.btn_scan);
-        btn_scan.setOnClickListener(v -> scanCode());
+        btnScan = findViewById(R.id.btn_scan);
+        btnScan.setOnClickListener(v -> scanCode());
 
         barLauncher = registerForActivityResult(new ScanContract(), result -> {
             handleScanResult(result.getContents());
@@ -41,17 +44,11 @@ public class QRcodeActivity extends AppCompatActivity {
         barLauncher.launch(options);
     }
 
-    void handleScanResult(String resultText) {
+    private void handleScanResult(String resultText) {
         if (resultText != null) {
-            showDialog(resultText);
+            Intent intent = new Intent(QRcodeActivity.this, EventActivity.class);
+            intent.putExtra("url", resultText);
+            startActivity(intent);
         }
-    }
-
-    private void showDialog(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Result");
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
-        builder.show();
     }
 }

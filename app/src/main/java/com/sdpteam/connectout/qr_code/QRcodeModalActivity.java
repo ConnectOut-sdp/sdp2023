@@ -15,7 +15,6 @@ public class QRcodeModalActivity extends AppCompatActivity {
 
     private ImageView qrCodeImageView;
     private TextView modalTitle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +29,7 @@ public class QRcodeModalActivity extends AppCompatActivity {
 
         // displaying the title and the qr code
         modalTitle.setText(title);
-        QRcodeGenerator qrCode = new QRcodeGenerator(); // any other way ?
+        QRcodeGenerator qrCode = new QRcodeGenerator();
         Bitmap qrCodeBitmap = null;
         try {
             qrCodeBitmap = qrCode.generateQRCode(qrCodeData);
@@ -40,11 +39,6 @@ public class QRcodeModalActivity extends AppCompatActivity {
         }
 
         Button closeButton = findViewById(R.id.close_button);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        closeButton.setOnClickListener(v -> finish());
     }
 }

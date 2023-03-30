@@ -2,7 +2,6 @@ package com.sdpteam.connectout.authentication;
 
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.ProfileActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
