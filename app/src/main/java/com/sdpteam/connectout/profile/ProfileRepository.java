@@ -15,8 +15,11 @@ public interface ProfileRepository {
      */
     CompletableFuture<Profile> fetchProfile(String uid);
 
+
     /**
-     * Fetches all profiles in the repository
+     * @param option (ProfileOrderingOption): option of filtering adopted, random, by name or by rating.
+     * @param values (List<String>): list of parsed users inputs which corresponds to the filters.
+     * @return (LiveData < List < Profile > >): List of all profiles found that matches the given filters.
      */
-    CompletableFuture<List<Profile>> getListOfUsers();
+    CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values);
 }

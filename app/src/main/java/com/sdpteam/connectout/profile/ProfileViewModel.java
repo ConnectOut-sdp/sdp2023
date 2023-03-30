@@ -32,5 +32,25 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<Profile> getProfileLiveData() {
         return profileLiveData;
     }
+
+    /**
+     * Update rating of a Profile
+     */
+    public void updateRating(String uid, double newRating) {
+        profileRepository.fetchProfile(uid).thenAccept(profile -> {
+            double rating = profile.getRating();
+            int numRatings = profile.getNumRatings();
+
+            //compute new rating
+            rating = (rating * numRatings + newRating) / (numRatings + 1);
+            numRatings++;
+
+            //save new rating
+            profileRepository.saveProfile(
+                    new Profile(uid, profile.getName(), profile.getEmail(),
+                            profile.getBio(), profile.getGender(), rating, numRatings
+                    ));
+        });
+    }
 }
 
