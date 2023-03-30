@@ -7,7 +7,6 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.profile.ProfileActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,19 +57,13 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 
         ImageButton profileImageButton = view.findViewById(R.id.event_list_profile_button);
         profileImageButton.setOnClickListener(v -> {
-            openProfile(event.getOrganizer());
+            ProfileActivity.openProfile(getContext(), event.getOrganizer());
         });
 
         ImageView eventImage = view.findViewById(R.id.event_list_event_image);
         //TODO set images
 
         return view;
-    }
-
-    private void openProfile(String profileId) {
-        Intent intent = new Intent(getContext(), ProfileActivity.class);
-        intent.putExtra("uid", profileId);
-        getContext().startActivity(intent);
     }
 }
 

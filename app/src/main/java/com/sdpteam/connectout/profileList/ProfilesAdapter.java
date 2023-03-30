@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileActivity;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ public class ProfilesAdapter extends ArrayAdapter<Profile> {
         emailTextView.setText(profile.getEmail());
         bioTextView.setText(profile.getBio());
         ratingTextView.setText(String.valueOf(profile.getRating()));
+        view.setOnClickListener(v -> ProfileActivity.openProfile(getContext(), profile.getId()));
 
         return view;
     }
