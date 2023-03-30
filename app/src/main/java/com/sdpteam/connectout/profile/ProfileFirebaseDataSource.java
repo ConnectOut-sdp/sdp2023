@@ -1,9 +1,5 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -42,15 +38,21 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
 
     @Override
     public CompletableFuture<List<Profile>> getListOfUsers() {
-        //TODO: get data from firebase
+        CompletableFuture<List<Profile>> future = new CompletableFuture<>();
+        Task<DataSnapshot> task = firebaseRef.child(USERS).get();
 
-        List<Profile> userlist = new ArrayList<>();
+        task.addOnCompleteListener(t -> {
+            List<Profile> profiles = new ArrayList<>();
+            DataSnapshot snapshot = t.getResult();
 
-        userlist.add(new Profile("100", "Alice", "Alice@gmail.com", "Hello, I'm Alice", FEMALE, 4.5, 10));
-        userlist.add(new Profile("101", "Bob", "Bob@gmail.com", "Hello, I'm Bob", MALE, 3.5, 12));
-        userlist.add(new Profile("102", "Charlie", "Charlie@gmail.com", "Hello, I'm Charlie", OTHER, 5, 3));
-
-        return CompletableFuture.completedFuture(userlist);
+            for (DataSnapshot childSnapshot : snapshot.getChildren()) {// iterate over user ids
+                //each user id has only one  children, called profile
+                Profile profile = childSnapshot.getChildren().iterator().next().getValue(Profile.class);
+                profiles.add(profile);
+            }
+            future.complete(profiles);
+        });
+        return future;
     }
 }
 
