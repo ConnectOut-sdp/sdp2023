@@ -1,5 +1,7 @@
 package com.sdpteam.connectout;
 
+import com.sdpteam.connectout.authentication.GoogleLoginActivity;
+import com.sdpteam.connectout.drawer.LogInActivity;
 import com.sdpteam.connectout.qr_code.QRcodeActivity;
 import com.sdpteam.connectout.qr_code.QRcodeProfileActivity;
 
@@ -14,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Don't put anything here, just choose which activity to redirect to
-        Intent drawerIntent = new Intent(getApplicationContext(), QRcodeActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
         this.startActivity(drawerIntent);
     }
 }
