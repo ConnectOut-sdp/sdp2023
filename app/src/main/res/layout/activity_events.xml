@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/events_activity_id"
-        tools:context=".event.EventsActivity">
+        tools:context=".event.nearbyEvents.EventsActivity">
 
     <RadioGroup
             android:id="@+id/events_switch"
@@ -44,7 +44,7 @@
 
 
     <FrameLayout
-            android:id="@+id/events_map_list_container"
+            android:id="@+id/nearby_events_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/events_task_bar"

@@ -5,7 +5,7 @@ import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 /**
  * This class describes an event

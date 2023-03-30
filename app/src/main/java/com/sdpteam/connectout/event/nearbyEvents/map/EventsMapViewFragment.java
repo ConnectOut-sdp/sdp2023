@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.map;
+package com.sdpteam.connectout.event.nearbyEvents.map;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +9,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,14 +20,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class MapViewFragment extends Fragment implements OnMapReadyCallback {
+public class EventsMapViewFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int DEFAULT_MAP_ZOOM = 15;
-    private final EventsViewModel mapViewModel;
+    private final EventsViewModel eventsViewModel;
     private GoogleMap map;
 
-    public MapViewFragment(EventsViewModel mapViewModel) {
-        this.mapViewModel = mapViewModel;
+    public EventsMapViewFragment(EventsViewModel eventsViewModel) {
+        this.eventsViewModel = eventsViewModel;
     }
 
     @Nullable
@@ -35,22 +35,20 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        //container object for the map used for the map lifecycle management and UI capabilities
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this); // callback to call when the map is ready
 
-        mapViewModel.refreshEventList();
+        eventsViewModel.refreshEvents();
 
-        mapViewModel.getEventListLiveData().observe(getViewLifecycleOwner(), this::showNewMarkerList);
+        eventsViewModel.getEventListLiveData().observe(getViewLifecycleOwner(), this::showEventsOnMap);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
-        refreshButton.setOnClickListener(view -> mapViewModel.refreshEventList());
+        refreshButton.setOnClickListener(view -> eventsViewModel.refreshEvents());
 
         return rootView;
     }
 
-    public void showNewMarkerList(List<Event> eventList) {
+    public void showEventsOnMap(List<Event> eventList) {
         if (map == null) {
             return;
         }

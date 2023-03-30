@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.map.GPSCoordinates;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 
 public class EventFirebaseDataSourceTest {
