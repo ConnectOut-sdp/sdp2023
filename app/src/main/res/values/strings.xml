@@ -18,6 +18,11 @@
     <string name="filter_example">eg: Alice, Bob, 1;2 …</string>
     <string name="greetings_text">Greetings</string>
     <string name="connect_out_logo">Connect out Logo</string>
+    <string name="submit">submit</string>
+    <string name="report_description"> report racism, \n hate speech \n or bad behavior</string>
+    <string name="rating">Number of stars</string>
+    <string name="reasons_of_the_report">Reasons of the report:</string>
+    <string name="submit_report">submit report</string>
     <string name="scan">Scan</string>
     <string name="event_qr_code">event qr code</string>
     <string name="profile_qr_code">profile qr code</string>
