@@ -1,38 +1,19 @@
 package com.sdpteam.connectout.qr_code;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
-import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.junit.Assert.assertNotNull;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Intent;
-import android.os.Bundle;
 import android.widget.Button;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.journeyapps.barcodescanner.CaptureActivity;
-import com.journeyapps.barcodescanner.ScanContract;
-import com.journeyapps.barcodescanner.ScanOptions;
 import com.sdpteam.connectout.R;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,29 +25,25 @@ public class QRcodeActivityTest {
     @Rule
     public ActivityScenarioRule<QRcodeActivity> activityScenarioRule = new ActivityScenarioRule<>(QRcodeActivity.class);
 
-//    @Test
-//    public void isButtonNotNull() {
-//        activityScenarioRule.getScenario().onActivity(activity -> {
-//            Button button = activity.findViewById(R.id.close_button);
-//            if(button != null) {
-//                assertNotNull(button);
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void isButtonDisplayed() {
-//        activityScenarioRule.getScenario().onActivity(activity -> {
-//            onView(withId(R.id.close_button)).check(matches(isDisplayed()));
-//                });
-//    }
+    @Test
+    public void isButtonNotNull() {
+        activityScenarioRule.getScenario().onActivity(activity -> {
+            Button button = activity.findViewById(R.id.close_button);
+            if (button != null) {
+                assertNotNull(button);
+            }
+        });
+    }
+
+    @Test
+    public void isButtonDisplayed() {
+        onView(withId(R.id.btn_scan)).check(matches(isDisplayed()));
+
+    }
+
     @Test
     public void isButtonClickable() {
-        activityScenarioRule.getScenario().onActivity(activity -> {
-            activity.runOnUiThread(() -> {
-                onView(withId(R.id.btn_scan)).check(matches(isClickable()));
-            });
-        });
+        onView(withId(R.id.btn_scan)).check(matches(isClickable()));
     }
 
 //    @Test
