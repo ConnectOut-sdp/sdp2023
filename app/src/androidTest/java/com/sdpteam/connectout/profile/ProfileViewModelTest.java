@@ -65,7 +65,7 @@ public class ProfileViewModelTest {
         }
 
         @Override
-        public CompletableFuture<List<Profile>> getListOfUsers() {
+        public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
     }

@@ -27,6 +27,7 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileRepository;
 
 import android.content.Intent;
@@ -64,9 +65,10 @@ public class CompleteRegistrationFormTest {
         }
 
         @Override
-        public CompletableFuture<List<Profile>> getListOfUsers() {
+        public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
+
     };
 
     @Before
