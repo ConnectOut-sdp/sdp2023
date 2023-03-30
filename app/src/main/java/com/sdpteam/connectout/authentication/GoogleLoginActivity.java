@@ -44,7 +44,7 @@ public class GoogleLoginActivity extends AppCompatActivity {
     }
 
     private void navigateToSecondActivity(AuthenticatedUser currentUser) {
-        Intent intent = new Intent(GoogleLoginActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(GoogleLoginActivity.this, ProfileGreetingActivity.class);
         String msg = currentUser.name + " \n" + currentUser.email;
         intent.putExtra("loginInfo", msg);
         startActivity(intent);
