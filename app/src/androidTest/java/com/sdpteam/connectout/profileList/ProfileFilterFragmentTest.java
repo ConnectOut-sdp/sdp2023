@@ -46,30 +46,6 @@ public class ProfileFilterFragmentTest {
         Intents.release();
     }
 
-    @Test
-    public void filteringByRatingIsOrdered() {
-        FragmentScenario<ProfileFilterFragment> fc = FragmentScenario.launchInContainer(ProfileFilterFragment.class);
-
-        onView(withId(R.id.filter_apply_button)).perform(click());
-        onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
-        List<Profile> profiles = new ArrayList<>();
-
-        fc.onFragment(fragment -> {
-            ListView recyclerView = fragment.getView().findViewById(R.id.user_list_view);
-            for (int i = 0; i < recyclerView.getAdapter().getCount(); i++) {
-                Profile profile = (Profile) recyclerView.getAdapter().getItem(i);
-                profiles.add(profile);
-            }
-        });
-
-        if (!profiles.isEmpty()) {
-            List<Double> givenList = profiles.stream().map(Profile::getRating).collect(Collectors.toList());
-            List<Double> copiedList = new ArrayList<>(givenList);
-            Collections.sort(copiedList);
-            assertThat(givenList, is(copiedList));
-        }
-
-    }
 
     @Test
     public void filteringByNameIsOrdered() {
@@ -119,28 +95,7 @@ public class ProfileFilterFragmentTest {
 
     }
 
-    @Test
-    public void filteringByRatingFindsPeopleWithGivenValue() {
-        FragmentScenario<ProfileFilterFragment> fc = FragmentScenario.launchInContainer(ProfileFilterFragment.class);
 
-        onView(withId(R.id.text_filter)).perform(typeText("0;1"));
-        closeSoftKeyboard();
-        onView(withId(R.id.filter_apply_button)).perform(click());
-        onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
-
-        List<Profile> profiles = new ArrayList<>();
-        fc.onFragment(fragment -> {
-            ListView recyclerView = fragment.getView().findViewById(R.id.user_list_view);
-            for (int i = 0; i < recyclerView.getAdapter().getCount(); i++) {
-                Profile profile = (Profile) recyclerView.getAdapter().getItem(i);
-                profiles.add(profile);
-            }
-        });
-        if (!profiles.isEmpty()) {
-            Stream<Double> ratings = profiles.stream().map(Profile::getRating);
-            assertThat(ratings.filter(r -> r > 1.0 || r < 0.0).count(), is(0L));
-        }
-    }
 
     @Test
     public void wrongFilteringWithRatingShowsCompleteList() {

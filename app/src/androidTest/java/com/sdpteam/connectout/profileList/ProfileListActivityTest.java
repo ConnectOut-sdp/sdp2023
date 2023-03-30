@@ -1,15 +1,22 @@
 package com.sdpteam.connectout.profileList;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
+import android.widget.ListView;
+
+import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -17,12 +24,19 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileListActivityTest {
@@ -72,6 +86,54 @@ public class ProfileListActivityTest {
             onView(withId(R.id.filter_container)).check(matches(not(isDisplayed())));
         } catch (NoMatchingViewException ignored) {
         }
+    }
+    @Test
+    public void filteringByRatingFindsPeopleWithGivenValue() {
+        onView(withId(R.id.user_list_button)).perform(click());
+        onView(withId(R.id.text_filter)).perform(typeText("0;1"));
+        closeSoftKeyboard();
+        onView(withId(R.id.rating_switch_button)).perform(click());
+        onView(withId(R.id.filter_category_button)).perform(click());
+        onView(withId(R.id.filter_apply_button)).perform(click());
+        onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
+
+        List<Profile> profiles = new ArrayList<>();
+        activityRule.getScenario().onActivity(activity -> {
+            ListView recyclerView = activity.findViewById(R.id.user_list_view);
+            for (int i = 0; i < recyclerView.getAdapter().getCount(); i++) {
+                Profile profile = (Profile) recyclerView.getAdapter().getItem(i);
+                profiles.add(profile);
+            }
+        });
+        if (!profiles.isEmpty()) {
+            Stream<Double> ratings = profiles.stream().map(Profile::getRating);
+            assertThat(ratings.filter(r -> r > 1.0 || r < 0.0).count(), is(0L));
+        }
+    }
+
+    @Test
+    public void filteringByRatingIsOrdered() {
+        onView(withId(R.id.user_list_button)).perform(click());
+        onView(withId(R.id.rating_switch_button)).perform(click());
+        onView(withId(R.id.filter_apply_button)).perform(click());
+        onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
+        List<Profile> profiles = new ArrayList<>();
+
+        activityRule.getScenario().onActivity(activity -> {
+            ListView recyclerView = activity.findViewById(R.id.user_list_view);
+            for (int i = 0; i < recyclerView.getAdapter().getCount(); i++) {
+                Profile profile = (Profile) recyclerView.getAdapter().getItem(i);
+                profiles.add(profile);
+            }
+        });
+
+        if (!profiles.isEmpty()) {
+            List<Double> givenList = profiles.stream().map(Profile::getRating).collect(Collectors.toList());
+            List<Double> copiedList = new ArrayList<>(givenList);
+            Collections.sort(copiedList);
+            assertThat(givenList, is(copiedList));
+        }
+
     }
 
 }
