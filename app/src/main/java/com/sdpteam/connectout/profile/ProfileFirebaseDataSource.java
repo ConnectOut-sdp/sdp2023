@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.profileList.OrderingOption.*;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.sdpteam.connectout.profileList.OrderingOption;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
 public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
     private final static int MAX_PROFILES_FETCHED = 50;
+    private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
     private final String USERS = "Users";
     private final String PROFILE = "Profile";
 
@@ -43,12 +43,16 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         return future;
     }
 
-
+    /**
+     * @param option (ProfileOrderingOption): option of filtering adopted, random, by name or by rating.
+     * @param values (List<String>): list of parsed users inputs which corresponds to the filters.
+     * @return (LiveData < List < Profile > >): List of all profiles found that matches the given filters.
+     */
     @Override
-    public CompletableFuture<List<Profile>> getListOfProfile(OrderingOption option, List<String> values) {
+    public CompletableFuture<List<Profile>> getListOfProfile(ProfileOrderingOption option, List<String> values) {
         CompletableFuture<List<Profile>> value = new CompletableFuture<>();
-        Task<DataSnapshot> task = filterProfiles(firebaseRef.child(USERS), option, values).limitToFirst(MAX_PROFILES_FETCHED).get();
-        task.addOnCompleteListener( t->{
+        Query query = filterProfiles(firebaseRef.child(USERS), option, values).limitToFirst(MAX_PROFILES_FETCHED);
+        query.get().addOnCompleteListener( t->{
                     List<Profile> profilesList = new ArrayList<>();
                     DataSnapshot snapshot =  t.getResult();
                     snapshot.getChildren().forEach(profileSnapshot -> profilesList.add(profileSnapshot.child(PROFILE).getValue(Profile.class)));
@@ -58,7 +62,14 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         return value;
     }
 
-    public Query filterProfiles(Query root, OrderingOption option, List<String> values) {
+    /**
+     *
+     * @param root (Query): query to parametrise with filters.
+     * @param option (ProfileOrderingOption): parametric ordering options of the query.
+     * @param values (List<String>): list of parsed users inputs which corresponds to the filters.
+     * @return (Query): query with all the needed filters.
+     */
+    public Query filterProfiles(Query root, ProfileOrderingOption option, List<String> values) {
         if(option == NONE){
             return root;
         }
@@ -101,7 +112,31 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
      */
     private Query filterByNameProfile(Query root, List<String> values){
         String name = values.get(0);
-        return  root.startAt(name).endAt(name + "\uf8ff");
+
+        //The regex is used to ensure that we retrieve all names starting with the given string.
+        return  root.startAt(name).endAt(name + AUTOMATIC_COMPLETION_REGEX);
+    }
+
+    /**
+     * Enum describing the different types of filtering possible.
+     */
+    public enum ProfileOrderingOption {
+        NONE(""),
+        RATING("rating"),
+        NAME("name");
+
+
+        private final String name;
+
+        ProfileOrderingOption(String name) {
+            this.name = name;
+        }
+
+        @androidx.annotation.NonNull
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 }
 

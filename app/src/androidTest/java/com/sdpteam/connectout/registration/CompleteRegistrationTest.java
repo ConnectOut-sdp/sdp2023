@@ -12,8 +12,8 @@ import java.util.concurrent.CompletableFuture;
 import org.junit.Test;
 
 import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileRepository;
-import com.sdpteam.connectout.profileList.OrderingOption;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -41,7 +41,7 @@ public class CompleteRegistrationTest {
             }
 
             @Override
-            public CompletableFuture<List<Profile>> getListOfProfile(OrderingOption option, List<String> values) {
+            public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
                 return CompletableFuture.completedFuture(new ArrayList<>());
             }
 

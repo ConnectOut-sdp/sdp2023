@@ -4,7 +4,6 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileViewModel;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +20,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Simple and non-filtered view of the list of profile.
+ */
 public class ProfileListFragment extends Fragment {
 
     private ListView listView;
@@ -39,7 +41,7 @@ public class ProfileListFragment extends Fragment {
         profilesObserver = this::showProfileList;
         viewModel = new ProfileListViewModel(new ProfileFirebaseDataSource());
         observed = viewModel.getUserListLiveData();
-        changeObserved(OrderingOption.NONE, null);
+        changeObserved(ProfileFirebaseDataSource.ProfileOrderingOption.NONE, null);
 
         //Setup the profile Adapter, which will create the view for each given profile & give it to the view.
         profilesAdapter = new ProfilesAdapter(container.getContext(), R.layout.adapter_text_view, new ArrayList<>());
@@ -71,10 +73,10 @@ public class ProfileListFragment extends Fragment {
     /**
      * Update what type of filtered list is being observed on the screen.
      *
-     * @param option    (OrderingOption): different possible filtering options of the list.
+     * @param option    (ProfileOrderingOption): different possible filtering options of the list.
      * @param userInput (String): user inputs that indicates filters values.
      */
-    public void changeObserved(OrderingOption option, String userInput) {
+    public void changeObserved(ProfileFirebaseDataSource.ProfileOrderingOption option, String userInput) {
         if (viewModel == null) {
             return;
         }

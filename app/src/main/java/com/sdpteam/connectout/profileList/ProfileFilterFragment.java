@@ -13,7 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
+/**
+ * Adds a filtering context and features to the list of profile displayed.
+ */
 public class ProfileFilterFragment extends Fragment {
 
     private final ProfileListFragment profileListFragment;
@@ -67,9 +71,9 @@ public class ProfileFilterFragment extends Fragment {
      */
     private void swapTypeOnClick(boolean isChecked, String userInput) {
         if (isChecked) {
-            profileListFragment.changeObserved(OrderingOption.NAME, userInput);
+            profileListFragment.changeObserved(ProfileFirebaseDataSource.ProfileOrderingOption.NAME, userInput);
         } else {
-            profileListFragment.changeObserved(OrderingOption.RATING, userInput);
+            profileListFragment.changeObserved(ProfileFirebaseDataSource.ProfileOrderingOption.RATING, userInput);
         }
     }
 }

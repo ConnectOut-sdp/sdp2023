@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.profileList;
 
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+
 import org.junit.Test;
 
 public class ProfileListFragmentTest {
@@ -13,7 +15,7 @@ public class ProfileListFragmentTest {
     @Test
     public void userListDoesntCrashBeforeCreatingViewOnChangeObserver() {
         ProfileListFragment ulf = new ProfileListFragment();
-        ulf.changeObserved(OrderingOption.NONE, null);
+        ulf.changeObserved(ProfileFirebaseDataSource.ProfileOrderingOption.NONE, null);
     }
 
 

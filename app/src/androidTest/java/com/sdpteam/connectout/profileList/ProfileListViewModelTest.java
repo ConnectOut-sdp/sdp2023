@@ -1,12 +1,13 @@
 package com.sdpteam.connectout.profileList;
 
-import static com.sdpteam.connectout.profileList.OrderingOption.*;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileRepository;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
@@ -156,7 +157,7 @@ public class ProfileListViewModelTest {
         }
 
         @Override
-        public CompletableFuture<List<Profile>> getListOfProfile(OrderingOption option, List<String> values) {
+        public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
             if (option == NONE) {
                 return CompletableFuture.completedFuture(PROFILES);
             }

@@ -12,6 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+/**
+ * Toggles between list fragment and filter fragment. Allowing both a simplistic view of the list of profiles and a filtered one.
+ */
 public class ProfileListActivity extends WithFragmentActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
