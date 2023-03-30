@@ -35,7 +35,7 @@ public class QRcodeModalActivity extends AppCompatActivity {
         try {
             qrCodeBitmap = qrCode.generateQRCode(qrCodeData);
             qrCodeImageView.setImageBitmap(qrCodeBitmap);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
