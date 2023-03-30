@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.sdpteam.connectout.R;
@@ -56,7 +55,6 @@ public class EventsFilterDialog extends DialogFragment {
         dismiss();
     }
 
-    @NonNull
     private SeekBar.OnSeekBarChangeListener seekBarHandler(View view) {
         return new SeekBar.OnSeekBarChangeListener() {
             @SuppressLint("SetTextI18n")
