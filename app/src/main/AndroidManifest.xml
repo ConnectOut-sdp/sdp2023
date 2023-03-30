@@ -21,8 +21,14 @@
                 android:exported="false" />
 
         <activity
-                android:name=".registration.CompleteRegistrationActivity"
-                android:exported="false" />
+            android:name=".profile.ReportProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profile.ProfileRateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".registration.CompleteRegistrationActivity"
+            android:exported="false" />
         <activity
                 android:name=".event.viewer.EventActivity"
                 android:exported="false" />

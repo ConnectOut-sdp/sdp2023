@@ -7,21 +7,28 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.profile.ProfileActivity.PROFILE_UID;
+import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
+import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
+
+import android.content.Intent;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import com.sdpteam.connectout.R;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 public class ProfileTest {
 
@@ -53,12 +60,26 @@ public class ProfileTest {
 
     @Test
     public void testEditProfileButton() {
-        if (new GoogleAuth().isLoggedIn()) {
-            onView(withId(R.id.buttonEditProfile)).perform(click());
-            intended(hasComponent(EditProfileActivity.class.getName()));
-        } else {
-            onView(withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
-        }
+        onView(withId(R.id.buttonEditProfile)).perform(click());
+        intended(hasComponent(EditProfileActivity.class.getName()));
+    }
+
+    @Test
+    public void testRateButton() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class);
+        intent.putExtra(PROFILE_UID, uid);
+        testRule.getScenario().onActivity(activity -> activity.startActivity(intent));
+
+        // test if buttonRateProfile is displayed
+        onView(withId(R.id.buttonRateProfile)).check(matches(isDisplayed()));
+
+        // test if buttonEditProfile is not displayed
+        onView(withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
+
+        // test intent
+        onView(withId(R.id.buttonRateProfile)).perform(click());
+        intended(allOf(hasComponent(ProfileRateActivity.class.getName()),
+                IntentMatchers.hasExtra(RATED_UID, uid)));
     }
 
     @Test

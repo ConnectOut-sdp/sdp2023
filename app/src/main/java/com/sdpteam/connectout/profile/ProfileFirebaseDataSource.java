@@ -1,5 +1,8 @@
 package com.sdpteam.connectout.profile;
 
+import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
+import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
+import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
 
 import java.util.ArrayList;
@@ -13,6 +16,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import io.reactivex.rxjava3.annotations.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
@@ -137,6 +144,10 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         public String toString() {
             return name;
         }
+    }
+
+    public void deleteProfile(String uid) {
+        firebaseRef.child(USERS).child(uid).child(PROFILE).removeValue();
     }
 }
 
