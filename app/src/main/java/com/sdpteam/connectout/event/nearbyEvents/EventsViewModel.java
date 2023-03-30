@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,13 +14,11 @@ import androidx.lifecycle.ViewModel;
 public class EventsViewModel extends ViewModel {
 
     private final EventRepository model;
-    private final MutableLiveData<List<Event>> events;
-
-    //TODO add event list filtering.
+    private final MutableLiveData<List<Event>> events = new MutableLiveData<>(new ArrayList<>());
+    private EventFilter filter = EventFilter.NONE;
 
     public EventsViewModel(EventRepository model) {
         this.model = model;
-        events = new MutableLiveData<>(new ArrayList<>());
         refreshEvents();
     }
 
@@ -27,7 +26,11 @@ public class EventsViewModel extends ViewModel {
         return events;
     }
 
+    public void setFilter(EventFilter filter) {
+        this.filter = filter;
+    }
+
     public void refreshEvents() {
-        model.getEventsByFilter(null, null).thenAccept(events::setValue);
+        model.getEventsByFilter(filter).thenAccept(events::setValue);
     }
 }

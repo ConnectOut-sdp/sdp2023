@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
@@ -79,7 +80,7 @@ public class EventsViewModelFactoryTest {
         }
 
         @Override
-        public CompletableFuture<List<Event>> getEventsByFilter(String filteredAttribute, String expectedValue) {
+        public CompletableFuture<List<Event>> getEventsByFilter(EventFilter filter) {
             return CompletableFuture.completedFuture(Arrays.asList(
                     new Event("1", "Event 1", "Description 2", new GPSCoordinates(0, 0), "a"),
                     new Event("2", "Event 2", "Description 2", new GPSCoordinates(1, 1), "b")

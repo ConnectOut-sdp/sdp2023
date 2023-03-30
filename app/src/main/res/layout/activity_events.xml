@@ -6,10 +6,31 @@
         android:id="@+id/events_activity_id"
         tools:context=".event.nearbyEvents.EventsActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/events_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+
+        android:theme="@style/Theme.ConnectOut.AppBarOverlay">
+
+        <Button
+            android:id="@+id/events_filter_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:text="Filter"
+            android:background="@color/white"
+            android:textColor="@color/white"
+            android:textSize="15dp"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <RadioGroup
             android:id="@+id/events_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/events_toolbar"
             android:layout_centerHorizontal="true"
             android:padding="@dimen/fab_margin"
             android:orientation="horizontal">

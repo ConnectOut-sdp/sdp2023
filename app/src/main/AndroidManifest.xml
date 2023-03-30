@@ -32,7 +32,9 @@
                 android:theme="@style/zxing_CaptureTheme" />
         <activity
                 android:name=".event.nearbyEvents.EventsActivity"
-                android:exported="false" />
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
+
         <activity
                 android:name=".chat.ChatActivity"
                 android:exported="false" />
