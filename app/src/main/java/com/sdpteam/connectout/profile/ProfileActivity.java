@@ -3,6 +3,11 @@ package com.sdpteam.connectout.profile;
 import static android.view.View.INVISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.Authentication;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -80,5 +85,17 @@ public class ProfileActivity extends AppCompatActivity {
         String userName = (String) viewById.getText();
         intent.putExtra("name", userName);
         startActivity(intent);
+
+    /**
+     * Helper method to launch a profile activity from the source context
+     * (made it to avoid code duplication)
+     *
+     * @param fromContext from where we are starting the intent
+     * @param profileId   user id to open
+     */
+    public static void openProfile(Context fromContext, String profileId) {
+        Intent intent = new Intent(fromContext, ProfileActivity.class);
+        intent.putExtra("uid", profileId);
+        fromContext.startActivity(intent);
     }
 }

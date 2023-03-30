@@ -3,9 +3,7 @@ package com.sdpteam.connectout.userList;
 import static java.util.Comparator.comparingDouble;
 import static java.util.stream.Collectors.toList;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileRepository;
@@ -28,12 +26,12 @@ public class UserListViewModel extends ViewModel {
     }
 
     void triggerFetchProfileSortedByRating() {
-        List<Profile> profiles = new ArrayList<>(Objects.requireNonNull(model.getListOfUsers().join()));
-
-        //sorting Profile by rating
-        List<Profile> sorted = profiles.stream()
-                .sorted(comparingDouble(Profile::getRating).reversed())
-                .collect(toList());
-        userListLiveData.setValue(sorted);
+        model.getListOfUsers().thenAccept(profiles -> {
+            //sorting Profile by rating
+            List<Profile> sorted = profiles.stream()
+                    .sorted(comparingDouble(Profile::getRating).reversed())
+                    .collect(toList());
+            userListLiveData.setValue(sorted);
+        });
     }
 }
