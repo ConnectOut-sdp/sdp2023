@@ -56,7 +56,8 @@
                 android:name=".drawer.LogInActivity"
                 android:exported="false" />
         <activity
-                android:name=".userList.UserListActivity"
+                android:name=".profileList.ProfileListActivity"
+                android:theme="@style/Theme.ConnectOut.NoActionBar"
                 android:exported="false" />
 
         <activity
