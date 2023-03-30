@@ -85,6 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
         String userName = (String) viewById.getText();
         intent.putExtra("name", userName);
         startActivity(intent);
+    }
 
     /**
      * Helper method to launch a profile activity from the source context
