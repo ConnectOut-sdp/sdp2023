@@ -72,11 +72,4 @@ public class EventsFilterDialog extends DialogFragment {
         });
         return view;
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Set the width and height of the dialog window
-        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    }
 }

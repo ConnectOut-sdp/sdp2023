@@ -3,9 +3,12 @@ package com.sdpteam.connectout.event;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -80,7 +83,7 @@ public class EventsViewModelTest {
 
         public CompletableFuture<List<Event>> getEventsByFilter(EventFilter filter) {
             updateData();
-            return CompletableFuture.completedFuture(dataSet);
+            return CompletableFuture.completedFuture(dataSet.stream().filter(filter).collect(toList()));
         }
 
         private void updateData() {

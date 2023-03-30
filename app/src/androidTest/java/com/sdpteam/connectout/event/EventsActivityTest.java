@@ -92,6 +92,12 @@ public class EventsActivityTest {
         intended(Matchers.allOf(hasComponent(ProfileActivity.class.getName()), hasExtra(equalTo("uid"), equalTo(expectedOrganizer))));
     }
 
+    @Test
+    public void clickOnFilterBtnShouldOpenFilterDialog() {
+        onView(withId(R.id.events_filter_button)).perform(click());
+        onView(withId(R.id.popup_events_filter)).check(matches(isDisplayed()));
+    }
+
     static Matcher<View> withIndex(final Matcher<View> matcher, final int index) {
         return new TypeSafeMatcher<View>() {
             @Override

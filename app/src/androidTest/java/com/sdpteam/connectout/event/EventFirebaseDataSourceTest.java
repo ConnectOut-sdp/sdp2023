@@ -2,17 +2,21 @@ package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-
-import java.util.ArrayList;
-
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
+
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventFirebaseDataSourceTest {
 
@@ -98,6 +102,24 @@ public class EventFirebaseDataSourceTest {
         Event foundEvent = model.getEvent("wrong id", title).join();
 
         assertNull(foundEvent);
+    }
+
+    @Test
+    public void testGetWithFilters() {
+        final Event e1 = new Event("1", "judo", "", new GPSCoordinates(1.5, 1.5), "");
+        final Event e2 = new Event("2", "tennis", "", new GPSCoordinates(1.5, 1.5), "");
+        final Event e3 = new Event("3", "football", "", new GPSCoordinates(1.5, 1.5), "");
+
+        final EventFirebaseDataSource model = new EventFirebaseDataSource();
+        model.saveEvent(e1);
+        model.saveEvent(e2);
+        model.saveEvent(e3);
+
+        final EventFilter filter = e -> "1".equals(e.getId()) || "2".equals(e.getId());
+        final List<Event> results = model.getEventsByFilter(filter).join();
+
+        assertEquals(2, results.size());
+        assertTrue(results.stream().allMatch(filter));
     }
 
     @Test
