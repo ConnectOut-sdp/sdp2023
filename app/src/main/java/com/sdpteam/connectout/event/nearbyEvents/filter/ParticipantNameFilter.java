@@ -1,9 +1,11 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
-import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.profile.Profile;
 import java.util.List;
 
+/**
+ * Filters participants by their name.
+ */
 public class ParticipantNameFilter implements ParticipantsFilter{
 
     private final String name;

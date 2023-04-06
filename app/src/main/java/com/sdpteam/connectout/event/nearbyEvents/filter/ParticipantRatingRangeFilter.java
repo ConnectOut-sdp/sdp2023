@@ -5,6 +5,9 @@ import com.sdpteam.connectout.profile.Profile;
 
 import java.util.List;
 
+/**
+ * Filters participants by a rating range
+ */
 public class ParticipantRatingRangeFilter implements ParticipantsFilter{
 
     private final Double val1;

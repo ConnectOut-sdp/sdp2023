@@ -5,6 +5,9 @@ import com.sdpteam.connectout.profile.Profile;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * Global interface filter for the participant's list.
+ */
 public interface ParticipantsFilter extends Predicate<List<Profile>> {
 
     ParticipantsFilter NONE = e -> true;

@@ -1,23 +1,16 @@
 package com.sdpteam.connectout.event;
 
-import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.PROFILE;
-import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.USERS;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
-
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EventFirebaseDataSource implements EventRepository {
     public final static String DATABASE_EVENT_PATH = "Events";
@@ -95,42 +88,43 @@ public class EventFirebaseDataSource implements EventRepository {
         return database.child(DATABASE_EVENT_PATH).push().getKey();
     }
 
-        @Override
-        public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
-            CompletableFuture<List<Event>> future = new CompletableFuture<>();
-            ProfileFirebaseDataSource profileDatabase  = new ProfileFirebaseDataSource();
+    /**
+     *
+     * @param filter (EventFilter): event filter predicate
+     * @return (CompletableFuture<List<Event>>): future list of events with the wanted filters
+     */
+    @Override
+    public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
+        CompletableFuture<List<Event>> future = new CompletableFuture<>();
+        ProfileFirebaseDataSource profileDatabase = new ProfileFirebaseDataSource();
 
-            database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
-                    .limitToFirst(MAX_EVENTS_FETCHED).orderByKey()
-                    .get()
-                    .addOnCompleteListener(t -> {
+        database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
+                .limitToFirst(MAX_EVENTS_FETCHED).orderByKey()
+                .get()
+                .addOnCompleteListener(t -> {
 
-                        List<Event> events = new ArrayList<>();
-                        List<CompletableFuture<List<Profile>>> allProfilesFutures = new ArrayList<>();
-                        
-                        for (DataSnapshot child : t.getResult().getChildren()) {
-                            Event event = child.getValue(Event.class);
-                            if (filter.testEvent(event)) {
-                                CompletableFuture<List<Profile>> profilesFuture = profileDatabase.fetchProfiles(event.getParticipants());
-                                profilesFuture.thenAccept(profileList -> {
-                                    if (filter.testParticipants(profileList)){
-                                        events.add(event);
-                                    }
-                                });
-                                allProfilesFutures.add(profilesFuture);
+                    List<Event> events = new ArrayList<>();
+                    List<CompletableFuture<List<Profile>>> allProfilesFutures = new ArrayList<>();
 
-                            }
+                    for (DataSnapshot child : t.getResult().getChildren()) {
+                        Event event = child.getValue(Event.class);
+                        if (filter.testEvent(event)) {
+                            CompletableFuture<List<Profile>> profilesFuture = profileDatabase.fetchProfiles(event.getParticipants());
+                            profilesFuture.thenAccept(profileList -> {
+                                if (filter.testParticipants(profileList)) {
+                                    events.add(event);
+                                }
+                            });
+                            allProfilesFutures.add(profilesFuture);
+
                         }
-                        // Wait for all profile tasks to complete, then complete the future with the events
-                        CompletableFuture.allOf(allProfilesFutures.toArray(new CompletableFuture[0])).whenComplete((unused, throwable) -> future.complete(events));
-                    });
+                    }
+                    // Wait for all profile tasks to complete, then complete the future with the events
+                    CompletableFuture.allOf(allProfilesFutures.toArray(new CompletableFuture[0])).whenComplete((unused, throwable) -> future.complete(events));
+                });
 
-            return future;
-        }
-
-
-
-
+        return future;
+    }
 
 
 }

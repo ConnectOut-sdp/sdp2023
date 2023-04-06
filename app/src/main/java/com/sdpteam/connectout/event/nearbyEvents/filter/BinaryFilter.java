@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+/**
+ * Filter that holds both filtering information, on list of participants and events themselves.
+ */
 public class BinaryFilter {
     private final EventFilter eventFilter;
     private final ParticipantsFilter participantsFilter;

@@ -2,6 +2,9 @@ package com.sdpteam.connectout.event.nearbyEvents.filter;
 
 import com.sdpteam.connectout.event.Event;
 
+/**
+ * Filters participants by their ids.
+ */
 public class ParticipantIdFilter implements EventFilter {
 
     private final String userId;
