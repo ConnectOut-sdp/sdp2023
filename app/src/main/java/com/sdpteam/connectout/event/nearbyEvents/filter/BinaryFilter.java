@@ -8,8 +8,8 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class BinaryFilter {
-    private  EventFilter eventFilter;
-    private  ParticipantsFilter participantsFilter;
+    private final EventFilter eventFilter;
+    private final ParticipantsFilter participantsFilter;
 
     public final static BinaryFilter NONE = new BinaryFilter();
 
@@ -33,18 +33,13 @@ public class BinaryFilter {
         return participantsFilter.test(profiles);
     }
     public BinaryFilter and(EventFilter eventFilter, ParticipantsFilter participantsFilter) {
-        this.eventFilter = this.eventFilter.and(eventFilter);
-        this.participantsFilter = this.participantsFilter.and(participantsFilter);
-        return this;
+        return new BinaryFilter(this.eventFilter.and(eventFilter), this.participantsFilter.and(participantsFilter));
     }
     public BinaryFilter or(EventFilter eventFilter, ParticipantsFilter participantsFilter) {
-        this.eventFilter = this.eventFilter.or(eventFilter);
-        this.participantsFilter = this.participantsFilter.or(participantsFilter);
-        return this;
+        return new BinaryFilter(this.eventFilter.or(eventFilter), this.participantsFilter.or(participantsFilter));
+
     }
     public BinaryFilter negate() {
-        this.eventFilter = this.eventFilter.negate();
-        this.participantsFilter = this.participantsFilter.negate();
-        return this;
+        return new BinaryFilter(this.eventFilter.negate(), this.participantsFilter.negate());
     }
 }

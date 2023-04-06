@@ -16,31 +16,31 @@ import java.util.List;
 public class ParticipantRatingFilterTest {
 
     @Test
-    void testAllProfilesWithRatingEqualOrGreater() {
+    public void testAllProfilesWithRatingEqualOrGreater() {
         ParticipantRatingFilter filter = new ParticipantRatingFilter(3.0);
         assertTrue(filter.test(createGreaterList()));
     }
 
     @Test
-    void testSomeProfilesWithRatingLessThan() {
+    public void testSomeProfilesWithRatingLessThan() {
         ParticipantRatingFilter filter = new ParticipantRatingFilter(3.0);
         assertFalse(filter.test(createMixList()));
     }
 
     @Test
-    void testAllProfilesWithRatingLessThan() {
+    public void testAllProfilesWithRatingLessThan() {
         ParticipantRatingFilter filter = new ParticipantRatingFilter(3.0);
         assertFalse(filter.test(createSmallerList()));
     }
 
     @Test
-    void testEmptyProfileList() {
+    public void testEmptyProfileList() {
         ParticipantRatingFilter filter = new ParticipantRatingFilter(3.0);
         assertTrue(filter.test(new ArrayList<>()));
     }
 
     @Test
-    void testNullValue() {
+    public void testNullValue() {
         ParticipantRatingFilter filter = new ParticipantRatingFilter(null);
         assertTrue(filter.test(createGreaterList()));
     }

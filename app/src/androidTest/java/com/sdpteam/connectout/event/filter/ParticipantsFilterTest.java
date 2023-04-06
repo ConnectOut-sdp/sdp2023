@@ -22,7 +22,7 @@ public class ParticipantsFilterTest {
     }
 
     @Test
-    public void testCombinationOfFilters() {
+    public void testAndCombinationOfFilters() {
         final ParticipantsFilter t = e -> true;
         final ParticipantsFilter f = e -> false;
         assertFalse(t.and(f).test(null));
@@ -30,4 +30,21 @@ public class ParticipantsFilterTest {
         assertFalse(f.and(f).test(null));
         assertTrue(t.and(t).test(null));
     }
+    @Test
+    public void testOrCombinationOfFilters() {
+        final ParticipantsFilter t = e -> true;
+        final ParticipantsFilter f = e -> false;
+        assertTrue(t.or(f).test(null));
+        assertTrue(f.or(t).test(null));
+        assertFalse(f.or(f).test(null));
+        assertTrue(t.or(t).test(null));
+    }
+    @Test
+    public void testNegateCombinationOfFilters() {
+        final ParticipantsFilter t = e -> true;
+        final ParticipantsFilter f = e -> false;
+        assertFalse(t.negate().test(null));
+        assertTrue(f.negate().test(null));
+    }
+
 }

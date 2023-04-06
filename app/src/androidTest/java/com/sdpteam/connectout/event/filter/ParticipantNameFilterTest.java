@@ -35,7 +35,7 @@ public class ParticipantNameFilterTest {
 
     private static List<Profile> createListWithMatchingName() {
         return Arrays.asList(
-                new Profile("John", "Doe", "mail", "bio", Profile.Gender.MALE, 4.5, 10),
+                new Profile("John", "John", "mail", "bio", Profile.Gender.MALE, 4.5, 10),
                 new Profile("Jane", "Doe", "mail", "bio", Profile.Gender.FEMALE, 3.0, 10),
                 new Profile("Bob", "Doe", "mail", "bio", Profile.Gender.OTHER, 3.8, 10)
         );
