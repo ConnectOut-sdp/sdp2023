@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.event;
 
+import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 
 import java.util.List;
@@ -43,5 +44,5 @@ public interface EventRepository {
      * @param filter (EventFilter): event filter predicate
      * @return (MutableLiveData < List < Event > >): a changeable list of different events.
      */
-    CompletableFuture<List<Event>> getEventsByFilter(EventFilter filter);
+    CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter);
 }

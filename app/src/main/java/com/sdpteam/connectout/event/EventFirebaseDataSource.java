@@ -1,14 +1,19 @@
 package com.sdpteam.connectout.event;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 public class EventFirebaseDataSource implements EventRepository {
     public final static String DATABASE_EVENT_PATH = "Events";
@@ -87,9 +92,10 @@ public class EventFirebaseDataSource implements EventRepository {
     }
 
     @Override
-    public CompletableFuture<List<Event>> getEventsByFilter(EventFilter filter) {
+    public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
         CompletableFuture<List<Event>> value = new CompletableFuture<>();
         Task<DataSnapshot> task = database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH).limitToFirst(MAX_EVENTS_FETCHED).get();
+        ProfileFirebaseDataSource profileRef = new ProfileFirebaseDataSource();
 
         task.addOnCompleteListener(t -> {
             DataSnapshot snapshot = t.getResult();
@@ -97,13 +103,17 @@ public class EventFirebaseDataSource implements EventRepository {
             if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                 snapshot.getChildren().forEach(child -> {
                     final Event event = child.getValue(Event.class);
-                    if (filter.test(event)) {
-                        eventList.add(event);
-                    }
+                    
+                    CompletableFuture<List<Profile>> profiles = profileRef.fetchProfiles(event.getParticipants());
+                    profiles.thenAccept(list -> {
+                        if (filter.test(event,list)) {
+                            eventList.add(event);
+                        }
+                    }).whenComplete((unused, throwable) -> value.complete(eventList));
                 });
             }
-            value.complete(eventList);
-        });
+        }
+        );
         return value;
     }
 }

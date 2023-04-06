@@ -14,6 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.sdpteam.connectout.event.creator.EventCreatorViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
@@ -97,7 +98,7 @@ public class EventCreatorViewModelTest {
         }
 
         @Override
-        public CompletableFuture<List<Event>> getEventsByFilter(EventFilter filter) {
+        public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
             return CompletableFuture.completedFuture(EVENT_LIST);
         }
     }
