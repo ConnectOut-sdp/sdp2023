@@ -120,7 +120,7 @@ public class EventFirebaseDataSourceTest {
         final List<Event> results = model.getEventsByFilter(new BinaryFilter(filter)).join();
 
         assertEquals(2, results.size());
-        assertTrue(results.stream().allMatch(filter));
+        assertTrue(results.stream().allMatch(filter::test));
     }
 
     @Test

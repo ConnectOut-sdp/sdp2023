@@ -2,24 +2,22 @@ package com.sdpteam.connectout.event;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import static java.util.stream.Collectors.toList;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
+
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EventsViewModelTest {
 
@@ -81,9 +79,9 @@ public class EventsViewModelTest {
             return null;
         }
 
-        public CompletableFuture<List<Event>> getEventsByFilter(EventFilter filter) {
+        public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
             updateData();
-            return CompletableFuture.completedFuture(dataSet.stream().filter(filter).collect(toList()));
+            return CompletableFuture.completedFuture(dataSet.stream().filter(filter::testEvent).collect(toList()));
         }
 
         private void updateData() {

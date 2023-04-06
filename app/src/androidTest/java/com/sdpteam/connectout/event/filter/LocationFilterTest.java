@@ -1,9 +1,10 @@
-package com.sdpteam.connectout.event.nearbyEvents.filter;
+package com.sdpteam.connectout.event.filter;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.nearbyEvents.filter.LocationFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 import org.junit.Test;
