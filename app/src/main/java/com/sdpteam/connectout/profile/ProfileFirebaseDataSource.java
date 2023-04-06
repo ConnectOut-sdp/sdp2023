@@ -22,8 +22,8 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
-    private final String USERS = "Users";
-    private final String PROFILE = "Profile";
+    public final static String USERS = "Users";
+    public final static String PROFILE = "Profile";
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();

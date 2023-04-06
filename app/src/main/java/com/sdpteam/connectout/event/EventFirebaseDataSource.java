@@ -1,5 +1,8 @@
 package com.sdpteam.connectout.event;
 
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.PROFILE;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.USERS;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -93,32 +97,44 @@ public class EventFirebaseDataSource implements EventRepository {
 
     @Override
     public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
-        CompletableFuture<List<Event>> value = new CompletableFuture<>();
-        Task<DataSnapshot> task = database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH).limitToFirst(MAX_EVENTS_FETCHED).get();
-        ProfileFirebaseDataSource profileRef = new ProfileFirebaseDataSource();
+        CompletableFuture<List<Event>> future = new CompletableFuture<>();
 
-        task.addOnCompleteListener(t -> {
-            DataSnapshot snapshot = t.getResult();
-            List<Event> eventList = new ArrayList<>();
-            if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
-                snapshot.getChildren().forEach(child -> {
-                    final Event event = child.getValue(Event.class);
+        database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
+                .limitToFirst(MAX_EVENTS_FETCHED)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    List<Event> events = new ArrayList<>();
 
-                    if(filter.testEvent(event)){
-                        CompletableFuture<List<Profile>> profiles = profileRef.fetchProfiles(event.getParticipants());
-                        profiles.thenAccept(list ->{
-                            if(filter.testParticipants(list)){
-                                eventList.add(event);
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Event event = child.getValue(Event.class);
+                        if (filter.testEvent(event)) {
+                            List<Task<DataSnapshot>> tasks = new ArrayList<>();
+                            for (String userId : event.getParticipants()) {
+                                tasks.add(database.child(USERS).child(userId).child(PROFILE).get());
                             }
-                        });
-                    }
-                });
-            }
-            value.complete(eventList);
-        }
-        );
 
-        return value;
+                            Task<List<DataSnapshot>> allTasks = Tasks.whenAllSuccess(tasks);
+                            allTasks.addOnSuccessListener(dataSnapshots -> {
+                                List<Profile> profiles = new ArrayList<>();
+                                for (DataSnapshot dataSnapshot : dataSnapshots) {
+                                    Profile profile = dataSnapshot.getValue(Profile.class);
+                                    profiles.add(profile);
+                                }
+                                if (filter.testParticipants(profiles)){
+                                    events.add(event);
+                                }
+
+                            });
+                        }
+                    }
+                    future.complete(events);
+                });
+
+        return future;
     }
+
+
+
+
 }
 

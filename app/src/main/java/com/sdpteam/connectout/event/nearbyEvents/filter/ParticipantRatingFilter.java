@@ -15,6 +15,9 @@ public class ParticipantRatingFilter implements ParticipantsFilter {
     }
     @Override
     public boolean test(List<Profile> profiles) {
+        if(val == null){
+            return true;
+        }
         return profiles.stream().map(Profile::getRating).allMatch(value -> val <= value);
     }
 }

@@ -8,7 +8,7 @@ public class ParticipantNameFilter implements ParticipantsFilter{
 
     private final String name;
 
-    ParticipantNameFilter(String name){
+    public ParticipantNameFilter(String name){
 
         this.name = name;
     }

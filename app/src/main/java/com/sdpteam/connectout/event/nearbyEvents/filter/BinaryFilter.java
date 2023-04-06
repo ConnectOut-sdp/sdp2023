@@ -21,6 +21,10 @@ public class BinaryFilter {
         this.eventFilter = eventFilter;
         participantsFilter = ParticipantsFilter.NONE;
     }
+    public BinaryFilter(EventFilter eventFilter, ParticipantsFilter participantsFilter){
+        this.eventFilter = eventFilter;
+        this.participantsFilter = participantsFilter;
+    }
 
     public boolean testEvent(Event event){
         return eventFilter.test(event);

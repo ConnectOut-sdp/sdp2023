@@ -56,4 +56,9 @@ public class Event {
     public List<String> getParticipants() {
         return participants;
     }
+    public void addParticipant(String id) {
+        if(!participants.contains(id)){
+            participants.add(id);
+        }
+    }
 }
