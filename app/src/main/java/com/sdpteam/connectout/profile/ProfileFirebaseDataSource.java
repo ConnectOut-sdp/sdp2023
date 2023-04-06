@@ -10,16 +10,13 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import io.reactivex.rxjava3.annotations.NonNull;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
@@ -49,6 +46,28 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         });
         return future;
     }
+    public CompletableFuture<List<Profile>> fetchProfiles(List<String> userIds) {
+        CompletableFuture<List<Profile>> futures = new CompletableFuture<>();
+        List<Task<DataSnapshot>> tasks = new ArrayList<>();
+        for (String userId : userIds) {
+            tasks.add(firebaseRef.child(USERS).child(userId).child(PROFILE).get());
+        }
+        Task<List<DataSnapshot>> allTasks = Tasks.whenAllSuccess(tasks);
+        allTasks.addOnSuccessListener(dataSnapshots -> {
+            for (DataSnapshot dataSnapshot : dataSnapshots) {
+                Profile profile = dataSnapshot.getValue(Profile.class);
+                futures.thenApply(l -> {
+                    if(l == null){
+                        l = new ArrayList<>();
+                        l.add(profile);
+                    }
+                    return l;
+                });
+            }
+        });
+        return futures;
+    }
+
 
     /**
      * @param option (ProfileOrderingOption): option of filtering adopted, random, by name or by rating.
