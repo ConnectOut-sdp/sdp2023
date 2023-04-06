@@ -49,21 +49,19 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
     public CompletableFuture<List<Profile>> fetchProfiles(List<String> userIds) {
         CompletableFuture<List<Profile>> futures = new CompletableFuture<>();
         List<Task<DataSnapshot>> tasks = new ArrayList<>();
+
         for (String userId : userIds) {
             tasks.add(firebaseRef.child(USERS).child(userId).child(PROFILE).get());
         }
+
         Task<List<DataSnapshot>> allTasks = Tasks.whenAllSuccess(tasks);
-        allTasks.addOnSuccessListener(dataSnapshots -> {
-            for (DataSnapshot dataSnapshot : dataSnapshots) {
+        List<Profile> profiles = new ArrayList<>();
+        allTasks.addOnCompleteListener(dataSnapshots -> {
+            for (DataSnapshot dataSnapshot : dataSnapshots.getResult()) {
                 Profile profile = dataSnapshot.getValue(Profile.class);
-                futures.thenApply(l -> {
-                    if(l == null){
-                        l = new ArrayList<>();
-                        l.add(profile);
-                    }
-                    return l;
-                });
+                profiles.add(profile);
             }
+            futures.complete(profiles);
         });
         return futures;
     }
