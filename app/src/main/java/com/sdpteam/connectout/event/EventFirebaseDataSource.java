@@ -103,17 +103,21 @@ public class EventFirebaseDataSource implements EventRepository {
             if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                 snapshot.getChildren().forEach(child -> {
                     final Event event = child.getValue(Event.class);
-                    
-                    CompletableFuture<List<Profile>> profiles = profileRef.fetchProfiles(event.getParticipants());
-                    profiles.thenAccept(list -> {
-                        if (filter.test(event,list)) {
-                            eventList.add(event);
-                        }
-                    }).whenComplete((unused, throwable) -> value.complete(eventList));
+
+                    if(filter.testEvent(event)){
+                        CompletableFuture<List<Profile>> profiles = profileRef.fetchProfiles(event.getParticipants());
+                        profiles.thenAccept(list ->{
+                            if(filter.testParticipants(list)){
+                                eventList.add(event);
+                            }
+                        });
+                    }
                 });
             }
+            value.complete(eventList);
         }
         );
+
         return value;
     }
 }

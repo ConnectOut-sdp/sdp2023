@@ -5,7 +5,7 @@ import com.sdpteam.connectout.profile.Profile;
 
 import java.util.List;
 
-public class ParticipantRatingFilter implements BinaryFilter {
+public class ParticipantRatingFilter implements ParticipantsFilter {
 
     private final Double val;
 
@@ -14,7 +14,7 @@ public class ParticipantRatingFilter implements BinaryFilter {
         this.val = value;
     }
     @Override
-    public boolean test(Event event, List<Profile> profiles) {
+    public boolean test(List<Profile> profiles) {
         return profiles.stream().map(Profile::getRating).allMatch(value -> val <= value);
     }
 }

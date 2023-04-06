@@ -5,20 +5,42 @@ import com.sdpteam.connectout.profile.Profile;
 
 import java.util.List;
 import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
-public interface BinaryFilter extends BiPredicate<Event, List<Profile>> {
-    BinaryFilter NONE = (e,p) -> true;
+public class BinaryFilter {
+    private  EventFilter eventFilter;
+    private  ParticipantsFilter participantsFilter;
 
-    @Override
-    boolean test(Event event, List<Profile> profiles);
+    public final static BinaryFilter NONE = new BinaryFilter();
 
-    default BinaryFilter and(BinaryFilter other) {
-        return (e,p) -> test(e,p) && other.test(e,p);
+    public BinaryFilter(){
+        eventFilter = EventFilter.NONE;
+        participantsFilter = ParticipantsFilter.NONE;
     }
-    default BinaryFilter or(BinaryFilter other) {
-        return (e,p) -> test(e,p) || other.test(e,p);
+    public BinaryFilter(EventFilter eventFilter){
+        this.eventFilter = eventFilter;
+        participantsFilter = ParticipantsFilter.NONE;
     }
-    default BinaryFilter negate() {
-        return (e,p) -> !test(e,p);
+
+    public boolean testEvent(Event event){
+        return eventFilter.test(event);
+    }
+    public boolean testParticipants(List<Profile> profiles){
+        return participantsFilter.test(profiles);
+    }
+    public BinaryFilter and(EventFilter eventFilter, ParticipantsFilter participantsFilter) {
+        this.eventFilter = this.eventFilter.and(eventFilter);
+        this.participantsFilter = this.participantsFilter.and(participantsFilter);
+        return this;
+    }
+    public BinaryFilter or(EventFilter eventFilter, ParticipantsFilter participantsFilter) {
+        this.eventFilter = this.eventFilter.or(eventFilter);
+        this.participantsFilter = this.participantsFilter.or(participantsFilter);
+        return this;
+    }
+    public BinaryFilter negate() {
+        this.eventFilter = this.eventFilter.negate();
+        this.participantsFilter = this.participantsFilter.negate();
+        return this;
     }
 }

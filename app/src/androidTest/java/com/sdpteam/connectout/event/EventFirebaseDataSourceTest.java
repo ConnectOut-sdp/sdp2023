@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
@@ -116,7 +117,7 @@ public class EventFirebaseDataSourceTest {
         model.saveEvent(e3);
 
         final EventFilter filter = e -> "1".equals(e.getId()) || "2".equals(e.getId());
-        final List<Event> results = model.getEventsByFilter(filter).join();
+        final List<Event> results = model.getEventsByFilter(new BinaryFilter(filter)).join();
 
         assertEquals(2, results.size());
         assertTrue(results.stream().allMatch(filter));

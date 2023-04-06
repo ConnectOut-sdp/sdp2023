@@ -6,14 +6,11 @@ import com.sdpteam.connectout.profile.Profile;
 import java.util.List;
 import java.util.function.Predicate;
 
-public interface EventFilter extends BinaryFilter {
+public interface EventFilter extends Predicate<Event> {
 
     EventFilter NONE = e -> true;
 
     @Override
-    default boolean test(Event event, List<Profile> profiles){
-        return test(event);
-    }
     boolean test(Event event);
 
     default EventFilter and(EventFilter other) {

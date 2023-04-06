@@ -4,16 +4,16 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.profile.Profile;
 import java.util.List;
 
-public class ParticipantFilter implements BinaryFilter{
+public class ParticipantNameFilter implements ParticipantsFilter{
 
     private final String name;
 
-    ParticipantFilter(String name){
+    ParticipantNameFilter(String name){
 
         this.name = name;
     }
     @Override
-    public boolean test(Event event, List<Profile> profiles) {
+    public boolean test(List<Profile> profiles) {
         return profiles.stream().map(Profile::getName).anyMatch(name::equals);
     }
 }

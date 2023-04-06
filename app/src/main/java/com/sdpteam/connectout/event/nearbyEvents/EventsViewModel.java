@@ -6,7 +6,6 @@ import java.util.List;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
 import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
