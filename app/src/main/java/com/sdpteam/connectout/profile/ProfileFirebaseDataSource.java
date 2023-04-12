@@ -14,6 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.StorageReference;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
@@ -23,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
+    private final StorageReference storageRef;
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
     private final String USERS = "Users";
@@ -30,6 +32,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
+        storageRef = null;//FirebaseDatabase.getStorage().getReference();
     }
 
     public void saveProfile(Profile profile) {
@@ -148,6 +151,11 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
 
     public void deleteProfile(String uid) {
         firebaseRef.child(USERS).child(uid).child(PROFILE).removeValue();
+    }
+
+    public void uploadPicture(Profile profile) {
+        firebaseRef.child(USERS).child(profile.getId()).child(PROFILE).setValue(profile);
+        // TODO temp, use storageRef (see UploadImageActivity proof of concept)
     }
 }
 
