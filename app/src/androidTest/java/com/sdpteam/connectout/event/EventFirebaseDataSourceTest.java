@@ -11,8 +11,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantNameFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantRatingFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import org.junit.Test;
 
@@ -111,6 +115,10 @@ public class EventFirebaseDataSourceTest {
         final Event e1 = new Event("1", "judo", "", new GPSCoordinates(1.5, 1.5), "");
         final Event e2 = new Event("2", "tennis", "", new GPSCoordinates(1.5, 1.5), "");
         final Event e3 = new Event("3", "football", "", new GPSCoordinates(1.5, 1.5), "");
+        Profile p = new Profile("2", "okok","okok@gmail.com","okok okok", Profile.Gender.FEMALE,3.3,6);
+        (new ProfileFirebaseDataSource()).saveProfile(p);
+        e1.addParticipant(p.getId());
+        e2.addParticipant(p.getId());
 
         final EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e1);
@@ -118,7 +126,10 @@ public class EventFirebaseDataSourceTest {
         model.saveEvent(e3);
 
         final EventFilter filter = e -> "1".equals(e.getId()) || "2".equals(e.getId());
-        final List<Event> results = model.getEventsByFilter(new BinaryFilter(filter)).join();
+        final ParticipantNameFilter participantNameFilter = new ParticipantNameFilter(p.getName());
+        final ParticipantRatingFilter participantRatingFilter = new ParticipantRatingFilter(2.0);
+
+        final List<Event> results = model.getEventsByFilter(new BinaryFilter(filter,participantNameFilter.or(participantRatingFilter))).join();
 
         assertEquals(2, results.size());
         assertTrue(results.stream().allMatch(filter::test));

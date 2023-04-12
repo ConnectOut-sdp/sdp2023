@@ -5,7 +5,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
-import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import java.util.ArrayList;
@@ -89,9 +88,8 @@ public class EventFirebaseDataSource implements EventRepository {
     }
 
     /**
-     *
      * @param filter (EventFilter): event filter predicate
-     * @return (CompletableFuture<List<Event>>): future list of events with the wanted filters
+     * @return (CompletableFuture < List < Event > >): future list of events with the wanted filters
      */
     @Override
     public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
@@ -104,17 +102,17 @@ public class EventFirebaseDataSource implements EventRepository {
                 .addOnCompleteListener(t -> {
 
                     List<Event> events = new ArrayList<>();
-                    List<CompletableFuture<List<Profile>>> allProfilesFutures = new ArrayList<>();
+                    List<CompletableFuture<Void>> allProfilesFutures = new ArrayList<>();
 
                     for (DataSnapshot child : t.getResult().getChildren()) {
                         Event event = child.getValue(Event.class);
                         if (filter.testEvent(event)) {
-                            CompletableFuture<List<Profile>> profilesFuture = profileDatabase.fetchProfiles(event.getParticipants());
-                            profilesFuture.thenAccept(profileList -> {
-                                if (filter.testParticipants(profileList)) {
-                                    events.add(event);
-                                }
-                            });
+                            CompletableFuture<Void> profilesFuture = profileDatabase.fetchProfiles(event.getParticipants())
+                                    .thenAccept(profileList -> {
+                                        if (filter.testParticipants(profileList)) {
+                                            events.add(event);
+                                        }
+                                    });
                             allProfilesFutures.add(profilesFuture);
 
                         }

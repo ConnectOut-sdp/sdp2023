@@ -3,6 +3,7 @@ package com.sdpteam.connectout.event;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
@@ -19,10 +20,15 @@ public class Event {
     private final String description;
     private final GPSCoordinates coordinates;
     private final String organizer;
-    private final List<String> participants = new ArrayList<>();
+    private final List<String> participants;
 
     private Event() {
         this(null, null, null, null, NULL_USER);
+    }
+
+    private Event(String id, String title, String description, GPSCoordinates coordinates, String organizer, List<String> participants) {
+        this(id,title,description,coordinates,organizer);
+         Collections.copy(this.participants, participants);
     }
 
     public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
@@ -31,6 +37,7 @@ public class Event {
         this.description = description;
         this.coordinates = coordinates;
         this.organizer = organizer;
+        participants = new ArrayList<>();
     }
 
     public String getId() {
