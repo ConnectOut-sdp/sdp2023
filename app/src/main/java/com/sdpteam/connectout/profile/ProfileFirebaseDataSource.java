@@ -30,7 +30,11 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
     }
 
     public void saveProfile(Profile profile) {
-        firebaseRef.child(USERS).child(profile.getId()).child(PROFILE).setValue(profile);
+        firebaseRef.child(USERS)
+                .child(profile
+                        .getId())
+                .child(PROFILE)
+                .setValue(profile);
     }
 
     public CompletableFuture<Profile> fetchProfile(String uid) {
