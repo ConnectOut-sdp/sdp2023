@@ -3,8 +3,8 @@ package com.sdpteam.connectout.profile;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
 
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ public class ProfileFirebaseDataSourceTest {
     @Test
     public void fetchNullProfileWithWrongId() {
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        Profile p = model.fetchProfile(UUID.randomUUID().toString()+"NotAPossibleId").join();
+        Profile p = model.fetchProfile(UUID.randomUUID().toString() + "NotAPossibleId").join();
 
-        assertThat(p, is(null));
+        assertNull(p);
     }
 
     @Test
