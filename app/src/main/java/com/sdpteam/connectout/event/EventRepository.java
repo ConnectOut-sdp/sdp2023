@@ -41,9 +41,9 @@ public interface EventRepository {
     String getUniqueId();
 
     /**
-     * @param eventFilter
-     * @param profilesFilter
-     * @return (MutableLiveData < List < Event > >): a changeable list of different events.
+     * @param eventFilter (EventFilter): Custom filter to apply upon the event's attribute
+     * @param profilesFilter (ProfilesFilter): Custom filter to apply upon the participants profile's attribute
+     * @return (CompletableFuture < List < Event > >): a changeable list of different events.
      */
     CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter);
 }

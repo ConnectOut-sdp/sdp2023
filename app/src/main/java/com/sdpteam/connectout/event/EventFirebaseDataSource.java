@@ -89,20 +89,21 @@ public class EventFirebaseDataSource implements EventRepository {
     }
 
     /**
-     * @param eventFilter
-     * @param profilesFilter
-     * @return (CompletableFuture < List < Event > >): future list of events with the wanted filters
+     * @param eventFilter (EventFilter): Custom filter to apply upon the event's attribute
+     * @param profilesFilter (ProfilesFilter): Custom filter to apply upon the participants profile's attribute
+     * @return (CompletableFuture < List < Event > >): a changeable list of different events.
      */
     @Override
     public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
-        ProfileFirebaseDataSource profileDatabase = new ProfileFirebaseDataSource();
+
 
         database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
                 .limitToFirst(MAX_EVENTS_FETCHED).orderByKey()
                 .get()
                 .addOnCompleteListener(t -> {
 
+                    ProfileFirebaseDataSource profileDatabase = new ProfileFirebaseDataSource();
                     List<Event> events = new ArrayList<>();
                     List<CompletableFuture<Void>> allProfilesFutures = new ArrayList<>();
 
