@@ -51,7 +51,7 @@ public class ProfileFilterFragment extends Fragment {
             }
             swapTypeOnClick(nameButton.isChecked(), text.getText().toString());
         });
-        categoryButton.setOnClickListener(v -> swapTypeOnClick(nameButton.isChecked(), text.getText().toString()));
+        applicationButton.setOnClickListener(v -> swapTypeOnClick(nameButton.isChecked(), text.getText().toString()));
 
         return rootView;
     }

@@ -11,14 +11,14 @@ public class Profile {
 
     private final int numRatings;
 
-    private final String uid;
+    private final String id;
 
     private Profile() {
         this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
     }
 
     public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings) {
-        this.uid = uid;
+        this.id = uid;
         this.name = name;
         this.email = email;
         this.bio = bio;
@@ -44,7 +44,7 @@ public class Profile {
     }
 
     public String getId() {
-        return uid;
+        return id;
     }
 
     public double getRating() {

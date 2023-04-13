@@ -12,9 +12,10 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 import android.os.Bundle;
@@ -73,7 +74,7 @@ public class EventActivity extends WithFragmentActivity {
             }
 
             @Override
-            public CompletableFuture<List<Event>> getEventsByFilter(EventFilter filter) {
+            public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
                 return CompletableFuture.completedFuture(Collections.singletonList(event));
             }
         };
