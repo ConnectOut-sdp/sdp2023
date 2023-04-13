@@ -26,18 +26,18 @@ public class Event {
         this(null, null, null, null, NULL_USER);
     }
 
-    private Event(String id, String title, String description, GPSCoordinates coordinates, String organizer, List<String> participants) {
-        this(id,title,description,coordinates,organizer);
-         Collections.copy(this.participants, participants);
-    }
-
-    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
+    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer, List<String> participants) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.coordinates = coordinates;
         this.organizer = organizer;
-        participants = new ArrayList<>();
+        this.participants = participants;
+
+    }
+
+    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
+        this(id,title,description,coordinates,organizer, new ArrayList<>());
     }
 
     public String getId() {

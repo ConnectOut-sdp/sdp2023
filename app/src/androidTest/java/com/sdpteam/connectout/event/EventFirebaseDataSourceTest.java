@@ -132,6 +132,8 @@ public class EventFirebaseDataSourceTest {
         final List<Event> results = model.getEventsByFilter(new BinaryFilter(filter,participantNameFilter.or(participantRatingFilter))).join();
 
         assertEquals(2, results.size());
+        assertFalse(results.get(0).getParticipants().isEmpty());
+        // ::test needed for CI
         assertTrue(results.stream().allMatch(filter::test));
     }
 
