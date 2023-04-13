@@ -42,8 +42,8 @@ public class EventsFilterDialog extends DialogFragment {
     }
 
     private void applyFilter(EditText search, SeekBar seekBar) {
-        final EventFilter textFilter = new TextFilter(search.getText().toString());
-        final EventFilter locationFilter = new LocationFilter(GPSCoordinates.current(), seekBar.getProgress());
+        final EventFilter textFilter = new EventTextFilter(search.getText().toString());
+        final EventFilter locationFilter = new EventLocationFilter(GPSCoordinates.current(), seekBar.getProgress());
         final EventFilter eventFilter = textFilter.and(locationFilter);
 
         eventsViewModel.setFilter(eventFilter, ProfilesFilter.NONE);
