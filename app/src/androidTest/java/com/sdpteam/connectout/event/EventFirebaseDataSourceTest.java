@@ -140,4 +140,15 @@ public class EventFirebaseDataSourceTest {
 
         assertNull(foundEvent);
     }
+
+    @Test
+    public void joinsEventCorrectly(){
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
+        model.joinEvent("1","14");
+        model.joinEvent("1","13");
+
+        Event e = model.getEvent("1").join();
+        assertThat(e.getParticipants().size(), is(2));
+
+    }
 }
