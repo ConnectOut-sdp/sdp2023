@@ -5,11 +5,11 @@ import com.sdpteam.connectout.event.Event;
 /**
  * Filters participants by their ids.
  */
-public class ParticipantIdFilter implements EventFilter {
+public class EventParticipantIdFilter implements EventFilter {
 
     private final String userId;
 
-    public ParticipantIdFilter(String userId){
+    public EventParticipantIdFilter(String userId){
 
         this.userId = userId;
     }
