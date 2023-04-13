@@ -3,6 +3,7 @@ package com.sdpteam.connectout.event.creator;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.client_validation.EventCreationValidationUtils;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
@@ -43,8 +44,12 @@ public class EventCreatorActivity extends WithFragmentActivity {
             final String chosenTitle = eventTitle.getText().toString();
             final GPSCoordinates chosenCoordinates = new GPSCoordinates(mapFragment.getMovingMarkerPosition());
             final String chosenDescription = eventDescription.getText().toString();
-            saveEvent(chosenTitle, chosenCoordinates, chosenDescription);
-            this.finish();
+
+            // validation
+            if(EventCreationValidationUtils.eventCreationValidation(eventTitle, eventDescription)) {
+                saveEvent(chosenTitle, chosenCoordinates, chosenDescription);
+                this.finish();
+            }
         });
     }
 

@@ -8,7 +8,6 @@ public class ProfileValidationUtils {
 
     private static final int MIN_PASSWORD_LENGTH = 6;
     private static final int MIN_NAME_LENGTH = 1;
-
     private static final int MIN_BIO_LENGTH = 10;
 
     public static final String EMAIL_ERROR = "Invalid email address";
