@@ -3,7 +3,7 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantNameFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesNameFilter;
 import com.sdpteam.connectout.profile.Profile;
 
 import org.junit.Test;
@@ -13,23 +13,23 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class ParticipantNameFilterTest {
+public class ProfilesNameFilterTest {
 
     @Test
     public void testMatchingName() {
-        ParticipantNameFilter filter = new ParticipantNameFilter("John");
+        ProfilesNameFilter filter = new ProfilesNameFilter("John");
         assertTrue(filter.test(createListWithMatchingName()));
     }
 
     @Test
     public void testNonMatchingName() {
-        ParticipantNameFilter filter = new ParticipantNameFilter("Mike");
+        ProfilesNameFilter filter = new ProfilesNameFilter("Mike");
         assertFalse(filter.test(createListWithMatchingName()));
     }
 
     @Test
     public void testEmptyProfileList() {
-        ParticipantNameFilter filter = new ParticipantNameFilter("John");
+        ProfilesNameFilter filter = new ProfilesNameFilter("John");
         assertFalse(filter.test(new ArrayList<>()));
     }
 

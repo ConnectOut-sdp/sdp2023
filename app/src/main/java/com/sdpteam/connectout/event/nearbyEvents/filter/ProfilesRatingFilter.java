@@ -7,11 +7,11 @@ import java.util.List;
 /**
  * Filters participants by their ratings
  */
-public class ParticipantRatingFilter implements ParticipantsFilter {
+public class ProfilesRatingFilter implements ProfilesFilter {
 
     private final Double val;
 
-    public ParticipantRatingFilter(Double value){
+    public ProfilesRatingFilter(Double value){
 
         this.val = value;
     }

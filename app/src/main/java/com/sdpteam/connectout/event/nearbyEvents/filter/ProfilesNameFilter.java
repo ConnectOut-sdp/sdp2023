@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Filters participants by their name.
  */
-public class ParticipantNameFilter implements ParticipantsFilter{
+public class ProfilesNameFilter implements ProfilesFilter {
 
     private final String name;
 
-    public ParticipantNameFilter(String name){
+    public ProfilesNameFilter(String name){
 
         this.name = name;
     }

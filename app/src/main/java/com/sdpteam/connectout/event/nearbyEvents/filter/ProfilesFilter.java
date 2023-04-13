@@ -8,19 +8,19 @@ import java.util.function.Predicate;
 /**
  * Global interface filter for the participant's list.
  */
-public interface ParticipantsFilter extends Predicate<List<Profile>> {
+public interface ProfilesFilter extends Predicate<List<Profile>> {
 
-    ParticipantsFilter NONE = e -> true;
+    ProfilesFilter NONE = e -> true;
     @Override
     boolean test(List<Profile> profiles);
 
-    default ParticipantsFilter and(ParticipantsFilter other) {
+    default ProfilesFilter and(ProfilesFilter other) {
         return e -> test(e) && other.test(e);
     }
-    default ParticipantsFilter or(ParticipantsFilter other) {
+    default ProfilesFilter or(ProfilesFilter other) {
         return e -> test(e) || other.test(e);
     }
-    default ParticipantsFilter negate() {
+    default ProfilesFilter negate() {
         return e -> !test(e);
     }
 }

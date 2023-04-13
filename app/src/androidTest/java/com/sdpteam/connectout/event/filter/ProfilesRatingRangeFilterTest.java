@@ -3,7 +3,7 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantRatingRangeFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesRatingRangeFilter;
 import com.sdpteam.connectout.profile.Profile;
 
 import org.junit.Test;
@@ -12,23 +12,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ParticipantRatingRangeFilterTest {
+public class ProfilesRatingRangeFilterTest {
 
     @Test
     public void testRatingInRange() {
-        ParticipantRatingRangeFilter filter = new ParticipantRatingRangeFilter(2.5, 4.0);
+        ProfilesRatingRangeFilter filter = new ProfilesRatingRangeFilter(2.5, 4.0);
         assertTrue(filter.test(createRatingInRangeList()));
     }
 
     @Test
     public void testRatingOutOfRange() {
-        ParticipantRatingRangeFilter filter = new ParticipantRatingRangeFilter(2.5, 4.0);
+        ProfilesRatingRangeFilter filter = new ProfilesRatingRangeFilter(2.5, 4.0);
         assertFalse(filter.test(createRatingOutOfRangeList()));
     }
 
     @Test
     public void testEmptyProfileList() {
-        ParticipantRatingRangeFilter filter = new ParticipantRatingRangeFilter(2.5, 4.0);
+        ProfilesRatingRangeFilter filter = new ProfilesRatingRangeFilter(2.5, 4.0);
         assertTrue(filter.test(new ArrayList<>()));
     }
 

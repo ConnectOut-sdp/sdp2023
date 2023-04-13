@@ -3,7 +3,7 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantsFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.profile.Profile;
 
 import org.junit.Test;
@@ -11,20 +11,20 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParticipantsFilterTest {
+public class ProfilesFilterTest {
 
     @Test
     public void blankFilterShouldAlwaysPass() {
         List<Profile> profiles = new ArrayList<>();
         profiles.add(new Profile("id", "name", "email", "bio", Profile.Gender.MALE, 5, 10));
-        assertTrue(ParticipantsFilter.NONE.test(profiles));
-        assertTrue(ParticipantsFilter.NONE.test(null));
+        assertTrue(ProfilesFilter.NONE.test(profiles));
+        assertTrue(ProfilesFilter.NONE.test(null));
     }
 
     @Test
     public void testAndCombinationOfFilters() {
-        final ParticipantsFilter t = e -> true;
-        final ParticipantsFilter f = e -> false;
+        final ProfilesFilter t = e -> true;
+        final ProfilesFilter f = e -> false;
         assertFalse(t.and(f).test(null));
         assertFalse(f.and(t).test(null));
         assertFalse(f.and(f).test(null));
@@ -32,8 +32,8 @@ public class ParticipantsFilterTest {
     }
     @Test
     public void testOrCombinationOfFilters() {
-        final ParticipantsFilter t = e -> true;
-        final ParticipantsFilter f = e -> false;
+        final ProfilesFilter t = e -> true;
+        final ProfilesFilter f = e -> false;
         assertTrue(t.or(f).test(null));
         assertTrue(f.or(t).test(null));
         assertFalse(f.or(f).test(null));
@@ -41,8 +41,8 @@ public class ParticipantsFilterTest {
     }
     @Test
     public void testNegateCombinationOfFilters() {
-        final ParticipantsFilter t = e -> true;
-        final ParticipantsFilter f = e -> false;
+        final ProfilesFilter t = e -> true;
+        final ProfilesFilter f = e -> false;
         assertFalse(t.negate().test(null));
         assertTrue(f.negate().test(null));
     }

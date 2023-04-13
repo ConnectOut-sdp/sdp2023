@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantsFilter;
 
 import org.junit.Test;
 

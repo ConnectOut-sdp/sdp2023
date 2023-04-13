@@ -3,7 +3,7 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantRatingFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesRatingFilter;
 import com.sdpteam.connectout.profile.Profile;
 
 import org.junit.Test;
@@ -13,35 +13,35 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class ParticipantRatingFilterTest {
+public class ProfilesRatingFilterTest {
 
     @Test
     public void testAllProfilesWithRatingEqualOrGreater() {
-        ParticipantRatingFilter filter = new ParticipantRatingFilter(3.0);
+        ProfilesRatingFilter filter = new ProfilesRatingFilter(3.0);
         assertTrue(filter.test(createGreaterList()));
     }
 
     @Test
     public void testSomeProfilesWithRatingLessThan() {
-        ParticipantRatingFilter filter = new ParticipantRatingFilter(3.0);
+        ProfilesRatingFilter filter = new ProfilesRatingFilter(3.0);
         assertFalse(filter.test(createMixList()));
     }
 
     @Test
     public void testAllProfilesWithRatingLessThan() {
-        ParticipantRatingFilter filter = new ParticipantRatingFilter(3.0);
+        ProfilesRatingFilter filter = new ProfilesRatingFilter(3.0);
         assertFalse(filter.test(createSmallerList()));
     }
 
     @Test
     public void testEmptyProfileList() {
-        ParticipantRatingFilter filter = new ParticipantRatingFilter(3.0);
+        ProfilesRatingFilter filter = new ProfilesRatingFilter(3.0);
         assertTrue(filter.test(new ArrayList<>()));
     }
 
     @Test
     public void testNullValue() {
-        ParticipantRatingFilter filter = new ParticipantRatingFilter(null);
+        ProfilesRatingFilter filter = new ProfilesRatingFilter(null);
         assertTrue(filter.test(createGreaterList()));
     }
 

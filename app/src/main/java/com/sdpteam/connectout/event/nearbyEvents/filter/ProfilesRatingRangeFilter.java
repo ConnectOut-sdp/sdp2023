@@ -1,6 +1,5 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
-import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.profile.Profile;
 
 import java.util.List;
@@ -8,12 +7,12 @@ import java.util.List;
 /**
  * Filters participants by a rating range
  */
-public class ParticipantRatingRangeFilter implements ParticipantsFilter{
+public class ProfilesRatingRangeFilter implements ProfilesFilter {
 
     private final Double val1;
     private final Double val2;
 
-    public ParticipantRatingRangeFilter(Double val1, Double val2){
+    public ProfilesRatingRangeFilter(Double val1, Double val2){
         this.val1 = Math.min(val1,val2);
         this.val2 = Math.max(val1,val2);
     }

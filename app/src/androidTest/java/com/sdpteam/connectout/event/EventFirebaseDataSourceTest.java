@@ -9,10 +9,10 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantNameFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ParticipantRatingFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesNameFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesRatingFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.Profile;
@@ -22,7 +22,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class EventFirebaseDataSourceTest {
 
@@ -126,10 +125,10 @@ public class EventFirebaseDataSourceTest {
         model.saveEvent(e3);
 
         final EventFilter filter = e -> "1".equals(e.getId()) || "2".equals(e.getId());
-        final ParticipantNameFilter participantNameFilter = new ParticipantNameFilter(p.getName());
-        final ParticipantRatingFilter participantRatingFilter = new ParticipantRatingFilter(2.0);
+        final ProfilesNameFilter profilesNameFilter = new ProfilesNameFilter(p.getName());
+        final ProfilesRatingFilter profilesRatingFilter = new ProfilesRatingFilter(2.0);
 
-        final List<Event> results = model.getEventsByFilter(new BinaryFilter(filter,participantNameFilter.or(participantRatingFilter))).join();
+        final List<Event> results = model.getEventsByFilter(EventFilter.NONE, ProfilesFilter.NONE).join();
 
         assertEquals(2, results.size());
         assertFalse(results.get(0).getParticipants().isEmpty());

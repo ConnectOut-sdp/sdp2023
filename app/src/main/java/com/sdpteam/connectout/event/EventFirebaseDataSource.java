@@ -4,7 +4,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import java.util.ArrayList;
@@ -88,11 +89,12 @@ public class EventFirebaseDataSource implements EventRepository {
     }
 
     /**
-     * @param filter (EventFilter): event filter predicate
+     * @param eventFilter
+     * @param profilesFilter
      * @return (CompletableFuture < List < Event > >): future list of events with the wanted filters
      */
     @Override
-    public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
+    public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
         ProfileFirebaseDataSource profileDatabase = new ProfileFirebaseDataSource();
 
@@ -106,10 +108,10 @@ public class EventFirebaseDataSource implements EventRepository {
 
                     for (DataSnapshot child : t.getResult().getChildren()) {
                         Event event = child.getValue(Event.class);
-                        if (filter.testEvent(event)) {
+                        if (eventFilter.test(event)) {
                             CompletableFuture<Void> profilesFuture = profileDatabase.fetchProfiles(event.getParticipants())
                                     .thenAccept(profileList -> {
-                                        if (filter.testParticipants(profileList)) {
+                                        if (profilesFilter.test(profileList)) {
                                             events.add(event);
                                         }
                                     });

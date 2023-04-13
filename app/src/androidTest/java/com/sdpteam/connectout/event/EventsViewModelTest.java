@@ -8,7 +8,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.filter.BinaryFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
@@ -79,9 +80,9 @@ public class EventsViewModelTest {
             return null;
         }
 
-        public CompletableFuture<List<Event>> getEventsByFilter(BinaryFilter filter) {
+        public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
             updateData();
-            return CompletableFuture.completedFuture(dataSet.stream().filter(filter::testEvent).collect(toList()));
+            return CompletableFuture.completedFuture(dataSet.stream().filter(eventFilter).collect(toList()));
         }
 
         private void updateData() {
