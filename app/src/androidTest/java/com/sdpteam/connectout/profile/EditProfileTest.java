@@ -92,9 +92,7 @@ public class EditProfileTest {
     @Before
     public void setup() {
         Intents.init();
-        testRule.getScenario().onActivity(activity -> {
-            activity.auth = fakeAuthNotLogged;
-        });
+        testRule.getScenario().onActivity(activity -> activity.auth = fakeAuthNotLogged);
     }
 
     @After
