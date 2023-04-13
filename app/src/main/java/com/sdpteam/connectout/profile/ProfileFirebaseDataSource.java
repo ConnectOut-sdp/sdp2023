@@ -6,6 +6,7 @@ import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,16 +39,10 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
     }
 
     public CompletableFuture<Profile> fetchProfile(String uid) {
-        // Get the value from Firebase
         CompletableFuture<Profile> future = new CompletableFuture<>();
-        Task<DataSnapshot> dataSnapshotTask = firebaseRef.child(USERS).child(uid).child(PROFILE).get();
-        dataSnapshotTask.addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                future.completeExceptionally(task.getException());
-            }
-            Profile valueFromFirebase = task.getResult().getValue(Profile.class);
-            future.complete(valueFromFirebase);
-        });
+        fetchProfiles(new ArrayList<>(Collections.singletonList(uid)))
+                //List has at least a null element.
+                .thenApply(profiles -> future.complete(profiles.get(0)));
         return future;
     }
     public CompletableFuture<List<Profile>> fetchProfiles(List<String> userIds) {
