@@ -2,11 +2,11 @@ package com.sdpteam.connectout.event.nearbyEvents.filter;
 
 import com.sdpteam.connectout.event.Event;
 
-public class TextFilter implements EventFilter {
+public class EventTextFilter implements EventFilter {
 
     private final String text;
 
-    public TextFilter(String text) {
+    public EventTextFilter(String text) {
         this.text = text.trim().toLowerCase();
     }
 
