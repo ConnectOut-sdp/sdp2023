@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.event;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -44,14 +47,21 @@ public class EventFirebaseDataSource implements EventRepository {
         return false;
     }
 
-    public void joinEvent(String eventId, String participantId) {
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("participants/" + UUID.randomUUID().hashCode(), participantId);
-        database.child(DATABASE_EVENT_PATH).child(eventId).updateChildren(childUpdates);
-
+    public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
+        return getEvent(eventId)
+                .thenApply(event -> saveEvent(event.addParticipant(participantId)))
+                .thenApply(result -> true);
     }
-    public void leaveEvent(String eventId, String participantId) {
-            database.child(DATABASE_EVENT_PATH).child(eventId).child("participants").child(participantId).removeValue();
+    public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        database.child(DATABASE_EVENT_PATH)
+                .child(eventId)
+                .child("participants")
+                .child(participantId)
+                .removeValue()
+                .addOnCompleteListener(t -> future.complete(t.isSuccessful()));
+
+       return future;
     }
 
 

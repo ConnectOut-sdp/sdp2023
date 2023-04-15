@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EventFirebaseDataSourceTest {
 
@@ -155,11 +156,13 @@ public class EventFirebaseDataSourceTest {
     }
 
     @Test
-    public void joinsEventCorrectly(){
+    public void joinsEventCorrectly()  {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
-        model.joinEvent("1","14");
-        model.joinEvent("1","13");
+        CompletableFuture<Boolean> f1 = model.joinEvent("1","14");
+        CompletableFuture<Boolean> f2 = model.joinEvent("1","13");
 
+        f1.join();
+        f2.join();
         Event e = model.getEvent("1").join();
         assertThat(e.getParticipants().size(), is(2));
 

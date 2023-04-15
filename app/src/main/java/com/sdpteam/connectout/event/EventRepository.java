@@ -27,6 +27,20 @@ public interface EventRepository {
     CompletableFuture<Event> getEvent(String eventId);
 
     /**
+     *
+     * @param eventId (String): Id of the event to which we add the participant
+     * @param participantId (String): Id of the added participant
+     */
+    CompletableFuture<Boolean> joinEvent(String eventId, String participantId);
+
+    /**
+     *
+     * @param eventId (String): Id of the event to which we remove the participant
+     * @param participantId (String): Id of the removed participant
+     */
+    CompletableFuture<Boolean> leaveEvent(String eventId, String participantId);
+
+    /**
      * Fetches the wanted Event from the firebase database using its owner id & title.
      *
      * @param userId (String): Id of the owner of the event
