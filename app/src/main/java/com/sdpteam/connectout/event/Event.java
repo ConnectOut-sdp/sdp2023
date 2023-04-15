@@ -13,8 +13,8 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
  * Every single marker on the map corresponds to a different one
  */
 public class Event {
+    public static final Event NULL_EVENT = new Event();
 
-    public static Event NULL_EVENT = new Event();
     private final String id;
     private final String title;
     private final String description;
@@ -67,6 +67,10 @@ public class Event {
         if(!participants.contains(id)){
             participants.add(id);
         }
+        return this;
+    }
+    public Event removeParticipant(String id) {
+        participants.remove(id);
         return this;
     }
 }

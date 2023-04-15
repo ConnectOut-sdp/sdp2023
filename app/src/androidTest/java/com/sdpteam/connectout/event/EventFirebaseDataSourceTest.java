@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class EventFirebaseDataSourceTest {
@@ -158,13 +159,43 @@ public class EventFirebaseDataSourceTest {
     @Test
     public void joinsEventCorrectly()  {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
-        CompletableFuture<Boolean> f1 = model.joinEvent("1","14");
-        CompletableFuture<Boolean> f2 = model.joinEvent("1","13");
+        String id = UUID.randomUUID().toString();
+        final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
+        model.saveEvent(e);
+        model.joinEvent(id,"14").join();
+        model.joinEvent(id,"13").join();
+        model.joinEvent(id,"15").join();
+
+        Event obtained = model.getEvent(id).join();
+        assertThat(obtained.getParticipants().size(), is(3));
+
+    }
+    @Test
+    public void releaseEventCorrectly()  {
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
+        String id = UUID.randomUUID().toString();
+        final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
+        model.saveEvent(e);
+
+        CompletableFuture<Boolean> f1  = model.joinEvent(id,"14");
+        CompletableFuture<Boolean> f2  = model.joinEvent(id,"13");
+        CompletableFuture<Boolean> f3 = model.joinEvent(id,"15");
 
         f1.join();
         f2.join();
-        Event e = model.getEvent("1").join();
-        assertThat(e.getParticipants().size(), is(2));
+        f3.join();
+        Event obtained = model.getEvent(id).join();
+        assertThat(obtained.getParticipants().size(), is(3));
 
+        f1 = model.leaveEvent(id,"14");
+        f2 = model.leaveEvent(id,"13");
+        f3 = model.leaveEvent(id,"15");
+
+        f1.join();
+        f2.join();
+        f3.join();
+
+        obtained = model.getEvent(id).join();
+        assertThat(obtained.getParticipants().size(), is(0));
     }
 }

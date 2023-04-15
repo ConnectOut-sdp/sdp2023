@@ -2,18 +2,13 @@ package com.sdpteam.connectout.event;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
@@ -21,6 +16,7 @@ import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EventFirebaseDataSource implements EventRepository {
     public final static String DATABASE_EVENT_PATH = "Events";
@@ -48,20 +44,73 @@ public class EventFirebaseDataSource implements EventRepository {
     }
 
     public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
-        return getEvent(eventId)
-                .thenApply(event -> saveEvent(event.addParticipant(participantId)))
-                .thenApply(result -> true);
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        DatabaseReference eventRef = database.child(DATABASE_EVENT_PATH).child(eventId);
+            AtomicBoolean success = new AtomicBoolean(false);
+            eventRef.runTransaction(new Transaction.Handler() {
+                @NonNull
+                @Override
+                public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                    Event event = mutableData.getValue(Event.class);
+                    if (event == null) {
+                        return Transaction.success(mutableData);
+                    }
+                    if (!event.getParticipants().contains(participantId)) {
+                        event.addParticipant(participantId);
+                        mutableData.setValue(event);
+                        success.set(true);
+                    }
+                    return Transaction.success(mutableData);
+                }
+
+                @Override
+                public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                    if (committed && success.get()) {
+                        // the participant has been added successfully
+                        future.complete(true);
+                    } else {
+                        // failed to add the participant
+                        future.complete(false);
+                    }
+                }
+            });
+            return future;
     }
+
     public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        database.child(DATABASE_EVENT_PATH)
-                .child(eventId)
-                .child("participants")
-                .child(participantId)
-                .removeValue()
-                .addOnCompleteListener(t -> future.complete(t.isSuccessful()));
+        DatabaseReference eventRef = database.child(DATABASE_EVENT_PATH).child(eventId);
 
-       return future;
+        AtomicBoolean success = new AtomicBoolean(false);
+        eventRef.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                Event event = mutableData.getValue(Event.class);
+                if (event == null) {
+                    return Transaction.success(mutableData);
+                }
+                if (event.getParticipants().contains(participantId)) {
+                    event.removeParticipant(participantId);
+                    mutableData.setValue(event);
+                    success.set(true);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                if (committed && success.get()) {
+                    // the participant has been removed successfully
+                    future.complete(true);
+                } else {
+                    // failed to remove the participant
+                    future.complete(false);
+                }
+            }
+        });
+        return future;
+
     }
 
 
@@ -117,7 +166,7 @@ public class EventFirebaseDataSource implements EventRepository {
     }
 
     /**
-     * @param eventFilter (EventFilter): Custom filter to apply upon the event's attribute
+     * @param eventFilter    (EventFilter): Custom filter to apply upon the event's attribute
      * @param profilesFilter (ProfilesFilter): Custom filter to apply upon the participants profile's attribute
      * @return (CompletableFuture < List < Event > >): a changeable list of different events.
      */
