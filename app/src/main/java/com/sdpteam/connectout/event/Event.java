@@ -19,18 +19,26 @@ public class Event {
     private final String description;
     private final GPSCoordinates coordinates;
     private final String organizer;
-    private final List<String> participants = new ArrayList<>();
+    private final List<String> participants;
+
+    private final double date;
 
     private Event() {
-        this(null, null, null, null, NULL_USER);
+        this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0,0), NULL_USER, new ArrayList<>(), 0);
     }
 
     public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
+        this(id, title, description, coordinates, organizer,new ArrayList<>(), 0);
+    }
+
+    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer,List<String> participants, double date) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.coordinates = coordinates;
         this.organizer = organizer;
+        this.participants = participants;
+        this.date = date;
     }
 
     public String getId() {
@@ -56,4 +64,6 @@ public class Event {
     public List<String> getParticipants() {
         return participants;
     }
+
+    public double getDate(){return date;}
 }

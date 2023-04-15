@@ -5,28 +5,40 @@ import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
 import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
 
+import android.view.View;
+import android.widget.ListAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
+import com.sdpteam.connectout.chat.ChatMessage;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class ProfileFirebaseDataSource implements ProfileRepository {
+public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredEventsRepository{
     private final DatabaseReference firebaseRef;
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
     private final String USERS = "Users";
     private final String PROFILE = "Profile";
+    private final String REGISTERED_EVENTS = "RegisteredEvents";
+    private final int NUM_IMPORTED_EVENTS = 50;
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
@@ -148,6 +160,45 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
 
     public void deleteProfile(String uid) {
         firebaseRef.child(USERS).child(uid).child(PROFILE).removeValue();
+    }
+
+    /**
+     * stores a new Profile.CalendarEvent (eventid, eventtitle and eventDate)
+     * in list of events that a profile is registered to
+     *
+     * this list of events is stored under USERS/profileId/REGISTERED_EVENTS
+     * each CalendarEvent has the event's uid as key
+     * */
+    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
+        firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).child(calEvent.getEventId()).setValue(calEvent);
+    }
+    /**
+     * sets up the FirebaseListAdapter for the registered events view
+     *
+     * Displays the List of Profile.CalendarEvent that is stored in Firebase under
+     * USERS/profileId/REGISTERED_EVENTS
+     */
+    public void setUpListAdapter(Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout,
+                                 Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
+                                 BiConsumer<View, Profile.CalendarEvent> populateView,
+                                 Consumer<ListAdapter> setAdapter, String profileId) {
+
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child(USERS).child(profileId).child(REGISTERED_EVENTS)
+                .orderByChild("eventDate");
+
+        FirebaseListOptions<Profile.CalendarEvent> options = setLifecycleOwner.apply(setLayout.apply(new FirebaseListOptions.Builder<>())
+                .setQuery(query, Profile.CalendarEvent.class)).build();
+
+        FirebaseListAdapter<Profile.CalendarEvent> adapter = new FirebaseListAdapter<Profile.CalendarEvent>(options) {
+            @Override
+            protected void populateView(@androidx.annotation.NonNull View v, @androidx.annotation.NonNull Profile.CalendarEvent calendarEvent, int position) {
+                populateView.accept(v, calendarEvent);
+            }
+        };
+
+        setAdapter.accept(adapter);
     }
 }
 

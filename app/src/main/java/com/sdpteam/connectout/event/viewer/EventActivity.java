@@ -87,6 +87,7 @@ public class EventActivity extends WithFragmentActivity {
 
     private Event getEvent() {
         // TODO retrieve event from ID using the view-model
+        //Get intent "key" which is associated to the event uid
         return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 

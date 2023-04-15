@@ -123,6 +123,6 @@ public class EditProfileTest {
     @Test
     public void changeValuesTestNone() {
         testDifferentValues("why do you want to know?", "I have no email",
-                "You want to know too much", null);
+                "You want to know too much", Profile.Gender.OTHER);
     }
 }
