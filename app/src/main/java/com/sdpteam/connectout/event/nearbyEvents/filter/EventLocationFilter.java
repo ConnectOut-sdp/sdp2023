@@ -3,12 +3,12 @@ package com.sdpteam.connectout.event.nearbyEvents.filter;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
-public class LocationFilter implements EventFilter {
+public class EventLocationFilter implements EventFilter {
 
     private final GPSCoordinates position;
     private final int radius; // in km
 
-    public LocationFilter(GPSCoordinates position, int radius) {
+    public EventLocationFilter(GPSCoordinates position, int radius) {
         this.position = position;
         this.radius = radius;
     }
