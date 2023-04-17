@@ -16,7 +16,7 @@ import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 
 public class EventFirebaseDataSource implements EventRepository {
     public final static String DATABASE_EVENT_PATH = "Events";
@@ -43,74 +43,60 @@ public class EventFirebaseDataSource implements EventRepository {
         return false;
     }
 
-    public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-        DatabaseReference eventRef = database.child(DATABASE_EVENT_PATH).child(eventId);
-            AtomicBoolean success = new AtomicBoolean(false);
-            eventRef.runTransaction(new Transaction.Handler() {
-                @NonNull
-                @Override
-                public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
-                    Event event = mutableData.getValue(Event.class);
-                    if (event == null) {
-                        return Transaction.success(mutableData);
-                    }
-                    if (!event.getParticipants().contains(participantId)) {
-                        event.addParticipant(participantId);
-                        mutableData.setValue(event);
-                        success.set(true);
-                    }
-                    return Transaction.success(mutableData);
-                }
-
-                @Override
-                public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
-                    if (committed && success.get()) {
-                        // the participant has been added successfully
-                        future.complete(true);
-                    } else {
-                        // failed to add the participant
-                        future.complete(false);
-                    }
-                }
-            });
-            return future;
-    }
-
-    public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
+    /**
+     * Enables data race free modification of an event through the eventModifier function.
+     *
+     * @param eventId       (String): Id of the referred event.
+     * @param eventModifier (Function<Event, Event>): method which apply changes to the referred event, returns true if successful.
+     * @return (CompletableFuture < Boolean >): upon completion will be true if applied change is successful
+     */
+    private CompletableFuture<Boolean> modifyEvent(String eventId, Function<Event, Boolean> eventModifier) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         DatabaseReference eventRef = database.child(DATABASE_EVENT_PATH).child(eventId);
 
-        AtomicBoolean success = new AtomicBoolean(false);
+        //Ask firebase to do the changes atomically.
         eventRef.runTransaction(new Transaction.Handler() {
+            private boolean success;
+
             @NonNull
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 Event event = mutableData.getValue(Event.class);
-                if (event == null) {
-                    return Transaction.success(mutableData);
-                }
-                if (event.getParticipants().contains(participantId)) {
-                    event.removeParticipant(participantId);
+                //Checks if event was casted correctly.
+                if(event != null) {
+                    success = eventModifier.apply(event);
                     mutableData.setValue(event);
-                    success.set(true);
                 }
                 return Transaction.success(mutableData);
             }
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
-                if (committed && success.get()) {
-                    // the participant has been removed successfully
-                    future.complete(true);
-                } else {
-                    // failed to remove the participant
-                    future.complete(false);
-                }
+                //Say if modification was successful
+                future.complete(committed && success);
             }
         });
         return future;
+    }
 
+    /**
+     *
+     * @param eventId (String): Id of the event to which we add the participant
+     * @param participantId (String): Id of the added participant
+     * @return (CompletableFuture<Boolean>): completes to true if participant has joined the event.
+     */
+    public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
+        return modifyEvent(eventId, event -> event.addParticipant(participantId));
+    }
+
+    /**
+     *
+     * @param eventId (String): Id of the event to which we remove the participant
+     * @param participantId (String): Id of the removed participant
+     * @return (CompletableFuture<Boolean>): completes to true if participant has left the event.
+     */
+    public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
+        return modifyEvent(eventId, event -> event.removeParticipant(participantId));
     }
 
 

@@ -63,14 +63,25 @@ public class Event {
     public List<String> getParticipants() {
         return participants;
     }
-    public Event addParticipant(String id) {
-        if(!participants.contains(id)){
+
+    /**
+     *
+     * @param id (String): id of the participant
+     * @return (boolean): true if the participants was added.
+     */
+    public boolean addParticipant(String id) {
+        boolean absent = !participants.contains(id);
+        if(absent){
             participants.add(id);
         }
-        return this;
+        return absent;
     }
-    public Event removeParticipant(String id) {
-        participants.remove(id);
-        return this;
+    /**
+     *
+     * @param id (String): id of the participant
+     * @return (boolean): true if the participants was removed.
+     */
+    public boolean removeParticipant(String id) {
+        return participants.remove(id);
     }
 }

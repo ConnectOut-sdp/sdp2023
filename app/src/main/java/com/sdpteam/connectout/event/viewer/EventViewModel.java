@@ -31,6 +31,10 @@ public class EventViewModel extends ViewModel {
         model.getEvent(eventId).thenAccept(event::setValue);
     }
 
+    public void refreshEvent() {
+        model.getEvent(lastEventId).thenAccept(event::setValue);
+    }
+
     public void joinEvent(){
         participateToEvent(true);
     }
@@ -40,6 +44,8 @@ public class EventViewModel extends ViewModel {
 
     private void participateToEvent(boolean isParticipating){
         AuthenticatedUser au = new GoogleAuth().loggedUser();
+
+        //Check if an event and a logged user exists
         if(au != null && lastEventId != null) {
             String currentUserId = au.uid;
             if (isParticipating) {

@@ -30,6 +30,7 @@ public interface EventRepository {
      *
      * @param eventId (String): Id of the event to which we add the participant
      * @param participantId (String): Id of the added participant
+     * @return (CompletableFuture<Boolean>): completes to true if participant has joined the event.
      */
     CompletableFuture<Boolean> joinEvent(String eventId, String participantId);
 
@@ -37,6 +38,7 @@ public interface EventRepository {
      *
      * @param eventId (String): Id of the event to which we remove the participant
      * @param participantId (String): Id of the removed participant
+     * @return (CompletableFuture<Boolean>): completes to true if participant has left the event.
      */
     CompletableFuture<Boolean> leaveEvent(String eventId, String participantId);
 
