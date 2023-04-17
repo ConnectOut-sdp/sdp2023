@@ -25,11 +25,11 @@ public class RegistrationViewModel extends ViewModel {
     }
 
     String currentName() {
-        return auth.loggedUser().name;
+        return auth.isLoggedIn() ? auth.loggedUser().name : "";
     }
 
     String currentEmail() {
-        return auth.loggedUser().email;
+        return auth.isLoggedIn() ? auth.loggedUser().email : "";
     }
 
     public MutableLiveData<Boolean> getProgress() {
@@ -48,23 +48,25 @@ public class RegistrationViewModel extends ViewModel {
             } else {
                 registration.uploadProfile(profileImage).thenAccept(profileImageUrl -> {
                     if (profileImageUrl == null) {
-                        progress.setValue(false);
-                        errorMessage.setValue("Error uploading profile image");
+                        displayFinishWithMessage("Error uploading profile image");
                     } else {
                         updateProfileInfos(name, email, bio, g, profileImageUrl.toString());
                     }
                 });
             }
         } else {
-            progress.setValue(false);
-            errorMessage.setValue("Cannot complete the registration you're not even logged in.");
+            displayFinishWithMessage("Cannot complete the registration you're not even logged in.");
         }
     }
 
     private void updateProfileInfos(String name, String email, String bio, Gender g, String profileImageUrl) {
         registration.completeRegistration(auth.loggedUser().uid, new MandatoryFields(name, email, bio, g), profileImageUrl).thenAccept(isSuccess -> {
-            progress.setValue(false);
-            errorMessage.setValue(isSuccess ? "Operation successful" : "Error while completing the registration");
+            displayFinishWithMessage(isSuccess ? "Operation successful" : "Error while completing the registration");
         });
+    }
+
+    private void displayFinishWithMessage(String msg) {
+        progress.setValue(false);
+        errorMessage.setValue(msg);
     }
 }

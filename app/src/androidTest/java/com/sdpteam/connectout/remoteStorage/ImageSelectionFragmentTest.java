@@ -7,9 +7,11 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasType;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -40,6 +42,8 @@ public class ImageSelectionFragmentTest {
     @Rule
     public IntentsTestRule<TestActivity> intentsTestRule = new IntentsTestRule<>(TestActivity.class);
 
+    private Uri mockedUri = null;
+
     @Test
     public void testImageSelection() {
         // Launch the TestActivity
@@ -48,6 +52,9 @@ public class ImageSelectionFragmentTest {
         // Add ImageSelectionFragment to the TestActivity
         scenario.onActivity(activity -> {
             ImageSelectionFragment fragment = new ImageSelectionFragment();
+            fragment.setOnImageSelectedListener(imageUri -> {
+                assertThat(imageUri.getPath(), is(mockedUri.getPath()));
+            });
             activity.getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.activity_test_container, fragment)
@@ -60,7 +67,7 @@ public class ImageSelectionFragmentTest {
 
         // Mock the Uri result for the image picker intent using the account_image drawable resource
         Resources resources = intentsTestRule.getActivity().getResources();
-        Uri mockedUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+        mockedUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
                 resources.getResourcePackageName(R.drawable.event_image) + '/' +
                 resources.getResourceTypeName(R.drawable.event_image) + '/' +
                 resources.getResourceEntryName(R.drawable.event_image));
