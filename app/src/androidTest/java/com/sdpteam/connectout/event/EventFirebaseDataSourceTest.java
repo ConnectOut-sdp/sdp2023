@@ -171,6 +171,17 @@ public class EventFirebaseDataSourceTest {
 
     }
     @Test
+    public void joinsFailWithExistingParticipant()  {
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
+        String id = UUID.randomUUID().toString();
+        final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
+        model.saveEvent(e);
+        model.leaveEvent(id,"14").join();
+
+        assertTrue(model.joinEvent(id,"14").join());
+        assertFalse(model.joinEvent(id,"14").join());
+    }
+    @Test
     public void releaseEventCorrectly()  {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         String id = UUID.randomUUID().toString();
@@ -197,5 +208,16 @@ public class EventFirebaseDataSourceTest {
 
         obtained = model.getEvent(id).join();
         assertThat(obtained.getParticipants().size(), is(0));
+    }
+
+    @Test
+    public void leaveFailWithNonExistingParticipant()  {
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
+        String id = UUID.randomUUID().toString();
+        final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
+        model.saveEvent(e);
+        model.leaveEvent(id,"14").join();
+
+        assertFalse(model.leaveEvent(id,"14").join());
     }
 }
