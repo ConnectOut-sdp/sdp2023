@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.remoteStorage;
+package com.sdpteam.connectout.aaaremoteStorage;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.MainActivity;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
 import com.sdpteam.connectout.utils.TestActivity;
 
 import android.content.ContentResolver;
@@ -33,7 +34,9 @@ public class FileStorageFirebaseTest {
                 resources.getResourcePackageName(R.drawable.event_image) + '/' +
                 resources.getResourceTypeName(R.drawable.event_image) + '/' +
                 resources.getResourceEntryName(R.drawable.event_image));
-
+        if (uri == null) {
+            throw new IllegalStateException("Why is it null?");
+        }
         Uri createdUrl = new FileStorageFirebase().uploadFile(uri, "jpg").join();
         assertTrue(createdUrl.toString().contains("https://"));
     }

@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.remoteStorage;
+package com.sdpteam.connectout.aaaremoteStorage;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
 import com.sdpteam.connectout.utils.TestActivity;
 
 import android.app.Activity;
