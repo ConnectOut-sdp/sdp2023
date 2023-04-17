@@ -79,6 +79,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
                     List<Profile> profilesList = new ArrayList<>();
                     DataSnapshot snapshot =  t.getResult();
                     snapshot.getChildren().forEach(profileSnapshot -> profilesList.add(profileSnapshot.child(PROFILE).getValue(Profile.class)));
+                    if (option == RATING) { Collections.reverse(profilesList); }
                     value.complete(profilesList);
                 }
         );
