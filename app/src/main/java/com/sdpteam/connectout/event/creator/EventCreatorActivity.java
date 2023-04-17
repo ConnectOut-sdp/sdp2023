@@ -3,7 +3,7 @@ package com.sdpteam.connectout.event.creator;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.client_validation.EventCreationValidationUtils;
+import com.sdpteam.connectout.validation.EventCreationValidator;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
@@ -46,7 +46,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
             final String chosenDescription = eventDescription.getText().toString();
 
             // validation
-            if(EventCreationValidationUtils.eventCreationValidation(eventTitle, eventDescription)) {
+            if(EventCreationValidator.eventCreationValidation(eventTitle, eventDescription)) {
                 saveEvent(chosenTitle, chosenCoordinates, chosenDescription);
                 this.finish();
             }

@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.client_validation;
+package com.sdpteam.connectout.validation;
 
 import android.content.Context;
 import android.widget.EditText;
@@ -13,30 +13,30 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 @RunWith(AndroidJUnit4.class)
-public class ProfileValidationUtilsTest {
+public class EditProfileValidatorTest {
 
     @Test
     public void testIsValidEmail() {
-        assertTrue(ProfileValidationUtils.isValidEmail("test@example.com"));
-        assertFalse(ProfileValidationUtils.isValidEmail("example.com"));
+        assertTrue(EditProfileValidator.isValidEmail("test@example.com"));
+        assertFalse(EditProfileValidator.isValidEmail("example.com"));
     }
 
     @Test
     public void testIsValidPassword() {
-        assertTrue(ProfileValidationUtils.isValidPassword("password12376876"));
-        assertFalse(ProfileValidationUtils.isValidPassword("123"));
+        assertTrue(EditProfileValidator.isValidPassword("password12376876"));
+        assertFalse(EditProfileValidator.isValidPassword("123"));
     }
 
     @Test
     public void testIsValidName() {
-        assertTrue(ProfileValidationUtils.isValidName("John"));
-        assertFalse(ProfileValidationUtils.isValidName(""));
+        assertTrue(EditProfileValidator.isValidName("John"));
+        assertFalse(EditProfileValidator.isValidName(""));
     }
 
     @Test
     public void testIsValidBio() {
-        assertTrue(ProfileValidationUtils.isValidBio("This is a long bio.09809898089889"));
-        assertFalse(ProfileValidationUtils.isValidBio("T"));
+        assertTrue(EditProfileValidator.isValidBio("This is a long bio.09809898089889"));
+        assertFalse(EditProfileValidator.isValidBio("T"));
     }
 
     @Test
@@ -55,14 +55,14 @@ public class ProfileValidationUtilsTest {
         emailInput.setText("test@example.com");
         bioInput.setText("This is a long bio.");
         male.setChecked(true);
-        assertTrue(ProfileValidationUtils.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
+        assertTrue(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
 
         // Test case 2: invalid email
         nameInput.setText("John");
         emailInput.setText("example.com");
         bioInput.setText("This is a long bio.");
         male.setChecked(true);
-        assertFalse(ProfileValidationUtils.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
+        assertFalse(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
         assertNotNull(emailInput.getError());
 
         // Test case 3: invalid name
@@ -70,7 +70,7 @@ public class ProfileValidationUtilsTest {
         emailInput.setText("test@example.com");
         bioInput.setText("This is a long bio.");
         male.setChecked(true);
-        assertFalse(ProfileValidationUtils.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
+        assertFalse(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
         assertNotNull(nameInput.getError());
 
         // Test case 4: invalid bio
@@ -78,7 +78,7 @@ public class ProfileValidationUtilsTest {
         emailInput.setText("test@example.com");
         bioInput.setText("Too");
         male.setChecked(true);
-        assertFalse(ProfileValidationUtils.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
+        assertFalse(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
         assertNotNull(bioInput.getError());
 
         // Test case 5: no gender selected
@@ -88,7 +88,7 @@ public class ProfileValidationUtilsTest {
         male.setChecked(false);
         female.setChecked(false);
         other.setChecked(false);
-        assertFalse(ProfileValidationUtils.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
+        assertFalse(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
         assertNotNull(female.getError());
     }
 

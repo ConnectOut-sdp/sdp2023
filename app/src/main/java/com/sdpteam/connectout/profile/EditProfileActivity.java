@@ -3,7 +3,7 @@ package com.sdpteam.connectout.profile;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.client_validation.ProfileValidationUtils;
+import com.sdpteam.connectout.validation.EditProfileValidator;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +35,7 @@ public class EditProfileActivity extends AppCompatActivity {
             String uid = auth.isLoggedIn() ? auth.loggedUser().uid : NULL_USER;
 
             // validation
-            if(ProfileValidationUtils.editProfileValidation(nameET, emailET, bioET, male, female, other)) {
+            if(EditProfileValidator.editProfileValidation(nameET, emailET, bioET, male, female, other)) {
                 Profile newProfile = new Profile(uid, nameET.getText().toString(), emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
                 profileViewModel.saveProfile(newProfile);
                 goToProfile(newProfile);

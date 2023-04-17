@@ -1,10 +1,12 @@
-package com.sdpteam.connectout.client_validation;
+package com.sdpteam.connectout.validation;
+
+import static com.sdpteam.connectout.validation.ValidationUtils.handleValidationFailure;
 
 import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-public class ProfileValidationUtils {
+public class EditProfileValidator {
 
     private static final int MIN_PASSWORD_LENGTH = 6;
     private static final int MIN_NAME_LENGTH = 1;
@@ -34,30 +36,20 @@ public class ProfileValidationUtils {
     }
 
     public static boolean editProfileValidation(EditText nameInput, EditText emailInput, EditText bioInput, RadioButton male, RadioButton female, RadioButton other) {
-        if(!isValidName(nameInput.getText().toString())) {
-            nameInput.setError(NAME_ERROR);
-            nameInput.requestFocus();
-            return false;
-        }
-        if(!isValidEmail(emailInput.getText().toString())) {
-            emailInput.setError(EMAIL_ERROR);
-            emailInput.requestFocus();
-            return false;
-        }
-        if(!isValidBio(bioInput.getText().toString())) {
-            bioInput.setError(BIO_ERROR);
-            bioInput.requestFocus();
-            return false;
-        }
 
+        if(!handleValidationFailure(isValidName(nameInput.getText().toString()), nameInput, NAME_ERROR)
+                || !handleValidationFailure(isValidEmail(emailInput.getText().toString()), emailInput, EMAIL_ERROR)
+                || !handleValidationFailure(isValidBio(bioInput.getText().toString()), bioInput, BIO_ERROR)) {
+            return false;
+        }
         if(!male.isChecked() && !female.isChecked() && !other.isChecked()) {
             female.setError(GENDER_ERROR);
             nameInput.requestFocus();
             return false;
         }
-
         return true;
     }
+
 
 }
 

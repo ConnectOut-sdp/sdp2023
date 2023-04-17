@@ -1,9 +1,10 @@
-package com.sdpteam.connectout.client_validation;
+package com.sdpteam.connectout.validation;
+
+import static com.sdpteam.connectout.validation.ValidationUtils.handleValidationFailure;
 
 import android.widget.EditText;
-import android.widget.RadioButton;
 
-public class EventCreationValidationUtils {
+public class EventCreationValidator {
 
     private static final int MIN_EVENT_TITLE_LENGTH = 5;
     private static final int MIN_EVENT_DESCRIPTION_LENGTH = 20;
@@ -19,18 +20,11 @@ public class EventCreationValidationUtils {
     }
 
     public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput) {
-        if(!isValidEventTitle(eventTitleInput.getText().toString())) {
-            eventTitleInput.setError(EVENT_TITLE_ERROR);
-            eventTitleInput.requestFocus();
-            return false;
-        }
-        if(!isValidEventDescription(eventDescriptionInput.getText().toString())) {
-            eventDescriptionInput.setError(EVENT_DESCRIPTION_ERROR);
-            eventDescriptionInput.requestFocus();
+        if(!handleValidationFailure(isValidEventTitle(eventTitleInput.getText().toString()), eventTitleInput, EVENT_TITLE_ERROR)
+                || !handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR)){
             return false;
         }
         return true;
     }
-
 
 }
