@@ -3,10 +3,12 @@ package com.sdpteam.connectout.profile;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,37 +19,52 @@ import io.reactivex.rxjava3.annotations.NonNull;
 
 public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
-    private final StorageReference storageRef;
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
-    private final String USERS = "Users";
-    private final String PROFILE = "Profile";
+    public final static String USERS = "Users";
+    public final static String PROFILE = "Profile";
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
-        storageRef = null;//FirebaseDatabase.getStorage().getReference();
     }
 
     public CompletableFuture<Boolean> saveProfile(Profile profile) {
         CompletableFuture<Boolean> finished = new CompletableFuture<>();
-        firebaseRef.child(USERS).child(profile.getId()).child(PROFILE).setValue(profile)
+        firebaseRef.child(USERS)
+                .child(profile.getId())
+                .child(PROFILE)
+                .setValue(profile)
                 .addOnCompleteListener(command -> finished.complete(command.isSuccessful()));
         return finished;
     }
 
     public CompletableFuture<Profile> fetchProfile(String uid) {
-        // Get the value from Firebase
         CompletableFuture<Profile> future = new CompletableFuture<>();
-        Task<DataSnapshot> dataSnapshotTask = firebaseRef.child(USERS).child(uid).child(PROFILE).get();
-        dataSnapshotTask.addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                future.completeExceptionally(task.getException());
-            }
-            Profile valueFromFirebase = task.getResult().getValue(Profile.class);
-            future.complete(valueFromFirebase);
-        });
+        fetchProfiles(new ArrayList<>(Collections.singletonList(uid)))
+                //List has at least a null element.
+                .thenApply(profiles -> future.complete(profiles.get(0)));
         return future;
     }
+    public CompletableFuture<List<Profile>> fetchProfiles(List<String> userIds) {
+        CompletableFuture<List<Profile>> futures = new CompletableFuture<>();
+        List<Task<DataSnapshot>> tasks = new ArrayList<>();
+
+        for (String userId : userIds) {
+            tasks.add(firebaseRef.child(USERS).child(userId).child(PROFILE).get());
+        }
+
+        Task<List<DataSnapshot>> allTasks = Tasks.whenAllSuccess(tasks);
+        List<Profile> profiles = new ArrayList<>();
+        allTasks.addOnCompleteListener(dataSnapshots -> {
+            for (DataSnapshot dataSnapshot : dataSnapshots.getResult()) {
+                Profile profile = dataSnapshot.getValue(Profile.class);
+                profiles.add(profile);
+            }
+            futures.complete(profiles);
+        });
+        return futures;
+    }
+
 
     /**
      * @param option (ProfileOrderingOption): option of filtering adopted, random, by name or by rating.
