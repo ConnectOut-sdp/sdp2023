@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Don't put anything here, just choose which activity to redirect to
 
-        Intent drawerIntent = new Intent(getApplicationContext(), EventCreatorActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), RegisteredEventsCalendarActivity.class);
         this.startActivity(drawerIntent);
     }
 }

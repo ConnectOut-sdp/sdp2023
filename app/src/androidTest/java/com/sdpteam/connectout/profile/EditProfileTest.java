@@ -25,7 +25,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
-
 public class EditProfileTest {
 
     private final Authentication fakeAuthNotLogged = new Authentication() {

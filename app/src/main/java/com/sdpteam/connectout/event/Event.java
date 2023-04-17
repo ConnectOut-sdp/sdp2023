@@ -21,7 +21,7 @@ public class Event {
     private final String organizer;
     private final List<String> participants;
 
-    private final double date;
+    private final long date;
 
     private Event() {
         this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0,0), NULL_USER, new ArrayList<>(), 0);
@@ -31,7 +31,7 @@ public class Event {
         this(id, title, description, coordinates, organizer,new ArrayList<>(), 0);
     }
 
-    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer,List<String> participants, double date) {
+    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer,List<String> participants, long date) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -65,5 +65,5 @@ public class Event {
         return participants;
     }
 
-    public double getDate(){return date;}
+    public long getDate(){return date;}
 }

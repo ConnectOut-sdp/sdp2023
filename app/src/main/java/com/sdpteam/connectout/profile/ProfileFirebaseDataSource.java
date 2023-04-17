@@ -170,7 +170,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
      * each CalendarEvent has the event's uid as key
      * */
     public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
-        firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).child(calEvent.getEventId()).setValue(calEvent);
+        firebaseRef.child(USERS).child(profileId).child(PROFILE).child(REGISTERED_EVENTS).child(calEvent.getEventId()).setValue(calEvent);
     }
     /**
      * sets up the FirebaseListAdapter for the registered events view
@@ -182,12 +182,25 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
                                  Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
                                  BiConsumer<View, Profile.CalendarEvent> populateView,
                                  Consumer<ListAdapter> setAdapter, String profileId) {
-
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child(USERS).child(profileId).child(REGISTERED_EVENTS)
-                .orderByChild("eventDate");
+                .child(USERS).child(profileId).child(PROFILE).child(REGISTERED_EVENTS);
+        //        .orderByChild("eventDate"); TODO put back
 
+
+        //TODO remove TEST
+        /*
+        CompletableFuture<List<Profile.CalendarEvent>> value = new CompletableFuture<>();
+        query.get().addOnCompleteListener( t->{
+                    List<Profile.CalendarEvent> calendarEventsList = new ArrayList<>();
+                    DataSnapshot snapshot =  t.getResult();
+                    snapshot.getChildren().forEach(profileSnapshot -> calendarEventsList.add(profileSnapshot.getValue(Profile.CalendarEvent.class)));
+                    value.complete(calendarEventsList);
+                }
+        );*/
+        //System.out.println("TEST Printing Query: ");
+        //System.out.println(value.join());
+        //TODO end of remove
         FirebaseListOptions<Profile.CalendarEvent> options = setLifecycleOwner.apply(setLayout.apply(new FirebaseListOptions.Builder<>())
                 .setQuery(query, Profile.CalendarEvent.class)).build();
 

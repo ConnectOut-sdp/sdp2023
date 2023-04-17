@@ -4,11 +4,14 @@ import java.util.ArrayList;
 
 public class Profile {
 
-    public class CalendarEvent {
+    public static class CalendarEvent {//TODO maybe the error comes from this static
         private String eventId;
         private String eventTitle;
         private final long eventDate;
 
+        public CalendarEvent(){
+            this("null_event", "no_title", 0);
+        }
         public CalendarEvent(String eventId, String eventTitle, long eventDate){
             this.eventId = eventId;
             this.eventTitle = eventTitle;

@@ -36,12 +36,20 @@ import java.util.function.Function;
 
 public class RegisteredEventsCalendarActivity extends AppCompatActivity {
 
-    public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
+    //TODO how can we do this better
+    public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource(), new ProfileFirebaseDataSource());
     Authentication auth = new GoogleAuth();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_registered_events_calendar);
+
+        //we enable the return button in the ActionBar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //set up the ListView
+        setUpListAdapter();
 
         ListView listOfRegisteredEvents = findViewById(R.id.list_of_registered_events);
         listOfRegisteredEvents.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -54,13 +62,6 @@ public class RegisteredEventsCalendarActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        setContentView(R.layout.activity_registered_events_calendar);
-
-        //we enable the return button in the ActionBar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //set up the ListView
-        setUpListAdapter();
     }
 
     /**
@@ -91,7 +92,7 @@ public class RegisteredEventsCalendarActivity extends AppCompatActivity {
         BiConsumer<View, Profile.CalendarEvent> populateView = (v, calendarEvent) -> {
             TextView registeredEventTitle = v.findViewById(R.id.registered_event_title);
             TextView registeredEventTime = v.findViewById(R.id.registered_event_time);
-            TextView registeredEventId = (TextView) v.findViewById(R.id.registered_event_id);
+            TextView registeredEventId = v.findViewById(R.id.registered_event_id);
 
             registeredEventTitle.setText(calendarEvent.getEventTitle());
             registeredEventId.setText(calendarEvent.getEventId());
