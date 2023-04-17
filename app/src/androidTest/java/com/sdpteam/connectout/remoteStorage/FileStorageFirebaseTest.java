@@ -7,6 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.MainActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.utils.TestActivity;
 
@@ -14,6 +15,7 @@ import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.net.Uri;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)

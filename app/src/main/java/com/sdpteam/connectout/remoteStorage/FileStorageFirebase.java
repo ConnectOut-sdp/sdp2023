@@ -21,7 +21,7 @@ public class FileStorageFirebase {
      * @return the url of the uploaded file
      */
     public CompletableFuture<Uri> uploadFile(Uri file, String fileExtension) {
-        StorageReference fileReference = firebaseFilesStorage.child(UUID.randomUUID() + "." + fileExtension);
+        StorageReference fileReference = firebaseFilesStorage.child(System.currentTimeMillis() + "_" + UUID.randomUUID() + "." + fileExtension);
         CompletableFuture<Uri> result = new CompletableFuture<>();
         fileReference.putFile(file)
                 .addOnCompleteListener(taskSnapshot -> {
