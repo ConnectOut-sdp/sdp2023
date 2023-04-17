@@ -13,11 +13,13 @@ public class Profile {
 
     private final String uid;
 
+    private final String profileImageUrl;
+
     private Profile() {
-        this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
+        this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0, null);
     }
 
-    public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings) {
+    public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings, String profileImageUrl) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -25,6 +27,7 @@ public class Profile {
         this.gender = gender;
         this.rating = rating;
         this.numRatings = numRatings;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public Gender getGender() {
@@ -53,6 +56,10 @@ public class Profile {
 
     public int getNumRatings() {
         return numRatings;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
     }
 
     public enum Gender {

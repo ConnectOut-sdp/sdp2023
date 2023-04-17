@@ -59,7 +59,7 @@ public class EditProfileTest {
 
     private static void testDifferentValues(String name, String email, String bio, Profile.Gender gender) {
         Profile previousProfile = new Profile(EditProfileActivity.NULL_USER, "bob", "bob@gmail.com",
-                null, Profile.Gender.MALE, 1, 1);
+                null, Profile.Gender.MALE, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
         model.saveProfile(previousProfile);

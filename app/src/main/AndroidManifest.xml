@@ -16,10 +16,6 @@
             tools:targetApi="31">
 
         <activity
-                android:name=".registration.UploadImageActivity"
-                android:exported="false" />
-
-        <activity
                 android:name=".qr_code.QRcodeModalActivity"
                 android:exported="false" />
         <activity
@@ -36,6 +32,12 @@
                 android:screenOrientation="portrait"
                 android:stateNotNeeded="true"
                 android:theme="@style/zxing_CaptureTheme" />
+
+        <!--                c'est rouge tkt, c'est juste dans les tests que c'est utilisé ;)-->
+        <activity
+                android:name=".utils.TestActivity"
+                android:exported="false" />
+
         <activity
                 android:name=".event.nearbyEvents.EventsActivity"
                 android:exported="false"

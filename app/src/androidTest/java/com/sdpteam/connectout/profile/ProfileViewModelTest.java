@@ -25,7 +25,7 @@ public class ProfileViewModelTest {
 
     @Test
     public void testSaveValue() {
-        Profile value = new Profile("test", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1);
+        Profile value = new Profile("test", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1, "");
         FakeProfileRepository model = new FakeProfileRepository();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
@@ -53,14 +53,15 @@ public class ProfileViewModelTest {
         CompletableFuture<Boolean> done = new CompletableFuture<>();
 
         @Override
-        public void saveProfile(Profile value) {
+        public CompletableFuture<Boolean> saveProfile(Profile value) {
             this.value = value;
+            return CompletableFuture.completedFuture(true);
         }
 
         @Override
         public CompletableFuture<Profile> fetchProfile(String uid) {
             done.complete(true);
-            Profile mLiveData = new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1);
+            Profile mLiveData = new Profile("fakeProfileModel", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1, "");
             return CompletableFuture.completedFuture(mLiveData);
         }
 

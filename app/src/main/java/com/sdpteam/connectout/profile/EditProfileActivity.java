@@ -32,7 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         save.setOnClickListener(v -> {
             String uid = auth.isLoggedIn() ? auth.loggedUser().uid : NULL_USER;
-            Profile newProfile = new Profile(uid, nameET.getText().toString(), emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
+            Profile newProfile = new Profile(uid, nameET.getText().toString(), emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1, "");
             profileViewModel.saveProfile(newProfile);
             goToProfile(newProfile);
         });

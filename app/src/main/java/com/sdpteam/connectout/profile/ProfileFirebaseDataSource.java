@@ -1,8 +1,5 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
 
 import java.util.ArrayList;
@@ -18,10 +15,6 @@ import com.google.firebase.storage.StorageReference;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 public class ProfileFirebaseDataSource implements ProfileRepository {
     private final DatabaseReference firebaseRef;
     private final StorageReference storageRef;
@@ -35,8 +28,11 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         storageRef = null;//FirebaseDatabase.getStorage().getReference();
     }
 
-    public void saveProfile(Profile profile) {
-        firebaseRef.child(USERS).child(profile.getId()).child(PROFILE).setValue(profile);
+    public CompletableFuture<Boolean> saveProfile(Profile profile) {
+        CompletableFuture<Boolean> finished = new CompletableFuture<>();
+        firebaseRef.child(USERS).child(profile.getId()).child(PROFILE).setValue(profile)
+                .addOnCompleteListener(command -> finished.complete(command.isSuccessful()));
+        return finished;
     }
 
     public CompletableFuture<Profile> fetchProfile(String uid) {
@@ -151,11 +147,6 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
 
     public void deleteProfile(String uid) {
         firebaseRef.child(USERS).child(uid).child(PROFILE).removeValue();
-    }
-
-    public void uploadPicture(Profile profile) {
-        firebaseRef.child(USERS).child(profile.getId()).child(PROFILE).setValue(profile);
-        // TODO temp, use storageRef (see UploadImageActivity proof of concept)
     }
 }
 

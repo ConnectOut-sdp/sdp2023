@@ -7,8 +7,10 @@ public interface ProfileRepository {
 
     /**
      * saves the given Profile in the repository
+     *
+     * @return
      */
-    void saveProfile(Profile profile);
+    CompletableFuture<Boolean> saveProfile(Profile profile);
 
     /**
      * Fetches one's profile from the repository

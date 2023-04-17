@@ -3,15 +3,16 @@ package com.sdpteam.connectout.registration;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
 import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 import org.hamcrest.MatcherAssert;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -30,33 +32,40 @@ import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileRepository;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import androidx.annotation.NonNull;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentFactory;
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.PerformException;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 @RunWith(AndroidJUnit4.class)
 public class CompleteRegistrationFormTest {
 
     private RegistrationViewModel viewModel;
-    private Profile databaseContent;
-    private final ProfileRepository fakeProfilesDatabase = new ProfileRepository() {
+    private static Profile databaseContent;
+    public static final ProfileRepository fakeProfilesDatabase = new ProfileRepository() {
         @Override
-        public void saveProfile(Profile profile) {
+        public CompletableFuture<Boolean> saveProfile(Profile profile) {
+            CompletableFuture<Boolean> done = new CompletableFuture<>();
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(() -> {
                 databaseContent = profile;
+                done.complete(true);
             });
+            return done;
         }
 
         @Override
@@ -68,8 +77,13 @@ public class CompleteRegistrationFormTest {
         public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
-
     };
+
+    @Rule
+    public ActivityTestRule<CompleteRegistrationActivity> activityTestRule = new ActivityTestRule<>(CompleteRegistrationActivity.class, true, true);
+
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Before
     public void setUp() {
@@ -98,7 +112,7 @@ public class CompleteRegistrationFormTest {
         };
 
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), fakeAuth);
-        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0));
+        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
@@ -149,7 +163,7 @@ public class CompleteRegistrationFormTest {
     }
 
     @Test
-    public void notLoggedShouldThrowException() {
+    public void notLoggedShouldThrowErrorMessage() {
 
         Authentication notLoggedInAuth = new Authentication() {
             @Override
@@ -173,7 +187,7 @@ public class CompleteRegistrationFormTest {
             }
         };
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
-        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0));
+        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
@@ -193,15 +207,9 @@ public class CompleteRegistrationFormTest {
                 return super.instantiate(classLoader, className);
             }
         });
-        assertThrows(IllegalStateException.class, () -> {
-                    onView(withId(R.id.checkBox)).perform(click());
-                    try {
-                        onView(withId(R.id.finishButton)).perform(click());
-                    } catch (PerformException e) {
-                        throw e.getCause();
-                    }
-                }
-        );
+        onView(withId(R.id.checkBox)).perform(click());
+        onView(withId(R.id.finishButton)).perform(click());
+        onView((withId(R.id.complete_registration_error_msg))).check(matches(withText("Cannot complete the registration you're not even logged in.")));
     }
 
     @Test
@@ -209,5 +217,75 @@ public class CompleteRegistrationFormTest {
         Uri uri = Uri.parse("https://firebase.google.com/terms");
         onView(withId(R.id.generalConditions)).perform(click());
         allOf(hasAction(Intent.ACTION_VIEW), hasData(uri));
+    }
+
+    /**
+     * it uses a mocked firebase users, but the real upload images firebase.
+     */
+    @Test
+    public void completeRegistrationUploadImage() {
+
+        Authentication notLoggedInAuth = new Authentication() {
+            @Override
+            public boolean isLoggedIn() {
+                return true;
+            }
+
+            @Override
+            public AuthenticatedUser loggedUser() {
+                return new AuthenticatedUser("0", "o", "o");
+            }
+
+            @Override
+            public void logout() {
+
+            }
+
+            @Override
+            public Intent buildIntent() {
+                return null;
+            }
+        };
+        viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
+        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
+
+        CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
+        myFragment.viewModelFactory = new ViewModelProvider.Factory() {
+            @Override
+            public <T extends ViewModel> T create(Class<T> modelClass) {
+                return (T) viewModel; //mock a fake view model (had to do that because otherwise the fragment will use the real one in onCreate() before I can change it to the mocked one)
+            }
+        };
+        // run myFragment :
+        FragmentScenario<CompleteRegistrationForm> scenario = FragmentScenario.launchInContainer(CompleteRegistrationForm.class, null, new FragmentFactory() {
+            @NonNull
+            @Override
+            public Fragment instantiate(@NonNull ClassLoader classLoader, @NonNull String className) {
+                if (className.equals(CompleteRegistrationForm.class.getName())) {
+                    return myFragment;
+                }
+                return super.instantiate(classLoader, className);
+            }
+        });
+        onView(withId(R.id.checkBox)).perform(click());
+
+        // Mock the Uri result for the image picker intent using the account_image drawable resource
+        Context context = getInstrumentation().getTargetContext();
+        Uri mockedUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                context.getResources().getResourcePackageName(R.drawable.account_image) + '/' +
+                context.getResources().getResourceTypeName(R.drawable.account_image) + '/' +
+                context.getResources().getResourceEntryName(R.drawable.account_image));
+
+        getInstrumentation().runOnMainSync(() -> {
+            viewModel.completeRegistration("Donald", "email@test.com", "bio2", MALE, mockedUri);
+        });
+        SystemClock.sleep(2000);
+
+        onView((withId(R.id.complete_registration_error_msg))).check(matches(withText("Operation successful")));
+        Profile updatedProfile = fakeProfilesDatabase.fetchProfile("007").join();
+        MatcherAssert.assertThat(updatedProfile.getName(), is("Donald"));
+        MatcherAssert.assertThat(updatedProfile.getEmail(), is("email@test.com"));
+        MatcherAssert.assertThat(updatedProfile.getBio(), is("bio2"));
+        MatcherAssert.assertThat(updatedProfile.getProfileImageUrl().contains("https://"), is(true));
     }
 }
