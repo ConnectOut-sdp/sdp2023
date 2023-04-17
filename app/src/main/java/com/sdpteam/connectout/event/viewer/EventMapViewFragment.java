@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.event.nearbyEvents.map;
+package com.sdpteam.connectout.event.viewer;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,25 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.viewer.EventActivity;
 
-import java.util.List;
-import java.util.stream.Collectors;
+public class EventMapViewFragment extends Fragment implements OnMapReadyCallback {
 
-public class EventsMapViewFragment extends Fragment implements OnMapReadyCallback {
-
-    private final EventsViewModel eventsViewModel;
+    private static final int DEFAULT_MAP_ZOOM = 15;
+    private final EventViewModel eventViewModel;
     private GoogleMap map;
 
-    public EventsMapViewFragment(EventsViewModel eventsViewModel) {
-        this.eventsViewModel = eventsViewModel;
+    public EventMapViewFragment(EventViewModel eventViewModel) {
+        this.eventViewModel = eventViewModel;
+        eventViewModel.refreshEvent();
     }
 
     @Nullable
@@ -39,27 +37,23 @@ public class EventsMapViewFragment extends Fragment implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this); // callback to call when the map is ready
 
-        eventsViewModel.refreshEvents();
-
-        eventsViewModel.getEventListLiveData().observe(getViewLifecycleOwner(), this::showEventsOnMap);
+        eventViewModel.refreshEvent();
+        eventViewModel.getEventLiveData().observe(getViewLifecycleOwner(), this::showEventOnMap);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
-        refreshButton.setOnClickListener(view -> eventsViewModel.refreshEvents());
+        refreshButton.setOnClickListener(view -> eventViewModel.refreshEvent());
 
         return rootView;
     }
 
-    public void showEventsOnMap(List<Event> eventList) {
+    public void showEventOnMap(Event event) {
         if (map == null) {
             return;
         }
         map.clear();
-        eventList = eventList.stream().filter(e -> e.getCoordinates() != null).collect(Collectors.toList());
-
-        for (Event e : eventList) {
-            MarkerOptions m = new MarkerOptions().position(e.getCoordinates().toLatLng()).title(e.getTitle());
-            map.addMarker(m).setTag(e.getId());
-        }
+        MarkerOptions m = new MarkerOptions().position(event.getCoordinates().toLatLng()).title(event.getTitle());
+        map.addMarker(m);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), DEFAULT_MAP_ZOOM));
     }
 
     /**
@@ -74,9 +68,5 @@ public class EventsMapViewFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        map.setOnMarkerClickListener(marker -> {
-            EventActivity.openEvent(getContext(), (String) marker.getTag());
-            return false;
-        });
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.profile.ProfileActivity;
 
 import android.content.Context;
@@ -56,13 +57,11 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         eventDescription.setText(event.getDescription());
 
         ImageButton profileImageButton = view.findViewById(R.id.event_list_profile_button);
-        profileImageButton.setOnClickListener(v -> {
-            ProfileActivity.openProfile(getContext(), event.getOrganizer());
-        });
+        profileImageButton.setOnClickListener(v -> ProfileActivity.openProfile(getContext(), event.getOrganizer()));
 
         ImageView eventImage = view.findViewById(R.id.event_list_event_image);
         //TODO set images
-
+        view.setOnClickListener(v-> EventActivity.openEvent(getContext(), event.getId()));
         return view;
     }
 }
