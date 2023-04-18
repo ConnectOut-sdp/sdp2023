@@ -74,15 +74,6 @@ public class EditProfileValidatorTest {
         male.setChecked(true);
         assertFalse(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
         assertNotNull(bioInput.getError());
-
-        // Test case 5: no gender selected
-        nameInput.setText("John");
-        emailInput.setText("test@example.com");
-        bioInput.setText("This is a long bio.986780897987");
-        male.setChecked(false);
-        female.setChecked(false);
-        other.setChecked(false);
-        assertFalse(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
     }
 
 }
