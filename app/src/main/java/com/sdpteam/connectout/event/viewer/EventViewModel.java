@@ -1,58 +1,80 @@
 package com.sdpteam.connectout.event.viewer;
 
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
-
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
 
-
 public class EventViewModel extends ViewModel {
 
-    private final EventRepository model;
-    private final MutableLiveData<Event> event;
+    private final EventRepository eventRepository;
+    private final MutableLiveData<Event> eventLiveData;
     private String lastEventId;
 
-    public EventViewModel(EventRepository model) {
-        this.model = model;
-        event = new MutableLiveData<>();
+    public EventViewModel(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+        eventLiveData = new MutableLiveData<>();
     }
 
-    public  MutableLiveData<Event> getEventLiveData(){
-        return event;
+    public MutableLiveData<Event> getEventLiveData() {
+        return eventLiveData;
     }
+
     public void getEvent(String eventId) {
         lastEventId = eventId;
-        model.getEvent(eventId).thenAccept(event::setValue);
+        eventRepository.getEvent(eventId).thenAccept(eventLiveData::setValue);
     }
 
+    /**
+     * Fetches the event with the last stored eventId and updates the eventLiveData accordingly.
+     */
     public void refreshEvent() {
-        model.getEvent(lastEventId).thenAccept(event::setValue);
+        eventRepository.getEvent(lastEventId).thenAccept(eventLiveData::setValue);
     }
 
-    public void joinEvent(){
-        participateToEvent(true);
-    }
-    public void leaveEvent(){
-        participateToEvent(false);
+    /**
+     * Updates the participation status of the specified user in the event to "attending".
+     *
+     * @param userId (String): id of the user to add to the event
+     */
+    public void joinEvent(String userId) {
+        updateParticipationStatus(userId, true);
     }
 
-    private void participateToEvent(boolean isParticipating){
-        AuthenticatedUser au = new GoogleAuth().loggedUser();
+    /**
+     * Updates the participation status of the specified user in the event to "not attending".
+     *
+     * @param userId (String): id of the user to remove from the event
+     */
+    public void leaveEvent(String userId) {
+        updateParticipationStatus(userId, false);
+    }
 
-        //Check if an event and a logged user exists
-        if(au != null && lastEventId != null) {
-            String currentUserId = au.uid;
+    /**
+     * Toggles the participation status of the specified user in the event,
+     * if the user is attending/left the event, it removes/add the user from the event.
+     *
+     * @param userId (String): id of the user whose participation status needs to be toggled
+     */
+    public void toggleParticipation(String userId) {
+        eventRepository.getEvent(lastEventId).thenAccept(event ->
+                updateParticipationStatus(userId, !event.getParticipants().contains(userId)));
+    }
+
+    /**
+     * Updates the participation status of the specified user in the event, and refreshes the eventLiveData with the updated event.
+     *
+     * @param userId (String): id of the user whose participation status needs to be updated
+     * @param isParticipating (boolean): true if the user is attending the event, false otherwise
+     */
+    private void updateParticipationStatus(String userId, boolean isParticipating) {
+        // Check if an event is selected
+        if (lastEventId != null) {
             if (isParticipating) {
-
-                model.joinEvent(lastEventId, currentUserId);
+                eventRepository.joinEvent(lastEventId, userId).thenAccept(b -> refreshEvent());
             } else {
-                model.leaveEvent(lastEventId, currentUserId);
+                eventRepository.leaveEvent(lastEventId, userId).thenAccept(b -> refreshEvent());
             }
         }
     }
