@@ -35,4 +35,5 @@
     <string name="event_title">Event title</string>
     <string name="event_description">Event description</string>
     <string name="join">Join</string>
+    <string name="participants_size_format">%s (%d)</string>
 </resources>
