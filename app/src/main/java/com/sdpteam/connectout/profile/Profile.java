@@ -13,6 +13,8 @@ public class Profile {
 
     private final String id;
 
+    private final String nameLowercase;
+
     private Profile() {
         this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
     }
@@ -25,6 +27,11 @@ public class Profile {
         this.gender = gender;
         this.rating = rating;
         this.numRatings = numRatings;
+        if (name == null) {
+            this.nameLowercase = null;
+        } else {
+            this.nameLowercase = name.toLowerCase();
+        }
     }
 
     public Gender getGender() {
@@ -53,6 +60,10 @@ public class Profile {
 
     public int getNumRatings() {
         return numRatings;
+    }
+
+    public String getNameLowercase() {
+        return nameLowercase;
     }
 
     public enum Gender {

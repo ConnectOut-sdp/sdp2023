@@ -135,7 +135,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
      * @return (Query): query that retrieves with the desired name.
      */
     private Query filterByNameProfile(Query root, List<String> values){
-        String name = values.get(0);
+        String name = values.get(0).toLowerCase();
 
         //The regex is used to ensure that we retrieve all names starting with the given string.
         return  root.startAt(name).endAt(name + AUTOMATIC_COMPLETION_REGEX);
@@ -147,7 +147,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
     public enum ProfileOrderingOption {
         NONE(""),
         RATING("rating"),
-        NAME("name");
+        NAME("nameLowercase");
 
 
         private final String name;
