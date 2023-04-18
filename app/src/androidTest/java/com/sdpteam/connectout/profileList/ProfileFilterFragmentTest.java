@@ -64,7 +64,7 @@ public class ProfileFilterFragmentTest {
             }
         });
         if (!profiles.isEmpty()) {
-            List<String> givenList = profiles.stream().map(Profile::getName).collect(Collectors.toList());
+            List<String> givenList = profiles.stream().map(Profile::getNameLowercase).collect(Collectors.toList());
             List<String> copiedList = new ArrayList<>(givenList);
             Collections.sort(copiedList);
             assertThat(givenList, is(copiedList));
