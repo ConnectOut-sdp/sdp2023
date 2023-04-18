@@ -15,8 +15,6 @@ public class EditProfileValidator {
     public static final String NAME_ERROR = "Name should be longer";
     public static final String BIO_ERROR = "Bio not long enough. Should be at least " + MIN_BIO_LENGTH + " characters long";
 
-    public static final String GENDER_ERROR = "One gender must be selected !";
-
     public static boolean isValidEmail(CharSequence email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -31,7 +29,6 @@ public class EditProfileValidator {
 
     public static boolean editProfileValidation(EditText nameInput, EditText emailInput, EditText bioInput, RadioButton male, RadioButton female, RadioButton other) {
         if(!male.isChecked() && !female.isChecked() && !other.isChecked()) {
-            female.setError(GENDER_ERROR);
             nameInput.requestFocus();
             return false;
         }

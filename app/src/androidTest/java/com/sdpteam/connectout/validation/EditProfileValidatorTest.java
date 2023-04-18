@@ -83,7 +83,6 @@ public class EditProfileValidatorTest {
         female.setChecked(false);
         other.setChecked(false);
         assertFalse(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
-        assertNotNull(female.getError());
     }
 
 }
