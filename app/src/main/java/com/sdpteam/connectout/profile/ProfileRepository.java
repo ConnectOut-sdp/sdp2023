@@ -8,7 +8,7 @@ public interface ProfileRepository {
     /**
      * saves the given Profile in the repository
      *
-     * @return
+     * @return a boolean indicating if the operation is successful
      */
     CompletableFuture<Boolean> saveProfile(Profile profile);
 

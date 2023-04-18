@@ -28,6 +28,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
+    @Override
     public CompletableFuture<Boolean> saveProfile(Profile profile) {
         CompletableFuture<Boolean> finished = new CompletableFuture<>();
         firebaseRef.child(USERS)
@@ -38,6 +39,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
         return finished;
     }
 
+    @Override
     public CompletableFuture<Profile> fetchProfile(String uid) {
         CompletableFuture<Profile> future = new CompletableFuture<>();
         fetchProfiles(new ArrayList<>(Collections.singletonList(uid)))
