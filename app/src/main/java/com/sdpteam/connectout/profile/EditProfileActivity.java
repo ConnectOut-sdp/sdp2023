@@ -31,6 +31,8 @@ public class EditProfileActivity extends AppCompatActivity {
         RadioButton female = findViewById(R.id.femaleRadioButton);
         RadioButton other = findViewById(R.id.otherRadioButton);
 
+        other.setChecked(true);
+
         save.setOnClickListener(v -> {
             String uid = auth.isLoggedIn() ? auth.loggedUser().uid : NULL_USER;
 
