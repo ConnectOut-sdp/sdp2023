@@ -21,13 +21,14 @@ public class ProfileViewModel extends ViewModel {
     public RegisteredEventsRepository registeredEventsRepository;
 
     public ProfileViewModel(ProfileRepository profileRepository) {
-        this(profileRepository, null);
-    }
-
-    public ProfileViewModel(ProfileRepository profileRepository, RegisteredEventsRepository registeredEventsRepository){
         this.profileRepository = profileRepository;
         this.profileLiveData = new MutableLiveData<>();
-        this.registeredEventsRepository = registeredEventsRepository;
+    }
+
+    public ProfileViewModel(ProfileFirebaseDataSource profileAndRegisteredEventsRepository){
+        this.profileRepository = profileAndRegisteredEventsRepository;
+        this.profileLiveData = new MutableLiveData<>();
+        this.registeredEventsRepository = profileAndRegisteredEventsRepository;
     }
 
     /**

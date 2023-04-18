@@ -16,9 +16,11 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
 import com.sdpteam.connectout.chat.ChatMessage;
 
@@ -167,10 +169,32 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
      * in list of events that a profile is registered to
      *
      * this list of events is stored under USERS/profileId/REGISTERED_EVENTS
-     * each CalendarEvent has the event's uid as key
+     * each CalendarEvent has an auto generated key
+     *
+     * We make sure that a Calendar Event isn't already in the User's memory before adding it
      * */
     public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
-        firebaseRef.child(USERS).child(profileId).child(PROFILE).child(REGISTERED_EVENTS).child(calEvent.getEventId()).setValue(calEvent);
+        Query q = firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).orderByChild("eventId")
+                        .equalTo(calEvent.getEventId());
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // The query returned a result, which means the event already exists in the user's registered events
+                    // As such we don't do anything
+                } else {
+                    // The query did not return any results, which means the event does not exist in the user's registered events
+                    // Push the event to the user's registered events in the Firebase database
+                    firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).push().setValue(calEvent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
+                //do nothing
+            }
+        });
+
     }
     /**
      * sets up the FirebaseListAdapter for the registered events view
@@ -182,25 +206,9 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
                                  Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
                                  BiConsumer<View, Profile.CalendarEvent> populateView,
                                  Consumer<ListAdapter> setAdapter, String profileId) {
-        Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child(USERS).child(profileId).child(PROFILE).child(REGISTERED_EVENTS);
-        //        .orderByChild("eventDate"); TODO put back
+        Query query = firebaseRef
+                .child(USERS).child(profileId).child(REGISTERED_EVENTS).orderByChild("eventDate");
 
-
-        //TODO remove TEST
-        /*
-        CompletableFuture<List<Profile.CalendarEvent>> value = new CompletableFuture<>();
-        query.get().addOnCompleteListener( t->{
-                    List<Profile.CalendarEvent> calendarEventsList = new ArrayList<>();
-                    DataSnapshot snapshot =  t.getResult();
-                    snapshot.getChildren().forEach(profileSnapshot -> calendarEventsList.add(profileSnapshot.getValue(Profile.CalendarEvent.class)));
-                    value.complete(calendarEventsList);
-                }
-        );*/
-        //System.out.println("TEST Printing Query: ");
-        //System.out.println(value.join());
-        //TODO end of remove
         FirebaseListOptions<Profile.CalendarEvent> options = setLifecycleOwner.apply(setLayout.apply(new FirebaseListOptions.Builder<>())
                 .setQuery(query, Profile.CalendarEvent.class)).build();
 

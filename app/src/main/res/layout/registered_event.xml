@@ -7,22 +7,20 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/registered_event_time"
-        android:textStyle="normal|bold" />
+        android:id="@+id/registered_event_title" />
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/registered_event_time"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/registered_event_title" />
+        android:id="@+id/registered_event_time"
+        android:textStyle="normal|bold"
+        android:layout_below="@+id/registered_event_title"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/registered_event_id"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:layout_below="@+id/registered_event_time"/>
 
 </RelativeLayout>

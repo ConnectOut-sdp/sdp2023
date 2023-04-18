@@ -2,13 +2,7 @@ package com.sdpteam.connectout.event.viewer;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.DrawableCompat;
-
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -19,13 +13,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.firebase.ui.database.FirebaseListOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
-import com.sdpteam.connectout.chat.ChatMessage;
-import com.sdpteam.connectout.chat.ChatViewModel;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
@@ -35,9 +29,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class RegisteredEventsCalendarActivity extends AppCompatActivity {
-
-    //TODO how can we do this better
-    public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource(), new ProfileFirebaseDataSource());
+    public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
     Authentication auth = new GoogleAuth();
 
     @Override
@@ -52,10 +44,10 @@ public class RegisteredEventsCalendarActivity extends AppCompatActivity {
         setUpListAdapter();
 
         ListView listOfRegisteredEvents = findViewById(R.id.list_of_registered_events);
-        listOfRegisteredEvents.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        listOfRegisteredEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView item = (TextView) view.findViewById(R.id.registered_event_id);
+                TextView item = view.findViewById(R.id.registered_event_id);
 
                 Intent intent = new Intent(RegisteredEventsCalendarActivity.this, EventActivity.class);
                 intent.putExtra("key", item.getText());
