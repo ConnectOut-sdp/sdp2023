@@ -36,12 +36,10 @@ public class FileStorageFirebase {
                             } else {
                                 result.complete("FileStorageFirebase" + "Error getting download URL" + task.getException().toString());
                                 Log.e("FileStorageFirebase", "Error getting download URL", task.getException());
-                                System.out.println("FileStorageFirebase" + "Error getting download URL" + task.getException().toString());
                             }
                         });
                     } else {
                         Log.e("FileStorageFirebase", "Error uploading file", taskSnapshot.getException());
-                        System.out.println("FileStorageFirebase" + "Error uploading file" + taskSnapshot.getException().toString());
                         result.complete("FileStorageFirebase" + "Error uploading file" + taskSnapshot.getException().toString());
                     }
                 });
