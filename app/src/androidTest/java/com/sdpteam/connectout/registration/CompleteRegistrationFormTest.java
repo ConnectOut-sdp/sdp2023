@@ -280,6 +280,11 @@ public class CompleteRegistrationFormTest {
             viewModel.completeRegistration("Donald", "email@test.com", "bio2", MALE, mockedUri);
         });
         SystemClock.sleep(2000);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         onView((withId(R.id.complete_registration_error_msg))).check(matches(withText("Operation successful")));
         Profile updatedProfile = fakeProfilesDatabase.fetchProfile("007").join();
