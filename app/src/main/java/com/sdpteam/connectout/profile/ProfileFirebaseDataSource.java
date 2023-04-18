@@ -188,7 +188,6 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
                     firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).push().setValue(calEvent);
                 }
             }
-
             @Override
             public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
                 //do nothing
