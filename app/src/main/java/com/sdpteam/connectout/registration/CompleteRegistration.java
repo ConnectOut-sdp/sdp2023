@@ -23,8 +23,8 @@ public class CompleteRegistration {
      * @param profileFile image (jpg) the user selected from his phone and wants to upload
      * @return url to where this image has been uploaded
      */
-    public CompletableFuture<Uri> uploadProfile(Uri profileFile) {
-        CompletableFuture<Uri> profileImageUrl = new CompletableFuture<>();
+    public CompletableFuture<String> uploadProfile(Uri profileFile) {
+        CompletableFuture<String> profileImageUrl = new CompletableFuture<>();
         imageStorageFirebase.uploadFile(profileFile, "jpg").thenAccept(profileImageUrl::complete);
         return profileImageUrl;
     }

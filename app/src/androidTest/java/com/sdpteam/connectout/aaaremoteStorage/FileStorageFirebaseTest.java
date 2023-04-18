@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.aaaremoteStorage;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -47,7 +49,8 @@ public class FileStorageFirebaseTest {
             // Upload the file to Firebase Storage
             Uri uri = Uri.fromFile(tempFile);
 
-            Uri createdUrl = new FileStorageFirebase().uploadFile(uri, "jpg").join();
+            String createdUrl = new FileStorageFirebase().uploadFile(uri, "jpg").join();
+            assertThat(createdUrl.toString(), is("cououc"));
             assertTrue(createdUrl.toString().contains("https://"));
         } catch (IOException e) {
             throw new RuntimeException(e);
