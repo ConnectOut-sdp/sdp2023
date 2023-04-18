@@ -20,11 +20,8 @@ public class EventCreationValidator {
     }
 
     public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput) {
-        if(!handleValidationFailure(isValidEventTitle(eventTitleInput.getText().toString()), eventTitleInput, EVENT_TITLE_ERROR)
-                || !handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR)){
-            return false;
-        }
-        return true;
+        return handleValidationFailure(isValidEventTitle(eventTitleInput.getText().toString()), eventTitleInput, EVENT_TITLE_ERROR)
+                && handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR);
     }
 
 }

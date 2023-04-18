@@ -22,12 +22,6 @@ public class EditProfileValidatorTest {
     }
 
     @Test
-    public void testIsValidPassword() {
-        assertTrue(EditProfileValidator.isValidPassword("password12376876"));
-        assertFalse(EditProfileValidator.isValidPassword("123"));
-    }
-
-    @Test
     public void testIsValidName() {
         assertTrue(EditProfileValidator.isValidName("John"));
         assertFalse(EditProfileValidator.isValidName(""));

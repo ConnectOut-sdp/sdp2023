@@ -7,8 +7,7 @@ public class ValidationUtils {
         if(!condition) {
             input.setError(error);
             input.requestFocus();
-            return false;
         }
-        return true;
+        return condition;
     }
 }
