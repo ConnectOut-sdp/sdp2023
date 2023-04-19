@@ -205,6 +205,7 @@ public class ProfileListActivityTest {
             List<Double> givenList = profiles.stream().map(Profile::getRating).collect(Collectors.toList());
             List<Double> copiedList = new ArrayList<>(givenList);
             Collections.sort(copiedList);
+            Collections.reverse(copiedList);
             assertThat(givenList, is(copiedList));
         }
     }
