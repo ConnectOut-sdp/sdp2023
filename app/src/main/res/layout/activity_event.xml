@@ -6,31 +6,46 @@
         android:layout_height="match_parent"
         tools:context=".event.viewer.EventActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/event_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+
+        android:theme="@style/Theme.ConnectOut.AppBarOverlay"
+        app:navigationIcon="@drawable/back_arrow_image">
+
+        <TextView
+            android:id="@+id/event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+
+            android:layout_margin="16dp"
+            android:text="@string/event_title"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/event_content"
+            android:layout_below="@+id/event_toolbar"
             android:layout_above="@+id/event_join_button">
 
 
-        <TextView
-                android:id="@+id/event_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="16dp"
-                android:text="Event title"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
         <TextView
                 android:id="@+id/event_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/event_title"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="16dp"
-                android:text="Event description" />
+                android:text="@string/event_description" />
 
         <Button
                 android:id="@+id/event_participants_button"
@@ -39,7 +54,7 @@
                 android:layout_below="@+id/event_description"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:text="Participants" />
+                android:text="@string/participants" />
 
         <RelativeLayout
                 android:id="@+id/event_fragment_container"
@@ -63,6 +78,6 @@
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Join" />
+            android:text="" />
 
 </RelativeLayout>

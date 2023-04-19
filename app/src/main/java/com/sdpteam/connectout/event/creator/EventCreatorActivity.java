@@ -30,7 +30,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         Toolbar toolbar = findViewById(R.id.event_creator_toolbar);
         setSupportActionBar(toolbar);
 
-        LocationPicker mapFragment = new LocationPicker(eventCreatorViewModel);
+        LocationPicker mapFragment = new LocationPicker();
         replaceFragment(mapFragment, R.id.event_creator_fragment_container);
 
         toolbar.setNavigationOnClickListener(v -> this.finish());

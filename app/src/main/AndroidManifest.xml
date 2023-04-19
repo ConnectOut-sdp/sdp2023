@@ -51,6 +51,7 @@
             android:exported="false" />
         <activity
                 android:name=".event.viewer.EventActivity"
+                android:theme="@style/Theme.ConnectOut.NoActionBar"
                 android:exported="false" />
         <activity
                 android:name=".profile.ProfileActivity"

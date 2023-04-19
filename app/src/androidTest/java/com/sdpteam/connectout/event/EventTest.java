@@ -2,6 +2,8 @@ package com.sdpteam.connectout.event;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -27,5 +29,21 @@ public class EventTest {
     @Test
     public void testConstructorWithDescription() {
         assertThat(TEST_EVENT.getDescription(), is("descr"));
+    }
+
+    @Test
+    public void addsParticipantToEventOnce(){
+        assertTrue(TEST_EVENT.addParticipant("1"));
+        assertTrue(TEST_EVENT.getParticipants().contains("1"));
+        assertFalse(TEST_EVENT.addParticipant("1"));
+        assertTrue(TEST_EVENT.getParticipants().contains("1"));
+    }
+    @Test
+    public void removeParticipantToEventOnce(){
+        TEST_EVENT.addParticipant("1");
+        assertTrue(TEST_EVENT.getParticipants().contains("1"));
+        assertTrue(TEST_EVENT.removeParticipant("1"));
+        assertFalse(TEST_EVENT.getParticipants().contains("1"));
+        assertFalse(TEST_EVENT.removeParticipant("1"));
     }
 }
