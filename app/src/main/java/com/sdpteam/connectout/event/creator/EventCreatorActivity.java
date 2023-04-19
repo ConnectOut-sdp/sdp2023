@@ -3,6 +3,7 @@ package com.sdpteam.connectout.event.creator;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.validation.EventCreationValidator;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
@@ -68,8 +69,11 @@ public class EventCreatorActivity extends WithFragmentActivity {
                 //we said that we would do this in a future sprint task
                 date = null;
             }
-            saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date);
-            this.finish();
+            // validation
+            if(EventCreationValidator.eventCreationValidation(eventTitle, eventDescription)) {
+                saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date);
+                this.finish();
+            }
         });
     }
 

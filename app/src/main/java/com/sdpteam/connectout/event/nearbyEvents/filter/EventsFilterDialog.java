@@ -36,17 +36,17 @@ public class EventsFilterDialog extends DialogFragment {
         final SeekBar seekBar = view.findViewById(R.id.events_filter_seekbar);
         seekBar.setProgress(SEEKBAR_VALUE);
         seekBar.setOnSeekBarChangeListener(seekBarHandler(view));
-
         final Button applyBtn = view.findViewById(R.id.events_filter_apply_btn);
         applyBtn.setOnClickListener(v -> applyFilter(search, seekBar));
         return view;
     }
 
     private void applyFilter(EditText search, SeekBar seekBar) {
-        final EventFilter textFilter = new TextFilter(search.getText().toString());
-        final EventFilter locationFilter = new LocationFilter(GPSCoordinates.current(), seekBar.getProgress());
-        final EventFilter filter = textFilter.and(locationFilter);
-        eventsViewModel.setFilter(filter);
+        final EventFilter textFilter = new EventTextFilter(search.getText().toString());
+        final EventFilter locationFilter = new EventLocationFilter(GPSCoordinates.current(), seekBar.getProgress());
+        final EventFilter eventFilter = textFilter.and(locationFilter);
+
+        eventsViewModel.setFilter(eventFilter, ProfilesFilter.NONE);
         eventsViewModel.refreshEvents();
 
         // save filter state before dismiss dialog

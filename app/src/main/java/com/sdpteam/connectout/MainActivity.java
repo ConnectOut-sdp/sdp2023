@@ -1,13 +1,6 @@
 package com.sdpteam.connectout;
 
-import com.sdpteam.connectout.authentication.GoogleLoginActivity;
-import com.sdpteam.connectout.drawer.LogInActivity;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.qr_code.QRcodeActivity;
-import com.sdpteam.connectout.qr_code.QRcodeProfileActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;

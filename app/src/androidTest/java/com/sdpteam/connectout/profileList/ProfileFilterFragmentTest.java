@@ -9,6 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.widget.ListView;
@@ -122,7 +123,8 @@ public class ProfileFilterFragmentTest {
             List<Double> givenList = profiles.stream().map(Profile::getRating).collect(Collectors.toList());
             List<Double> copiedList = new ArrayList<>(givenList);
             Collections.sort(copiedList);
-            assertThat(givenList, is(copiedList));
+            Collections.sort(givenList);
+            assertEquals(givenList, copiedList);
         }
     }
 
