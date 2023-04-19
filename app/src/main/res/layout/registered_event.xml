@@ -7,6 +7,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:padding="20dp"
         android:id="@+id/registered_event_title" />
 
     <TextView
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/registered_event_time"
         android:textStyle="normal|bold"
+        android:padding="20dp"
         android:layout_below="@+id/registered_event_title"/>
 
     <TextView
@@ -21,6 +23,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/registered_event_id"
         android:visibility="invisible"
+        android:padding="20dp"
         android:layout_below="@+id/registered_event_time"/>
 
 </RelativeLayout>
