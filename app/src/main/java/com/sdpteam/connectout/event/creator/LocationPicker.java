@@ -2,7 +2,7 @@ package com.sdpteam.connectout.event.creator;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
-import java.util.List;
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,10 +12,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.location.LocationHelper;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
 
-import androidx.annotation.NonNull;
+import java.util.List;
 
 // TODO : it is very strange to make a fragment extend another one. especially when they have different purposes.
 public class LocationPicker extends EventsMapViewFragment implements OnMapReadyCallback {
@@ -49,11 +50,19 @@ public class LocationPicker extends EventsMapViewFragment implements OnMapReadyC
         map = googleMap;
         super.onMapReady(map);
         //Create the marker, and mark it as movable
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(new LatLng(0, 0))
-                .draggable(true)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        movingMarker = map.addMarker(markerOptions);
+
+        LocationHelper.getInstance(getContext()).getLastLocation(getActivity(), location -> {
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(new LatLng(0, 0))
+                    .draggable(true)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            if (location != null) {
+                markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
+            }
+            movingMarker = map.addMarker(markerOptions);
+        });
+
+
         //Upon moving, update the marker's true position.
         map.setOnMarkerDragListener(new OnMarkerDragListener() {
 

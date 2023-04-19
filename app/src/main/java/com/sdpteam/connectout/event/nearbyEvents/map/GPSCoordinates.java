@@ -52,9 +52,4 @@ public class GPSCoordinates {
         final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
         return c * EARTH_RADIUS;
     }
-
-    public static GPSCoordinates current() {
-        // TODO request real GPS position from device
-        return new GPSCoordinates(46.51838780003427, 6.568214912591986);
-    }
 }

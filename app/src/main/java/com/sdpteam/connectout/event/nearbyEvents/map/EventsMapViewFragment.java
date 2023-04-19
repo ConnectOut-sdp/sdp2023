@@ -1,24 +1,32 @@
 package com.sdpteam.connectout.event.nearbyEvents.map;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.location.LocationHelper;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventsMapViewFragment extends Fragment implements OnMapReadyCallback {
 
@@ -73,5 +81,15 @@ public class EventsMapViewFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
+        if (ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            map.setMyLocationEnabled(true);
+        }
+
+        LocationHelper.getInstance(getContext()).getLastLocation(getActivity(), location -> {
+            if (location == null) {
+                return;
+            }
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_MAP_ZOOM));
+        });
     }
 }

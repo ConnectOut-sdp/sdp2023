@@ -13,13 +13,14 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.location.LocationHelper;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 public class EventsFilterDialog extends DialogFragment {
 
     private final EventsViewModel eventsViewModel;
-
+    private GPSCoordinates position;
     private static String TEXT_FILTER = "";
     private static int SEEKBAR_VALUE = 100;
 
@@ -37,13 +38,18 @@ public class EventsFilterDialog extends DialogFragment {
         seekBar.setProgress(SEEKBAR_VALUE);
         seekBar.setOnSeekBarChangeListener(seekBarHandler(view));
         final Button applyBtn = view.findViewById(R.id.events_filter_apply_btn);
+
+        LocationHelper.getInstance(getContext()).getLastLocation(getActivity(), location -> {
+            position = new GPSCoordinates(location.getLatitude(), location.getLongitude());
+        });
+
         applyBtn.setOnClickListener(v -> applyFilter(search, seekBar));
         return view;
     }
 
     private void applyFilter(EditText search, SeekBar seekBar) {
         final EventFilter textFilter = new EventTextFilter(search.getText().toString());
-        final EventFilter locationFilter = new EventLocationFilter(GPSCoordinates.current(), seekBar.getProgress());
+        final EventFilter locationFilter = new EventLocationFilter(position, seekBar.getProgress());
         final EventFilter eventFilter = textFilter.and(locationFilter);
 
         eventsViewModel.setFilter(eventFilter, ProfilesFilter.NONE);
