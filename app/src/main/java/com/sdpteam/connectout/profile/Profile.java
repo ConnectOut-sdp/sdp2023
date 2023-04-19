@@ -13,7 +13,7 @@ public class Profile {
 
     private final String id;
 
-    private final String nameLowercase;
+    private final String nameLowercase; // for index in firebase
 
     private Profile() {
         this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0);
