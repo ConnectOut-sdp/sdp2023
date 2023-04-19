@@ -2,29 +2,34 @@ package com.sdpteam.connectout.profile;
 
 public class Profile {
 
-    public static class CalendarEvent {//TODO maybe the error comes from this static
+    public static class CalendarEvent {
         private String eventId;
         private String eventTitle;
         private final long eventDate;
 
-        public CalendarEvent(){
+        public CalendarEvent() {
             this("null_event", "no_title", 0);
         }
-        public CalendarEvent(String eventId, String eventTitle, long eventDate){
+
+        public CalendarEvent(String eventId, String eventTitle, long eventDate) {
             this.eventId = eventId;
             this.eventTitle = eventTitle;
             this.eventDate = eventDate;
         }
+
         public String getEventTitle() {
             return eventTitle;
         }
-        public long getEventDate(){
+
+        public long getEventDate() {
             return eventDate;
         }
-        public String getEventId(){
+
+        public String getEventId() {
             return eventId;
         }
     }
+
     public final static Profile NULL_PROFILE = new Profile();
     private final String name;
     private final String email;
@@ -41,6 +46,7 @@ public class Profile {
     private Profile() {
         this(EditProfileActivity.NULL_USER, EditProfileActivity.NULL_USER, "NULL_EMAIL", "NULL_BIO", Gender.OTHER, 0, 0);
     }
+
     public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings) {
         this.id = uid;
         this.name = name;

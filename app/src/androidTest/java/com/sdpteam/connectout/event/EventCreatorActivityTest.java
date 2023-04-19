@@ -146,6 +146,9 @@ public class EventCreatorActivityTest {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         onView(ViewMatchers.withId(R.id.event_creator_title)).perform(typeText(title));
         Espresso.closeSoftKeyboard();
+        onView(withId(R.id.event_creator_description)).perform(typeText("description"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
 
         onView(ViewMatchers.withId(R.id.btn_date)).perform(click());
         //we select March 18 th 2024 at 4:20

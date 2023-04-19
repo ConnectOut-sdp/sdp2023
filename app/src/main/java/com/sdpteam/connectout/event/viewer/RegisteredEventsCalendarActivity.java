@@ -31,7 +31,7 @@ import java.util.function.Function;
 /**
  * This activity sets up the Calendar UserInterface
  * It consists in the list of events to which a user has registered
- * */
+ */
 public class RegisteredEventsCalendarActivity extends AppCompatActivity {
     public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
     Authentication auth = new GoogleAuth();
