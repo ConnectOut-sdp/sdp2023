@@ -187,7 +187,6 @@ public class ProfileListActivityTest {
 
     @Test
     public void wrongFilteringWithRatingShowsCompleteList() {
-        onView(withId(R.id.user_list_button)).perform(click());
         onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.text_filter)).perform(typeText("0;1 I dont know how to use filter "), ViewActions.closeSoftKeyboard());
