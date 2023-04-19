@@ -18,11 +18,12 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.viewer.EventActivity;
+import com.sdpteam.connectout.event.viewer.MapViewFragment;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EventsMapViewFragment extends Fragment implements OnMapReadyCallback {
+public class EventsMapViewFragment extends MapViewFragment {
 
     private final EventsViewModel eventsViewModel;
     private GoogleMap map;
@@ -31,22 +32,14 @@ public class EventsMapViewFragment extends Fragment implements OnMapReadyCallbac
         this.eventsViewModel = eventsViewModel;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this); // callback to call when the map is ready
-
+    public void updateDataView(View rootView) {
         eventsViewModel.refreshEvents();
 
         eventsViewModel.getEventListLiveData().observe(getViewLifecycleOwner(), this::showEventsOnMap);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
         refreshButton.setOnClickListener(view -> eventsViewModel.refreshEvents());
-
-        return rootView;
     }
 
     public void showEventsOnMap(List<Event> eventList) {

@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
 
-public class EventMapViewFragment extends Fragment implements OnMapReadyCallback {
+public class EventMapViewFragment extends MapViewFragment {
 
     private static final int DEFAULT_MAP_ZOOM = 15;
     private final EventViewModel eventViewModel;
@@ -29,21 +29,13 @@ public class EventMapViewFragment extends Fragment implements OnMapReadyCallback
         eventViewModel.refreshEvent();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this); // callback to call when the map is ready
-
+    public void updateDataView(View rootView) {
         eventViewModel.refreshEvent();
         eventViewModel.getEventLiveData().observe(getViewLifecycleOwner(), this::showEventOnMap);
 
         ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
         refreshButton.setOnClickListener(view -> eventViewModel.refreshEvent());
-
-        return rootView;
     }
 
     public void showEventOnMap(Event event) {
