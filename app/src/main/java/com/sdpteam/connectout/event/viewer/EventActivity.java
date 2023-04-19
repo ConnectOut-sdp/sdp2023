@@ -1,102 +1,131 @@
 package com.sdpteam.connectout.event.viewer;
 
+import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static java.lang.String.format;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.CompletableFuture;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventRepository;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
-
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.lifecycle.ViewModelProvider;
+
+import androidx.appcompat.widget.Toolbar;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import java.util.List;
+import java.util.Locale;
 
 public class EventActivity extends WithFragmentActivity {
+
+    public final static String PASSED_ID_KEY = "eventId";
+    public final static String JOIN_EVENT = "Join Event";
+    public final static String LEAVE_EVENT = "Leave Event";
+
+    private EventViewModel viewModel;
+    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        final Event event = getEvent();
+        initViewModel();
+        initToolbar();
+        initMapFragment();
+        initEventView();
+    }
 
-        final TextView title = findViewById(R.id.event_title);
-        final TextView description = findViewById(R.id.event_description);
-        final Button joinBtn = findViewById(R.id.event_join_button);
-        final Button participantsBtn = findViewById(R.id.event_participants_button);
+    /**
+     * Setup the tool bar, for returning upon completion of view.
+     */
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.event_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> this.finish());
+    }
 
-        title.setText(event.getTitle());
+    /**
+     * Setup the view model.
+     */
+    private void initViewModel() {
+        String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
+        viewModel = new EventViewModel(new EventFirebaseDataSource());
+        viewModel.getEvent(eventId);
+
+        AuthenticatedUser user = new GoogleAuth().loggedUser();
+        currentUserId = user == null ? NULL_USER : user.uid;
+    }
+
+    /**
+     * Initialize the event's main display.
+     */
+    private void initEventView() {
+        TextView title = findViewById(R.id.event_title);
+        TextView description = findViewById(R.id.event_description);
+        Button participationBtn = findViewById(R.id.event_join_button);
+        Button participantsBtn = findViewById(R.id.event_participants_button);
+
+        participationBtn.setOnClickListener(v -> viewModel.toggleParticipation(currentUserId));
+        viewModel.getEventLiveData().observe(this, event -> updateEventView(event, title, description, participationBtn, participantsBtn));
+        participantsBtn.setOnClickListener(v -> showParticipants(null));
+    }
+
+    /**
+     * Upon modification of the given event, changes its view.
+     */
+    @SuppressLint("SetTextI18n")
+    private void updateEventView(Event event, TextView title, TextView description, Button participationBtn, Button participantsBtn) {
+
+        title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
-        joinBtn.setOnClickListener(v -> joinEvent(event));
-
-        final String participantsBtnText = format(Locale.getDefault(), "%s (%d)", participantsBtn.getText(), event.getParticipants().size());
-        participantsBtn.setText(participantsBtnText);
-        participantsBtn.setOnClickListener(v -> showParticipants(event.getParticipants()));
-
-        initMapFragment(event);
+        participationBtn.setText(event.getParticipants().contains(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
+        updateParticipantsButton(event, participantsBtn);
     }
 
-    private void initMapFragment(Event event) {
-
-        // Model that returns a singleton of the event as the event list
-        //TODO connect to firebase.
-        final EventRepository mapModel = new EventRepository() {
-            @Override
-            public boolean saveEvent(Event event) {
-                return false;
-            }
-
-            @Override
-            public CompletableFuture<Event> getEvent(String eventId) {
-                return null;
-            }
-
-            @Override
-            public CompletableFuture<Event> getEvent(String userId, String title) {
-                return null;
-            }
-
-            @Override
-            public String getUniqueId() {
-                return null;
-            }
-
-            @Override
-            public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
-                return CompletableFuture.completedFuture(Collections.singletonList(event));
-            }
-        };
-
-        // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
-        final EventsViewModel mapViewModel = new ViewModelProvider(this, new EventsViewModelFactory(mapModel)).get(EventsViewModel.class);
-
-        final EventsMapViewFragment map = new EventsMapViewFragment(mapViewModel);
+    /**
+     * Initializes the map of the event.
+     */
+    private void initMapFragment() {
+        EventMapViewFragment map = new EventMapViewFragment(viewModel);
         replaceFragment(map, R.id.event_fragment_container);
-    }
-
-    private Event getEvent() {
-        // TODO retrieve event from ID using the view-model
-        return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 
     private void showParticipants(List<String> participants) {
         // TODO launch new activity (or pop-up) with list of profiles
     }
 
-    private void joinEvent(Event event) {
-        // TODO persistence
-        finish();
+    /**
+     * Updates the participant button's text to display the event's number of participants.
+     * @param event (Event): current displayed event.
+     * @param participantsBtn (Button): participant button of the view.
+     */
+    private void updateParticipantsButton(Event event, Button participantsBtn) {
+            String participantsBtnText = String.format(Locale.getDefault(),
+                    getString(R.string.participants_size_format),
+                    getString(R.string.participants),
+                    event.getParticipants().size());
+            participantsBtn.setText(participantsBtnText);
     }
+
+    /**
+     * Helper method to launch a event activity from the source context
+     * (made it to avoid code duplication)
+     *
+     * @param fromContext from where we are starting the intent
+     * @param eventId   event Id to open with.
+     */
+    public static void openEvent(Context fromContext, String eventId) {
+        Intent intent = new Intent(fromContext, EventActivity.class);
+        intent.putExtra(PASSED_ID_KEY, eventId);
+        fromContext.startActivity(intent);
+    }
+
 }
+

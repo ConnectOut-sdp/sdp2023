@@ -49,7 +49,7 @@ public class MapFragmentTest {
 
     @Test
     public void defaultPositionBeforeMarkerInstantiation() {
-        LocationPicker positionSelectorFragment = new LocationPicker(new EventsViewModel(new EventFirebaseDataSource()));
+        LocationPicker positionSelectorFragment = new LocationPicker();
         assertThat(positionSelectorFragment.getMovingMarkerPosition().latitude, is(0.0));
         assertThat(positionSelectorFragment.getMovingMarkerPosition().longitude, is(0.0));
     }
