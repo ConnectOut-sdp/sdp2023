@@ -13,9 +13,11 @@ import java.util.concurrent.CompletableFuture;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
@@ -28,6 +30,19 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
+        firebaseRef.keepSynced(true); // keep data synced even when offline
+
+        firebaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // do something when data changes, such as updating your UI
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // do something when the data retrieval is cancelled, such as showing an error message
+            }
+        });
     }
 
     public void saveProfile(Profile profile) {
