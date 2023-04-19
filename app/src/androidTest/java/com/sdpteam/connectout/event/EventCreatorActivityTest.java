@@ -41,6 +41,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import java.security.cert.PKIXParameters;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
@@ -163,7 +164,7 @@ public class EventCreatorActivityTest {
 
         Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
 
-        assertThat(foundEvent.getDate(), is(new Date(2024-1900, 3-1,
-                18, 4, 20).getTime()));
+        assertThat(new GregorianCalendar(2024, 3-1,
+                18, 4, 20).getTime().getTime(), is(foundEvent.getDate()));
     }
 }

@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:padding="20dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/fab_margin"
                 android:inputType="textPersonName"
@@ -56,6 +57,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="15"
+                android:padding="20dp"
                 android:hint="Event description"
                 android:inputType="text" />
         <RelativeLayout
