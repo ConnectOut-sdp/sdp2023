@@ -38,6 +38,7 @@ public class ProfileListViewModel extends ViewModel {
         if(userInput != null) {
             if (option == ProfileFirebaseDataSource.ProfileOrderingOption.RATING) {
                 inputList = parseRangeInput(userInput);
+                Collections.sort(inputList);
             } else if (option == ProfileFirebaseDataSource.ProfileOrderingOption.NAME) {
                 inputList = parseNameInput(userInput);
             }
