@@ -30,8 +30,6 @@ public class ChatFirebaseDataSource implements ChatDirectory {
 
     public ChatFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
-        // enabling persistence for offline queries
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     /**

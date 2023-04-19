@@ -31,4 +31,6 @@
     <string name="apply_button">APPLY</string>
     <string name="rating_toggle_button">TO RATING</string>
     <string name="name_toggle_button">TO NAME</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

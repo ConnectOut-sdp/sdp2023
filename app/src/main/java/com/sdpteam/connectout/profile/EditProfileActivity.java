@@ -23,6 +23,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         Button save = findViewById(R.id.saveButton);
+        Button cancel = findViewById(R.id.cancelButton);
         EditText nameET = findViewById(R.id.editTextName);
         EditText emailET = findViewById(R.id.editTextEmail);
         EditText bioET = findViewById(R.id.editTextBio);
@@ -40,8 +41,12 @@ public class EditProfileActivity extends AppCompatActivity {
             if(EditProfileValidator.editProfileValidation(nameET, emailET, bioET, male, female, other)) {
                 Profile newProfile = new Profile(uid, nameET.getText().toString(), emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
                 profileViewModel.saveProfile(newProfile);
-                goToProfile(newProfile);
+                goToProfile();
             }
+        });
+
+        cancel.setOnClickListener(v -> {
+            goToProfile();
         });
     }
 
@@ -56,7 +61,7 @@ public class EditProfileActivity extends AppCompatActivity {
         return null;
     }
 
-    private void goToProfile(Profile p) {
+    private void goToProfile() {
         Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
         startActivity(intent);
         finish();
