@@ -1,5 +1,6 @@
 package com.sdpteam.connectout;
 
+import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Don't put anything here, just choose which activity to redirect to
 
-        Intent drawerIntent = new Intent(getApplicationContext(), RegisteredEventsCalendarActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), EventCreatorActivity.class);
         this.startActivity(drawerIntent);
     }
 }

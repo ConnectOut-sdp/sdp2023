@@ -74,6 +74,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
                 //we said that we would do this in a future sprint task
                 date = 0;
             }
+
             // validation
             if(EventCreationValidator.eventCreationValidation(eventTitle, eventDescription)) {
                 saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date);
@@ -91,7 +92,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
      */
     private void saveEvent(String title, GPSCoordinates coordinates, String description, long date) {
         AuthenticatedUser user = new GoogleAuth().loggedUser();
-        String ownerId = user == null ? EditProfileActivity.NULL_USER : user.uid;
+        String ownerId =(user == null)? EditProfileActivity.NULL_USER : user.uid;
 
         //Create associated event.
         //TODO add yourself to the participants by default?
