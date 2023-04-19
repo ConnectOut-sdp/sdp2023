@@ -50,8 +50,9 @@
             android:name=".registration.CompleteRegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".event.viewer.EventActivity"
-            android:exported="false" />
+                android:name=".event.viewer.EventActivity"
+                android:theme="@style/Theme.ConnectOut.NoActionBar"
+                android:exported="false" />
         <activity
             android:name=".profile.ProfileActivity"
             android:exported="false" />
