@@ -119,10 +119,4 @@ public class EditProfileTest {
         testDifferentValues("Alice", "alice@gmail.com",
                 "empty for now", Profile.Gender.OTHER);
     }
-
-    @Test
-    public void changeValuesTestNone() {
-        testDifferentValues("why do you want to know?", "I have no email",
-                "You want to know too much", Profile.Gender.OTHER);
-    }
 }

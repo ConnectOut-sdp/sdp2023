@@ -91,7 +91,6 @@ public class ProfileFilterFragmentTest {
             }
         });
         System.out.println(profiles.size());
-        System.out.println(profiles.get(0).getName());
         if (!profiles.isEmpty()) {
             assertTrue(profiles.get(0).getName().startsWith("Alice"));
         }
