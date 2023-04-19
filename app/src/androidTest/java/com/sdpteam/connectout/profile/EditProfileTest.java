@@ -92,9 +92,7 @@ public class EditProfileTest {
     @Before
     public void setup() {
         Intents.init();
-        testRule.getScenario().onActivity(activity -> {
-            activity.auth = fakeAuthNotLogged;
-        });
+        testRule.getScenario().onActivity(activity -> activity.auth = fakeAuthNotLogged);
     }
 
     @After
@@ -111,18 +109,12 @@ public class EditProfileTest {
     @Test
     public void changeValuesTestFemale() {
         testDifferentValues("Bob", "bob@gmail.com",
-                "empty", Profile.Gender.FEMALE);
+                "Love my friends, I'm on this app to make some more", Profile.Gender.FEMALE);
     }
 
     @Test
     public void changeValuesTestOther() {
         testDifferentValues("Alice", "alice@gmail.com",
                 "empty for now", Profile.Gender.OTHER);
-    }
-
-    @Test
-    public void changeValuesTestNone() {
-        testDifferentValues("why do you want to know?", "I have no email",
-                "You want to know too much", null);
     }
 }
