@@ -46,7 +46,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/fab_margin"
                 android:inputType="textPersonName"
-                android:hint="Event title" />
+                android:hint="Event title"
+            android:autofillHints="" />
 
         <EditText
                 android:id="@+id/event_creator_description"
@@ -57,7 +58,8 @@
                 android:layout_marginTop="30dp"
                 android:ems="15"
                 android:hint="Event description"
-                android:inputType="text" />
+                android:inputType="text"
+            android:autofillHints="" />
 
         <RelativeLayout
                 android:id="@+id/event_creator_fragment_container"
