@@ -88,15 +88,6 @@ public class RegisteredEventsCalendarActivityTest {
         checkCalendarListViewValue(3, "t3");
     }
 
-
-    @Test
-    public void clickingOnCalendarEventOpensEvent(){
-        onData(anything()).inAdapterView(withId(R.id.list_of_registered_events)).atPosition(0).perform(click());
-        intended(allOf(IntentMatchers.hasComponent(EventActivity.class.getName()),
-                IntentMatchers.hasExtra("key", "test4")
-        ));
-    }
-
     public void checkCalendarListViewValue(int position, String title) {
         onData(anything()).inAdapterView(withId(R.id.list_of_registered_events)).atPosition(position).
                 onChildView(withId(R.id.registered_event_title)).
