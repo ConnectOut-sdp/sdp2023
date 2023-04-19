@@ -20,6 +20,7 @@ import android.widget.EditText;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -58,9 +59,9 @@ public class EventCreatorActivity extends WithFragmentActivity {
             final String[] hourMin = txtTime.getText().toString().split(":"); //[hour, min]
             final Date date;
             if (yearMonthDay.length == 3 && hourMin.length == 2){
-                date = new Date(Integer.valueOf(yearMonthDay[2])-1900, Integer.valueOf(yearMonthDay[1])-1,
+                date = new GregorianCalendar(Integer.valueOf(yearMonthDay[2]), Integer.valueOf(yearMonthDay[1])-1,
                         Integer.valueOf(yearMonthDay[0]), Integer.valueOf(hourMin[0]),
-                        Integer.valueOf(hourMin[1]));
+                        Integer.valueOf(hourMin[1])).getTime();
             }
             else{
                 //TODO should fail if the time is not appropriate (No event shouldn't have a time)

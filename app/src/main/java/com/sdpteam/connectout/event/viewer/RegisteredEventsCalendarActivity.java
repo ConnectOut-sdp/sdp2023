@@ -28,6 +28,10 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * This activity sets up the Calendar UserInterface
+ * It consists in the list of events to which a user has registered
+ * */
 public class RegisteredEventsCalendarActivity extends AppCompatActivity {
     public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
     Authentication auth = new GoogleAuth();
@@ -44,6 +48,8 @@ public class RegisteredEventsCalendarActivity extends AppCompatActivity {
         setUpListAdapter();
 
         ListView listOfRegisteredEvents = findViewById(R.id.list_of_registered_events);
+
+        //on click, open event
         listOfRegisteredEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

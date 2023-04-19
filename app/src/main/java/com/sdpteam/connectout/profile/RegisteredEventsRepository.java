@@ -11,7 +11,15 @@ import java.util.function.Function;
 
 public interface RegisteredEventsRepository {
 
+    /**
+     * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
+     * in list of events that a profile is registered to
+     * */
     void registerToEvent(Profile.CalendarEvent calEvent, String profileId);
+
+    /**
+     * sets up the FirebaseListAdapter for the registered events view
+     */
     void setUpListAdapter(Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout,
                           Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
                           BiConsumer<View, Profile.CalendarEvent> populateView,

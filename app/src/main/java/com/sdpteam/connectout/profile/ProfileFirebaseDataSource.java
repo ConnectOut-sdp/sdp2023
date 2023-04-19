@@ -165,13 +165,14 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     }
 
     /**
-     * stores a new Profile.CalendarEvent (eventid, eventtitle and eventDate)
+     * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
      * in list of events that a profile is registered to
      *
      * this list of events is stored under USERS/profileId/REGISTERED_EVENTS
      * each CalendarEvent has an auto generated key
      *
      * We make sure that a Calendar Event isn't already in the User's memory before adding it
+     * Not very efficient if the user is registered to A LOT of events. Which won't be the case so we re fine
      * */
     public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
         Query q = firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).orderByChild("eventId")
@@ -200,6 +201,8 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
      *
      * Displays the List of Profile.CalendarEvent that is stored in Firebase under
      * USERS/profileId/REGISTERED_EVENTS
+     *
+     * orders the CalendarEvents by eventDate
      */
     public void setUpListAdapter(Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout,
                                  Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
