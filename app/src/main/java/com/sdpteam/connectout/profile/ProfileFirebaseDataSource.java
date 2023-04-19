@@ -30,19 +30,6 @@ public class ProfileFirebaseDataSource implements ProfileRepository {
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
-        firebaseRef.keepSynced(true); // keep data synced even when offline
-
-        firebaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // do something when data changes, such as updating your UI
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // do something when the data retrieval is cancelled, such as showing an error message
-            }
-        });
     }
 
     public void saveProfile(Profile profile) {
