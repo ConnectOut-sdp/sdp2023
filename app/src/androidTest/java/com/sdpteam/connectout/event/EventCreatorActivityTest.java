@@ -25,6 +25,8 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.creator.LocationPicker;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -163,8 +165,16 @@ public class EventCreatorActivityTest {
         onView(withId(R.id.event_creator_save_button)).perform(click());
 
         Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        calendar.set(Calendar.YEAR, 2024);
+        calendar.set(Calendar.MONTH, 3 - 1); // Calendar.MONTH starts from 0
+        calendar.set(Calendar.DAY_OF_MONTH, 18);
+        calendar.set(Calendar.HOUR_OF_DAY, 4);
+        calendar.set(Calendar.MINUTE, 20);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
-        assertThat(new GregorianCalendar(2024, 3-1,
-                18, 4, 20).getTime().getTime(), is(foundEvent.getDate()));
+        long unixTimestamp = calendar.getTimeInMillis();
+        assertThat(unixTimestamp, is(foundEvent.getDate()));
     }
 }
