@@ -111,19 +111,23 @@ public class ProfileListActivityTest {
     public ActivityScenarioRule<ProfileListActivity> activityScenarioRule = new ActivityScenarioRule<>(ProfileListActivity.class);
 
     @Test
-    public void initialViewIsNotFiltered() {
-        onView(withId(R.id.user_list_button)).check(matches(not(isChecked())));
+    public void initialViewIsFiltered() {
+        onView(withId(R.id.user_list_button)).check(matches((isChecked())));
+    }
+
+    @Test
+    public void getNonFilteredView() {
+        onView(withId(R.id.user_list_button)).perform(click());
+        onView(withId(R.id.container_users_listview)).check(matches(isDisplayed()));
     }
 
     @Test
     public void swappingDisplaysFilterView() {
-        onView(withId(R.id.user_list_button)).perform(click());
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
     }
 
     @Test
     public void doubleSwappingDisplaysNonFilteredView() {
-        onView(withId(R.id.user_list_button)).perform(click());
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
         onView(withId(R.id.user_list_button)).perform(click());
 
@@ -135,7 +139,6 @@ public class ProfileListActivityTest {
     }
     @Test
     public void filteringByRatingFindsPeopleWithGivenValue() {
-        onView(withId(R.id.user_list_button)).perform(click());
         onView(withId(R.id.text_filter)).perform(typeText("0;1"));
         closeSoftKeyboard();
         onView(withId(R.id.rating_switch_button)).perform(click());
@@ -159,7 +162,6 @@ public class ProfileListActivityTest {
 
     @Test
     public void filteringByRatingIsOrdered() {
-        onView(withId(R.id.user_list_button)).perform(click());
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
@@ -177,6 +179,7 @@ public class ProfileListActivityTest {
             List<Double> givenList = profiles.stream().map(Profile::getRating).collect(Collectors.toList());
             List<Double> copiedList = new ArrayList<>(givenList);
             Collections.sort(copiedList);
+            Collections.reverse(copiedList);
             assertThat(givenList, is(copiedList));
         }
 
@@ -184,7 +187,6 @@ public class ProfileListActivityTest {
 
     @Test
     public void wrongFilteringWithRatingShowsCompleteList() {
-        onView(withId(R.id.user_list_button)).perform(click());
         onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.text_filter)).perform(typeText("0;1 I dont know how to use filter "), ViewActions.closeSoftKeyboard());
@@ -203,6 +205,7 @@ public class ProfileListActivityTest {
             List<Double> givenList = profiles.stream().map(Profile::getRating).collect(Collectors.toList());
             List<Double> copiedList = new ArrayList<>(givenList);
             Collections.sort(copiedList);
+            Collections.reverse(copiedList);
             assertThat(givenList, is(copiedList));
         }
     }
