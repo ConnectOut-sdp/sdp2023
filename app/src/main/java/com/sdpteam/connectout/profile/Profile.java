@@ -42,7 +42,6 @@ public class Profile {
 
     private final String id;
 
-    private final String nameLowercase; // for index in firebase
 
     private Profile() {
         this(EditProfileActivity.NULL_USER, EditProfileActivity.NULL_USER, "NULL_EMAIL", "NULL_BIO", Gender.OTHER, 0, 0);
@@ -56,11 +55,6 @@ public class Profile {
         this.gender = gender;
         this.rating = rating;
         this.numRatings = numRatings;
-        if (name == null) {
-            this.nameLowercase = null;
-        } else {
-            this.nameLowercase = name.toLowerCase();
-        }
     }
 
 
@@ -90,10 +84,6 @@ public class Profile {
 
     public int getNumRatings() {
         return numRatings;
-    }
-
-    public String getNameLowercase() {
-        return nameLowercase;
     }
 
     public enum Gender {
