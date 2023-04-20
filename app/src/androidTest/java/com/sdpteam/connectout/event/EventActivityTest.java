@@ -112,7 +112,11 @@ public class EventActivityTest {
 
 
             Event obtained = new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()).join();
-
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             //Checks given the button text weather the user should be in the list or not
             if (buttonText.get().equals(JOIN_EVENT)) {
                 assertFalse(obtained.getParticipants().contains(NULL_USER));
