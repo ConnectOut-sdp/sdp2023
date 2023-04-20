@@ -143,6 +143,9 @@ public class EventActivityTest {
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
         onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
 
+        // refresh
+        new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()).join();
+
         // quit event
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
         onView(withId(R.id.refresh_button)).perform(ViewActions.click());
