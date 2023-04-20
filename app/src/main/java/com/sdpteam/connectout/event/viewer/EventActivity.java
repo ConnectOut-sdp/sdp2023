@@ -5,7 +5,6 @@ import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -79,7 +78,6 @@ public class EventActivity extends WithFragmentActivity {
         participationBtn.setOnClickListener(v -> viewModel.toggleParticipation(currentUserId));
         viewModel.getEventLiveData().observe(this, event -> updateEventView(event, title, description, participationBtn, participantsBtn, chatBtn));
         participantsBtn.setOnClickListener(v -> showParticipants(null));
-        chatBtn.setOnClickListener(v -> openChat());
     }
 
     /**
@@ -93,10 +91,12 @@ public class EventActivity extends WithFragmentActivity {
         participationBtn.setText(event.getParticipants().contains(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
         updateParticipantsButton(event, participantsBtn);
         chatBtn.setVisibility(event.getParticipants().contains(currentUserId) ? View.VISIBLE : View.INVISIBLE);
+        chatBtn.setOnClickListener(v -> openChat(event.getId()));
     }
 
-    private void openChat() {
+    private void openChat(String eventID) {
         final Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("chatID", eventID);
         startActivity(intent);
     }
 
