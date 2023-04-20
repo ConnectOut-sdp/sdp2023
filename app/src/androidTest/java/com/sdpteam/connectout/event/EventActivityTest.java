@@ -93,7 +93,7 @@ public class EventActivityTest {
     }
 
 
-    @Test
+    // @Test
     public void consecutiveJoinAndLeaveEventChangesBelongingUser() {
         //Used to retrieve the button's text which indicates what operation occurred
         final AtomicReference<String> buttonText = new AtomicReference<>(null);

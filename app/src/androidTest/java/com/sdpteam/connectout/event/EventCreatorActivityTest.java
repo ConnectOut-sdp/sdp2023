@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.event;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -8,20 +9,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.creator.LocationPicker;
-import com.sdpteam.connectout.profile.EditProfileActivity;
-
 import android.widget.Button;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.test.espresso.Espresso;
@@ -30,12 +19,30 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.creator.EventCreatorActivity;
+import com.sdpteam.connectout.event.creator.LocationPicker;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.profile.EditProfileActivity;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
 
     @Rule
     public ActivityScenarioRule<EventCreatorActivity> activityRule = new ActivityScenarioRule<>(EventCreatorActivity.class);
+
+    @Rule
+    public GrantPermissionRule grantLocationRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION);
 
     @Before
     public void setUp() {
