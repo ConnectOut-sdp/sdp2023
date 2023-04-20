@@ -30,17 +30,8 @@ public class EventsFilterDialogTest {
     @Rule
     public ActivityScenarioRule<EventsActivity> testRule = new ActivityScenarioRule<>(EventsActivity.class);
 
-    @Rule public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-
-    @Before
-    public void setup() {
-        Intents.init();
-    }
-
-    @After
-    public void cleanup() {
-        Intents.release();
-    }
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Test
     public void popupIsShownOnFilterBtn() {

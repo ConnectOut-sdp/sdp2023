@@ -39,9 +39,12 @@ public class EventsFilterDialog extends DialogFragment {
         seekBar.setOnSeekBarChangeListener(seekBarHandler(view));
         final Button applyBtn = view.findViewById(R.id.events_filter_apply_btn);
 
-        LocationHelper.getInstance(getContext()).getLastLocation(getActivity(), location -> {
-            position = GPSCoordinates.fromLocation(location);
-        });
+        final LocationHelper locationHelper = LocationHelper.getInstance(getContext());
+        if (locationHelper.hasPermission(getActivity())) {
+            locationHelper.getLastLocation(getActivity(), location -> {
+                position = GPSCoordinates.fromLocation(location);
+            });
+        }
 
         applyBtn.setOnClickListener(v -> applyFilter(search, seekBar));
         return view;
