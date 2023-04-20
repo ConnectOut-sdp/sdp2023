@@ -4,14 +4,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-
-import org.junit.Rule;
-import org.junit.Test;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.sdpteam.connectout.event.creator.EventCreatorViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
@@ -19,9 +14,14 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class EventCreatorViewModelTest {
     public static final Event TEST_EVENT1 = new Event("1", "Tenis", "Searching for a tenis partner", new GPSCoordinates(10, 10), "Eric");
@@ -84,6 +84,26 @@ public class EventCreatorViewModelTest {
         public CompletableFuture<Event> getEvent(String eid) {
             List<Event> filtered = EVENT_LIST.stream().filter(e -> e.getId().equals(eid)).collect(Collectors.toList());
             return filtered.isEmpty() ? null : CompletableFuture.completedFuture(filtered.get(0));
+        }
+
+        @Override
+        public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
+            EVENT_LIST.forEach(e -> {
+                if (e.getId().equals(eventId)) {
+                    e.addParticipant(participantId);
+                }
+            });
+            return CompletableFuture.completedFuture(true);
+        }
+
+        @Override
+        public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
+            EVENT_LIST.forEach(e -> {
+                if (e.getId().equals(eventId)) {
+                    e.getParticipants().remove(participantId);
+                }
+            });
+            return CompletableFuture.completedFuture(true);
         }
 
         @Override

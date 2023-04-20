@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileFilterFragmentTest {
@@ -90,12 +89,12 @@ public class ProfileFilterFragmentTest {
                 profiles.add(profile);
             }
         });
+        System.out.println(profiles.size());
         if (!profiles.isEmpty()) {
             assertTrue(profiles.get(0).getName().startsWith("Alice"));
         }
 
     }
-
 
 
     @Test
