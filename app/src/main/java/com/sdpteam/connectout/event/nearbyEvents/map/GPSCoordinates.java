@@ -58,7 +58,6 @@ public class GPSCoordinates {
     }
 
     public static GPSCoordinates fromLocation(Location location) {
-        Objects.requireNonNull(location);
-        return new GPSCoordinates(location.getLatitude(), location.getLongitude());
+        return location == null ? null : new GPSCoordinates(location.getLatitude(), location.getLongitude());
     }
 }
