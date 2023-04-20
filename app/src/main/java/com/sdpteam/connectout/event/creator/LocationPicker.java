@@ -50,7 +50,9 @@ public class LocationPicker extends MapViewFragment {
         LocationHelper.getInstance(getContext()).getLastLocation(getActivity(), location -> {
             MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(0, 0)).draggable(true).icon(defaultMarker(HUE_BLUE));
             if (location != null) {
-                markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
+                final LatLng latlng = LocationHelper.toLatLng(location);
+                markerOptions.position(latlng);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_MAP_ZOOM));
             }
             movingMarker = map.addMarker(markerOptions);
         });

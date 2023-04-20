@@ -1,18 +1,15 @@
 package com.sdpteam.connectout.event.nearbyEvents.map;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static com.sdpteam.connectout.event.viewer.EventMapViewFragment.DEFAULT_MAP_ZOOM;
+import static com.sdpteam.connectout.event.location.LocationHelper.toLatLng;
 
-import android.content.pm.PackageManager;
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
@@ -65,6 +62,7 @@ public class EventsMapViewFragment extends MapViewFragment {
      * installed Google Play services and returned to the app.
      * Also shows the markers instead of explicitly having to click on the refresh button
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
@@ -73,15 +71,17 @@ public class EventsMapViewFragment extends MapViewFragment {
             return false;
         });
 
-        if (ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        final LocationHelper locationHelper = LocationHelper.getInstance(getContext());
+
+        if (locationHelper.hasPermission(getActivity())) {
             map.setMyLocationEnabled(true);
         }
 
-        LocationHelper.getInstance(getContext()).getLastLocation(getActivity(), location -> {
+        locationHelper.getLastLocation(getActivity(), location -> {
             if (location == null) {
                 return;
             }
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_MAP_ZOOM));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(location), DEFAULT_MAP_ZOOM));
         });
     }
 }

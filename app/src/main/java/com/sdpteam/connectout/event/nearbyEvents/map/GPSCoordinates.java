@@ -6,7 +6,11 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toRadians;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Objects;
 
 public class GPSCoordinates {
     private final double latitude;
@@ -51,5 +55,10 @@ public class GPSCoordinates {
         final double a = sin(dLat / 2) * sin(dLat / 2) + cos(toRadians(latitude)) * cos(toRadians(other.latitude)) * sin(dLon / 2) * sin(dLon / 2);
         final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
         return c * EARTH_RADIUS;
+    }
+
+    public static GPSCoordinates fromLocation(Location location) {
+        Objects.requireNonNull(location);
+        return new GPSCoordinates(location.getLatitude(), location.getLongitude());
     }
 }

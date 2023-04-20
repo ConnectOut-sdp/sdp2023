@@ -40,7 +40,7 @@ public class EventsFilterDialog extends DialogFragment {
         final Button applyBtn = view.findViewById(R.id.events_filter_apply_btn);
 
         LocationHelper.getInstance(getContext()).getLastLocation(getActivity(), location -> {
-            position = new GPSCoordinates(location.getLatitude(), location.getLongitude());
+            position = GPSCoordinates.fromLocation(location);
         });
 
         applyBtn.setOnClickListener(v -> applyFilter(search, seekBar));
