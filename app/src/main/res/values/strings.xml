@@ -31,4 +31,9 @@
     <string name="apply_button">APPLY</string>
     <string name="rating_toggle_button">TO RATING</string>
     <string name="name_toggle_button">TO NAME</string>
+    <string name="participants">Participants</string>
+    <string name="event_title">Event title</string>
+    <string name="event_description">Event description</string>
+    <string name="join">Join</string>
+    <string name="participants_size_format">%s (%d)</string>
 </resources>

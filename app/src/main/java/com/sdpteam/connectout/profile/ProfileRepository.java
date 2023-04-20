@@ -1,7 +1,15 @@
 package com.sdpteam.connectout.profile;
 
+import android.view.View;
+import android.widget.ListAdapter;
+
+import com.firebase.ui.database.FirebaseListOptions;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public interface ProfileRepository {
 

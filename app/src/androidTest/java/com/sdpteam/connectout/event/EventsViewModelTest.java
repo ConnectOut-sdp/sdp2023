@@ -71,6 +71,16 @@ public class EventsViewModelTest {
         }
 
         @Override
+        public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
+            return null;
+        }
+
+        @Override
+        public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
+            return null;
+        }
+
+        @Override
         public CompletableFuture<Event> getEvent(String userId, String title) {
             return null;
         }

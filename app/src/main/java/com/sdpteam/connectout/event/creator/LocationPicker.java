@@ -2,38 +2,33 @@ package com.sdpteam.connectout.event.creator;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
-import java.util.List;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
+import com.sdpteam.connectout.event.viewer.MapViewFragment;
 
 import androidx.annotation.NonNull;
 
-// TODO : it is very strange to make a fragment extend another one. especially when they have different purposes.
-public class LocationPicker extends EventsMapViewFragment implements OnMapReadyCallback {
+public class LocationPicker extends MapViewFragment {
 
     //Movable marker used to get event location
     private Marker movingMarker;
     private GoogleMap map;
 
-    public LocationPicker(EventsViewModel mapViewModel) {
-        super(mapViewModel);
+    @Override
+    public void updateDataView(View rootView) {
+        showMarkerOnMap();
     }
 
-    @Override
-    public void showEventsOnMap(List<Event> eventList) {
+    public void showMarkerOnMap() {
         if (map == null) {
             return;
         }
-        super.showEventsOnMap(eventList);
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(getMovingMarkerPosition())
                 .draggable(true)
@@ -44,10 +39,9 @@ public class LocationPicker extends EventsMapViewFragment implements OnMapReadyC
     /**
      * @inheritDoc
      */
-    @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        super.onMapReady(map);
+
         //Create the marker, and mark it as movable
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(new LatLng(0, 0))
