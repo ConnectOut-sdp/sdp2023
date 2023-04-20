@@ -66,7 +66,7 @@ public class ProfileViewModel extends ViewModel {
             //save new rating
             profileRepository.saveProfile(
                     new Profile(uid, profile.getName(), profile.getEmail(),
-                            profile.getBio(), profile.getGender(), rating, numRatings
+                            profile.getBio(), profile.getGender(), rating, numRatings, profile.getProfileImageUrl()
                     ));
         });
     }

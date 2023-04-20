@@ -42,21 +42,22 @@ public class Profile {
 
     private final String id;
 
+    private final String profileImageUrl;
 
     private Profile() {
-        this(EditProfileActivity.NULL_USER, EditProfileActivity.NULL_USER, "NULL_EMAIL", "NULL_BIO", Gender.OTHER, 0, 0);
+        this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0, null);
     }
 
-    public Profile(String uid, String name, String email, String bio, Gender gender, double rating, int numRatings) {
-        this.id = uid;
+    public Profile(String id, String name, String email, String bio, Gender gender, double rating, int numRatings, String profileImageUrl) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.bio = bio;
         this.gender = gender;
         this.rating = rating;
         this.numRatings = numRatings;
+        this.profileImageUrl = profileImageUrl;
     }
-
 
     public Gender getGender() {
         return gender;
@@ -84,6 +85,10 @@ public class Profile {
 
     public int getNumRatings() {
         return numRatings;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
     }
 
     public enum Gender {

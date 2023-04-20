@@ -17,8 +17,8 @@ public class ProfileFirebaseDataSourceTest {
     @Test
     public void fetchesAllGivenProfiles() {
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        Profile p1 = new Profile("2", "okok", "okok@gmail.com", "okok okok", Profile.Gender.FEMALE, 3.3, 6);
-        Profile p2 = new Profile("1", "okok2", "okok@gmail.com2", "okok okok", Profile.Gender.FEMALE, 3.3, 6);
+        Profile p1 = new Profile("2", "okok", "okok@gmail.com", "okok okok", Profile.Gender.FEMALE, 3.3, 6, "");
+        Profile p2 = new Profile("1", "okok2", "okok@gmail.com2", "okok okok", Profile.Gender.FEMALE, 3.3, 6, "");
         model.saveProfile(p1);
         model.saveProfile(p2);
 
@@ -43,7 +43,7 @@ public class ProfileFirebaseDataSourceTest {
     @Test
     public void fetchCorrectProfileWithExistingId() {
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        Profile p = new Profile("1", "okok", "okok@gmail.com", "okok okok", Profile.Gender.FEMALE, 3.3, 6);
+        Profile p = new Profile("1", "okok", "okok@gmail.com", "okok okok", Profile.Gender.FEMALE, 3.3, 6, "");
         model.saveProfile(p);
 
         Profile foundProfile = model.fetchProfile("1").join();

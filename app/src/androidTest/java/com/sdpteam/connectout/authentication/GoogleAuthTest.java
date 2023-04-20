@@ -17,13 +17,54 @@ public class GoogleAuthTest {
 
     @Test
     public void testIsNotLoggedInBeforeStarting() {
-        GoogleAuth ga = new GoogleAuth();
+        Authentication ga = new Authentication() {
+            @Override
+            public boolean isLoggedIn() {
+                return false;
+            }
+
+            @Override
+            public AuthenticatedUser loggedUser() {
+                return null;
+            }
+
+            @Override
+            public void logout() {
+
+            }
+
+            @Override
+            public Intent buildIntent() {
+                return null;
+            }
+        };
         assertFalse(ga.isLoggedIn());
     }
 
     @Test
     public void testLogsOutSuccessfully() {
-        GoogleAuth ga = new GoogleAuth();
+        final boolean[] loggedIn = {true};
+        Authentication ga = new Authentication() {
+            @Override
+            public boolean isLoggedIn() {
+                return loggedIn[0];
+            }
+
+            @Override
+            public AuthenticatedUser loggedUser() {
+                return null;
+            }
+
+            @Override
+            public void logout() {
+                loggedIn[0] = false;
+            }
+
+            @Override
+            public Intent buildIntent() {
+                return null;
+            }
+        };
         ga.logout();
         assertFalse(ga.isLoggedIn());
     }

@@ -63,6 +63,11 @@ public class GoogleLoginActivityTest {
 
             activity.redirectIfAuthenticated(); // trick to avoid clicking the firebase button
         });
+        try {
+            Thread.sleep(2000); //wtf in ci it does not work
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         onView(ViewMatchers.withId(R.id.greetingMessage)).check(matches(withText("David \nemail@gmail.com")));
     }
 }

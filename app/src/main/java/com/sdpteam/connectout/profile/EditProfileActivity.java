@@ -39,7 +39,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             // validation
             if(EditProfileValidator.editProfileValidation(nameET, emailET, bioET, male, female, other)) {
-                Profile newProfile = new Profile(uid, nameET.getText().toString(), emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1);
+                Profile newProfile = new Profile(uid, nameET.getText().toString(), emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1, "");
                 profileViewModel.saveProfile(newProfile);
                 goToProfile();
             }
