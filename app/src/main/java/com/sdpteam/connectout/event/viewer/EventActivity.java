@@ -96,7 +96,7 @@ public class EventActivity extends WithFragmentActivity {
 
     private void openChat(String eventID) {
         final Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("chatID", eventID);
+        intent.putExtra("chatId", eventID);
         startActivity(intent);
     }
 
