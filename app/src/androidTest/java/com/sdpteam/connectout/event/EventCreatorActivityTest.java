@@ -164,6 +164,8 @@ public class EventCreatorActivityTest {
 
         onView(withId(R.id.event_creator_save_button)).perform(click());
 
+        Thread.sleep(2000);
+
         Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
         calendar.set(Calendar.YEAR, 2024);
