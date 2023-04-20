@@ -13,6 +13,11 @@
             tools:layout_editor_absoluteY="1dp"
             tools:layout_editor_absoluteX="1dp">
 
+        <FrameLayout
+                android:id="@+id/image_selection_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +74,6 @@
                     android:text="Other" />
         </RadioGroup>
 
-
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -113,6 +117,13 @@
                     android:id="@+id/finishButton" />
         </LinearLayout>
 
+        <TextView
+                android:id="@+id/complete_registration_error_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="error message"
+                />
     </LinearLayout>
 
 

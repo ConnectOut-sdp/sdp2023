@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,32 +15,37 @@
         android:theme="@style/Theme.ConnectOut"
         tools:targetApi="31">
         <activity
-            android:name=".event.viewer.RegisteredEventsCalendarActivity"
-            android:exported="false" />
+                android:name=".event.viewer.RegisteredEventsCalendarActivity"
+                android:exported="false" />
         <activity
-            android:name=".qr_code.QRcodeModalActivity"
-            android:exported="false" />
+                android:name=".qr_code.QRcodeModalActivity"
+                android:exported="false" />
         <activity
-            android:name=".qr_code.QRcodeEventActivity"
-            android:exported="false" />
+                android:name=".qr_code.QRcodeEventActivity"
+                android:exported="false" />
         <activity
-            android:name=".qr_code.QRcodeProfileActivity"
-            android:exported="false" />
+                android:name=".qr_code.QRcodeProfileActivity"
+                android:exported="false" />
         <activity
-            android:name=".qr_code.QRcodeActivity"
-            android:exported="false" />
+                android:name=".qr_code.QRcodeActivity"
+                android:exported="false" />
         <activity
             android:name=".qr_code.CaptureAct"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme" />
+
+        <!--                c'est rouge tkt, c'est juste dans les tests que c'est utilisé ;)-->
+        <activity
+                android:name=".utils.TestActivity"
+                android:exported="false" />
         <activity
             android:name=".event.nearbyEvents.EventsActivity"
             android:exported="false"
             android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".chat.ChatActivity"
-            android:exported="false" />
+                android:name=".chat.ChatActivity"
+                android:exported="false" />
         <activity
             android:name=".profile.ReportProfileActivity"
             android:exported="false" />
@@ -56,22 +62,20 @@
         <activity
             android:name=".profile.ProfileActivity"
             android:exported="false" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
-
         <activity
-            android:name=".event.creator.EventCreatorActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".event.creator.EventCreatorActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".drawer.LogInActivity"
-            android:exported="false" />
+                android:name=".drawer.LogInActivity"
+                android:exported="false" />
         <activity
-            android:name=".profileList.ProfileListActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".profileList.ProfileListActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
             android:name=".drawer.DrawerActivity"
             android:exported="false"
@@ -87,8 +91,8 @@
             android:name=".profile.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+                android:name=".MainActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

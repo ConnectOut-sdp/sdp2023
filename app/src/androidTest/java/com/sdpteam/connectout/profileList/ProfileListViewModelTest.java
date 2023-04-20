@@ -9,6 +9,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.registration.CompleteRegistration;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Rule;
@@ -25,10 +26,10 @@ public class ProfileListViewModelTest {
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
-    private static final Profile PROFILE_TEST1 = new Profile("1", "Eric", "eric@gmail.com", "Hi ! Nice to meet you all :)", Profile.Gender.MALE, 5, 5);
-    private static final Profile PROFILE_TEST2 = new Profile("2", "Alberta", "A@gmail.com", "AAAAAA", Profile.Gender.FEMALE, 3, 73);
-    private static final Profile PROFILE_TEST3 = new Profile("3", "Alain", "B@gmail.com", "BBBBBBB", Profile.Gender.OTHER, 4.55, 102);
-    private static final Profile PROFILE_TEST4 = new Profile("3", "C", "C@gmail.com", "CCCCC", Profile.Gender.OTHER, 4.75, 1000);
+    private static final Profile PROFILE_TEST1 = new Profile("1", "Eric", "eric@gmail.com", "Hi ! Nice to meet you all :)", Profile.Gender.MALE, 5, 5, "");
+    private static final Profile PROFILE_TEST2 = new Profile("2", "Alberta", "A@gmail.com", "AAAAAA", Profile.Gender.FEMALE, 3, 73, "");
+    private static final Profile PROFILE_TEST3 = new Profile("3", "Alain", "B@gmail.com", "BBBBBBB", Profile.Gender.OTHER, 4.55, 102, "");
+    private static final Profile PROFILE_TEST4 = new Profile("3", "C", "C@gmail.com", "CCCCC", Profile.Gender.OTHER, 4.75, 1000, "");
 
     private final static List<Profile> PROFILES = createProfiles();
 
@@ -148,7 +149,8 @@ public class ProfileListViewModelTest {
     public static class TestProfileModel implements ProfileRepository {
 
         @Override
-        public void saveProfile(Profile profile) {
+        public CompletableFuture<Boolean> saveProfile(Profile profile) {
+            return CompletableFuture.completedFuture(true);
         }
 
         @Override

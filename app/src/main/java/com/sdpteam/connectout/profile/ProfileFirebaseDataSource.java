@@ -1,6 +1,10 @@
 package com.sdpteam.connectout.profile;
 
+import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
+import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
+import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
+
 import android.view.View;
 import android.widget.ListAdapter;
 import java.util.ArrayList;
@@ -35,14 +39,18 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
         firebaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void saveProfile(Profile profile) {
+    @Override
+    public CompletableFuture<Boolean> saveProfile(Profile profile) {
+        CompletableFuture<Boolean> finished = new CompletableFuture<>();
         firebaseRef.child(USERS)
-                .child(profile
-                        .getId())
+                .child(profile.getId())
                 .child(PROFILE)
-                .setValue(profile);
+                .setValue(profile)
+                .addOnCompleteListener(command -> finished.complete(command.isSuccessful()));
+        return finished;
     }
 
+    @Override
     public CompletableFuture<Profile> fetchProfile(String uid) {
         CompletableFuture<Profile> future = new CompletableFuture<>();
         fetchProfiles(new ArrayList<>(Collections.singletonList(uid)))

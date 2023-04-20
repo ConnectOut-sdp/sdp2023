@@ -89,7 +89,7 @@ public class ProfileTest {
 
     public void loggedUserBaseCase(String name, String email, String bio, Profile.Gender gender) {
         Profile userProfile = new Profile(EditProfileActivity.NULL_USER, name, email,
-                bio, gender, 1, 1);
+                bio, gender, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
         model.saveProfile(userProfile);
@@ -103,7 +103,7 @@ public class ProfileTest {
 
     @Test
     public void gettersAndSettersTest() {
-        Profile p = new Profile("12342", "Donald Trump", "donaldtrump@gmail.com", "I'm so cool", Profile.Gender.OTHER, 1, 1);
+        Profile p = new Profile("12342", "Donald Trump", "donaldtrump@gmail.com", "I'm so cool", Profile.Gender.OTHER, 1, 1, "");
 
         assertThat(p.getBio(), is("I'm so cool"));
         assertThat(p.getName(), is("Donald Trump"));
@@ -111,7 +111,7 @@ public class ProfileTest {
         assertThat(p.getGender(), is(Profile.Gender.OTHER));
         assertThat(p.getId(), is("12342"));
 
-        p = new Profile("12342", "ExPresident", "expresident@gmail.com", "I'm not cool", Profile.Gender.MALE, 1, 1);
+        p = new Profile("12342", "ExPresident", "expresident@gmail.com", "I'm not cool", Profile.Gender.MALE, 1, 1, "");
 
         assertThat(p.getBio(), is("I'm not cool"));
         assertThat(p.getName(), is("ExPresident"));

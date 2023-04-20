@@ -61,7 +61,7 @@ public class RegisteredEventsCalendarActivityTest {
             eventFirebase.saveEvent(e4);
             eventFirebase.saveEvent(e5);
 
-            Profile p = new Profile(NULL_USER, "user_test_name", "fake_email", "fake_bio", Profile.Gender.MALE, 0, 0);
+            Profile p = new Profile(NULL_USER, "user_test_name", "fake_email", "fake_bio", Profile.Gender.MALE, 0, 0, "");
             ProfileFirebaseDataSource profileFirebase = new ProfileFirebaseDataSource();
             profileFirebase.saveProfile(p);
 
