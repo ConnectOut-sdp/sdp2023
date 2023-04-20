@@ -1,13 +1,15 @@
 package com.sdpteam.connectout.event.viewer;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
-import static java.lang.String.format;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
@@ -71,22 +74,30 @@ public class EventActivity extends WithFragmentActivity {
         TextView description = findViewById(R.id.event_description);
         Button participationBtn = findViewById(R.id.event_join_button);
         Button participantsBtn = findViewById(R.id.event_participants_button);
+        ImageButton chatBtn = findViewById(R.id.event_chat_btn);
 
         participationBtn.setOnClickListener(v -> viewModel.toggleParticipation(currentUserId));
-        viewModel.getEventLiveData().observe(this, event -> updateEventView(event, title, description, participationBtn, participantsBtn));
+        viewModel.getEventLiveData().observe(this, event -> updateEventView(event, title, description, participationBtn, participantsBtn, chatBtn));
         participantsBtn.setOnClickListener(v -> showParticipants(null));
+        chatBtn.setOnClickListener(v -> openChat());
     }
 
     /**
      * Upon modification of the given event, changes its view.
      */
     @SuppressLint("SetTextI18n")
-    private void updateEventView(Event event, TextView title, TextView description, Button participationBtn, Button participantsBtn) {
+    private void updateEventView(Event event, TextView title, TextView description, Button participationBtn, Button participantsBtn, ImageButton chatBtn) {
 
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
         participationBtn.setText(event.getParticipants().contains(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
         updateParticipantsButton(event, participantsBtn);
+        chatBtn.setVisibility(event.getParticipants().contains(currentUserId) ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void openChat() {
+        final Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
     }
 
     /**

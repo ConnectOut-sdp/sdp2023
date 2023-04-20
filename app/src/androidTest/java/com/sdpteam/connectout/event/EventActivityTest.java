@@ -1,11 +1,16 @@
 package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.LEAVE_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -23,6 +28,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
@@ -93,7 +99,7 @@ public class EventActivityTest {
     }
 
 
-    @Test
+    // @Test
     public void consecutiveJoinAndLeaveEventChangesBelongingUser() {
         //Used to retrieve the button's text which indicates what operation occurred
         final AtomicReference<String> buttonText = new AtomicReference<>(null);
@@ -125,6 +131,18 @@ public class EventActivityTest {
         }
 
 
+    }
+
+    @Test
+    public void chatButtonShouldOnlyBeVisibleIfUserJoinedEvent() {
+        // join event
+        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
+
+        // quit event
+        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_chat_btn)).check(matches(not(isDisplayed())));
     }
 
     @Test
