@@ -21,8 +21,6 @@
             android:layout_gravity="end"
             android:layout_marginEnd="@dimen/fab_margin"
             android:text="Filter"
-            android:background="@color/white"
-            android:textColor="@color/white"
             android:textSize="15dp"/>
     </androidx.appcompat.widget.Toolbar>
 
