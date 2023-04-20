@@ -19,6 +19,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 import java.util.List;
@@ -106,6 +107,12 @@ public class EventActivity extends WithFragmentActivity {
     private void initMapFragment() {
         EventMapViewFragment map = new EventMapViewFragment(viewModel);
         replaceFragment(map, R.id.event_fragment_container);
+    }
+
+    private Event getEvent() {
+        // TODO retrieve event from ID using the view-model
+        //Get intent "key" which is associated to the event uid
+        return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 
     private void showParticipants(List<String> participants) {

@@ -16,7 +16,7 @@ public class ProfilesFilterTest {
     @Test
     public void blankFilterShouldAlwaysPass() {
         List<Profile> profiles = new ArrayList<>();
-        profiles.add(new Profile("id", "name", "email", "bio", Profile.Gender.MALE, 5, 10));
+        profiles.add(new Profile("id", "name", "email", "bio", Profile.Gender.MALE, 5, 10, ""));
         assertTrue(ProfilesFilter.NONE.test(profiles));
         assertTrue(ProfilesFilter.NONE.test(null));
     }

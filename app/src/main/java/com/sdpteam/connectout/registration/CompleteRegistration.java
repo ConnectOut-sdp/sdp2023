@@ -2,24 +2,41 @@ package com.sdpteam.connectout.registration;
 
 import static com.sdpteam.connectout.profile.Profile.Gender;
 
+import java.util.concurrent.CompletableFuture;
+
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
+
+import android.net.Uri;
 
 public class CompleteRegistration {
     private final ProfileRepository profiles;
+    private final FileStorageFirebase imageStorageFirebase;
 
     public CompleteRegistration(ProfileRepository profiles) {
         this.profiles = profiles;
+        imageStorageFirebase = new FileStorageFirebase();
+    }
+
+    /**
+     * @param profileFile image (jpg) the user selected from his phone and wants to upload
+     * @return url to where this image has been uploaded
+     */
+    public CompletableFuture<Uri> uploadProfile(Uri profileFile) {
+        CompletableFuture<Uri> profileImageUrl = new CompletableFuture<>();
+        imageStorageFirebase.uploadFile(profileFile, "jpg").thenAccept(profileImageUrl::complete);
+        return profileImageUrl;
     }
 
     /**
      * Creating the initial profile metadata for ConnectOut
      */
-    public void completeRegistration(String userId, MandatoryFields completion) {
+    public CompletableFuture<Boolean> completeRegistration(String userId, MandatoryFields completion, String profileImageUrl) {
         final double defaultRating = 0.0;
         final int defaultNumRatings = 0;
-        Profile initialProfile = new Profile(userId, completion.name, completion.email, completion.bio, completion.g, defaultRating, defaultNumRatings);
-        profiles.saveProfile(initialProfile);
+        Profile initialProfile = new Profile(userId, completion.name, completion.email, completion.bio, completion.g, defaultRating, defaultNumRatings, profileImageUrl);
+        return profiles.saveProfile(initialProfile);
     }
 
     /**

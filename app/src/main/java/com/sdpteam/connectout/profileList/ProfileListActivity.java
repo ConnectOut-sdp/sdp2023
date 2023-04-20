@@ -32,8 +32,8 @@ public class ProfileListActivity extends WithFragmentActivity {
 
             //Setup the different list view fragment (one with filter one without).
             ProfileListFragment listFragment = new ProfileListFragment();
+            replaceFragment(listFragment, R.id.container_users_listview);
             ProfileFilterFragment filterFragment = new ProfileFilterFragment();
-            replaceFragment(filterFragment, R.id.container_users_listview);
 
             filterButton.setOnClickListener(v -> {
                 if (filterButton.isChecked()) {

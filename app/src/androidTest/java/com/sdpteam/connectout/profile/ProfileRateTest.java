@@ -18,7 +18,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -49,7 +48,7 @@ public class ProfileRateTest {
     @Before
     public void setup() {
         Profile testProfile = new Profile(uid, name, "test@gmail.com", "test",
-                Profile.Gender.MALE, 0, 0);
+                Profile.Gender.MALE, 0, 0, "");
         model.saveProfile(testProfile);
     }
 
