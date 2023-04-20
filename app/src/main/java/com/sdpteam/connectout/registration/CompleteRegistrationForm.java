@@ -7,6 +7,7 @@ import java.util.Arrays;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -18,9 +19,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -34,6 +38,8 @@ public class CompleteRegistrationForm extends Fragment {
      */
     public ViewModelProvider.Factory viewModelFactory; // for testing (mocking)
     private RegistrationViewModel registrationViewModel;
+
+    private Uri selectedImage = null;
 
     public static CompleteRegistrationForm newInstance() {
         CompleteRegistrationForm completeRegistrationForm = new CompleteRegistrationForm();
@@ -64,6 +70,14 @@ public class CompleteRegistrationForm extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment();
+        imageSelectionFragment.setOnImageSelectedListener(imageUri -> {
+            this.selectedImage = imageUri;
+        });
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.image_selection_container, imageSelectionFragment);
+        transaction.commit();
+
         EditText nameEditor = view.findViewById(R.id.nameEditText);
         nameEditor.setText(registrationViewModel.currentName());
 
@@ -93,6 +107,25 @@ public class CompleteRegistrationForm extends Fragment {
             finishButton.setEnabled(checkBox.isChecked());
         });
 
+        TextView errView = view.findViewById(R.id.complete_registration_error_msg);
+        errView.setText("");
+
+        registrationViewModel.getErrorMessage().observeForever(s -> {
+            if (s != null && s.length() > 0) {
+                errView.setText(s);
+                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+            } else {
+                errView.setText("");
+            }
+        });
+
+        registrationViewModel.getProgress().observeForever(loading -> {
+            finishButton.setEnabled(!loading);
+            if (!loading) {
+                formSubmittedSuccessfully();
+            }
+        });
+
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -102,11 +135,11 @@ public class CompleteRegistrationForm extends Fragment {
         final String name = nameEditor.getText().toString();
         final String email = emailEditor.getText().toString();
         final String bio = bioEditor.getText().toString();
-        try {
-            registrationViewModel.completeRegistration(name, email, bio, gender);
-        } catch (IllegalStateException e) {
-            // error unhandled for the moment
-            throw e;
-        }
+
+        registrationViewModel.completeRegistration(name, email, bio, gender, selectedImage);
+    }
+
+    private void formSubmittedSuccessfully() {
+        // TODO navigate to home page view
     }
 }

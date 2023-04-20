@@ -7,22 +7,23 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.is;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.Authentication;
-
 import android.content.Intent;
+
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.Authentication;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 
@@ -59,7 +60,7 @@ public class EditProfileTest {
 
     private static void testDifferentValues(String name, String email, String bio, Profile.Gender gender) {
         Profile previousProfile = new Profile(EditProfileActivity.NULL_USER, "bob", "bob@gmail.com",
-                null, Profile.Gender.MALE, 1, 1);
+                null, Profile.Gender.MALE, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
         model.saveProfile(previousProfile);
@@ -92,7 +93,9 @@ public class EditProfileTest {
     @Before
     public void setup() {
         Intents.init();
-        testRule.getScenario().onActivity(activity -> activity.auth = fakeAuthNotLogged);
+        testRule.getScenario().onActivity(activity -> {
+            activity.auth = fakeAuthNotLogged;
+        });
     }
 
     @After

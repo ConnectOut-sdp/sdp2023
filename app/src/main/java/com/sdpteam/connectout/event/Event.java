@@ -21,25 +21,31 @@ public class Event {
     private final GPSCoordinates coordinates;
     private final String organizer;
     private final List<String> participants;
+    private final long date;
 
     private Event() {
-        this(null, null, null, null, NULL_USER);
+        this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0,0), NULL_USER, new ArrayList<>(), 0);
     }
 
+    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
+        this(id, title, description, coordinates, organizer,new ArrayList<>(), 0);
+    }
+
+
     public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer, List<String> participants) {
+        this(id, title, description, coordinates, organizer,participants, 0);
+    }
+
+    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer,List<String> participants, long date) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.coordinates = coordinates;
         this.organizer = organizer;
+        this.date = date;
         this.participants = participants;
 
     }
-
-    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
-        this(id,title,description,coordinates,organizer, new ArrayList<>());
-    }
-
     public String getId() {
         return id;
     }
@@ -64,6 +70,7 @@ public class Event {
         return participants;
     }
 
+    public long getDate(){return date;}
     /**
      *
      * @param id (String): id of the participant

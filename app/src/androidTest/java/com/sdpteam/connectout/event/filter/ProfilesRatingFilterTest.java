@@ -47,26 +47,26 @@ public class ProfilesRatingFilterTest {
 
     private static List<Profile> createGreaterList() {
         return Arrays.asList(
-                new Profile("John", "Doe", "mail", "bio", Profile.Gender.MALE, 4.5, 10),
-                new Profile("Jane", "Doe", "mail", "bio", Profile.Gender.FEMALE, 3.0, 10),
-                new Profile("Bob", "Doe", "mail", "bio", Profile.Gender.OTHER, 3.8, 10)
+                new Profile("John", "Doe", "mail", "bio", Profile.Gender.MALE, 4.5, 10, ""),
+                new Profile("Jane", "Doe", "mail", "bio", Profile.Gender.FEMALE, 3.0, 10, ""),
+                new Profile("Bob", "Doe", "mail", "bio", Profile.Gender.OTHER, 3.8, 10, "")
         );
     }
 
     private static List<Profile> createMixList() {
         return Arrays.asList(
-                new Profile("John", "Doe", "mail", "bio", Profile.Gender.MALE, 4.5, 10),
-                new Profile("Jane", "Doe", "mail", "bio", Profile.Gender.FEMALE, 2.0, 10),
-                new Profile("Bob", "Doe", "mail", "bio", Profile.Gender.OTHER, 2.76, 10)
+                new Profile("John", "Doe", "mail", "bio", Profile.Gender.MALE, 4.5, 10, ""),
+                new Profile("Jane", "Doe", "mail", "bio", Profile.Gender.FEMALE, 2.0, 10, ""),
+                new Profile("Bob", "Doe", "mail", "bio", Profile.Gender.OTHER, 2.76, 10, "")
         );
 
     }
 
     private static List<Profile> createSmallerList() {
         return Arrays.asList(
-                new Profile("John", "Doe", "mail", "bio", Profile.Gender.MALE, 1.5, 10),
-                new Profile("Jane", "Doe", "mail", "bio", Profile.Gender.FEMALE, 2.0, 10),
-                new Profile("Bob", "Doe", "mail", "bio", Profile.Gender.OTHER, 2.76, 10)
+                new Profile("John", "Doe", "mail", "bio", Profile.Gender.MALE, 1.5, 10, ""),
+                new Profile("Jane", "Doe", "mail", "bio", Profile.Gender.FEMALE, 2.0, 10, ""),
+                new Profile("Bob", "Doe", "mail", "bio", Profile.Gender.OTHER, 2.76, 10, "")
         );
 
     }
