@@ -57,19 +57,19 @@ public class ChatActivityTest {
             model.saveMessage(new ChatMessage("Alice", "Alice userId", "I think we should go swimming one of these days", nameOfTestChat));
             model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Excellent Idea", nameOfTestChat));
         });
-//        checkListViewValue(0, "Hey I m Bob", "Bob");
-//        checkListViewValue(1, "Hey I m Alice", "Alice");
-//        checkListViewValue(2, "Hey I m Dylan", "Dylan");
-//        checkListViewValue(3, "I think we should go swimming one of these days", "Alice");
-//        checkListViewValue(4, "Excellent Idea", "Dylan");
+        checkListViewValue(0, "Hey I m Bob", "Bob");
+        checkListViewValue(1, "Hey I m Alice", "Alice");
+        checkListViewValue(2, "Hey I m Dylan", "Dylan");
+        checkListViewValue(3, "I think we should go swimming one of these days", "Alice");
+        checkListViewValue(4, "Excellent Idea", "Dylan");
 
         onView(withId(R.id.chat_input)).perform(typeText("Excellent Idea"));
         onView(withId(R.id.chat_fab)).perform(click());
-//        checkListViewValue(5, "Excellent Idea", "You");
+        checkListViewValue(5, "Excellent Idea", "You");
 
         onView(withId(R.id.chat_input)).perform(typeText("Hi beautiful people"));
         onView(withId(R.id.chat_fab)).perform(click());
-//        checkListViewValue(6, "Hi beautiful people", "You");
+        checkListViewValue(6, "Hi beautiful people", "You");
     }
 
     public void checkListViewValue(int position, String text, String name) {
