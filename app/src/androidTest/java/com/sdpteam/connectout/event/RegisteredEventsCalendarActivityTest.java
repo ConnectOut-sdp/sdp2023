@@ -85,10 +85,10 @@ public class RegisteredEventsCalendarActivityTest {
     public void testCalendarViewOrdering(){
         onView(ViewMatchers.withId(R.id.activity_registered_events_calendar)).check(matches(isDisplayed()));
 
-        // checkCalendarListViewValue(0, "t4");
-        // checkCalendarListViewValue(1, "t2");
-        // checkCalendarListViewValue(2, "t1");
-        // checkCalendarListViewValue(3, "t3");
+        checkCalendarListViewValue(0, "t4");
+        checkCalendarListViewValue(1, "t2");
+        checkCalendarListViewValue(2, "t1");
+        checkCalendarListViewValue(3, "t3");
     }
 
     public void checkCalendarListViewValue(int position, String title) {
