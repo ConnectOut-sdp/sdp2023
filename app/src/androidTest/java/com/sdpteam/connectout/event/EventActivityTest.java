@@ -27,6 +27,7 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
 import com.sdpteam.connectout.profileList.ProfileFilterFragment;
+import com.sdpteam.connectout.utils.Chronometer;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -143,23 +144,32 @@ public class EventActivityTest {
     private void findButtonText(AtomicReference<String> buttonText){
         activityRule.getScenario().onActivity(activity -> {
             Button b = activity.findViewById(R.id.event_join_button);
-            buttonText.set(waitNewButtonTextUpdate(b, buttonText.get()));
+            buttonText.set(waitButtonTextUpdate(b, buttonText.get()));
         });
     }
-    private String waitNewButtonTextUpdate(Button b, String OldText) {
+    private String waitButtonTextUpdate(Button b, String OldText) {
         String text = null;
+        Chronometer chronometer = new Chronometer();
+        chronometer.start();
+        chronometer.setThreshold(5000);
+
         if (OldText == null) {
-            while (!JOIN_EVENT.equals(text) && !LEAVE_EVENT.equals(text)) {
+            while (!JOIN_EVENT.equals(text) && !LEAVE_EVENT.equals(text) && !chronometer.hasExceededThreshold()) {
                 text = b.getText().toString();
             }
-            return text;
-        }else{
-            String needed = JOIN_EVENT.equals(OldText) ? LEAVE_EVENT : JOIN_EVENT;;
-            while (!needed.equals(text) ) {
+        } else {
+            String needed = JOIN_EVENT.equals(OldText) ? LEAVE_EVENT : JOIN_EVENT;
+            while (!needed.equals(text) && !chronometer.hasExceededThreshold()) {
                 text = b.getText().toString();
             }
-            return text;
         }
+        if(chronometer.hasExceededThreshold()){
+            throw new RuntimeException("Took too long to fetch !");
+        }
+        chronometer.stop();
+
+        return text;
     }
+
 
 }

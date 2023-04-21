@@ -34,6 +34,7 @@ import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profileList.ProfileListViewModel;
+import com.sdpteam.connectout.utils.Chronometer;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.hamcrest.Matchers;
@@ -44,6 +45,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @RunWith(AndroidJUnit4.class)
 public class EventsActivityTest {
@@ -112,7 +114,7 @@ public class EventsActivityTest {
     }
 
     @Test
-    public void clickingOnAEventLaunchesRightEventPage() {
+    public void clickingOnAEventLaunchesRightEventPage() throws TimeoutException {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(ViewMatchers.withId(R.id.events_list_view)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
@@ -121,9 +123,16 @@ public class EventsActivityTest {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> model.refreshEvents()); // set up the live data in main thread (because we cannot invoke [LiveData].setValue on a background thread)
         List<Event> list;
+        Chronometer chronometer = new Chronometer();
+        chronometer.start();
+        chronometer.setThreshold(10000);
         do {
              list = LiveDataTestUtil.getOrAwaitValue(model.getEventListLiveData());
-        }while (list.size() == 0);
+        }while (list.size() == 0 && !chronometer.hasExceededThreshold());
+        chronometer.stop();
+        if(chronometer.hasExceededThreshold()){
+            throw new TimeoutException();
+        }
 
         int userIndexToCheck = 0;
 

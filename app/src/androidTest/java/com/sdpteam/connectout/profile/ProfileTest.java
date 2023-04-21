@@ -38,7 +38,7 @@ public class ProfileTest {
      */
 
     @Rule
-    public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(ProfileActivity.class);
+    public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class).putExtra(PROFILE_UID, uid));
 
     @Before
     public void setup() {
@@ -66,10 +66,6 @@ public class ProfileTest {
 
     @Test
     public void testRateButton() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class);
-        intent.putExtra(PROFILE_UID, uid);
-        testRule.getScenario().onActivity(activity -> activity.startActivity(intent));
-
         // test if buttonRateProfile is displayed
         onView(withId(R.id.buttonRateProfile)).check(matches(isDisplayed()));
 
