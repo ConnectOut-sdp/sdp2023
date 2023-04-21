@@ -80,5 +80,13 @@ public class ProfileViewModel extends ViewModel {
                                  Consumer<ListAdapter> setAdapter, String profileId) {
         registeredEventsRepository.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
     }
+
+    /**
+     * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
+     * in list of events that a profile is registered to
+     * */
+    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
+        registeredEventsRepository.registerToEvent(calEvent, profileId);
+    }
 }
 

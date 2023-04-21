@@ -18,6 +18,9 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 import java.util.List;
@@ -29,7 +32,9 @@ public class EventActivity extends WithFragmentActivity {
     public final static String JOIN_EVENT = "Join Event";
     public final static String LEAVE_EVENT = "Leave Event";
 
-    private EventViewModel viewModel;
+    private EventViewModel eventViewModel;
+
+    private ProfileViewModel profileViewModel; //for event registration
     private String currentUserId;
 
     @Override
@@ -57,8 +62,9 @@ public class EventActivity extends WithFragmentActivity {
      */
     private void initViewModel() {
         String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
-        viewModel = new EventViewModel(new EventFirebaseDataSource());
-        viewModel.getEvent(eventId);
+        eventViewModel = new EventViewModel(new EventFirebaseDataSource());
+        eventViewModel.getEvent(eventId);
+        profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
 
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         currentUserId = user == null ? NULL_USER : user.uid;
@@ -73,8 +79,12 @@ public class EventActivity extends WithFragmentActivity {
         Button participationBtn = findViewById(R.id.event_join_button);
         Button participantsBtn = findViewById(R.id.event_participants_button);
 
-        participationBtn.setOnClickListener(v -> viewModel.toggleParticipation(currentUserId));
-        viewModel.getEventLiveData().observe(this, event -> updateEventView(event, title, description, participationBtn, participantsBtn));
+        participationBtn.setOnClickListener(v -> {
+            eventViewModel.toggleParticipation(currentUserId);
+        });
+        eventViewModel.getEventLiveData().observe(this, event ->{
+            updateEventView(event, title, description, participationBtn, participantsBtn);
+        });
         participantsBtn.setOnClickListener(v -> showParticipants(null));
     }
 
@@ -83,18 +93,24 @@ public class EventActivity extends WithFragmentActivity {
      */
     @SuppressLint("SetTextI18n")
     private void updateEventView(Event event, TextView title, TextView description, Button participationBtn, Button participantsBtn) {
-
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
         participationBtn.setText(event.getParticipants().contains(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
         updateParticipantsButton(event, participantsBtn);
+
+        if (!event.getParticipants().contains(currentUserId)){
+            profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
+        }
+        else{
+            //TODO unregister from event (need to create function in profileDataSource)
+        }
     }
 
     /**
      * Initializes the map of the event.
      */
     private void initMapFragment() {
-        EventMapViewFragment map = new EventMapViewFragment(viewModel);
+        EventMapViewFragment map = new EventMapViewFragment(eventViewModel);
         replaceFragment(map, R.id.event_fragment_container);
     }
 
