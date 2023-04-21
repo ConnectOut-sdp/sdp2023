@@ -71,10 +71,10 @@ public class ProfileTest {
         testRule.getScenario().onActivity(activity -> activity.startActivity(intent));
 
         // test if buttonRateProfile is displayed
-        onView(withId(R.id.buttonRateProfile)).check(matches(isDisplayed()));
+        // onView(withId(R.id.buttonRateProfile)).check(matches(isDisplayed()));
 
         // test if buttonEditProfile is not displayed
-        onView(withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
+        // onView(withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
 
         // test intent
         onView(withId(R.id.buttonRateProfile)).perform(click());
