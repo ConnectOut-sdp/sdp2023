@@ -3,7 +3,6 @@ package com.sdpteam.connectout.map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -74,10 +73,5 @@ public class GPSCoordinatesTest {
     public void testDistanceBetweenSamePointsIsZero() {
         final GPSCoordinates coordinates = new GPSCoordinates(46.51883096217942, 6.566407414078399);
         assertEquals(coordinates.distanceTo(coordinates), 0, 0.00000000000001);
-    }
-
-    @Test
-    public void testCurrentLocationShouldNotBeNull() {
-        assertNotNull(GPSCoordinates.current());
     }
 }

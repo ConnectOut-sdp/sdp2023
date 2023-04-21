@@ -15,6 +15,7 @@ import com.sdpteam.connectout.R;
 
 public abstract class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
+    public static final int DEFAULT_MAP_ZOOM = 15;
 
     @Nullable
     @Override

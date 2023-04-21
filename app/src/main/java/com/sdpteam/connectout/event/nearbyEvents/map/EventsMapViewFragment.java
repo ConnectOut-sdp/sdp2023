@@ -1,21 +1,19 @@
 package com.sdpteam.connectout.event.nearbyEvents.map;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import static com.sdpteam.connectout.event.location.LocationHelper.toLatLng;
+
+import android.annotation.SuppressLint;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.location.LocationHelper;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.MapViewFragment;
@@ -64,12 +62,26 @@ public class EventsMapViewFragment extends MapViewFragment {
      * installed Google Play services and returned to the app.
      * Also shows the markers instead of explicitly having to click on the refresh button
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
         map.setOnMarkerClickListener(marker -> {
             EventActivity.openEvent(getContext(), (String) marker.getTag());
             return false;
+        });
+
+        final LocationHelper locationHelper = LocationHelper.getInstance(getContext());
+
+        if (locationHelper.hasPermission(getActivity())) {
+            map.setMyLocationEnabled(true);
+        }
+
+        locationHelper.getLastLocation(getActivity(), location -> {
+            if (location == null) {
+                return;
+            }
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(location), DEFAULT_MAP_ZOOM));
         });
     }
 }
