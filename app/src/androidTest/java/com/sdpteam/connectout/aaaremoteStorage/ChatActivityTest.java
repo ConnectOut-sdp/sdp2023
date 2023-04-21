@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.chat;
+package com.sdpteam.connectout.aaaremoteStorage;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -19,6 +19,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.chat.ChatActivity;
+import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
+import com.sdpteam.connectout.chat.ChatMessage;
 
 import org.junit.After;
 import org.junit.Before;
@@ -52,7 +55,11 @@ public class ChatActivityTest {
         model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Hey I m Dylan", nameOfTestChat));
         model.saveMessage(new ChatMessage("Alice", "Alice userId", "I think we should go swimming one of these days", nameOfTestChat));
         model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Excellent Idea", nameOfTestChat));
-
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         checkListViewValue(0, "Hey I m Bob", "Bob");
         checkListViewValue(1, "Hey I m Alice", "Alice");
         checkListViewValue(2, "Hey I m Dylan", "Dylan");
