@@ -38,7 +38,7 @@ public class ProfileTest {
      */
 
     @Rule
-    public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class).putExtra(PROFILE_UID, uid));
+    public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(ProfileActivity.class);
 
     @Before
     public void setup() {
@@ -60,20 +60,20 @@ public class ProfileTest {
 
     @Test
     public void testEditProfileButton() {
-        onView(withId(R.id.buttonEditProfile)).perform(click());
+        onView(withId(R.id.buttonRatingEditProfile)).perform(click());
         intended(hasComponent(EditProfileActivity.class.getName()));
     }
 
     @Test
     public void testRateButton() {
+        testRule.getScenario().onActivity(activity ->
+        {Intent profileIntent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class).putExtra(PROFILE_UID, uid);
+        activity.startActivity(profileIntent);
+        });
         // test if buttonRateProfile is displayed
-        onView(withId(R.id.buttonRateProfile)).check(matches(isDisplayed()));
-
-        // test if buttonEditProfile is not displayed
-        onView(withId(R.id.buttonEditProfile)).check(matches(not(isDisplayed())));
-
+        onView(withId(R.id.buttonRatingEditProfile)).check(matches(isDisplayed()));
         // test intent
-        onView(withId(R.id.buttonRateProfile)).perform(click());
+        onView(withId(R.id.buttonRatingEditProfile)).perform(click());
         intended(allOf(hasComponent(ProfileRateActivity.class.getName()),
                 IntentMatchers.hasExtra(RATED_UID, uid)));
     }
