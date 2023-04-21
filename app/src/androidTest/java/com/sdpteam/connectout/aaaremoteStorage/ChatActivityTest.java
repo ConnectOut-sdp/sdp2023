@@ -12,6 +12,7 @@ import static org.hamcrest.Matchers.anything;
 
 import android.content.Intent;
 
+import android.os.SystemClock;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -55,11 +56,7 @@ public class ChatActivityTest {
         model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Hey I m Dylan", nameOfTestChat));
         model.saveMessage(new ChatMessage("Alice", "Alice userId", "I think we should go swimming one of these days", nameOfTestChat));
         model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Excellent Idea", nameOfTestChat));
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        SystemClock.sleep(1200);
         checkListViewValue(0, "Hey I m Bob", "Bob");
         checkListViewValue(1, "Hey I m Alice", "Alice");
         checkListViewValue(2, "Hey I m Dylan", "Dylan");

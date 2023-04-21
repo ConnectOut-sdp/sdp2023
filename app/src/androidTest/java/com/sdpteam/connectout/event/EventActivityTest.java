@@ -15,6 +15,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
+import android.os.SystemClock;
 import android.widget.Button;
 
 import androidx.appcompat.widget.Toolbar;
@@ -142,6 +143,7 @@ public class EventActivityTest {
     public void chatButtonShouldOnlyBeVisibleIfUserJoinedEvent() {
         // join event
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        SystemClock.sleep(1000);
         onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
 
         // refresh
