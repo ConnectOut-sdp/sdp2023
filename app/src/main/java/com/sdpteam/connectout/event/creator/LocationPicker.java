@@ -1,18 +1,21 @@
 package com.sdpteam.connectout.event.creator;
 
 import static com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.defaultMarker;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sdpteam.connectout.event.location.LocationHelper;
 import com.sdpteam.connectout.event.viewer.MapViewFragment;
-
-import androidx.annotation.NonNull;
 
 public class LocationPicker extends MapViewFragment {
 
@@ -32,7 +35,7 @@ public class LocationPicker extends MapViewFragment {
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(getMovingMarkerPosition())
                 .draggable(true)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                .icon(defaultMarker(HUE_BLUE));
         movingMarker = map.addMarker(markerOptions);
     }
 
@@ -43,23 +46,29 @@ public class LocationPicker extends MapViewFragment {
         map = googleMap;
 
         //Create the marker, and mark it as movable
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(new LatLng(0, 0))
-                .draggable(true)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        movingMarker = map.addMarker(markerOptions);
+
+        LocationHelper.getInstance(getContext()).getLastLocation(getActivity(), location -> {
+            MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(0, 0)).draggable(true).icon(defaultMarker(HUE_BLUE));
+            if (location != null) {
+                final LatLng latlng = LocationHelper.toLatLng(location);
+                markerOptions.position(latlng);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_MAP_ZOOM));
+            }
+            movingMarker = map.addMarker(markerOptions);
+        });
+
         //Upon moving, update the marker's true position.
         map.setOnMarkerDragListener(new OnMarkerDragListener() {
 
             @Override
             public void onMarkerDrag(@NonNull Marker marker) {
-                movingMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                movingMarker.setIcon(defaultMarker(HUE_YELLOW));
             }
 
             @Override
             public void onMarkerDragEnd(@NonNull Marker marker) {
                 movingMarker.setPosition(marker.getPosition());
-                movingMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                movingMarker.setIcon(defaultMarker(HUE_BLUE));
                 map.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
             }
 

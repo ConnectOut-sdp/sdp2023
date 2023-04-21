@@ -1,5 +1,8 @@
 package com.sdpteam.connectout.event;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
@@ -41,12 +44,16 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
 
     @Rule
     public ActivityScenarioRule<EventCreatorActivity> activityRule = new ActivityScenarioRule<>(EventCreatorActivity.class);
+
+    @Rule
+    public GrantPermissionRule grantLocationRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE, ACCESS_COARSE_LOCATION);
 
     @Before
     public void setUp() {
