@@ -9,6 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.USERS;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +22,10 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
@@ -45,7 +49,7 @@ public class RegisteredEventsCalendarActivityTest {
     public ActivityScenarioRule<RegisteredEventsCalendarActivity> activityRule = new ActivityScenarioRule<>(RegisteredEventsCalendarActivity.class);
     @Before
     public void setUp() {
-        Intents.init();
+        FirebaseDatabase.getInstance().getReference().child(USERS).child(NULL_USER).removeValue();
         activityRule.getScenario().onActivity(activity -> {
             Event e1 = new Event("test1", "t1", "empty", new GPSCoordinates(0,0),"organizerId", new ArrayList<>(), new Date(2023-1900, 4, 11, 13, 33).getTime());
             Event e2 = new Event("test2", "t2", "empty", new GPSCoordinates(0,0),"organizerId", new ArrayList<>(), new Date(2023-1900, 4, 10, 13, 40).getTime());
