@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.is;
 
 import android.content.Intent;
@@ -32,12 +33,12 @@ public class EditProfileTest {
     private final Authentication fakeAuthNotLogged = new Authentication() {
         @Override
         public boolean isLoggedIn() {
-            return false;
+            return true;
         }
 
         @Override
         public AuthenticatedUser loggedUser() {
-            return null;
+            return new AuthenticatedUser(uid, uid, uid) ;
         }
 
         @Override
@@ -51,6 +52,8 @@ public class EditProfileTest {
         }
     };
 
+    private static final String uid = generateRandomPath();
+
     /**
      * Since these tests are fetching from the database, they are also testing the
      * Model
@@ -59,7 +62,7 @@ public class EditProfileTest {
     public ActivityScenarioRule<EditProfileActivity> testRule = new ActivityScenarioRule<>(EditProfileActivity.class);
 
     private static void testDifferentValues(String name, String email, String bio, Profile.Gender gender) {
-        Profile previousProfile = new Profile(EditProfileActivity.NULL_USER, "bob", "bob@gmail.com",
+        Profile previousProfile = new Profile(uid, "bob", "bob@gmail.com",
                 null, Profile.Gender.MALE, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
@@ -83,7 +86,7 @@ public class EditProfileTest {
 
         onView(withId(R.id.saveButton)).perform(click());
 
-        Profile fetchedProfile = model.fetchProfile(EditProfileActivity.NULL_USER).join();
+        Profile fetchedProfile = model.fetchProfile(uid).join();
         assertThat(fetchedProfile.getEmail(), is(email));
         assertThat(fetchedProfile.getName(), is(name));
         assertThat(fetchedProfile.getBio(), is(bio));
@@ -101,6 +104,7 @@ public class EditProfileTest {
     @After
     public void cleanup() {
         Intents.release();
+        new ProfileFirebaseDataSource().deleteProfile(uid);
     }
 
     @Test

@@ -8,7 +8,17 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.anything;
+
+import android.content.Intent;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdpteam.connectout.R;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,19 +26,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.sdpteam.connectout.R;
-
-import android.content.Intent;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 @RunWith(AndroidJUnit4.class)
 public class ChatActivityTest {
     @Rule
     public ActivityScenarioRule<ChatActivity> activityRule = new ActivityScenarioRule<>(ChatActivity.class);
-    String nameOfTestChat = "TestChat";
+    public final String nameOfTestChat = generateRandomPath();
 
     @Before
     public final void setUp() {
@@ -36,14 +38,13 @@ public class ChatActivityTest {
         intent.putExtra("chatId", nameOfTestChat);
         activityRule.getScenario().onActivity(activity -> {
             activity.startActivity(intent);
-            activity.viewModel.chatFirebaseDataSource.emptyTestMode();
         });
     }
 
     @After
     public final void tearDown() {
         activityRule.getScenario().onActivity(activity ->
-                activity.viewModel.chatFirebaseDataSource.emptyTestMode());
+                activity.viewModel.chatFirebaseDataSource.emptyTestMode(nameOfTestChat));
     }
 
     @Test

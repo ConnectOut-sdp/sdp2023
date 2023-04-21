@@ -1,8 +1,5 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
 
 import android.view.View;
@@ -17,27 +14,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.sdpteam.connectout.utils.FirebaseDataSource;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredEventsRepository{
-    private final DatabaseReference firebaseRef;
+public class ProfileFirebaseDataSource extends FirebaseDataSource implements ProfileRepository, RegisteredEventsRepository{
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
     private final String REGISTERED_EVENTS = "RegisteredEvents";
     private final int NUM_IMPORTED_EVENTS = 50;
     public final static String USERS = "Users";
     public final static String PROFILE = "Profile";
-
-    public ProfileFirebaseDataSource() {
-        firebaseRef = FirebaseDatabase.getInstance().getReference();
-    }
 
     @Override
     public CompletableFuture<Boolean> saveProfile(Profile profile) {

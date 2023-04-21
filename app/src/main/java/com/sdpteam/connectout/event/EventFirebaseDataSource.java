@@ -12,20 +12,16 @@ import com.google.firebase.database.Transaction;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.utils.FirebaseDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-public class EventFirebaseDataSource implements EventRepository {
+public class EventFirebaseDataSource extends FirebaseDataSource implements EventRepository {
     public final static String DATABASE_EVENT_PATH = "Events";
     private final static int MAX_EVENTS_FETCHED = 100;
-    private final DatabaseReference database;
-
-    public EventFirebaseDataSource() {
-        database = FirebaseDatabase.getInstance().getReference();
-    }
 
     /**
      * @param event (Event): The given event to save
@@ -37,7 +33,7 @@ public class EventFirebaseDataSource implements EventRepository {
     @Override
     public boolean saveEvent(Event event) {
         if (event != null) {
-            database.child(DATABASE_EVENT_PATH).child(event.getId()).setValue(event);
+            firebaseRef.child(DATABASE_EVENT_PATH).child(event.getId()).setValue(event);
             return true;
         }
         return false;
@@ -52,7 +48,7 @@ public class EventFirebaseDataSource implements EventRepository {
      */
     private CompletableFuture<Boolean> modifyEvent(String eventId, Function<Event, Boolean> eventModifier) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        DatabaseReference eventRef = database.child(DATABASE_EVENT_PATH).child(eventId);
+        DatabaseReference eventRef = firebaseRef.child(DATABASE_EVENT_PATH).child(eventId);
 
         //Ask firebase to do the changes atomically.
         eventRef.runTransaction(new Transaction.Handler() {
@@ -108,7 +104,7 @@ public class EventFirebaseDataSource implements EventRepository {
     @Override
     public CompletableFuture<Event> getEvent(String eventId) {
         CompletableFuture<Event> future = new CompletableFuture<>();
-        Task<DataSnapshot> task = database.child(DATABASE_EVENT_PATH).child(eventId).get();
+        Task<DataSnapshot> task = firebaseRef.child(DATABASE_EVENT_PATH).child(eventId).get();
         task.addOnCompleteListener(t -> {
             Event valueFromFirebase = t.getResult().getValue(Event.class);
             future.complete(valueFromFirebase);
@@ -125,7 +121,7 @@ public class EventFirebaseDataSource implements EventRepository {
     @Override
     public CompletableFuture<Event> getEvent(String userId, String title) {
         CompletableFuture<Event> value = new CompletableFuture<>();
-        Task<DataSnapshot> task = database.child(DATABASE_EVENT_PATH).orderByKey().get();
+        Task<DataSnapshot> task = firebaseRef.child(DATABASE_EVENT_PATH).orderByKey().get();
         task.addOnCompleteListener(t -> {
             Event matchingEvent = null;
             //Iterate on given children of the snapshot.
@@ -148,7 +144,7 @@ public class EventFirebaseDataSource implements EventRepository {
      * @return (String): Event Id that is truly unique in the model.
      */
     public String getUniqueId() {
-        return database.child(DATABASE_EVENT_PATH).push().getKey();
+        return firebaseRef.child(DATABASE_EVENT_PATH).push().getKey();
     }
 
     /**
@@ -161,7 +157,7 @@ public class EventFirebaseDataSource implements EventRepository {
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
 
 
-        database.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
+        firebaseRef.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
                 .limitToFirst(MAX_EVENTS_FETCHED).orderByKey()
                 .get()
                 .addOnCompleteListener(t -> {

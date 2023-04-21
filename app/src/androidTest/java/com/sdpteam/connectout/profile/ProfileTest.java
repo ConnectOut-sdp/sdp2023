@@ -9,10 +9,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.ProfileActivity.PROFILE_UID;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
-import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 
 import android.content.Intent;
@@ -37,6 +36,8 @@ public class ProfileTest {
      * Model
      */
 
+    public final String uid = generateRandomPath();
+
     @Rule
     public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(ProfileActivity.class);
 
@@ -48,6 +49,8 @@ public class ProfileTest {
     @After
     public void cleanup() {
         Intents.release();
+        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
+        model.deleteProfile(uid);
     }
 
     @Test
@@ -88,13 +91,13 @@ public class ProfileTest {
     }
 
     public void loggedUserBaseCase(String name, String email, String bio, Profile.Gender gender) {
-        Profile userProfile = new Profile(EditProfileActivity.NULL_USER, name, email,
+        Profile userProfile = new Profile(uid, name, email,
                 bio, gender, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
         model.saveProfile(userProfile);
 
-        Profile fetchedProfile = model.fetchProfile(EditProfileActivity.NULL_USER).join();
+        Profile fetchedProfile = model.fetchProfile(uid).join();
         ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));
         ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
         ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));

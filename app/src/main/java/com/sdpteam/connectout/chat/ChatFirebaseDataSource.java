@@ -13,24 +13,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.sdpteam.connectout.utils.FirebaseDataSource;
 
 import android.view.View;
 import android.widget.ListAdapter;
 import androidx.annotation.NonNull;
 
-public class ChatFirebaseDataSource implements ChatDirectory {
+public class ChatFirebaseDataSource extends FirebaseDataSource implements ChatDirectory {
 
     private final static int NUM_IMPORTED_MESSAGES = 50;
-    private final DatabaseReference firebaseRef;
     private final String CHATS_PATH_STRING = "Chats";
     private final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     private final String userName = (currentUser == null) ? NULL_USER : currentUser.getDisplayName();
 
     private FirebaseListAdapter<ChatMessage> adapter;
-
-    public ChatFirebaseDataSource() {
-        firebaseRef = FirebaseDatabase.getInstance().getReference();
-    }
 
     /**
      * Saves a given chatMessage to firebase
@@ -93,8 +89,7 @@ public class ChatFirebaseDataSource implements ChatDirectory {
      * Testing is done in the chat called TestChat, but it is important to delete the chat messages
      * generated during the test which is what this method does
      */
-    public void emptyTestMode() {
-        //hardcoded value to avoid unwanted errors
-        firebaseRef.child("Chats/TestChat").removeValue();
+    public void emptyTestMode(String path) {
+        firebaseRef.child("Chats").child(path).removeValue();
     }
 }

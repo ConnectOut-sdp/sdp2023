@@ -6,6 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_NAME;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
@@ -29,7 +30,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ProfileRateTest {
 
-    public final static String uid = "testuid";
+    public final static String uid = generateRandomPath();
     public final static String name = "test";
 
     private final ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
