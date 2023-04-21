@@ -92,6 +92,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
                     List<Profile> profilesList = new ArrayList<>();
                     DataSnapshot snapshot =  t.getResult();
                     snapshot.getChildren().forEach(profileSnapshot -> profilesList.add(profileSnapshot.child(PROFILE).getValue(Profile.class)));
+                    if (option == RATING) { Collections.reverse(profilesList); }
                     value.complete(profilesList);
                 }
         );
@@ -147,7 +148,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
      * @return (Query): query that retrieves with the desired name.
      */
     private Query filterByNameProfile(Query root, List<String> values){
-        String name = values.get(0);
+        String name = values.get(0).toLowerCase();
 
         //The regex is used to ensure that we retrieve all names starting with the given string.
         return  root.startAt(name).endAt(name + AUTOMATIC_COMPLETION_REGEX);
@@ -159,7 +160,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     public enum ProfileOrderingOption {
         NONE(""),
         RATING("rating"),
-        NAME("name");
+        NAME("nameLowercase");
 
 
         private final String name;
