@@ -112,7 +112,8 @@ public class CompleteRegistrationFormTest {
         };
 
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), fakeAuth);
-        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
+        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""))
+                .join();
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
@@ -187,7 +188,8 @@ public class CompleteRegistrationFormTest {
             }
         };
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
-        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
+        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""))
+                .join();
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
@@ -247,7 +249,8 @@ public class CompleteRegistrationFormTest {
             }
         };
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
-        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
+        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""))
+                .join();
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {

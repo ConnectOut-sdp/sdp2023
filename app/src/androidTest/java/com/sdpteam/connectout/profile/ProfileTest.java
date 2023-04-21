@@ -88,7 +88,7 @@ public class ProfileTest {
                 bio, gender, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        model.saveProfile(userProfile);
+        model.saveProfile(userProfile).join();
 
         Profile fetchedProfile = model.fetchProfile(EditProfileActivity.NULL_USER).join();
         ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));

@@ -16,6 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
+import android.os.SystemClock;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -63,16 +64,18 @@ public class RegisteredEventsCalendarActivityTest {
             eventFirebase.saveEvent(e3);
             eventFirebase.saveEvent(e4);
             eventFirebase.saveEvent(e5);
+            SystemClock.sleep(1000);
 
             Profile p = new Profile(NULL_USER, "user_test_name", "fake_email", "fake_bio", Profile.Gender.MALE, 0, 0, "");
             ProfileFirebaseDataSource profileFirebase = new ProfileFirebaseDataSource();
-            profileFirebase.saveProfile(p);
+            profileFirebase.saveProfile(p).join();
 
             profileFirebase.registerToEvent(new Profile.CalendarEvent(e1.getId(), e1.getTitle(), e1.getDate()), NULL_USER);
             profileFirebase.registerToEvent(new Profile.CalendarEvent(e2.getId(), e2.getTitle(), e2.getDate()), NULL_USER);
             profileFirebase.registerToEvent(new Profile.CalendarEvent(e3.getId(), e3.getTitle(), e3.getDate()), NULL_USER);
             profileFirebase.registerToEvent(new Profile.CalendarEvent(e4.getId(), e4.getTitle(), e4.getDate()), NULL_USER);
             profileFirebase.registerToEvent(new Profile.CalendarEvent(e5.getId(), e5.getTitle(), e5.getDate()), NULL_USER);
+            SystemClock.sleep(1000);
         });
     }
 

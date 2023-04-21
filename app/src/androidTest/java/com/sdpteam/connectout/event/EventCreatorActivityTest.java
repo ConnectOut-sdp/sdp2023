@@ -32,6 +32,7 @@ import com.sdpteam.connectout.profile.EditProfileActivity;
 
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
+import android.os.SystemClock;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -137,7 +138,7 @@ public class EventCreatorActivityTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
         onView(withId(R.id.event_creator_save_button)).perform(click());
-
+        SystemClock.sleep(1000);
         Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
 
         assertThat(foundEvent.getTitle(), is(title));
@@ -168,7 +169,7 @@ public class EventCreatorActivityTest {
 
         onView(withId(R.id.event_creator_save_button)).perform(click());
 
-        Thread.sleep(2000);
+        SystemClock.sleep(1000);
         assertNull(new GoogleAuth().loggedUser());
 
         Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();

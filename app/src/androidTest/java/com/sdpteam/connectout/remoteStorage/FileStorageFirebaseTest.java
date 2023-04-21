@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.aaaremoteStorage;
+package com.sdpteam.connectout.remoteStorage;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
 import com.sdpteam.connectout.utils.TestActivity;
 
 import android.content.ContentResolver;

@@ -20,6 +20,7 @@ import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.creator.LocationPicker;
 
+import android.os.SystemClock;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -44,6 +45,7 @@ public class MapFragmentTest {
     public void testMapDisplayed() {
         onView(withId(R.id.map)).check(matches(isDisplayed()));
         onView(withId(R.id.refresh_button)).perform(click());
+        SystemClock.sleep(1000);
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 

@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.aaaremoteStorage;
+package com.sdpteam.connectout.chat;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -56,7 +56,7 @@ public class ChatActivityTest {
         model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Hey I m Dylan", nameOfTestChat));
         model.saveMessage(new ChatMessage("Alice", "Alice userId", "I think we should go swimming one of these days", nameOfTestChat));
         model.saveMessage(new ChatMessage("Dylan", "Dylan userId", "Excellent Idea", nameOfTestChat));
-        SystemClock.sleep(1200);
+        SystemClock.sleep(1000);
         checkListViewValue(0, "Hey I m Bob", "Bob");
         checkListViewValue(1, "Hey I m Alice", "Alice");
         checkListViewValue(2, "Hey I m Dylan", "Dylan");
@@ -65,10 +65,12 @@ public class ChatActivityTest {
 
         onView(withId(R.id.chat_input)).perform(typeText("Excellent Idea"));
         onView(withId(R.id.chat_fab)).perform(click());
+        SystemClock.sleep(1000);
         checkListViewValue(5, "Excellent Idea", "You");
 
         onView(withId(R.id.chat_input)).perform(typeText("Hi beautiful people"));
         onView(withId(R.id.chat_fab)).perform(click());
+        SystemClock.sleep(1000);
         checkListViewValue(6, "Hi beautiful people", "You");
         model.emptyTestMode();
     }

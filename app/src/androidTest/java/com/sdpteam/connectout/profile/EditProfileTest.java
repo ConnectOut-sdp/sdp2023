@@ -63,7 +63,7 @@ public class EditProfileTest {
                 null, Profile.Gender.MALE, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        model.saveProfile(previousProfile);
+        model.saveProfile(previousProfile).join();
 
         onView(ViewMatchers.withId(R.id.editTextName)).perform(typeText(name));
         Espresso.closeSoftKeyboard();

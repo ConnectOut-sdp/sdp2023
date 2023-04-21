@@ -49,7 +49,7 @@ public class ProfileRateTest {
     public void setup() {
         Profile testProfile = new Profile(uid, name, "test@gmail.com", "test",
                 Profile.Gender.MALE, 0, 0, "");
-        model.saveProfile(testProfile);
+        model.saveProfile(testProfile).join();
     }
 
     @Test
