@@ -1,16 +1,12 @@
 name: Android CI
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: set up JDK 11
@@ -19,8 +15,17 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
-
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Run Android tests with coverage
+      uses: android-actions/gradle@v2.4
+      with:
+        args: testDebugUnitTest --info --stacktrace
+        jacoco: true
+    - name: Publish code coverage reports
+      uses: actions/upload-artifact@v2
+      with:
+        name: code-coverage
+        path: app/build/reports/coverage/debug
