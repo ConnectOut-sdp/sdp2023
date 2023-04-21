@@ -64,7 +64,7 @@ public class ProfileFilterFragmentTest {
             }
         });
         if (!profiles.isEmpty()) {
-            List<String> givenList = profiles.stream().map(Profile::getName).collect(Collectors.toList());
+            List<String> givenList = profiles.stream().map(Profile::getNameLowercase).collect(Collectors.toList());
             List<String> copiedList = new ArrayList<>(givenList);
             Collections.sort(copiedList);
             assertThat(givenList, is(copiedList));
@@ -96,7 +96,6 @@ public class ProfileFilterFragmentTest {
 
     }
 
-
     @Test
     public void wrongFilteringWithRatingShowsCompleteList() {
         FragmentScenario<ProfileFilterFragment> fc = FragmentScenario.launchInContainer(ProfileFilterFragment.class);
@@ -104,7 +103,7 @@ public class ProfileFilterFragmentTest {
         onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.rating_switch_button)).perform(click());
-        onView(withId(R.id.text_filter)).perform(typeText("0;1 I dont know how to use filter "), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.text_filter)).perform(typeText("I dont know how to use filter "), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.filter_apply_button)).perform(click());
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
@@ -124,6 +123,7 @@ public class ProfileFilterFragmentTest {
             assertEquals(givenList, copiedList);
         }
     }
+
 
     @Test
     public void wrongFilteringWithNameShowsEmptyList() {

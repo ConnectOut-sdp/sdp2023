@@ -120,4 +120,10 @@ public class EditProfileTest {
         testDifferentValues("Alice", "alice@gmail.com",
                 "empty for now", Profile.Gender.OTHER);
     }
+
+    @Test
+    public void cancelButtonWorks() {
+        // Click on the cancel button
+        onView(withId(R.id.cancelButton)).perform(click());
+    }
 }
