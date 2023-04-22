@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.aaaremoteStorage;
+package com.sdpteam.connectout.remoteStorage;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
 import com.sdpteam.connectout.utils.TestActivity;
 
 import android.app.Activity;
@@ -44,6 +43,25 @@ public class ImageSelectionFragmentTest {
     public IntentsTestRule<TestActivity> intentsTestRule = new IntentsTestRule<>(TestActivity.class);
 
     private Uri mockedUri = null;
+
+    public static Matcher<View> hasDrawable() {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            protected boolean matchesSafely(View item) {
+                if (!(item instanceof ImageView)) {
+                    return false;
+                }
+                ImageView imageView = (ImageView) item;
+                return imageView.getDrawable() != null;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("has drawable");
+            }
+        };
+    }
 
     @Test
     public void testImageSelection() {
@@ -89,24 +107,5 @@ public class ImageSelectionFragmentTest {
 
         // Check if the ImageView has the drawable set from the mocked Uri
         onView(withId(R.id.preview_image_view)).check(matches(hasDrawable()));
-    }
-
-    public static Matcher<View> hasDrawable() {
-        return new TypeSafeMatcher<View>() {
-
-            @Override
-            protected boolean matchesSafely(View item) {
-                if (!(item instanceof ImageView)) {
-                    return false;
-                }
-                ImageView imageView = (ImageView) item;
-                return imageView.getDrawable() != null;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("has drawable");
-            }
-        };
     }
 }

@@ -7,17 +7,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertNotNull;
 
-import android.widget.Button;
-
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.R;
+
+import android.widget.Button;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class QRcodeActivityTest {
@@ -38,14 +36,12 @@ public class QRcodeActivityTest {
     @Test
     public void isButtonDisplayed() {
         onView(withId(R.id.btn_scan)).check(matches(isDisplayed()));
-
     }
 
     @Test
     public void isButtonClickable() {
         onView(withId(R.id.btn_scan)).check(matches(isClickable()));
     }
-
 }
 
 

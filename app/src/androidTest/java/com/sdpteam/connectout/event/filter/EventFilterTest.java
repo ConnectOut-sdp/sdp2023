@@ -3,10 +3,10 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-
-import org.junit.Test;
 
 public class EventFilterTest {
 
@@ -25,6 +25,7 @@ public class EventFilterTest {
         assertFalse(f.and(f).test(null));
         assertTrue(t.and(t).test(null));
     }
+
     @Test
     public void testOrCombinationOfFilters() {
         final EventFilter t = e -> true;
@@ -34,6 +35,7 @@ public class EventFilterTest {
         assertFalse(f.or(f).test(null));
         assertTrue(t.or(t).test(null));
     }
+
     @Test
     public void testNegateCombinationOfFilters() {
         final EventFilter t = e -> true;

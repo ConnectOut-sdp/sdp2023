@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.CompletableFuture;
@@ -28,8 +29,7 @@ public class ProfileGreetingsActivityTest {
     public ActivityScenarioRule<ProfileGreetingActivity> activityScenarioRule =
             new ActivityScenarioRule<>(ProfileGreetingActivity.class);
 
-
-    public void testGreetingActivity() { // todo put this test back again
+    public void testGreetingActivity() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileGreetingActivity.class);
         intent.putExtra("loginInfo", "coucou lol");
         activityScenarioRule.getScenario().onActivity(activity -> {
@@ -68,6 +68,6 @@ public class ProfileGreetingsActivityTest {
             });
         });
         onView(withId(R.id.logoutButton)).perform(click());
-        assertEquals(true, logoutTriggered.join());
+        assertEquals(true, fJoin(logoutTriggered));
     }
 }

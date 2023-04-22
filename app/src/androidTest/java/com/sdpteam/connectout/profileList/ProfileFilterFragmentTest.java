@@ -12,26 +12,25 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import android.widget.ListView;
-
-import androidx.fragment.app.testing.FragmentScenario;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+
+import android.widget.ListView;
+import androidx.fragment.app.testing.FragmentScenario;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileFilterFragmentTest {
@@ -45,7 +44,6 @@ public class ProfileFilterFragmentTest {
     public void tearDown() {
         Intents.release();
     }
-
 
     @Test
     public void filteringByNameIsOrdered() {
@@ -93,7 +91,6 @@ public class ProfileFilterFragmentTest {
         if (!profiles.isEmpty()) {
             assertTrue(profiles.get(0).getName().startsWith("Alice"));
         }
-
     }
 
     @Test
@@ -124,7 +121,6 @@ public class ProfileFilterFragmentTest {
         }
     }
 
-
     @Test
     public void wrongFilteringWithNameShowsEmptyList() {
         FragmentScenario<ProfileFilterFragment> fc = FragmentScenario.launchInContainer(ProfileFilterFragment.class);
@@ -146,6 +142,5 @@ public class ProfileFilterFragmentTest {
         });
         assertTrue(profiles.isEmpty());
     }
-
 }
 
