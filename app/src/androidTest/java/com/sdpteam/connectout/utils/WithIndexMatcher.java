@@ -13,14 +13,14 @@ public class WithIndexMatcher {
      */
     public static Matcher<View> withIndex(final Matcher<View> matcher, final int index) {
         return new TypeSafeMatcher<View>() {
+            int currentIndex = 0;
+
             @Override
             public void describeTo(org.hamcrest.Description description) {
                 description.appendText("with index: ");
                 description.appendValue(index);
                 matcher.describeTo(description);
             }
-
-            int currentIndex = 0;
 
             @Override
             public boolean matchesSafely(View view) {

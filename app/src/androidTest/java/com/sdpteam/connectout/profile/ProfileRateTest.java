@@ -6,23 +6,22 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_NAME;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.junit.Assert.assertEquals;
-
-import android.content.Intent;
-import android.widget.RatingBar;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.R;
+
+import android.content.Intent;
+import android.widget.RatingBar;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * End to end test for the profile rate activity
@@ -32,9 +31,6 @@ public class ProfileRateTest {
 
     public final static String uid = "testuid";
     public final static String name = "test";
-
-    private final ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-
     static Intent intent;
 
     static {
@@ -43,6 +39,7 @@ public class ProfileRateTest {
         intent.putExtra(RATED_NAME, name);
     }
 
+    private final ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
     @Rule
     public ActivityScenarioRule<ProfileRateActivity> testRule = new ActivityScenarioRule<>(intent);
 

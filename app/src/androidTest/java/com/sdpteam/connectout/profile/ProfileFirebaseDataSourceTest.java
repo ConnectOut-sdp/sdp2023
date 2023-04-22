@@ -1,19 +1,18 @@
 package com.sdpteam.connectout.profile;
 
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
-
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ProfileFirebaseDataSourceTest {
+import org.junit.Test;
 
+public class ProfileFirebaseDataSourceTest {
 
     @Test
     public void fetchesAllGivenProfiles() {
@@ -36,7 +35,7 @@ public class ProfileFirebaseDataSourceTest {
     @Test
     public void fetchNullProfileWithWrongId() {
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        Profile p = fJoin( model.fetchProfile(UUID.randomUUID().toString() + "NotAPossibleId"));
+        Profile p = fJoin(model.fetchProfile(UUID.randomUUID().toString() + "NotAPossibleId"));
 
         assertNull(p);
     }

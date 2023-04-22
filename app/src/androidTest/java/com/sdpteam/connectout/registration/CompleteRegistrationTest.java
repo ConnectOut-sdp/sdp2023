@@ -1,13 +1,8 @@
 package com.sdpteam.connectout.registration;
 
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
 import static com.sdpteam.connectout.registration.CompleteRegistration.MandatoryFields;
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
-import static org.hamcrest.CoreMatchers.allOf;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -25,7 +20,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 public class CompleteRegistrationTest {
-
 
     @Test
     public void testCompleteRegistrationActuallySetsCorrectValues() {
@@ -51,7 +45,6 @@ public class CompleteRegistrationTest {
             public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
                 return CompletableFuture.completedFuture(new ArrayList<>());
             }
-
 
             public CompletableFuture<List<Profile>> getListOfUsers() {
                 return CompletableFuture.completedFuture(new ArrayList<>());

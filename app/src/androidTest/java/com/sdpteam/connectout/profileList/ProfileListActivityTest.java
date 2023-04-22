@@ -1,57 +1,22 @@
 package com.sdpteam.connectout.profileList;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-
-import android.os.Looper;
-import android.widget.ListView;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.fragment.app.testing.FragmentScenario;
-import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import android.os.Handler;
-import android.os.Looper;
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.espresso.intent.Intents;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
-import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,8 +24,39 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.hamcrest.Matchers;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileActivity;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.ListView;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 @RunWith(AndroidJUnit4.class)
 public class ProfileListActivityTest {
+
+    @Rule
+    public ActivityScenarioRule<ProfileListActivity> activityRule = new ActivityScenarioRule<>(ProfileListActivity.class);
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+    @Rule
+    public ActivityScenarioRule<ProfileListActivity> activityScenarioRule = new ActivityScenarioRule<>(ProfileListActivity.class);
 
     @Before
     public void setup() {
@@ -72,15 +68,6 @@ public class ProfileListActivityTest {
         Intents.release();
     }
 
-
-    @Rule
-    public ActivityScenarioRule<ProfileListActivity> activityRule = new ActivityScenarioRule<>(ProfileListActivity.class);
-
-    @Rule
-    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-
-
-
     @Test
     public void clickingOnAUserLaunchesRightProfilePage() {
         onView(ViewMatchers.withId(R.id.container_users_listview)).check(matches(isDisplayed()));
@@ -88,7 +75,8 @@ public class ProfileListActivityTest {
 
         ProfileListViewModel model = new ProfileListViewModel(new ProfileFirebaseDataSource());
         Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(() -> model.getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption.NONE, null)); // set up the live data in main thread (because we cannot invoke [LiveData].setValue on a background thread)
+        handler.post(() -> model.getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption.NONE, null)); // set up the live data in main thread (because we cannot invoke [LiveData].setValue
+        // on a background thread)
 
         List<Profile> list = LiveDataTestUtil.getOrAwaitValue(model.getUserListLiveData());
         assertThat(list.size(), greaterThan(0)); // empty list in firebase not excepted for testing
@@ -100,15 +88,11 @@ public class ProfileListActivityTest {
         intended(Matchers.allOf(hasComponent(ProfileActivity.class.getName()), hasExtra(equalTo("uid"), equalTo(expectedUid))));
     }
 
-
     @Test
     public void testListUsersDisplayed() {
         onView(ViewMatchers.withId(R.id.container_users_listview)).check(matches(isDisplayed()));
         onView(withId(R.id.container_users_listview)).check(matches(isDisplayed()));
     }
-
-    @Rule
-    public ActivityScenarioRule<ProfileListActivity> activityScenarioRule = new ActivityScenarioRule<>(ProfileListActivity.class);
 
     @Test
     public void initialViewIsFiltered() {
@@ -137,6 +121,7 @@ public class ProfileListActivityTest {
         } catch (NoMatchingViewException ignored) {
         }
     }
+
     @Test
     public void filteringByRatingFindsPeopleWithGivenValue() {
         onView(withId(R.id.text_filter)).perform(typeText("0;1"));
@@ -182,7 +167,6 @@ public class ProfileListActivityTest {
             Collections.reverse(copiedList);
             assertThat(givenList, is(copiedList));
         }
-
     }
 
     @Test
@@ -209,5 +193,4 @@ public class ProfileListActivityTest {
             assertThat(givenList, is(copiedList));
         }
     }
-
 }

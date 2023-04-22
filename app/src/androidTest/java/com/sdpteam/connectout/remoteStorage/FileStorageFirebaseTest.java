@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.remoteStorage;
 
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Rule;

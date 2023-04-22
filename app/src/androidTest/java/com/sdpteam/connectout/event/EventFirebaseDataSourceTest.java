@@ -1,7 +1,8 @@
 package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,8 +28,6 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-
-import android.os.SystemClock;
 
 public class EventFirebaseDataSourceTest {
 
@@ -58,7 +57,7 @@ public class EventFirebaseDataSourceTest {
         Event event = new Event(eventId, title, description, gpsCoordinates, ownerId);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(event);
-        SystemClock.sleep(1000);
+        waitABit();
         // retrieve the event from the database using its owner ID and title and check that it matches the original event
         Event retrievedEvent = fJoin(model.getEvent(ownerId, title));
         assertThat(retrievedEvent.getTitle(), is(title));
@@ -77,7 +76,7 @@ public class EventFirebaseDataSourceTest {
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
-        SystemClock.sleep(1000);
+        waitABit();
         Event foundEvent = fJoin(model.getEvent("1"));
 
         assertThat(foundEvent.getTitle(), is(title));
@@ -96,7 +95,7 @@ public class EventFirebaseDataSourceTest {
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
-        SystemClock.sleep(1000);
+        waitABit();
         Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, "wrong title"));
 
         assertNull(foundEvent);
@@ -110,7 +109,7 @@ public class EventFirebaseDataSourceTest {
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
-        SystemClock.sleep(1000);
+        waitABit();
         Event foundEvent = fJoin(model.getEvent("wrong id", title));
 
         assertNull(foundEvent);
@@ -130,7 +129,7 @@ public class EventFirebaseDataSourceTest {
         model.saveEvent(e1);
         model.saveEvent(e2);
         model.saveEvent(e3);
-        SystemClock.sleep(1000);
+        waitABit();
 
         final EventFilter filter = e -> "1".equals(e.getId()) || "2".equals(e.getId());
         final ProfilesNameFilter profilesNameFilter = new ProfilesNameFilter(p.getName());
@@ -169,7 +168,7 @@ public class EventFirebaseDataSourceTest {
         String id = UUID.randomUUID().toString();
         final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
         model.saveEvent(e);
-        SystemClock.sleep(1000);
+        waitABit();
 
         fJoin(model.joinEvent(id, "14"));
         fJoin(model.joinEvent(id, "13"));
@@ -185,7 +184,7 @@ public class EventFirebaseDataSourceTest {
         String id = UUID.randomUUID().toString();
         final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
         model.saveEvent(e);
-        SystemClock.sleep(1000);
+        waitABit();
 
         fJoin(model.leaveEvent(id, "14"));
 
@@ -199,7 +198,7 @@ public class EventFirebaseDataSourceTest {
         String id = UUID.randomUUID().toString();
         final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
         model.saveEvent(e);
-        SystemClock.sleep(1000);
+        waitABit();
 
         CompletableFuture<Boolean> f1 = model.joinEvent(id, "14");
         CompletableFuture<Boolean> f2 = model.joinEvent(id, "13");
@@ -229,7 +228,7 @@ public class EventFirebaseDataSourceTest {
         String id = UUID.randomUUID().toString();
         final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
         model.saveEvent(e);
-        SystemClock.sleep(1000);
+        waitABit();
 
         fJoin(model.leaveEvent(id, "14"));
 

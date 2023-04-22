@@ -11,7 +11,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
@@ -33,7 +34,6 @@ import com.sdpteam.connectout.profile.EditProfileActivity;
 
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
-import android.os.SystemClock;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -139,7 +139,7 @@ public class EventCreatorActivityTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
         onView(withId(R.id.event_creator_save_button)).perform(click());
-        SystemClock.sleep(1000);
+        waitABit();
         Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, title));
 
         assertThat(foundEvent.getTitle(), is(title));
@@ -170,7 +170,7 @@ public class EventCreatorActivityTest {
 
         onView(withId(R.id.event_creator_save_button)).perform(click());
 
-        SystemClock.sleep(1000);
+        waitABit();
         assertNull(new GoogleAuth().loggedUser());
 
         Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, title));

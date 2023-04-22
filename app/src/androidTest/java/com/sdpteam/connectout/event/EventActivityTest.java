@@ -8,7 +8,8 @@ import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.LEAVE_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +30,6 @@ import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
 import com.sdpteam.connectout.utils.Chronometer;
 
 import android.content.Intent;
-import android.os.SystemClock;
 import android.widget.Button;
 import androidx.appcompat.widget.Toolbar;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -107,7 +107,7 @@ public class EventActivityTest {
 
             // Perform the click on the button
             onView(withId(R.id.event_join_button)).perform(ViewActions.click());
-            SystemClock.sleep(1000);
+            waitABit();
             onView(withId(R.id.refresh_button)).perform(ViewActions.click());
 
             //Find the new text
@@ -134,7 +134,7 @@ public class EventActivityTest {
     public void chatButtonShouldOnlyBeVisibleIfUserJoinedEvent() {
         // join event
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
-        SystemClock.sleep(1000);
+        waitABit();
         onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
 
         // refresh

@@ -44,6 +44,25 @@ public class ImageSelectionFragmentTest {
 
     private Uri mockedUri = null;
 
+    public static Matcher<View> hasDrawable() {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            protected boolean matchesSafely(View item) {
+                if (!(item instanceof ImageView)) {
+                    return false;
+                }
+                ImageView imageView = (ImageView) item;
+                return imageView.getDrawable() != null;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("has drawable");
+            }
+        };
+    }
+
     @Test
     public void testImageSelection() {
         // Launch the TestActivity
@@ -88,24 +107,5 @@ public class ImageSelectionFragmentTest {
 
         // Check if the ImageView has the drawable set from the mocked Uri
         onView(withId(R.id.preview_image_view)).check(matches(hasDrawable()));
-    }
-
-    public static Matcher<View> hasDrawable() {
-        return new TypeSafeMatcher<View>() {
-
-            @Override
-            protected boolean matchesSafely(View item) {
-                if (!(item instanceof ImageView)) {
-                    return false;
-                }
-                ImageView imageView = (ImageView) item;
-                return imageView.getDrawable() != null;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("has drawable");
-            }
-        };
     }
 }

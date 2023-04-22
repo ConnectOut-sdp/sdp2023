@@ -11,7 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
 import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
 
@@ -55,7 +55,6 @@ import androidx.test.rule.ActivityTestRule;
 @RunWith(AndroidJUnit4.class)
 public class CompleteRegistrationFormTest {
 
-    private RegistrationViewModel viewModel;
     private static Profile databaseContent;
     public static final ProfileRepository fakeProfilesDatabase = new ProfileRepository() {
         @Override
@@ -79,12 +78,11 @@ public class CompleteRegistrationFormTest {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
     };
-
     @Rule
     public ActivityTestRule<CompleteRegistrationActivity> activityTestRule = new ActivityTestRule<>(CompleteRegistrationActivity.class, true, true);
-
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+    private RegistrationViewModel viewModel;
 
     @Before
     public void setUp() {

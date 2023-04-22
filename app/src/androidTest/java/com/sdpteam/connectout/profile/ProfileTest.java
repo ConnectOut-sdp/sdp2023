@@ -10,26 +10,24 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.ProfileActivity.PROFILE_UID;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
 import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
-import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
-
-import android.content.Intent;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
-import com.sdpteam.connectout.R;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import com.sdpteam.connectout.R;
+
+import android.content.Intent;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 public class ProfileTest {
 
@@ -68,8 +66,9 @@ public class ProfileTest {
     @Test
     public void testRateButton() {
         testRule.getScenario().onActivity(activity ->
-        {Intent profileIntent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class).putExtra(PROFILE_UID, uid);
-        activity.startActivity(profileIntent);
+        {
+            Intent profileIntent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class).putExtra(PROFILE_UID, uid);
+            activity.startActivity(profileIntent);
         });
         // test if buttonRateProfile is displayed
         onView(withId(R.id.buttonRatingEditProfile)).check(matches(isDisplayed()));

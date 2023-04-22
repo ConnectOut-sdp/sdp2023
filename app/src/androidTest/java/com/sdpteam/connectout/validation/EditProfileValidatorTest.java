@@ -1,14 +1,15 @@
 package com.sdpteam.connectout.validation;
 
-import android.content.Context;
-import android.widget.EditText;
-import android.widget.RadioButton;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-
+import android.content.Context;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -75,5 +76,4 @@ public class EditProfileValidatorTest {
         assertFalse(EditProfileValidator.editProfileValidation(nameInput, emailInput, bioInput, male, female, other));
         assertNotNull(bioInput.getError());
     }
-
 }
