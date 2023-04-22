@@ -30,7 +30,7 @@ public class ProfileGreetingsActivityTest {
             new ActivityScenarioRule<>(ProfileGreetingActivity.class);
 
 
-    public void testGreetingActivity() { // todo put this test back again
+    public void testGreetingActivity() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileGreetingActivity.class);
         intent.putExtra("loginInfo", "coucou lol");
         activityScenarioRule.getScenario().onActivity(activity -> {
