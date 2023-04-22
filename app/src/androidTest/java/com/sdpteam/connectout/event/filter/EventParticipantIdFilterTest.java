@@ -3,11 +3,11 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-
-import org.junit.Test;
 
 public class EventParticipantIdFilterTest {
     private static final GPSCoordinates EPFL = new GPSCoordinates(46.51883096217942, 6.566407414078399);

@@ -1,27 +1,22 @@
 package com.sdpteam.connectout.qr_code;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import android.content.Intent;
-import android.widget.Button;
-
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.R;
+
+import android.content.Intent;
+import android.widget.Button;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class QRcodeEventActivityTest {
@@ -53,7 +48,7 @@ public class QRcodeEventActivityTest {
 
     // write code to test if arguments are correctly passed to next activity
     @Test
-    public void correctIntentExtraArePassed(){
+    public void correctIntentExtraArePassed() {
         Intent intent = new Intent();
         intent.putExtra("title", "Event QR code");
         intent.putExtra("qrCodeData", "https://connect-out.com/events/0123456789");

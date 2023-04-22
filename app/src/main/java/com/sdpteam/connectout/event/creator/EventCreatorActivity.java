@@ -72,7 +72,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
             else{
                 //TODO should fail if the time is not appropriate (No event shouldn't have a time)
                 //we said that we would do this in a future sprint task
-                date = 0;
+                date = -666;
             }
 
             // validation

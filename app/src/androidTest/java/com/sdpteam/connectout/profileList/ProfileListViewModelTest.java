@@ -1,19 +1,10 @@
 package com.sdpteam.connectout.profileList;
 
-import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.NAME;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.NONE;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.RATING;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileRepository;
-import com.sdpteam.connectout.registration.CompleteRegistration;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import org.junit.Rule;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,17 +12,25 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-public class ProfileListViewModelTest {
+import org.junit.Rule;
+import org.junit.Test;
 
-    @Rule
-    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+
+public class ProfileListViewModelTest {
 
     private static final Profile PROFILE_TEST1 = new Profile("1", "Eric", "eric@gmail.com", "Hi ! Nice to meet you all :)", Profile.Gender.MALE, 5, 5, "");
     private static final Profile PROFILE_TEST2 = new Profile("2", "Alberta", "A@gmail.com", "AAAAAA", Profile.Gender.FEMALE, 3, 73, "");
     private static final Profile PROFILE_TEST3 = new Profile("3", "Alain", "B@gmail.com", "BBBBBBB", Profile.Gender.OTHER, 4.55, 102, "");
     private static final Profile PROFILE_TEST4 = new Profile("3", "C", "C@gmail.com", "CCCCC", Profile.Gender.OTHER, 4.75, 1000, "");
-
     private final static List<Profile> PROFILES = createProfiles();
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     private static List<Profile> createProfiles() {
         List<Profile> pl = new ArrayList<>();
@@ -107,7 +106,9 @@ public class ProfileListViewModelTest {
         ulvm.getListOfProfile(RATING, "4;5");
         List<Profile> obtained = LiveDataTestUtil.getOrAwaitValue(ulvm.getUserListLiveData());
         assertThat(obtained, is(expected));
-    }    @Test
+    }
+
+    @Test
     public void orderRatingCorrectlyWitValueArguments() {
         List<Profile> expected = new ArrayList<>();
         expected.add(PROFILE_TEST2);
@@ -164,7 +165,6 @@ public class ProfileListViewModelTest {
                 return CompletableFuture.completedFuture(PROFILES);
             }
             List<Profile> pl = new ArrayList<>(PROFILES);
-
 
             switch (option) {
                 case NAME:

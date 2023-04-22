@@ -1,11 +1,23 @@
 package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+import org.junit.Test;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,20 +29,13 @@ import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-
 public class EventFirebaseDataSourceTest {
 
     @Test
     public void modelReturnNullOnNonExistingEventEId() {
 
         EventFirebaseDataSource model = new EventFirebaseDataSource();
-        Event foundEvent = model.getEvent("invalid").join();
+        Event foundEvent = fJoin(model.getEvent("invalid"));
         assertNull(foundEvent);
     }
 
@@ -38,7 +43,7 @@ public class EventFirebaseDataSourceTest {
     public void modelReturnNullOnNonExistingEventUId() {
 
         EventFirebaseDataSource model = new EventFirebaseDataSource();
-        Event foundEvent = model.getEvent("invalid", "no title").join();
+        Event foundEvent = fJoin(model.getEvent("invalid", "no title"));
         assertNull(foundEvent);
     }
 
@@ -52,9 +57,9 @@ public class EventFirebaseDataSourceTest {
         Event event = new Event(eventId, title, description, gpsCoordinates, ownerId);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(event);
-
+        waitABit();
         // retrieve the event from the database using its owner ID and title and check that it matches the original event
-        Event retrievedEvent = model.getEvent(ownerId, title).join();
+        Event retrievedEvent = fJoin(model.getEvent(ownerId, title));
         assertThat(retrievedEvent.getTitle(), is(title));
         assertThat(retrievedEvent.getId(), is("1"));
         assertThat(retrievedEvent.getCoordinates().getLatitude(), is(1.5));
@@ -71,8 +76,8 @@ public class EventFirebaseDataSourceTest {
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
-
-        Event foundEvent = model.getEvent("1").join();
+        waitABit();
+        Event foundEvent = fJoin(model.getEvent("1"));
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getId(), is("1"));
@@ -90,8 +95,8 @@ public class EventFirebaseDataSourceTest {
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
-
-        Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, "wrong title").join();
+        waitABit();
+        Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, "wrong title"));
 
         assertNull(foundEvent);
     }
@@ -104,8 +109,8 @@ public class EventFirebaseDataSourceTest {
         Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
-
-        Event foundEvent = model.getEvent("wrong id", title).join();
+        waitABit();
+        Event foundEvent = fJoin(model.getEvent("wrong id", title));
 
         assertNull(foundEvent);
     }
@@ -116,7 +121,7 @@ public class EventFirebaseDataSourceTest {
         final Event e2 = new Event("2", "tennis", "", new GPSCoordinates(1.5, 1.5), "");
         final Event e3 = new Event("3", "football", "", new GPSCoordinates(1.5, 1.5), "");
         Profile p = new Profile("2", "okok", "okok@gmail.com", "okok okok", Profile.Gender.FEMALE, 3.3, 6, "");
-        (new ProfileFirebaseDataSource()).saveProfile(p);
+        fJoin(new ProfileFirebaseDataSource().saveProfile(p));
         e1.addParticipant(p.getId());
         e2.addParticipant(p.getId());
 
@@ -124,12 +129,13 @@ public class EventFirebaseDataSourceTest {
         model.saveEvent(e1);
         model.saveEvent(e2);
         model.saveEvent(e3);
+        waitABit();
 
         final EventFilter filter = e -> "1".equals(e.getId()) || "2".equals(e.getId());
         final ProfilesNameFilter profilesNameFilter = new ProfilesNameFilter(p.getName());
         final ProfilesRatingFilter profilesRatingFilter = new ProfilesRatingFilter(2.0);
 
-        final List<Event> results = model.getEventsByFilter(filter, profilesNameFilter.or(profilesRatingFilter)).join();
+        final List<Event> results = fJoin(model.getEventsByFilter(filter, profilesNameFilter.or(profilesRatingFilter)));
 
         assertEquals(2, results.size());
         assertFalse(results.get(0).getParticipants().isEmpty());
@@ -151,73 +157,81 @@ public class EventFirebaseDataSourceTest {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Events").child("NotEid").setValue(new ArrayList<>());
 
-        Event foundEvent = model.getEvent("NotEid").join();
+        Event foundEvent = fJoin(model.getEvent("NotEid"));
 
         assertNull(foundEvent);
     }
 
     @Test
-    public void joinsEventCorrectly()  {
+    public void joinsEventCorrectly() throws ExecutionException, InterruptedException, TimeoutException {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         String id = UUID.randomUUID().toString();
         final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
         model.saveEvent(e);
-        model.joinEvent(id,"14").join();
-        model.joinEvent(id,"13").join();
-        model.joinEvent(id,"15").join();
+        waitABit();
 
-        Event obtained = model.getEvent(id).join();
+        fJoin(model.joinEvent(id, "14"));
+        fJoin(model.joinEvent(id, "13"));
+        fJoin(model.joinEvent(id, "15"));
+
+        Event obtained = model.getEvent(id).get(2, TimeUnit.SECONDS);
+        assertThat(obtained.getParticipants().size(), is(3));
+    }
+
+    @Test
+    public void joinsFailWithExistingParticipant() {
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
+        String id = UUID.randomUUID().toString();
+        final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
+        model.saveEvent(e);
+        waitABit();
+
+        fJoin(model.leaveEvent(id, "14"));
+
+        assertTrue(fJoin(model.joinEvent(id, "14")));
+        assertFalse(fJoin(model.joinEvent(id, "14")));
+    }
+
+    @Test
+    public void releaseEventCorrectly() {
+        EventFirebaseDataSource model = new EventFirebaseDataSource();
+        String id = UUID.randomUUID().toString();
+        final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
+        model.saveEvent(e);
+        waitABit();
+
+        CompletableFuture<Boolean> f1 = model.joinEvent(id, "14");
+        CompletableFuture<Boolean> f2 = model.joinEvent(id, "13");
+        CompletableFuture<Boolean> f3 = model.joinEvent(id, "15");
+
+        fJoin(f1);
+        fJoin(f2);
+        fJoin(f3);
+        Event obtained = fJoin(model.getEvent(id));
         assertThat(obtained.getParticipants().size(), is(3));
 
-    }
-    @Test
-    public void joinsFailWithExistingParticipant()  {
-        EventFirebaseDataSource model = new EventFirebaseDataSource();
-        String id = UUID.randomUUID().toString();
-        final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
-        model.saveEvent(e);
-        model.leaveEvent(id,"14").join();
+        f1 = model.leaveEvent(id, "14");
+        f2 = model.leaveEvent(id, "13");
+        f3 = model.leaveEvent(id, "15");
 
-        assertTrue(model.joinEvent(id,"14").join());
-        assertFalse(model.joinEvent(id,"14").join());
-    }
-    @Test
-    public void releaseEventCorrectly()  {
-        EventFirebaseDataSource model = new EventFirebaseDataSource();
-        String id = UUID.randomUUID().toString();
-        final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
-        model.saveEvent(e);
+        fJoin(f1);
+        fJoin(f2);
+        fJoin(f3);
 
-        CompletableFuture<Boolean> f1  = model.joinEvent(id,"14");
-        CompletableFuture<Boolean> f2  = model.joinEvent(id,"13");
-        CompletableFuture<Boolean> f3 = model.joinEvent(id,"15");
-
-        f1.join();
-        f2.join();
-        f3.join();
-        Event obtained = model.getEvent(id).join();
-        assertThat(obtained.getParticipants().size(), is(3));
-
-        f1 = model.leaveEvent(id,"14");
-        f2 = model.leaveEvent(id,"13");
-        f3 = model.leaveEvent(id,"15");
-
-        f1.join();
-        f2.join();
-        f3.join();
-
-        obtained = model.getEvent(id).join();
+        obtained = fJoin(model.getEvent(id));
         assertThat(obtained.getParticipants().size(), is(0));
     }
 
     @Test
-    public void leaveFailWithNonExistingParticipant()  {
+    public void leaveFailWithNonExistingParticipant() {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         String id = UUID.randomUUID().toString();
         final Event e = new Event(id, "judo", "", new GPSCoordinates(1.5, 1.5), "");
         model.saveEvent(e);
-        model.leaveEvent(id,"14").join();
+        waitABit();
 
-        assertFalse(model.leaveEvent(id,"14").join());
+        fJoin(model.leaveEvent(id, "14"));
+
+        assertFalse(fJoin(model.leaveEvent(id, "14")));
     }
 }
