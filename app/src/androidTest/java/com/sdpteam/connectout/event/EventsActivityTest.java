@@ -11,9 +11,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
+import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -30,10 +30,7 @@ import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profileList.ProfileListViewModel;
 import com.sdpteam.connectout.utils.Chronometer;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
@@ -89,7 +86,7 @@ public class EventsActivityTest {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
-        List<Event> events = new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE, ProfilesFilter.NONE).join();
+        List<Event> events = fJoin(new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE, ProfilesFilter.NONE));
         int index = 0;
         if (!events.isEmpty()) {
             String expectedTitle = events.get(index).getTitle();
@@ -104,7 +101,7 @@ public class EventsActivityTest {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
-        List<Event> events = new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE, ProfilesFilter.NONE).join();
+        List<Event> events = fJoin(new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE, ProfilesFilter.NONE));
         int listIdx = 0;
         if (!events.isEmpty()) {
             String expectedOrganizer = events.get(listIdx).getOrganizer();

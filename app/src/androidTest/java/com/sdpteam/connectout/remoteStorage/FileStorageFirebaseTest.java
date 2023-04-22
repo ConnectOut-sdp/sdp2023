@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.remoteStorage;
 
+import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Rule;
@@ -33,7 +34,7 @@ public class FileStorageFirebaseTest {
         if (uri == null) {
             throw new IllegalStateException("Why is it null?");
         }
-        Uri createdUrl = new FileStorageFirebase().uploadFile(uri, "jpg").join();
+        Uri createdUrl = fJoin(new FileStorageFirebase().uploadFile(uri, "jpg"));
         assertTrue(createdUrl.toString().contains("https://"));
     }
 }

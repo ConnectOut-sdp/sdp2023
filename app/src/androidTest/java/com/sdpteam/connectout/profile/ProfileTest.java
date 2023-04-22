@@ -10,6 +10,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.ProfileActivity.PROFILE_UID;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
 import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
+import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -88,9 +89,9 @@ public class ProfileTest {
                 bio, gender, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        model.saveProfile(userProfile).join();
+        fJoin(model.saveProfile(userProfile));
 
-        Profile fetchedProfile = model.fetchProfile(EditProfileActivity.NULL_USER).join();
+        Profile fetchedProfile = fJoin(model.fetchProfile(EditProfileActivity.NULL_USER));
         ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));
         ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
         ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));

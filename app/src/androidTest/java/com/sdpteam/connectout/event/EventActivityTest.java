@@ -10,6 +10,7 @@ import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.LEAVE_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -21,7 +22,6 @@ import android.widget.Button;
 import androidx.appcompat.widget.Toolbar;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
@@ -29,11 +29,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
-import com.sdpteam.connectout.profileList.ProfileFilterFragment;
 import com.sdpteam.connectout.utils.Chronometer;
 
 import org.junit.After;
@@ -118,8 +116,7 @@ public class EventActivityTest {
             //Find the new text
             findButtonText(buttonText);
 
-
-            Event obtained = new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()).join();
+            Event obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -147,7 +144,7 @@ public class EventActivityTest {
         onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
 
         // refresh
-        new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()).join();
+        fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
 
         // quit event
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());

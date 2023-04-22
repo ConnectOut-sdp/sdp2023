@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
 import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.CompletableFuture;
@@ -68,6 +69,6 @@ public class ProfileGreetingsActivityTest {
             });
         });
         onView(withId(R.id.logoutButton)).perform(click());
-        assertEquals(true, logoutTriggered.join());
+        assertEquals(true, fJoin(logoutTriggered));
     }
 }

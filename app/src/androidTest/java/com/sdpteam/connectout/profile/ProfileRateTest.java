@@ -6,6 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_NAME;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
+import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
@@ -49,7 +50,7 @@ public class ProfileRateTest {
     public void setup() {
         Profile testProfile = new Profile(uid, name, "test@gmail.com", "test",
                 Profile.Gender.MALE, 0, 0, "");
-        model.saveProfile(testProfile).join();
+        fJoin(model.saveProfile(testProfile));
     }
 
     @Test
@@ -68,8 +69,8 @@ public class ProfileRateTest {
             ratingBar.setRating(3);
         });
         onView(ViewMatchers.withId(R.id.submitRatingButton)).perform(click());
-        assertEquals(model.fetchProfile(uid).join().getRating(), 3, 0.001);
-        assertEquals(model.fetchProfile(uid).join().getNumRatings(), 1);
+        assertEquals(fJoin(model.fetchProfile(uid)).getRating(), 3, 0.001);
+        assertEquals(fJoin(model.fetchProfile(uid)).getNumRatings(), 1);
         model.deleteProfile(uid);
     }
 }

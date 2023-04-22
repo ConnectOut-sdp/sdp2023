@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
 import static org.hamcrest.Matchers.is;
 
 import android.content.Intent;
@@ -63,7 +64,7 @@ public class EditProfileTest {
                 null, Profile.Gender.MALE, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        model.saveProfile(previousProfile).join();
+        fJoin(model.saveProfile(previousProfile));
 
         onView(ViewMatchers.withId(R.id.editTextName)).perform(typeText(name));
         Espresso.closeSoftKeyboard();
@@ -83,7 +84,7 @@ public class EditProfileTest {
 
         onView(withId(R.id.saveButton)).perform(click());
 
-        Profile fetchedProfile = model.fetchProfile(EditProfileActivity.NULL_USER).join();
+        Profile fetchedProfile = fJoin(model.fetchProfile(EditProfileActivity.NULL_USER));
         assertThat(fetchedProfile.getEmail(), is(email));
         assertThat(fetchedProfile.getName(), is(name));
         assertThat(fetchedProfile.getBio(), is(bio));

@@ -11,6 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.USERS;
 
+import static com.sdpteam.connectout.utils.FutureUtil.fJoin;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anything;
@@ -18,16 +19,13 @@ import static org.hamcrest.Matchers.is;
 
 import android.os.SystemClock;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
@@ -68,7 +66,7 @@ public class RegisteredEventsCalendarActivityTest {
 
             Profile p = new Profile(NULL_USER, "user_test_name", "fake_email", "fake_bio", Profile.Gender.MALE, 0, 0, "");
             ProfileFirebaseDataSource profileFirebase = new ProfileFirebaseDataSource();
-            profileFirebase.saveProfile(p).join();
+            fJoin(profileFirebase.saveProfile(p));
 
             profileFirebase.registerToEvent(new Profile.CalendarEvent(e1.getId(), e1.getTitle(), e1.getDate()), NULL_USER);
             profileFirebase.registerToEvent(new Profile.CalendarEvent(e2.getId(), e2.getTitle(), e2.getDate()), NULL_USER);
