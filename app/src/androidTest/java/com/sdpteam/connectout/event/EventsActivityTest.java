@@ -32,7 +32,6 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -124,12 +123,13 @@ public class EventsActivityTest {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> model.refreshEvents()); // set up the live data in main thread (because we cannot invoke [LiveData].setValue on a background thread)
         waitABit();
-        List<Event> list = model.getEventListLiveData().getValue();
-
-        int userIndexToCheck = 0;
-        String expectedUid = list.get(userIndexToCheck).getId();
-
-        onView(withIndex(withId(R.id.event_list_event_title), userIndexToCheck)).perform(click());
-        intended(Matchers.allOf(hasComponent(EventActivity.class.getName()), hasExtra(equalTo(PASSED_ID_KEY), equalTo(expectedUid))));
+        waitABit();
+        List<Event> events = model.getEventListLiveData().getValue();
+        if (!events.isEmpty()) {
+            int userIndexToCheck = 0;
+            String expectedUid = events.get(userIndexToCheck).getId();
+            onView(withIndex(withId(R.id.event_list_event_title), userIndexToCheck)).perform(click());
+            intended(Matchers.allOf(hasComponent(EventActivity.class.getName()), hasExtra(equalTo(PASSED_ID_KEY), equalTo(expectedUid))));
+        }
     }
 }

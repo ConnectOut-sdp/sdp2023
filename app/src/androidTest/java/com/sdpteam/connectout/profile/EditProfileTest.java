@@ -6,6 +6,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.Matchers.is;
 
 import org.junit.After;
@@ -82,6 +83,7 @@ public class EditProfileTest {
         Espresso.closeSoftKeyboard();
 
         onView(withId(R.id.saveButton)).perform(click());
+        waitABit();
 
         Profile fetchedProfile = fJoin(model.fetchProfile(EditProfileActivity.NULL_USER));
         assertThat(fetchedProfile.getEmail(), is(email));
