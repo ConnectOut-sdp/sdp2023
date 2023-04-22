@@ -1,5 +1,8 @@
 package com.sdpteam.connectout.event;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
@@ -8,6 +11,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
@@ -41,12 +46,16 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
 
     @Rule
     public ActivityScenarioRule<EventCreatorActivity> activityRule = new ActivityScenarioRule<>(EventCreatorActivity.class);
+
+    @Rule
+    public GrantPermissionRule grantLocationRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE, ACCESS_COARSE_LOCATION);
 
     @Before
     public void setUp() {
@@ -107,7 +116,7 @@ public class EventCreatorActivityTest {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
-        Event foundEvent = model.getEvent("1").join();
+        Event foundEvent = fJoin(model.getEvent("1"));
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getId(), is("1"));
@@ -130,8 +139,8 @@ public class EventCreatorActivityTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
         onView(withId(R.id.event_creator_save_button)).perform(click());
-
-        Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
+        waitABit();
+        Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, title));
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getCoordinates().getLatitude(), is(not(0.0)));
@@ -161,10 +170,10 @@ public class EventCreatorActivityTest {
 
         onView(withId(R.id.event_creator_save_button)).perform(click());
 
-        Thread.sleep(2000);
+        waitABit();
         assertNull(new GoogleAuth().loggedUser());
 
-        Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
+        Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, title));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
         calendar.set(Calendar.YEAR, 2024);
         calendar.set(Calendar.MONTH, 3 - 1); // Calendar.MONTH starts from 0
@@ -175,6 +184,6 @@ public class EventCreatorActivityTest {
         calendar.set(Calendar.MILLISECOND, 0);
 
         long unixTimestamp = calendar.getTimeInMillis();
-        // assertThat(unixTimestamp, is(foundEvent.getDate())); TODO check later why in ci it does not work
+        assertThat(unixTimestamp, is(foundEvent.getDate())); // TODO check later why in ci it does not work
     }
 }

@@ -3,10 +3,10 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventTextFilter;
-
-import org.junit.Test;
 
 public class EventTextFilterTest {
 
@@ -25,5 +25,4 @@ public class EventTextFilterTest {
         assertTrue(new EventTextFilter("FOOT").test(new Event("id", "title", "Football in the sand", null, "me")));
         assertFalse(new EventTextFilter("judo").test(new Event("id", "Football in the sand", "description", null, "me")));
     }
-
 }

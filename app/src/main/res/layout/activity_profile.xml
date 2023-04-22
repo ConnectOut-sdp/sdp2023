@@ -10,7 +10,7 @@
         android:id="@+id/buttonRateProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RATE THIS USER"
+        android:text="@string/rate_this_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="PROFILE"
+        android:text="@string/profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +134,7 @@
         app:layout_constraintVertical_bias="0.61" />
 
     <Button
-        android:id="@+id/buttonEditProfile"
+        android:id="@+id/buttonRatingEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Profile"

@@ -1,16 +1,17 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
-import static com.sdpteam.connectout.profile.Profile.Gender.OTHER;
-import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.*;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.NAME;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.NONE;
+import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.RATING;
 
-import android.view.View;
-import android.widget.ListAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.gms.tasks.Task;
@@ -21,12 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import io.reactivex.rxjava3.annotations.NonNull;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
-public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredEventsRepository{
+import android.view.View;
+import android.widget.ListAdapter;
+import io.reactivex.rxjava3.annotations.NonNull;
+
+public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredEventsRepository {
     private final DatabaseReference firebaseRef;
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
@@ -58,6 +59,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
                 .thenApply(profiles -> future.complete(profiles.get(0)));
         return future;
     }
+
     public CompletableFuture<List<Profile>> fetchProfiles(List<String> userIds) {
         CompletableFuture<List<Profile>> futures = new CompletableFuture<>();
         List<Task<DataSnapshot>> tasks = new ArrayList<>();
@@ -78,7 +80,6 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
         return futures;
     }
 
-
     /**
      * @param option (ProfileOrderingOption): option of filtering adopted, random, by name or by rating.
      * @param values (List<String>): list of parsed users inputs which corresponds to the filters.
@@ -88,10 +89,13 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     public CompletableFuture<List<Profile>> getListOfProfile(ProfileOrderingOption option, List<String> values) {
         CompletableFuture<List<Profile>> value = new CompletableFuture<>();
         Query query = filterProfiles(firebaseRef.child(USERS), option, values).limitToFirst(MAX_PROFILES_FETCHED);
-        query.get().addOnCompleteListener( t->{
+        query.get().addOnCompleteListener(t -> {
                     List<Profile> profilesList = new ArrayList<>();
-                    DataSnapshot snapshot =  t.getResult();
+                    DataSnapshot snapshot = t.getResult();
                     snapshot.getChildren().forEach(profileSnapshot -> profilesList.add(profileSnapshot.child(PROFILE).getValue(Profile.class)));
+                    if (option == RATING) {
+                        Collections.reverse(profilesList);
+                    }
                     value.complete(profilesList);
                 }
         );
@@ -99,23 +103,22 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     }
 
     /**
-     *
-     * @param root (Query): query to parametrise with filters.
+     * @param root   (Query): query to parametrise with filters.
      * @param option (ProfileOrderingOption): parametric ordering options of the query.
      * @param values (List<String>): list of parsed users inputs which corresponds to the filters.
      * @return (Query): query with all the needed filters.
      */
     public Query filterProfiles(Query root, ProfileOrderingOption option, List<String> values) {
-        if(option == NONE){
+        if (option == NONE) {
             return root;
         }
 
         Query query = root.orderByChild(PROFILE + "/" + option.toString());
 
-        if(values != null && values.size() > 0){
-            if(option == NAME){
-                query = filterByNameProfile(query,  values);
-            }else {
+        if (values != null && values.size() > 0) {
+            if (option == NAME) {
+                query = filterByNameProfile(query, values);
+            } else {
                 query = filterByRatingProfile(query, values);
             }
         }
@@ -124,15 +127,14 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     }
 
     /**
-     *
-     * @param root (Query): given query to process
+     * @param root   (Query): given query to process
      * @param values (List<String>): possible rating to sort with
      * @return (Query): query that retrieves the desired number or number range.
      */
-    private Query filterByRatingProfile(@NonNull Query root,@NonNull List<String> values){
+    private Query filterByRatingProfile(@NonNull Query root, @NonNull List<String> values) {
         double ratingStart = Double.parseDouble(values.get(0));
         double ratingEnd;
-        if(values.size() == 2) {
+        if (values.size() == 2) {
             ratingEnd = Double.parseDouble(values.get(1));
         } else {
             ratingEnd = ratingStart;
@@ -141,16 +143,15 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     }
 
     /**
-     *
-     * @param root (Query): given query to process
+     * @param root   (Query): given query to process
      * @param values (List<String>): possible name to sort with
      * @return (Query): query that retrieves with the desired name.
      */
-    private Query filterByNameProfile(Query root, List<String> values){
-        String name = values.get(0);
+    private Query filterByNameProfile(Query root, List<String> values) {
+        String name = values.get(0).toLowerCase();
 
         //The regex is used to ensure that we retrieve all names starting with the given string.
-        return  root.startAt(name).endAt(name + AUTOMATIC_COMPLETION_REGEX);
+        return root.startAt(name).endAt(name + AUTOMATIC_COMPLETION_REGEX);
     }
 
     /**
@@ -159,8 +160,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     public enum ProfileOrderingOption {
         NONE(""),
         RATING("rating"),
-        NAME("name");
-
+        NAME("nameLowercase");
 
         private final String name;
 
@@ -182,16 +182,16 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     /**
      * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
      * in list of events that a profile is registered to
-     *
+     * <p>
      * this list of events is stored under USERS/profileId/REGISTERED_EVENTS
      * each CalendarEvent has an auto generated key
-     *
+     * <p>
      * We make sure that a Calendar Event isn't already in the User's memory before adding it
      * Not very efficient if the user is registered to A LOT of events. Which won't be the case so we re fine
-     * */
-    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
+     */
+    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId) {
         Query q = firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).orderByChild("eventId")
-                        .equalTo(calEvent.getEventId());
+                .equalTo(calEvent.getEventId());
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -204,19 +204,20 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
                     firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).push().setValue(calEvent);
                 }
             }
+
             @Override
             public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
                 //do nothing
             }
         });
-
     }
+
     /**
      * sets up the FirebaseListAdapter for the registered events view
-     *
+     * <p>
      * Displays the List of Profile.CalendarEvent that is stored in Firebase under
      * USERS/profileId/REGISTERED_EVENTS
-     *
+     * <p>
      * orders the CalendarEvents by eventDate
      */
     public void setUpListAdapter(Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout,

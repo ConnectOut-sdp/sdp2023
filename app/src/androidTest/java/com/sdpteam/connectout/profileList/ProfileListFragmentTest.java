@@ -1,8 +1,8 @@
 package com.sdpteam.connectout.profileList;
 
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-
 import org.junit.Test;
+
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 public class ProfileListFragmentTest {
 
@@ -17,6 +17,4 @@ public class ProfileListFragmentTest {
         ProfileListFragment ulf = new ProfileListFragment();
         ulf.changeObserved(ProfileFirebaseDataSource.ProfileOrderingOption.NONE, null);
     }
-
-
 }

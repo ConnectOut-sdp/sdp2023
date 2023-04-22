@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/filter_image"
             android:drawableBottom="@drawable/filter_image"
+            android:checked = "true"
             android:textOff="Filter Off"
             android:textOn="Filter On"
             android:textSize="15dp"

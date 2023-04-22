@@ -15,7 +15,7 @@
     <string name="login_password">Password</string>
     <string name="log_in_button">Log In</string>
     <string name="sign_in_button">Sign In</string>
-    <string name="filter_example">eg: Alice, Bob, 1;2 …</string>
+    <string name="filter_example">eg: Alice, Bob, 3.5;5 …</string>
     <string name="greetings_text">Greetings</string>
     <string name="connect_out_logo">Connect out Logo</string>
     <string name="submit">submit</string>
@@ -31,9 +31,26 @@
     <string name="apply_button">APPLY</string>
     <string name="rating_toggle_button">TO RATING</string>
     <string name="name_toggle_button">TO NAME</string>
-    <string name="participants">Participants</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="send">send</string>
+    <string name="input">Input</string>
+    <string name="complete_registration">Complete Registration</string>
+    <string name="profile_edit">PROFILE EDIT</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="bio">Bio</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="other">Other</string>
     <string name="event_title">Event title</string>
     <string name="event_description">Event description</string>
+    <string name="participants">Participants</string>
     <string name="join">Join</string>
+    <string name="filter">Filter</string>
+    <string name="map">Map</string>
+    <string name="list">List</string>
+    <string name="rate_this_user">RATE THIS USER</string>
+    <string name="profile">PROFILE</string>
     <string name="participants_size_format">%s (%d)</string>
 </resources>

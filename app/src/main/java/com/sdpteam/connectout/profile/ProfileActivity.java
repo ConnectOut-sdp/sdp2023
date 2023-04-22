@@ -37,21 +37,20 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Button editProfile = findViewById(R.id.buttonEditProfile);
-        Button rateProfile = findViewById(R.id.buttonRateProfile);
+        Button ratingEditButton = findViewById(R.id.buttonRatingEditProfile);
 
         String userIdToDisplay = getIntent().getStringExtra(PROFILE_UID);
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         String uid = (au == null) ? NULL_USER : au.uid;
 
-        if (userIdToDisplay == null) {
-            rateProfile.setVisibility(INVISIBLE);
-            editProfile.setOnClickListener(v -> goToEditProfile());
+        if (userIdToDisplay == null || uid.equals(userIdToDisplay)) {
+            ratingEditButton.setText("Edit Profile");
+            ratingEditButton.setOnClickListener(v -> goToEditProfile());
             userIdToDisplay = uid;
         } else {
-            editProfile.setVisibility(INVISIBLE);
+            ratingEditButton.setText("Rate Profile");
             String finalUserIdToDisplay = userIdToDisplay;
-            rateProfile.setOnClickListener(v -> goToProfileRate(finalUserIdToDisplay));
+            ratingEditButton.setOnClickListener(v -> goToProfileRate(finalUserIdToDisplay));
         }
 
         pvm.fetchProfile(userIdToDisplay);
@@ -75,6 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void goToEditProfile() {
         Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
         startActivity(intent);
+        Button ratingEditButton;
         finish();
     }
 
