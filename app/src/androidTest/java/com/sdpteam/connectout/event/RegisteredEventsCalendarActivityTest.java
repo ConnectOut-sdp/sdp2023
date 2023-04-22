@@ -6,30 +6,17 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
-import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.USERS;
-
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anything;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
+import android.os.SystemClock;
+
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
@@ -40,17 +27,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-
-import android.os.SystemClock;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisteredEventsCalendarActivityTest {

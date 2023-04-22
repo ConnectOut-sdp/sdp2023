@@ -1,7 +1,6 @@
 package com.sdpteam.connectout.event.viewer;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
-import static java.lang.String.format;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
