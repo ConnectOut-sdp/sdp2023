@@ -37,7 +37,7 @@ public class ProfileTest {
      * Model
      */
 
-    public final String uid = generateRandomPath();
+    private final String uid = generateRandomPath();
 
     @Rule
     public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(ProfileActivity.class);

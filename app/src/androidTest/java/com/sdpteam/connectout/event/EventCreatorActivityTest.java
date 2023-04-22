@@ -13,30 +13,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
-import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
-import com.sdpteam.connectout.event.creator.LocationPicker;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.profile.EditProfileActivity;
 
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.test.espresso.Espresso;
@@ -48,9 +36,24 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.event.creator.EventCreatorActivity;
+import com.sdpteam.connectout.event.creator.LocationPicker;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.profile.EditProfileActivity;
+
+import org.hamcrest.Matchers;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
 
+    private final String eventId1 = generateRandomPath();
     @Rule
     public ActivityScenarioRule<EventCreatorActivity> activityRule = new ActivityScenarioRule<>(EventCreatorActivity.class);
 
@@ -59,13 +62,14 @@ public class EventCreatorActivityTest {
 
     @Before
     public void setUp() {
-
         Intents.init();
     }
 
     @After
     public void tearDown() {
         Intents.release();
+        new EventFirebaseDataSource().deleteEvent(eventId1);
+        waitABit();
     }
 
     @Test
@@ -112,14 +116,14 @@ public class EventCreatorActivityTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        Event e = new Event("1", title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
+        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
-        Event foundEvent = fJoin(model.getEvent("1"));
+        Event foundEvent = fJoin(model.getEvent(eventId1));
 
         assertThat(foundEvent.getTitle(), is(title));
-        assertThat(foundEvent.getId(), is("1"));
+        assertThat(foundEvent.getId(), is(eventId1));
         assertThat(foundEvent.getCoordinates().getLatitude(), is(1.5));
         assertThat(foundEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(foundEvent.getDescription(), is(description));

@@ -97,6 +97,11 @@ public class EventsViewModelFactoryTest {
                     new Event("2", "Event 2", "Description 2", new GPSCoordinates(1, 1), "b")
             ));
         }
+
+        @Override
+        public boolean deleteEvent(String eventId) {
+            return false;
+        }
     }
 
     private static class InvalidViewModel extends ViewModel {

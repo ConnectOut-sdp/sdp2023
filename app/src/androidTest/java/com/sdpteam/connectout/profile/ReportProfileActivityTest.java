@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ReportProfileActivityTest {
 
-    public static final String reportedUid = generateRandomPath();
+    private static final String reportedUid = generateRandomPath();
     private final ReportFirebaseDataSource model = new ReportFirebaseDataSource();
 
     static Intent intent;

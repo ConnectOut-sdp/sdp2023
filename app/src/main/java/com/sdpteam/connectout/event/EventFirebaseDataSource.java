@@ -183,6 +183,15 @@ public class EventFirebaseDataSource extends FirebaseDataSource implements Event
         return future;
     }
 
+    @Override
+    public boolean deleteEvent(String eventId) {
+        if (eventId != null) {
+            firebaseRef.child(DATABASE_EVENT_PATH).child(eventId).removeValue();
+            return true;
+        }
+        return false;
+    }
+
 
 }
 

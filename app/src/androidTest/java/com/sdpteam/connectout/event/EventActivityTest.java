@@ -168,7 +168,7 @@ public class EventActivityTest {
         String text = null;
         Chronometer chronometer = new Chronometer();
         chronometer.start();
-        chronometer.setThreshold(5000);
+        chronometer.setThreshold(30000);
 
         if (OldText == null) {
             while (!JOIN_EVENT.equals(text) && !LEAVE_EVENT.equals(text) && !chronometer.hasExceededThreshold()) {

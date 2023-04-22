@@ -16,8 +16,8 @@ import java.util.UUID;
 
 public class ProfileFirebaseDataSourceTest {
 
-    public final String id1 = generateRandomPath();
-    public final String id2 = generateRandomPath();
+    private final String id1 = generateRandomPath();
+    private final String id2 = generateRandomPath();
 
     @After
     public void cleanup() {

@@ -30,11 +30,11 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class ChatActivityTest {
-    String nameOfTestChat = generateRandomPath();
+    private final String nameOfTestChat = generateRandomPath();
     @Rule
     public ActivityScenarioRule<ChatActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), ChatActivity.class).putExtra("chatId", nameOfTestChat));
 
-    ChatFirebaseDataSource model = new ChatFirebaseDataSource();
+    private final ChatFirebaseDataSource model = new ChatFirebaseDataSource();
 
     @Before
     public final void setUp() {

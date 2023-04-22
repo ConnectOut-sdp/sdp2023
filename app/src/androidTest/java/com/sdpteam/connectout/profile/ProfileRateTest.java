@@ -33,8 +33,8 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ProfileRateTest {
 
-    public final static String uid = generateRandomPath();
-    public final static String name = "test";
+    private final static String uid = generateRandomPath();
+    private final static String name = "test";
     static Intent intent;
 
     static {

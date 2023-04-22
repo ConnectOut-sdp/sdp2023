@@ -95,6 +95,11 @@ public class EventsViewModelTest {
             return CompletableFuture.completedFuture(dataSet.stream().filter(eventFilter).collect(toList()));
         }
 
+        @Override
+        public boolean deleteEvent(String eventId) {
+            return false;
+        }
+
         private void updateData() {
             if (firstUpdate) {
                 firstUpdate = false;

@@ -12,18 +12,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
 import static org.hamcrest.Matchers.equalTo;
 
-import java.util.List;
-import java.util.Random;
+import android.os.Handler;
+import android.os.Looper;
 
-import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
@@ -33,17 +33,18 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.profile.ProfileActivity;
 
-import android.os.Handler;
-import android.os.Looper;
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import org.hamcrest.Matchers;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class EventsActivityTest {
-
+    private final String eventId = generateRandomPath();
     private final EventRepository eventDs = new EventFirebaseDataSource();
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -53,14 +54,14 @@ public class EventsActivityTest {
     @Before
     public void setup() {
         Intents.init();
-        eventDs.saveEvent(new Event("tmp_event_id_" + new Random().nextInt(), "Title", "Desc", null, "aa"));
+        eventDs.saveEvent(new Event(eventId, "Title", "Desc", null, "aa"));
         waitABit();
     }
 
     @After
     public void cleanup() {
         Intents.release();
-        // TODO delete this tmp event
+        eventDs.deleteEvent(eventId);
     }
 
     @Test

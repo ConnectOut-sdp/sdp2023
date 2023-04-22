@@ -62,4 +62,14 @@ public interface EventRepository {
      * @return (CompletableFuture < List < Event > >): a changeable list of different events.
      */
     CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter);
+
+    /**
+     * Saves the given Event in the firebase database
+     *
+     * @param eventId (String): The given eventId to delete
+     * @return (boolean): True if value is deleted
+     * <p>
+     * /!\ the delete return value will be useful for the offline mode /!\
+     */
+    boolean deleteEvent(String eventId);
 }
