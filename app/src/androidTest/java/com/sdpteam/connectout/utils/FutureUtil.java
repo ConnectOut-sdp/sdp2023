@@ -11,7 +11,7 @@ public class FutureUtil {
      */
     public static <E> E fJoin(CompletableFuture<E> future) {
         try {
-            return future.get(5, TimeUnit.SECONDS);
+            return future.get(20, TimeUnit.SECONDS);
         } catch (ExecutionException | InterruptedException | TimeoutException e) {
             throw new RuntimeException(e);
         }
