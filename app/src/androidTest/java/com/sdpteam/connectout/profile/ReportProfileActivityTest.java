@@ -8,18 +8,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.profile.ReportProfileActivity.REPORTED_UID;
-import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.junit.Assert.assertEquals;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
 
 import android.content.Intent;
 
@@ -50,7 +42,6 @@ public class ReportProfileActivityTest {
         intent.putExtra(REPORTED_UID, reportedUid);
     }
 
-    private final ReportFirebaseDataSource model = new ReportFirebaseDataSource();
     @Rule
     public ActivityScenarioRule<ReportProfileActivity> testRule = new ActivityScenarioRule<>(intent);
 

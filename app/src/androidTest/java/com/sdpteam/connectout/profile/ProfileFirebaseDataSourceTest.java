@@ -2,6 +2,7 @@ package com.sdpteam.connectout.profile;
 
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
@@ -12,8 +13,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import org.junit.Test;
 
 public class ProfileFirebaseDataSourceTest {
 

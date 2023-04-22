@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
@@ -59,7 +58,7 @@ public class EventFirebaseDataSource extends FirebaseDataSource implements Event
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 Event event = mutableData.getValue(Event.class);
                 //Checks if event was casted correctly.
-                if(event != null) {
+                if (event != null) {
                     success = eventModifier.apply(event);
                     mutableData.setValue(event);
                 }
@@ -76,20 +75,18 @@ public class EventFirebaseDataSource extends FirebaseDataSource implements Event
     }
 
     /**
-     *
-     * @param eventId (String): Id of the event to which we add the participant
+     * @param eventId       (String): Id of the event to which we add the participant
      * @param participantId (String): Id of the added participant
-     * @return (CompletableFuture<Boolean>): completes to true if participant has joined the event.
+     * @return (CompletableFuture < Boolean >): completes to true if participant has joined the event.
      */
     public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
         return modifyEvent(eventId, event -> event.addParticipant(participantId));
     }
 
     /**
-     *
-     * @param eventId (String): Id of the event to which we remove the participant
+     * @param eventId       (String): Id of the event to which we remove the participant
      * @param participantId (String): Id of the removed participant
-     * @return (CompletableFuture<Boolean>): completes to true if participant has left the event.
+     * @return (CompletableFuture < Boolean >): completes to true if participant has left the event.
      */
     public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
         return modifyEvent(eventId, event -> event.removeParticipant(participantId));
