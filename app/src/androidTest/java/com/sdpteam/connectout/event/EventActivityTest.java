@@ -108,7 +108,9 @@ public class EventActivityTest {
             // Perform the click on the button
             onView(withId(R.id.event_join_button)).perform(ViewActions.click());
             waitABit();
+
             onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+            waitABit();
 
             //Find the new text
             findButtonText(buttonText);
