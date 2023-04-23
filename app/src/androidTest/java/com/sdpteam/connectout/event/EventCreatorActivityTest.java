@@ -8,6 +8,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -16,6 +17,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -32,12 +34,22 @@ import com.sdpteam.connectout.profile.EditProfileActivity;
 
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
+import android.os.SystemClock;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.InjectEventSecurityException;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.GeneralLocation;
+import androidx.test.espresso.action.GeneralSwipeAction;
+import androidx.test.espresso.action.Press;
+import androidx.test.espresso.action.Swipe;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.intent.Intents;
@@ -135,8 +147,9 @@ public class EventCreatorActivityTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.event_creator_description)).perform(typeText(description));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
-        onView(withId(R.id.event_creator_save_button)).perform(click());
+        //onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
+        onView(withId(R.id.map)).perform(new PressAndSwipeUpAction());
+
 
         Event foundEvent = model.getEvent(EditProfileActivity.NULL_USER, title).join();
 
@@ -183,5 +196,45 @@ public class EventCreatorActivityTest {
 
         long unixTimestamp = calendar.getTimeInMillis();
         // assertThat(unixTimestamp, is(foundEvent.getDate())); TODO check later why in ci it does not work
+    }
+
+    public class PressAndSwipeUpAction implements ViewAction {
+
+        @Override
+        public Matcher<View> getConstraints() {
+            return isDisplayingAtLeast(90);
+        }
+
+        @Override
+        public String getDescription() {
+            return "Press and swipe up action";
+        }
+
+        @Override
+        public void perform(UiController uiController, View view) {
+            int[] locationOnScreen = new int[2];
+            view.getLocationOnScreen(locationOnScreen);
+
+            float centerX = locationOnScreen[0] + view.getWidth() / 2;
+            float centerY = locationOnScreen[1] + view.getHeight() / 2;
+
+            float endY = locationOnScreen[1];
+
+            uiController.loopMainThreadUntilIdle();
+
+            try {
+
+
+                uiController.injectMotionEvent(MotionEvent.obtain(
+                        SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+                        MotionEvent.ACTION_DOWN, centerX, centerY, 0));
+
+                uiController.loopMainThreadForAtLeast(50);
+
+                uiController.injectMotionEvent(MotionEvent.obtain(
+                        SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+                        MotionEvent.ACTION_UP, centerX, endY, 0));
+            }catch (InjectEventSecurityException ignored){}
+        }
     }
 }
