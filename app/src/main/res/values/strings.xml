@@ -5,7 +5,7 @@
     <string name="nav_header_subtitle">A place to live and share</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_my_events">My activities</string>
+    <string name="menu_my_events">My events</string>
     <string name="menu_my_account">My account</string>
     <string name="menu_filters">Filters</string>
     <string name="menu_log_out">Log out</string>
@@ -53,4 +53,6 @@
     <string name="rate_this_user">RATE THIS USER</string>
     <string name="profile">PROFILE</string>
     <string name="participants_size_format">%s (%d)</string>
+    <string name="profiles">profiles</string>
+    <string name="add_event">Add event</string>
 </resources>

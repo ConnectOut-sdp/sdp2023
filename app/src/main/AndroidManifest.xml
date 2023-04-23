@@ -17,7 +17,7 @@
         android:theme="@style/Theme.ConnectOut"
         tools:targetApi="31">
         <activity
-                android:name=".event.viewer.RegisteredEventsCalendarActivity"
+                android:name=".event.viewer.MyEventsCalendarActivity"
                 android:exported="false" />
         <activity
                 android:name=".qr_code.QRcodeModalActivity"
@@ -81,7 +81,6 @@
         <activity
             android:name=".drawer.DrawerActivity"
             android:exported="false"
-            android:label="@string/title_activity_drawer"
             android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
             android:name=".authentication.ProfileGreetingActivity"

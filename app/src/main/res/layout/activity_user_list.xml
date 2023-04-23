@@ -11,9 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-
         android:theme="@style/Theme.ConnectOut.AppBarOverlay"
-        app:navigationIcon="@drawable/back_arrow_image">
+>
 
         <ToggleButton
             android:id="@+id/user_list_button"

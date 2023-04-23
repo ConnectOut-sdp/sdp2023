@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/events_activity_id"
-        tools:context=".event.nearbyEvents.EventsActivity">
+        tools:context=".event.nearbyEvents.EventsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/events_toolbar"
