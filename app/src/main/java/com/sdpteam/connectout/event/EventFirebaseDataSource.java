@@ -192,6 +192,22 @@ public class EventFirebaseDataSource extends FirebaseDataSource implements Event
         return false;
     }
 
+    public boolean deleteEvent(String userId, String title) {
+        if (userId != null && title != null) {
+            firebaseRef.child(DATABASE_EVENT_PATH).orderByKey().get().addOnCompleteListener(t -> {
+                for (DataSnapshot snapshot : t.getResult().getChildren()) {
+                    Event e = snapshot.getValue(Event.class);
+                    if (userId.equals(e.getOrganizer()) && title.equals(e.getTitle())) {
+                        firebaseRef.child(DATABASE_EVENT_PATH).child(snapshot.getKey()).removeValue();
+                        break;
+                    }
+                }
+            });
+            return true;
+        }
+        return false;
+    }
+
 
 }
 

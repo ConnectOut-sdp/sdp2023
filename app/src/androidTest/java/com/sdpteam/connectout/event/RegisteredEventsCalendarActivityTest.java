@@ -15,12 +15,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import android.os.SystemClock;
-
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
@@ -36,22 +30,6 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisteredEventsCalendarActivityTest {

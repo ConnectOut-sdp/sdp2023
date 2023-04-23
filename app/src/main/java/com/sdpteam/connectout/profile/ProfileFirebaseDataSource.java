@@ -170,7 +170,7 @@ public class ProfileFirebaseDataSource extends FirebaseDataSource implements Pro
     }
 
     public void deleteProfile(String uid) {
-        firebaseRef.child(USERS).child(uid).child(PROFILE).removeValue();
+        firebaseRef.child(USERS).child(uid).removeValue();
     }
 
     /**

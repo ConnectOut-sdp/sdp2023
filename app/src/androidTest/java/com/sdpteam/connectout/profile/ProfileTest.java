@@ -10,10 +10,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.ProfileActivity.PROFILE_UID;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
 
 import android.content.Intent;
 
@@ -119,5 +121,16 @@ public class ProfileTest {
         assertThat(p.getEmail(), is("expresident@gmail.com"));
         assertThat(p.getGender(), is(Profile.Gender.MALE));
         assertThat(p.getId(), is("12342"));
+    }
+
+    @Test
+    public void deleteProfileTest() {
+        Profile userProfile = new Profile(uid, "test", "testmail@gmail.com",
+                "test", Profile.Gender.MALE, 1, 1, "");
+        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
+        fJoin(model.saveProfile(userProfile));
+        model.deleteProfile(uid);
+        waitABit();
+        assertNull(fJoin(model.fetchProfile(uid)));
     }
 }

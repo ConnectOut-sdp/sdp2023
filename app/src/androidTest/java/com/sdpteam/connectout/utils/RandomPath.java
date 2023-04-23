@@ -10,7 +10,7 @@ public class RandomPath {
         return generateRandomString(DEFAULT_LENGTH);
     }
 
-    private static String generateRandomString(int length) {
+    public static String generateRandomString(int length) {
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
 
