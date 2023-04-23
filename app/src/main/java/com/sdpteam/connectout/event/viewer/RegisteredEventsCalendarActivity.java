@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.event.viewer;
 
+import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import android.content.Intent;
@@ -56,7 +57,7 @@ public class RegisteredEventsCalendarActivity extends AppCompatActivity {
                 TextView item = view.findViewById(R.id.registered_event_id);
 
                 Intent intent = new Intent(RegisteredEventsCalendarActivity.this, EventActivity.class);
-                intent.putExtra("key", item.getText());
+                intent.putExtra(PASSED_ID_KEY, item.getText());
                 startActivity(intent);
             }
         });
