@@ -8,15 +8,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.Matchers.anything;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
+import android.os.SystemClock;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
@@ -24,11 +21,15 @@ import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
-import android.os.SystemClock;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisteredEventsCalendarActivityTest {
