@@ -63,6 +63,7 @@
                 android:exported="false" />
         <activity
             android:name=".profile.ProfileActivity"
+            android:theme="@style/Theme.ConnectOut.NoActionBar"
             android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"

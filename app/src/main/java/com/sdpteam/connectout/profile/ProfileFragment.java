@@ -13,21 +13,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.utils.DrawerFragment;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends DrawerFragment {
     public final static String PASSED_ID_KEY = "uid";
 
     private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
-    Authentication auth = new GoogleAuth();
-
-    private Button editProfile;
-    private Button rateProfile;
 
     @Nullable
     @Override
@@ -39,28 +37,32 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        editProfile = view.findViewById(R.id.buttonEditProfile);
-        rateProfile = view.findViewById(R.id.buttonRateProfile);
+        Button ratingEditButton = view.findViewById(R.id.buttonRatingEditProfile);
+        Toolbar toolbar = view.findViewById(R.id.profile_toolbar);
 
         Bundle arguments = getArguments();
         String userIdToDisplay = arguments != null ? arguments.getString(PASSED_ID_KEY) : null;
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         String uid = (au == null) ? NULL_USER : au.uid;
 
-        if (userIdToDisplay == null) {
-            rateProfile.setVisibility(INVISIBLE);
-            editProfile.setOnClickListener(v -> goToEditProfile());
+        String buttonText;
+        View.OnClickListener listener;
+
+        //If current user is selected one:
+        if(userIdToDisplay == null || uid.equals(userIdToDisplay)){
             userIdToDisplay = uid;
-        } else {
-            editProfile.setVisibility(INVISIBLE);
+            buttonText = "Edit Profile";
+            listener = v->goToEditProfile();
+        }else{
+            buttonText = "Rate Profile";
             String finalUserIdToDisplay = userIdToDisplay;
-            rateProfile.setOnClickListener(v -> goToProfileRate(finalUserIdToDisplay));
+            listener = v -> goToProfileRate(finalUserIdToDisplay);
         }
 
+        setupToolBar(ratingEditButton, toolbar, buttonText, listener);
+
         pvm.fetchProfile(userIdToDisplay);
-        pvm.getProfileLiveData().observe(getViewLifecycleOwner(), profile -> {
-            setTextViewsTo(view, profile);
-        });
+        pvm.getProfileLiveData().observe(getViewLifecycleOwner(), profile -> setTextViewsTo(view, profile));
     }
 
     private void setTextViewsTo(View view, Profile user) {
@@ -90,6 +92,12 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
     }
 
+    /**
+     * Method used to launch a Profile Fragment with a given Id.
+     *
+     * @param profileId (String): Id of the profile to display
+     * @return (ProfileFragment): fragment instanced with the given Id
+     */
     public static ProfileFragment setupFragment(String profileId) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();

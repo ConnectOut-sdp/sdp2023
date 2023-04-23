@@ -67,7 +67,7 @@ public class ProfileTest {
     public void testRateButton() {
         testRule.getScenario().onActivity(activity ->
         {
-            Intent profileIntent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class).putExtra(PROFILE_UID, uid);
+            Intent profileIntent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class).putExtra(PASSED_ID_KEY, uid);
             activity.startActivity(profileIntent);
         });
         // test if buttonRateProfile is displayed

@@ -45,9 +45,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        cancel.setOnClickListener(v -> {
-            goToProfile();
-        });
+        cancel.setOnClickListener(v -> this.finish());
     }
 
     private Profile.Gender getGender(RadioButton male, RadioButton female, RadioButton other) {

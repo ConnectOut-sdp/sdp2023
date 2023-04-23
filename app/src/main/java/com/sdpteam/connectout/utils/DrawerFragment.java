@@ -34,6 +34,7 @@ public abstract class DrawerFragment extends Fragment {
             ((WithFragmentActivity)getActivity()).setSupportActionBar(fragmentToolbar);
 
             fragmentButton.setOnClickListener(listener);
+            fragmentButton.setText(text);
             fragmentToolbar.setNavigationOnClickListener(v-> getActivity().finish());
         }
     }

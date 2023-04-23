@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".profile.ProfileActivity">
 
-    <Button
-        android:id="@+id/buttonRateProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/rate_this_user"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewProfileTitle"
-        app:layout_constraintVertical_bias="0.82" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@drawable/back_arrow_image"
+        android:theme="@style/Theme.ConnectOut.AppBarOverlay"/>
 
     <TextView
         android:id="@+id/textViewProfileTitle"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_toolbar"
         android:padding="5dp"
+        android:layout_margin="@dimen/fab_margin"
         android:text="@string/profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dp"
-        android:text="Name"
+        android:text="Name :"
+        android:textColor="@color/black"
+        android:layout_below="@+id/textViewProfileTitle"
+        android:layout_marginHorizontal="@dimen/fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -43,24 +47,13 @@
         app:layout_constraintVertical_bias="0.17" />
 
     <TextView
-        android:id="@+id/subtitleEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:text="Email"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.30" />
-
-    <TextView
         android:id="@+id/profileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dp"
         android:text="'name'"
+        android:layout_below="@id/textViewProfileTitle"
+        android:layout_toEndOf="@+id/subtitleName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -69,11 +62,30 @@
         app:layout_constraintVertical_bias="0.22" />
 
     <TextView
+        android:id="@+id/subtitleEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:textColor="@color/black"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_below="@+id/subtitleName"
+        android:text="Email :"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.30" />
+
+    <TextView
         android:id="@+id/profileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dp"
         android:text="'email'"
+        android:layout_toEndOf="@+id/subtitleEmail"
+        android:layout_marginVertical="@dimen/fab_margin"
+        android:layout_below="@+id/subtitleName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -86,7 +98,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dp"
-        android:text="Bio"
+        android:text="Bio :"
+        android:textColor="@color/black"
+        android:layout_marginHorizontal="@dimen/fab_margin"
+        android:layout_below="@+id/subtitleEmail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -100,6 +115,8 @@
         android:layout_height="wrap_content"
         android:padding="3dp"
         android:text="'Bio'"
+        android:layout_toRightOf="@+id/subtitleBio"
+        android:layout_below="@+id/subtitleEmail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -112,7 +129,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dp"
-        android:text="Gender"
+        android:text="Gender :"
+        android:layout_below="@+id/subtitleBio"
+        android:textColor="@color/black"
+        android:layout_margin="@dimen/fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -126,6 +146,9 @@
         android:layout_height="wrap_content"
         android:padding="3dp"
         android:text="'gender'"
+        android:layout_below="@+id/subtitleBio"
+        android:layout_toEndOf="@+id/subtitleGender"
+        android:layout_marginTop="@dimen/fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -137,11 +160,15 @@
         android:id="@+id/buttonRatingEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:text="Edit Profile"
+        android:layout_margin="@dimen/fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewProfileTitle"
         app:layout_constraintVertical_bias="0.82" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
