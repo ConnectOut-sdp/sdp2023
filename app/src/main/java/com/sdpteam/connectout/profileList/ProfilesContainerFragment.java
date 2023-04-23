@@ -14,9 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventsFilterDialog;
+import com.sdpteam.connectout.utils.DrawerFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
-public class ProfilesContainerFragment extends Fragment {
+public class ProfilesContainerFragment extends DrawerFragment {
 
 
     @Nullable
@@ -25,9 +26,6 @@ public class ProfilesContainerFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_user_list, container, false);
 
         Toolbar toolbar = view.findViewById(R.id.user_list_toolbar);
-        ((WithFragmentActivity)getActivity()).setSupportActionBar(toolbar);
-
-        // Setup filter button activation.
         ToggleButton filterButton = view.findViewById(R.id.user_list_button);
 
         ProfileListFragment listFragment = new ProfileListFragment();
@@ -45,13 +43,7 @@ public class ProfilesContainerFragment extends Fragment {
             }
         };
 
-        if(getActivity() instanceof DrawerActivity){
-            ((DrawerActivity) getActivity()).setupButton("Filter", listener);
-            filterButton.setVisibility(View.GONE);
-            toolbar.setVisibility(View.GONE);
-        }else {
-            filterButton.setOnClickListener(listener);
-        }
+        setupToolBar(filterButton,toolbar,"Filter",listener);
 
         getChildFragmentManager().beginTransaction().replace(R.id.container_users_listview, filterFragment).commit();
 

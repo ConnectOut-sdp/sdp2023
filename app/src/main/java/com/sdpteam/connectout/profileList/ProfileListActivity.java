@@ -15,7 +15,7 @@ public class ProfileListActivity extends WithFragmentActivity {
         //Create the view of the activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
-        replaceFragment(new EventsFragment(), R.id.fragment_container);
+        replaceFragment(new ProfilesContainerFragment(), R.id.fragment_container);
     }
 
 

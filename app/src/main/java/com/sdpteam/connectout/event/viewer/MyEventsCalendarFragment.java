@@ -23,6 +23,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
+import com.sdpteam.connectout.utils.DrawerFragment;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -32,7 +33,7 @@ import java.util.function.Function;
  * This fragment sets up the Calendar UserInterface
  * It consists in the list of events to which a user has registered
  */
-public class MyEventsCalendarFragment extends Fragment {
+public class MyEventsCalendarFragment extends DrawerFragment {
     public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
     Authentication auth = new GoogleAuth();
 

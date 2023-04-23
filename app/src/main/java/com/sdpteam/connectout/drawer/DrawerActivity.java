@@ -8,12 +8,10 @@ import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
 import com.sdpteam.connectout.profile.ProfileFragment;
 import com.sdpteam.connectout.profileList.ProfilesContainerFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
-import com.sdpteam.connectout.utils.WithToolBarButtonHandler;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,7 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class DrawerActivity extends WithFragmentActivity implements WithToolBarButtonHandler {
+public class DrawerActivity extends WithFragmentActivity{
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

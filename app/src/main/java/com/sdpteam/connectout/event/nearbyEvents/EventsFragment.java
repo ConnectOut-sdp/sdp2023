@@ -23,9 +23,10 @@ import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventsFilterDialog;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
+import com.sdpteam.connectout.utils.DrawerFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
-public class EventsFragment extends Fragment {
+public class EventsFragment extends DrawerFragment {
 
     private EventsMapViewFragment eventsMapViewFragment;
     private EventsListViewFragment eventsListViewFragment;
@@ -46,13 +47,7 @@ public class EventsFragment extends Fragment {
                 filterDialog.show(getParentFragmentManager(), "FilterDialog");
         };
 
-        if(getActivity() instanceof DrawerActivity){
-            ((DrawerActivity) getActivity()).setupButton("Filter", listener);
-            filterBtn.setVisibility(View.GONE);
-            toolbar.setVisibility(View.GONE);
-        }else {
-            filterBtn.setOnClickListener(listener);
-        }
+        setupToolBar(filterBtn,toolbar,"Filter",listener);
 
         RadioGroup mapListButton = view.findViewById(R.id.events_switch);
         getChildFragmentManager().beginTransaction().replace(R.id.nearby_events_container, eventsMapViewFragment).commit();
