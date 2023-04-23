@@ -1,8 +1,9 @@
 package com.sdpteam.connectout;
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.event.creator.EventCreatorActivity;
-import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         enablingFirebaseCache();
 
         // Don't put anything here, just choose which activity to redirect to
-        Intent drawerIntent = new Intent(getApplicationContext(), EventCreatorActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
         this.startActivity(drawerIntent);
     }
 
