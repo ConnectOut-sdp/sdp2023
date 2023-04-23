@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.event.viewer;
 
+import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class MyEventsCalendarFragment extends DrawerFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registered_events_calendar, container, false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //set up the ListView
         setUpListAdapter(view);
@@ -86,4 +88,3 @@ public class MyEventsCalendarFragment extends DrawerFragment {
         viewModel.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
     }
 }
-

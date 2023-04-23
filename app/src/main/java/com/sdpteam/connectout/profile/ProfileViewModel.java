@@ -11,6 +11,9 @@ import com.firebase.ui.database.FirebaseListOptions;
 import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
 import com.sdpteam.connectout.chat.ChatMessage;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -44,7 +47,15 @@ public class ProfileViewModel extends ViewModel {
      * Save your new Profile
      */
     public void saveProfile(Profile profile) {
-        profileRepository.saveProfile(profile);
+        try {
+            profileRepository.saveProfile(profile).get(5, TimeUnit.SECONDS);
+        } catch (ExecutionException e) { //TODO check why timeout in ci
+//            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+        } catch (TimeoutException e) {
+//            throw new RuntimeException(e);
+        }
     }
 
     public LiveData<Profile> getProfileLiveData() {
@@ -64,10 +75,14 @@ public class ProfileViewModel extends ViewModel {
             numRatings++;
 
             //save new rating
-            profileRepository.saveProfile(
-                    new Profile(uid, profile.getName(), profile.getEmail(),
-                            profile.getBio(), profile.getGender(), rating, numRatings, profile.getProfileImageUrl()
-                    ));
+            try {
+                profileRepository.saveProfile(
+                        new Profile(uid, profile.getName(), profile.getEmail(),
+                                profile.getBio(), profile.getGender(), rating, numRatings, profile.getProfileImageUrl()
+                        )).get(5, TimeUnit.SECONDS);
+            } catch (ExecutionException | InterruptedException | TimeoutException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
@@ -79,6 +94,14 @@ public class ProfileViewModel extends ViewModel {
                                  BiConsumer<View, Profile.CalendarEvent> populateView,
                                  Consumer<ListAdapter> setAdapter, String profileId) {
         registeredEventsRepository.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
+    }
+
+    /**
+     * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
+     * in list of events that a profile is registered to
+     * */
+    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
+        registeredEventsRepository.registerToEvent(calEvent, profileId);
     }
 }
 

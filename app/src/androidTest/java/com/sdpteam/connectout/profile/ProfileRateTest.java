@@ -6,22 +6,23 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_NAME;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.junit.Assert.assertEquals;
-
-import android.content.Intent;
-import android.widget.RatingBar;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.R;
+
+import android.content.Intent;
+import android.widget.RatingBar;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * End to end test for the profile rate activity
@@ -31,9 +32,6 @@ public class ProfileRateTest {
 
     public final static String uid = "testuid";
     public final static String name = "test";
-
-    private final ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-
     static Intent intent;
 
     static {
@@ -42,6 +40,7 @@ public class ProfileRateTest {
         intent.putExtra(RATED_NAME, name);
     }
 
+    private final ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
     @Rule
     public ActivityScenarioRule<ProfileRateActivity> testRule = new ActivityScenarioRule<>(intent);
 
@@ -49,7 +48,7 @@ public class ProfileRateTest {
     public void setup() {
         Profile testProfile = new Profile(uid, name, "test@gmail.com", "test",
                 Profile.Gender.MALE, 0, 0, "");
-        model.saveProfile(testProfile);
+        fJoin(model.saveProfile(testProfile));
     }
 
     @Test
@@ -68,8 +67,9 @@ public class ProfileRateTest {
             ratingBar.setRating(3);
         });
         onView(ViewMatchers.withId(R.id.submitRatingButton)).perform(click());
-        assertEquals(model.fetchProfile(uid).join().getRating(), 3, 0.001);
-        assertEquals(model.fetchProfile(uid).join().getNumRatings(), 1);
+        waitABit();
+        assertEquals(fJoin(model.fetchProfile(uid)).getRating(), 3, 0.001);
+        assertEquals(fJoin(model.fetchProfile(uid)).getNumRatings(), 1);
         model.deleteProfile(uid);
     }
 }

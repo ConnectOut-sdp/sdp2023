@@ -3,13 +3,13 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
-import com.sdpteam.connectout.profile.Profile;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
+import com.sdpteam.connectout.profile.Profile;
 
 public class ProfilesFilterTest {
 
@@ -30,6 +30,7 @@ public class ProfilesFilterTest {
         assertFalse(f.and(f).test(null));
         assertTrue(t.and(t).test(null));
     }
+
     @Test
     public void testOrCombinationOfFilters() {
         final ProfilesFilter t = e -> true;
@@ -39,6 +40,7 @@ public class ProfilesFilterTest {
         assertFalse(f.or(f).test(null));
         assertTrue(t.or(t).test(null));
     }
+
     @Test
     public void testNegateCombinationOfFilters() {
         final ProfilesFilter t = e -> true;
@@ -46,5 +48,4 @@ public class ProfilesFilterTest {
         assertFalse(t.negate().test(null));
         assertTrue(f.negate().test(null));
     }
-
 }

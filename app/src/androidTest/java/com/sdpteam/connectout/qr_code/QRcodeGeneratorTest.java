@@ -2,10 +2,10 @@ package com.sdpteam.connectout.qr_code;
 
 import static org.junit.Assert.assertNotNull;
 
-import android.graphics.Bitmap;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import android.graphics.Bitmap;
 
 public class QRcodeGeneratorTest {
 

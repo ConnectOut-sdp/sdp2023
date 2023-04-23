@@ -32,14 +32,15 @@ public class EventTest {
     }
 
     @Test
-    public void addsParticipantToEventOnce(){
+    public void addsParticipantToEventOnce() {
         assertTrue(TEST_EVENT.addParticipant("1"));
         assertTrue(TEST_EVENT.getParticipants().contains("1"));
         assertFalse(TEST_EVENT.addParticipant("1"));
         assertTrue(TEST_EVENT.getParticipants().contains("1"));
     }
+
     @Test
-    public void removeParticipantToEventOnce(){
+    public void removeParticipantToEventOnce() {
         TEST_EVENT.addParticipant("1");
         assertTrue(TEST_EVENT.getParticipants().contains("1"));
         assertTrue(TEST_EVENT.removeParticipant("1"));

@@ -2,7 +2,6 @@ package com.sdpteam.connectout.profile;
 
 import static android.view.View.INVISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
-import static com.sdpteam.connectout.profile.ProfileFragment.PASSED_ID_KEY;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.Authentication;
@@ -20,24 +19,74 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 /**
  * Once the Profile Activity has been created, this activity can be deleted and the intent in
  * EditProfileActivity must be adapted
  */
-public class ProfileActivity extends WithFragmentActivity {
+public class ProfileActivity extends AppCompatActivity {
+    public final static String PASSED_ID_KEY = "uid";
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_container);
+    public static final String PROFILE_UID = "uid";
 
-            String profileId = getIntent().getStringExtra(PASSED_ID_KEY);
-            replaceFragment(ProfileFragment.setupFragment(profileId), R.id.fragment_container);
+    private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
+    Authentication auth = new GoogleAuth();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+
+        Button ratingEditButton = findViewById(R.id.buttonRatingEditProfile);
+
+        String userIdToDisplay = getIntent().getStringExtra(PROFILE_UID);
+        AuthenticatedUser au = new GoogleAuth().loggedUser();
+        String uid = (au == null) ? NULL_USER : au.uid;
+
+        if (userIdToDisplay == null || uid.equals(userIdToDisplay)) {
+            ratingEditButton.setText("Edit Profile");
+            ratingEditButton.setOnClickListener(v -> goToEditProfile());
+            userIdToDisplay = uid;
+        } else {
+            ratingEditButton.setText("Rate Profile");
+            String finalUserIdToDisplay = userIdToDisplay;
+            ratingEditButton.setOnClickListener(v -> goToProfileRate(finalUserIdToDisplay));
         }
 
+        pvm.fetchProfile(userIdToDisplay);
+        pvm.getProfileLiveData().observe(this, profile -> {
+            setTextViewsTo(profile);
+        });
+    }
 
+    private void setTextViewsTo(Profile user) {
+        TextView name = findViewById(R.id.profileName);
+        TextView email = findViewById(R.id.profileEmail);
+        TextView bio = findViewById(R.id.profileBio);
+        TextView gender = findViewById(R.id.profileGender);
+
+        name.setText(user.getName());
+        email.setText(user.getEmail());
+        bio.setText(user.getBio());
+        gender.setText(user.getGender().name());
+    }
+
+    private void goToEditProfile() {
+        Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+        startActivity(intent);
+        Button ratingEditButton;
+        finish();
+    }
+
+    private void goToProfileRate(String id) {
+        Intent intent = new Intent(ProfileActivity.this, ProfileRateActivity.class);
+        intent.putExtra("uid", id);
+
+        TextView viewById = findViewById(R.id.profileName);
+        String userName = (String) viewById.getText();
+        intent.putExtra("name", userName);
+        startActivity(intent);
+    }
 
     /**
      * Helper method to launch a profile activity from the source context

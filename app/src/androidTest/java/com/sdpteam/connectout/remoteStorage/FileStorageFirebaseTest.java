@@ -1,5 +1,6 @@
-package com.sdpteam.connectout.aaaremoteStorage;
+package com.sdpteam.connectout.remoteStorage;
 
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Rule;
@@ -7,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
 import com.sdpteam.connectout.utils.TestActivity;
 
 import android.content.ContentResolver;
@@ -34,7 +34,7 @@ public class FileStorageFirebaseTest {
         if (uri == null) {
             throw new IllegalStateException("Why is it null?");
         }
-        Uri createdUrl = new FileStorageFirebase().uploadFile(uri, "jpg").join();
+        Uri createdUrl = fJoin(new FileStorageFirebase().uploadFile(uri, "jpg"));
         assertTrue(createdUrl.toString().contains("https://"));
     }
 }

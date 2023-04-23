@@ -11,6 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
 import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
 
@@ -54,7 +55,6 @@ import androidx.test.rule.ActivityTestRule;
 @RunWith(AndroidJUnit4.class)
 public class CompleteRegistrationFormTest {
 
-    private RegistrationViewModel viewModel;
     private static Profile databaseContent;
     public static final ProfileRepository fakeProfilesDatabase = new ProfileRepository() {
         @Override
@@ -78,12 +78,11 @@ public class CompleteRegistrationFormTest {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
     };
-
     @Rule
     public ActivityTestRule<CompleteRegistrationActivity> activityTestRule = new ActivityTestRule<>(CompleteRegistrationActivity.class, true, true);
-
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+    private RegistrationViewModel viewModel;
 
     @Before
     public void setUp() {
@@ -112,7 +111,7 @@ public class CompleteRegistrationFormTest {
         };
 
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), fakeAuth);
-        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
+        fJoin(fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, "")));
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
@@ -153,7 +152,7 @@ public class CompleteRegistrationFormTest {
         onView(withId(R.id.radioMale)).perform(click());
         onView(withId(R.id.checkBox)).perform(click());
         onView(withId(R.id.finishButton)).perform(click());
-        Profile updatedProfile = fakeProfilesDatabase.fetchProfile("007").join();
+        Profile updatedProfile = fJoin(fakeProfilesDatabase.fetchProfile("007"));
 
         MatcherAssert.assertThat(updatedProfile.getId(), is("007"));
         MatcherAssert.assertThat(updatedProfile.getName(), is("Donald Trump"));
@@ -187,7 +186,7 @@ public class CompleteRegistrationFormTest {
             }
         };
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
-        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
+        fJoin(fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, "")));
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
@@ -247,7 +246,7 @@ public class CompleteRegistrationFormTest {
             }
         };
         viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
-        fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, ""));
+        fJoin(fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, "")));
 
         CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
@@ -287,7 +286,7 @@ public class CompleteRegistrationFormTest {
         }
 
         onView((withId(R.id.complete_registration_error_msg))).check(matches(withText("Operation successful")));
-        Profile updatedProfile = fakeProfilesDatabase.fetchProfile("007").join();
+        Profile updatedProfile = fJoin(fakeProfilesDatabase.fetchProfile("007"));
         MatcherAssert.assertThat(updatedProfile.getName(), is("Donald"));
         MatcherAssert.assertThat(updatedProfile.getEmail(), is("email@test.com"));
         MatcherAssert.assertThat(updatedProfile.getBio(), is("bio2"));

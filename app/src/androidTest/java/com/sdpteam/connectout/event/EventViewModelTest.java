@@ -6,8 +6,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import org.junit.Rule;
+import org.junit.Test;
 
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
@@ -15,12 +19,8 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
 
 public class EventViewModelTest {
 
@@ -44,7 +44,6 @@ public class EventViewModelTest {
         LiveData<Event> eventLiveData = viewModel.getEventLiveData();
 
         assertThrows(RuntimeException.class, () -> LiveDataTestUtil.getOrAwaitValue(eventLiveData));
-
     }
 
     @Test
@@ -117,7 +116,6 @@ public class EventViewModelTest {
             Event event = LiveDataTestUtil.getOrAwaitValue(viewModel.getEventLiveData());
             assertFalse(event.getParticipants().contains("3"));
         }
-
     }
 
     @Test
@@ -193,8 +191,6 @@ public class EventViewModelTest {
         }
     }
 
-
-
     public static class FakeModel implements EventRepository {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
@@ -205,7 +201,6 @@ public class EventViewModelTest {
             dataSet.add(new Event("3", "event3", "", new GPSCoordinates(46.521, 6.5678), "E3"));
             dataSet.add(new Event("4", "event4", "", new GPSCoordinates(46.5215, 6.56785), "E4"));
             dataSet.add(new Event("5", "event5", "", new GPSCoordinates(46.5218, 6.5679), "E5"));
-
         }
 
         @Override
@@ -244,12 +239,11 @@ public class EventViewModelTest {
         }
 
         private Event findEvent(String eventId) {
-            if(eventId== null){
+            if (eventId == null) {
                 return null;
             }
-            int idx = Integer.parseInt(eventId) -1;
+            int idx = Integer.parseInt(eventId) - 1;
             return dataSet.get(idx);
         }
-
     }
 }
