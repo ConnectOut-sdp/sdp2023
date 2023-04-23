@@ -131,6 +131,8 @@ public class EventActivityTest {
         // quit event
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
         onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        waitABit();
+        waitABit();
         onView(withId(R.id.event_chat_btn)).check(matches(not(isDisplayed())));
     }
 
