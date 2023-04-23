@@ -13,7 +13,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -30,10 +29,7 @@ import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profileList.ProfileListViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.hamcrest.Matchers;
@@ -49,6 +45,7 @@ import java.util.List;
 public class EventsActivityTest {
 
     @Rule public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
     @Rule
     public ActivityScenarioRule<EventsActivity> testRule = new ActivityScenarioRule<>(EventsActivity.class);
 
