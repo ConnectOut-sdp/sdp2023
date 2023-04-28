@@ -1,13 +1,12 @@
 package com.sdpteam.connectout.qr_code;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdpteam.connectout.R;
 
@@ -15,6 +14,7 @@ public class QRcodeModalActivity extends AppCompatActivity {
 
     private ImageView qrCodeImageView;
     private TextView modalTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

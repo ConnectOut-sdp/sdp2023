@@ -1,12 +1,13 @@
 package com.sdpteam.connectout.authentication;
 
-import com.sdpteam.connectout.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sdpteam.connectout.R;
 
 public class ProfileGreetingActivity extends AppCompatActivity {
 

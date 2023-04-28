@@ -1,21 +1,19 @@
 package com.sdpteam.connectout.event.viewer;
 
-import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Gravity;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 
 import com.firebase.ui.database.FirebaseListOptions;
 import com.sdpteam.connectout.R;
@@ -24,70 +22,51 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
+import com.sdpteam.connectout.utils.DrawerFragment;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * This activity sets up the Calendar UserInterface
+ * This fragment sets up the Calendar UserInterface
  * It consists in the list of events to which a user has registered
  */
-public class RegisteredEventsCalendarActivity extends AppCompatActivity {
+public class MyEventsCalendarFragment extends DrawerFragment {
     public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
     Authentication auth = new GoogleAuth();
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registered_events_calendar);
-
-        //we enable the return button in the ActionBar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_registered_events_calendar, container, false);
 
         //set up the ListView
-        setUpListAdapter();
+        setUpListAdapter(view);
 
-        ListView listOfRegisteredEvents = findViewById(R.id.list_of_registered_events);
+        ListView listOfRegisteredEvents = view.findViewById(R.id.list_of_registered_events);
 
         //on click, open event
-        listOfRegisteredEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView item = view.findViewById(R.id.registered_event_id);
-
-                Intent intent = new Intent(RegisteredEventsCalendarActivity.this, EventActivity.class);
-                intent.putExtra(PASSED_ID_KEY, item.getText());
-                startActivity(intent);
-            }
+        listOfRegisteredEvents.setOnItemClickListener((parent, v, position, id) -> {
+            TextView item = v.findViewById(R.id.registered_event_id);
+            EventActivity.openEvent(getContext(), item.getText().toString());
         });
-    }
 
-    /**
-     * Returns to the previous activity if the return button in the Actionbar is pressed
-     */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            this.finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return view;
     }
 
     /**
      * The view must not interact directly with Firebase, as such the FirebaseListAdapter is created
      * by the model.
-     * However the adapter needs indirect access to the view elements as such we pass lambdas so that
+     * However, the adapter needs indirect access to the view elements as such we pass lambdas so that
      * the Model has no direct access.
      */
-    private void setUpListAdapter() {
-        ListView listOfRegisteredEvents = findViewById(R.id.list_of_registered_events);
+    private void setUpListAdapter(View view) {
+        ListView listOfRegisteredEvents = view.findViewById(R.id.list_of_registered_events);
         listOfRegisteredEvents.setStackFromBottom(true);
 
         Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout = a -> a.setLayout(R.layout.registered_event);
-        Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner = a -> a.setLifecycleOwner(this);
+        Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner = a -> a.setLifecycleOwner(getViewLifecycleOwner());
         BiConsumer<View, Profile.CalendarEvent> populateView = (v, calendarEvent) -> {
             TextView registeredEventTitle = v.findViewById(R.id.registered_event_title);
             TextView registeredEventTime = v.findViewById(R.id.registered_event_time);
@@ -101,7 +80,7 @@ public class RegisteredEventsCalendarActivity extends AppCompatActivity {
             registeredEventTime.setGravity(Gravity.CENTER);
             registeredEventTitle.setGravity(Gravity.CENTER);
         };
-        Consumer<ListAdapter> setAdapter = adapter -> listOfRegisteredEvents.setAdapter(adapter);
+        Consumer<ListAdapter> setAdapter = listOfRegisteredEvents::setAdapter;
         String profileId = auth.isLoggedIn() ? auth.loggedUser().uid : NULL_USER;
         viewModel.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
     }

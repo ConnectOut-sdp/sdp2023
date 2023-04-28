@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.sdpteam.connectout.event.EventRepository;
+
 /**
  * Used by ViewModelProvider to instantiate the EventsViewModel with custom arguments (here the model)
  */

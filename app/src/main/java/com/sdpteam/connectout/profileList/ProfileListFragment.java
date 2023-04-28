@@ -2,12 +2,6 @@ package com.sdpteam.connectout.profileList;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +12,10 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +61,7 @@ public class ProfileListFragment extends Fragment {
     public void showProfileList(List<Profile> profiles) {
         //Filter out all inadequate profiles.
         profiles = profiles.stream().filter(p -> !Objects.equals(p.getName(), "")).collect(Collectors.toList());
-        if(profiles.isEmpty()){
+        if (profiles.isEmpty()) {
             Toast.makeText(getApplicationContext(), "No results, your filter might be too precise!", Toast.LENGTH_LONG).show();
         }
         profilesAdapter = new ProfilesAdapter(container.getContext(), R.layout.adapter_text_view, profiles);
@@ -80,13 +78,10 @@ public class ProfileListFragment extends Fragment {
         if (viewModel == null) {
             return;
         }
-        if (observed != null) {
-            observed.removeObserver(profilesObserver);
+        if (!observed.hasActiveObservers()) {
+            observed.observe(getViewLifecycleOwner(), profilesObserver);
         }
         viewModel.getListOfProfile(option, userInput);
-        //Observe the filtered list.
-        observed.observe(getViewLifecycleOwner(), profilesObserver);
-
     }
 
     /**

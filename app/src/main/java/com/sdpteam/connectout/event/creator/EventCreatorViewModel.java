@@ -1,10 +1,10 @@
 package com.sdpteam.connectout.event.creator;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-
-import androidx.lifecycle.MutableLiveData;
 
 public class EventCreatorViewModel extends EventsViewModel {
     private final EventDataSource model;

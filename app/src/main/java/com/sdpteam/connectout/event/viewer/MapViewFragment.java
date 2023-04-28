@@ -32,6 +32,7 @@ public abstract class MapViewFragment extends Fragment implements OnMapReadyCall
 
     /**
      * Method used to update different components on the map.
+     *
      * @param rootView (View): initial view of the fragment.
      */
     public abstract void updateDataView(View rootView);

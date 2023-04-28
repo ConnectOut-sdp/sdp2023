@@ -1,9 +1,10 @@
 package com.sdpteam.connectout.drawer;
 
-import com.sdpteam.connectout.R;
-
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sdpteam.connectout.R;
 
 public class LogInActivity extends AppCompatActivity {
 

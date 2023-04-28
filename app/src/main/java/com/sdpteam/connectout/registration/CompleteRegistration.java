@@ -2,13 +2,13 @@ package com.sdpteam.connectout.registration;
 
 import static com.sdpteam.connectout.profile.Profile.Gender;
 
-import java.util.concurrent.CompletableFuture;
+import android.net.Uri;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileDataSource;
 import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
 
-import android.net.Uri;
+import java.util.concurrent.CompletableFuture;
 
 public class CompleteRegistration {
     private final ProfileDataSource profiles;

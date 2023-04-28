@@ -1,29 +1,24 @@
 package com.sdpteam.connectout.event.creator;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.validation.EventCreationValidator;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.widget.Toolbar;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+import com.sdpteam.connectout.validation.EventCreationValidator;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -57,7 +52,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
             final String[] hourMin = txtTime.getText().toString().split(":"); //[hour, min]
             //final Date date;
             final long date;
-            if (yearMonthDay.length == 3 && hourMin.length == 2){
+            if (yearMonthDay.length == 3 && hourMin.length == 2) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
                 calendar.set(Calendar.YEAR, Integer.valueOf(yearMonthDay[2]));
@@ -68,15 +63,14 @@ public class EventCreatorActivity extends WithFragmentActivity {
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
                 date = calendar.getTimeInMillis();
-            }
-            else{
+            } else {
                 //TODO should fail if the time is not appropriate (No event shouldn't have a time)
                 //we said that we would do this in a future sprint task
                 date = -666;
             }
 
             // validation
-            if(EventCreationValidator.eventCreationValidation(eventTitle, eventDescription)) {
+            if (EventCreationValidator.eventCreationValidation(eventTitle, eventDescription)) {
                 saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date);
                 this.finish();
             }
@@ -92,16 +86,16 @@ public class EventCreatorActivity extends WithFragmentActivity {
      */
     private void saveEvent(String title, GPSCoordinates coordinates, String description, long date) {
         AuthenticatedUser user = new GoogleAuth().loggedUser();
-        String ownerId =(user == null)? EditProfileActivity.NULL_USER : user.uid;
+        String ownerId = (user == null) ? EditProfileActivity.NULL_USER : user.uid;
 
         //Create associated event.
         //TODO add yourself to the participants by default?
-        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId,null, date);
+        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, null, date);
         //Save the event & return to previous activity.
         eventCreatorViewModel.saveEvent(newEvent);
     }
 
-    private void setDatePickerDialog(Button btnDatePicker, EditText txtDate){
+    private void setDatePickerDialog(Button btnDatePicker, EditText txtDate) {
         btnDatePicker.setOnClickListener(v -> {
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
@@ -113,7 +107,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         });
     }
 
-    private void setTimePickerDialog(Button btnTimePicker, EditText txtTime){
+    private void setTimePickerDialog(Button btnTimePicker, EditText txtTime) {
         btnTimePicker.setOnClickListener(v -> {
             // Get Current Time
             final Calendar c = Calendar.getInstance();

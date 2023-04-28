@@ -85,7 +85,7 @@ public class EventActivity extends WithFragmentActivity {
         participationBtn.setOnClickListener(v -> {
             eventViewModel.toggleParticipation(currentUserId);
         });
-        eventViewModel.getEventLiveData().observe(this, event ->{
+        eventViewModel.getEventLiveData().observe(this, event -> {
             updateEventView(event, title, description, participationBtn, participantsBtn, chatBtn);
         });
         participantsBtn.setOnClickListener(v -> showParticipants(null));
@@ -103,10 +103,9 @@ public class EventActivity extends WithFragmentActivity {
         updateParticipantsButton(event, participantsBtn);
         chatBtn.setVisibility(event.getParticipants().contains(currentUserId) ? View.VISIBLE : View.INVISIBLE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
-        if (!event.getParticipants().contains(currentUserId)){
+        if (!event.getParticipants().contains(currentUserId)) {
             profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
-        }
-        else{
+        } else {
             //TODO unregister from event (need to create function in profileDataSource)
         }
     }
@@ -137,15 +136,16 @@ public class EventActivity extends WithFragmentActivity {
 
     /**
      * Updates the participant button's text to display the event's number of participants.
-     * @param event (Event): current displayed event.
+     *
+     * @param event           (Event): current displayed event.
      * @param participantsBtn (Button): participant button of the view.
      */
     private void updateParticipantsButton(Event event, Button participantsBtn) {
-            String participantsBtnText = String.format(Locale.getDefault(),
-                    getString(R.string.participants_size_format),
-                    getString(R.string.participants),
-                    event.getParticipants().size());
-            participantsBtn.setText(participantsBtnText);
+        String participantsBtnText = String.format(Locale.getDefault(),
+                getString(R.string.participants_size_format),
+                getString(R.string.participants),
+                event.getParticipants().size());
+        participantsBtn.setText(participantsBtnText);
     }
 
     /**
@@ -153,7 +153,7 @@ public class EventActivity extends WithFragmentActivity {
      * (made it to avoid code duplication)
      *
      * @param fromContext from where we are starting the intent
-     * @param eventId   event Id to open with.
+     * @param eventId     event Id to open with.
      */
     public static void openEvent(Context fromContext, String eventId) {
         Intent intent = new Intent(fromContext, EventActivity.class);

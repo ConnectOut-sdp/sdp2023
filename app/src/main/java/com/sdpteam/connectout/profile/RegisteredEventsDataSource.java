@@ -14,7 +14,7 @@ public interface RegisteredEventsDataSource {
     /**
      * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
      * in list of events that a profile is registered to
-     * */
+     */
     void registerToEvent(Profile.CalendarEvent calEvent, String profileId);
 
     /**

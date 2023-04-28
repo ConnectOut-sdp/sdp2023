@@ -9,7 +9,6 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
-import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
@@ -97,7 +96,8 @@ public class ProfileListActivityTest {
 
     @Test
     public void initialViewIsFiltered() {
-        onView(withId(R.id.user_list_button)).check(matches((isChecked())));
+        onView(withId(R.id.user_list_button)).check(matches((isDisplayed())));
+        onView(withId(R.id.filter_apply_button)).check(matches((isDisplayed())));
     }
 
     @Test

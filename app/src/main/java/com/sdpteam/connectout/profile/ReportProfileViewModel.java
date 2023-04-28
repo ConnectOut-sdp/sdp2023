@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel;
 
 public class ReportProfileViewModel extends ViewModel {
 
-    private ReportFirebaseDataSource reportFirebaseDataSource;
+    private final ReportFirebaseDataSource reportFirebaseDataSource;
 
     public ReportProfileViewModel(ReportFirebaseDataSource reportFirebaseDataSource) {
         this.reportFirebaseDataSource = reportFirebaseDataSource;

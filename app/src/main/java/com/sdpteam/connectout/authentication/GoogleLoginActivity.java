@@ -1,13 +1,14 @@
 package com.sdpteam.connectout.authentication;
 
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
-import com.sdpteam.connectout.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.sdpteam.connectout.R;
 
 public class GoogleLoginActivity extends AppCompatActivity {
     private Authentication authentication = new GoogleAuth();
