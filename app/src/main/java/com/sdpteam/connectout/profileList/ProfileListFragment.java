@@ -80,13 +80,11 @@ public class ProfileListFragment extends Fragment {
         if (viewModel == null) {
             return;
         }
-        if (observed != null) {
-            observed.removeObserver(profilesObserver);
+        if (!observed.hasActiveObservers()) {
+            observed.observe(getViewLifecycleOwner(), profilesObserver);
         }
         viewModel.getListOfProfile(option, userInput);
         //Observe the filtered list.
-        observed.observe(getViewLifecycleOwner(), profilesObserver);
-
     }
 
     /**
