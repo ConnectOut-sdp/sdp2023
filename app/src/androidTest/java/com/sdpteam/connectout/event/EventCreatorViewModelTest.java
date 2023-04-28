@@ -64,7 +64,7 @@ public class EventCreatorViewModelTest {
         assertThat(e, is(TEST_EVENT1));
     }
 
-    public static class TestEventCreatorModel implements EventRepository {
+    public static class TestEventCreatorModel implements EventDataSource {
 
         public static final List<Event> EVENT_LIST = createTestList();
 

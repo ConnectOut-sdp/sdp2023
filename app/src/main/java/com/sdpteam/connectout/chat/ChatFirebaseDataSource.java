@@ -2,9 +2,10 @@ package com.sdpteam.connectout.chat;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import android.view.View;
+import android.widget.ListAdapter;
+
+import androidx.annotation.NonNull;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
@@ -13,20 +14,23 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.sdpteam.connectout.utils.FirebaseDataSource;
 
-import android.view.View;
-import android.widget.ListAdapter;
-import androidx.annotation.NonNull;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class ChatFirebaseDataSource extends FirebaseDataSource implements ChatDirectory {
+public class ChatFirebaseDataSource implements ChatDataSource {
 
     private final static int NUM_IMPORTED_MESSAGES = 50;
     private final String CHATS_PATH_STRING = "Chats";
     private final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     private final String userName = (currentUser == null) ? NULL_USER : currentUser.getDisplayName();
-
+    private final DatabaseReference firebaseRef;
     private FirebaseListAdapter<ChatMessage> adapter;
+
+    public ChatFirebaseDataSource() {
+        firebaseRef = FirebaseDatabase.getInstance().getReference();
+    }
 
     /**
      * Saves a given chatMessage to firebase

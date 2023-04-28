@@ -17,7 +17,7 @@ import org.junit.Test;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.profile.ProfileDataSource;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -147,7 +147,7 @@ public class ProfileListViewModelTest {
         assertThat(obtained, is(expected));
     }
 
-    public static class TestProfileModel implements ProfileRepository {
+    public static class TestProfileModel implements ProfileDataSource {
 
         @Override
         public CompletableFuture<Boolean> saveProfile(Profile profile) {

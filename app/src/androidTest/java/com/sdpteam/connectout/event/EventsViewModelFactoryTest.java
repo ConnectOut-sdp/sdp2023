@@ -36,7 +36,7 @@ public class EventsViewModelFactoryTest {
 
     @Test
     public void createViewOnCorrectModelArgument() {
-        EventRepository mockModel = new MockModel();
+        EventDataSource mockModel = new MockModel();
         // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
         assertThat(new EventsViewModelFactory(mockModel).create(EventsViewModel.class), isA(EventsViewModel.class));
     }
@@ -58,7 +58,7 @@ public class EventsViewModelFactoryTest {
         assertThrows(IllegalArgumentException.class, () -> factory.create(InvalidViewModel.class));
     }
 
-    private static class MockModel implements EventRepository {
+    private static class MockModel implements EventDataSource {
 
         @Override
         public boolean saveEvent(Event event) {

@@ -190,7 +190,7 @@ public class EventViewModelTest {
         }
     }
 
-    public static class FakeModel implements EventRepository {
+    public static class FakeModel implements EventDataSource {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 

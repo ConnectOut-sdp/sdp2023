@@ -31,7 +31,7 @@ import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.profile.ProfileDataSource;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -56,7 +56,7 @@ import androidx.test.rule.ActivityTestRule;
 public class CompleteRegistrationFormTest {
 
     private static Profile databaseContent;
-    public static final ProfileRepository fakeProfilesDatabase = new ProfileRepository() {
+    public static final ProfileDataSource fakeProfilesDatabase = new ProfileDataSource() {
         @Override
         public CompletableFuture<Boolean> saveProfile(Profile profile) {
             CompletableFuture<Boolean> done = new CompletableFuture<>();

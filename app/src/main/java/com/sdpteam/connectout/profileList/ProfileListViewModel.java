@@ -7,18 +7,18 @@ import java.util.List;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.profile.ProfileDataSource;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class ProfileListViewModel extends ViewModel {
 
-    private final ProfileRepository model;
+    private final ProfileDataSource model;
     private final MutableLiveData<List<Profile>> userListLiveData;
     private final static String NUMBER_REGEX = "-?\\d+(\\.\\d+)?";
 
-    public ProfileListViewModel(ProfileRepository model) {
+    public ProfileListViewModel(ProfileDataSource model) {
         this.model = model;
         this.userListLiveData = new MutableLiveData<>();
     }

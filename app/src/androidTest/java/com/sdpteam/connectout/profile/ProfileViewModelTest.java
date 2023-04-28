@@ -26,7 +26,7 @@ public class ProfileViewModelTest {
     @Test
     public void testSaveValue() {
         Profile value = new Profile("test", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1, "");
-        FakeProfileRepository model = new FakeProfileRepository();
+        FakeProfileDataSource model = new FakeProfileDataSource();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
         viewModel.saveProfile(value);
@@ -36,7 +36,7 @@ public class ProfileViewModelTest {
 
     @Test
     public void testGetValue() {
-        FakeProfileRepository model = new FakeProfileRepository();
+        FakeProfileDataSource model = new FakeProfileDataSource();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
         viewModel.fetchProfile("test");
@@ -48,7 +48,7 @@ public class ProfileViewModelTest {
         assertThat(p.getEmail(), is("yo@gmail.com"));
     }
 
-    private class FakeProfileRepository implements ProfileRepository {
+    private class FakeProfileDataSource implements ProfileDataSource {
         public Profile value;
         CompletableFuture<Boolean> done = new CompletableFuture<>();
 

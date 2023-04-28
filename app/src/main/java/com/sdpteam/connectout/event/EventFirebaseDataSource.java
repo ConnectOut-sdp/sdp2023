@@ -6,21 +6,26 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.utils.FirebaseDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-public class EventFirebaseDataSource extends FirebaseDataSource implements EventRepository {
+public class EventFirebaseDataSource implements EventDataSource {
     public final static String DATABASE_EVENT_PATH = "Events";
     private final static int MAX_EVENTS_FETCHED = 100;
+    private final DatabaseReference firebaseRef;
+
+    public EventFirebaseDataSource() {
+        firebaseRef = FirebaseDatabase.getInstance().getReference();
+    }
 
     /**
      * @param event (Event): The given event to save

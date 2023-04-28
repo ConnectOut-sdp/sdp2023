@@ -51,7 +51,7 @@ public class EventsViewModelTest {
         assertThat(eventList.get(2).getTitle(), is("event5"));
     }
 
-    public static class FakeMapModelManager implements EventRepository {
+    public static class FakeMapModelManager implements EventDataSource {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 

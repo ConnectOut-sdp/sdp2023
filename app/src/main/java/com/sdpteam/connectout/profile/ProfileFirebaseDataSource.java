@@ -13,9 +13,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.sdpteam.connectout.utils.FirebaseDataSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,12 +28,17 @@ import java.util.function.Function;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
-public class ProfileFirebaseDataSource extends FirebaseDataSource implements ProfileRepository, RegisteredEventsRepository {
+public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredEventsDataSource {
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
     private final String REGISTERED_EVENTS = "RegisteredEvents";
     public final static String USERS = "Users";
     public final static String PROFILE = "Profile";
+    private final DatabaseReference firebaseRef;
+
+    public ProfileFirebaseDataSource() {
+        firebaseRef = FirebaseDatabase.getInstance().getReference();
+    }
 
     @Override
     public CompletableFuture<Boolean> saveProfile(Profile profile) {

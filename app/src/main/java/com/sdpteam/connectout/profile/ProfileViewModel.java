@@ -8,8 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.firebase.ui.database.FirebaseListOptions;
-import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
-import com.sdpteam.connectout.chat.ChatMessage;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -20,25 +18,25 @@ import java.util.function.Function;
 
 public class ProfileViewModel extends ViewModel {
     private final MutableLiveData<Profile> profileLiveData;
-    public ProfileRepository profileRepository;
-    public RegisteredEventsRepository registeredEventsRepository;
+    public ProfileDataSource profileDataSource;
+    public RegisteredEventsDataSource registeredEventsDataSource;
 
-    public ProfileViewModel(ProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
+    public ProfileViewModel(ProfileDataSource profileDataSource) {
+        this.profileDataSource = profileDataSource;
         this.profileLiveData = new MutableLiveData<>();
     }
 
     public ProfileViewModel(ProfileFirebaseDataSource profileAndRegisteredEventsRepository){
-        this.profileRepository = profileAndRegisteredEventsRepository;
+        this.profileDataSource = profileAndRegisteredEventsRepository;
         this.profileLiveData = new MutableLiveData<>();
-        this.registeredEventsRepository = profileAndRegisteredEventsRepository;
+        this.registeredEventsDataSource = profileAndRegisteredEventsRepository;
     }
 
     /**
      * trigger a fetch from repo
      */
     public void fetchProfile(String uid) {
-        profileRepository.fetchProfile(uid).thenAccept(profile -> {
+        profileDataSource.fetchProfile(uid).thenAccept(profile -> {
             profileLiveData.setValue(profile);
         });
     }
@@ -48,7 +46,7 @@ public class ProfileViewModel extends ViewModel {
      */
     public void saveProfile(Profile profile) {
         try {
-            profileRepository.saveProfile(profile).get(5, TimeUnit.SECONDS);
+            profileDataSource.saveProfile(profile).get(5, TimeUnit.SECONDS);
         } catch (ExecutionException e) { //TODO check why timeout in ci
 //            throw new RuntimeException(e);
         } catch (InterruptedException e) {
@@ -66,7 +64,7 @@ public class ProfileViewModel extends ViewModel {
      * Update rating of a Profile
      */
     public void updateRating(String uid, double newRating) {
-        profileRepository.fetchProfile(uid).thenAccept(profile -> {
+        profileDataSource.fetchProfile(uid).thenAccept(profile -> {
             double rating = profile.getRating();
             int numRatings = profile.getNumRatings();
 
@@ -76,7 +74,7 @@ public class ProfileViewModel extends ViewModel {
 
             //save new rating
             try {
-                profileRepository.saveProfile(
+                profileDataSource.saveProfile(
                         new Profile(uid, profile.getName(), profile.getEmail(),
                                 profile.getBio(), profile.getGender(), rating, numRatings, profile.getProfileImageUrl()
                         )).get(5, TimeUnit.SECONDS);
@@ -93,7 +91,7 @@ public class ProfileViewModel extends ViewModel {
                                  Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
                                  BiConsumer<View, Profile.CalendarEvent> populateView,
                                  Consumer<ListAdapter> setAdapter, String profileId) {
-        registeredEventsRepository.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
+        registeredEventsDataSource.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
     }
 
     /**
@@ -101,7 +99,7 @@ public class ProfileViewModel extends ViewModel {
      * in list of events that a profile is registered to
      * */
     public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
-        registeredEventsRepository.registerToEvent(calEvent, profileId);
+        registeredEventsDataSource.registerToEvent(calEvent, profileId);
     }
 }
 

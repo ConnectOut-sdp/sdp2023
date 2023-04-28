@@ -45,7 +45,7 @@ import java.util.List;
 @RunWith(AndroidJUnit4.class)
 public class EventsActivityTest {
     private final String eventId = generateRandomPath();
-    private final EventRepository eventDs = new EventFirebaseDataSource();
+    private final EventDataSource eventDs = new EventFirebaseDataSource();
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
     @Rule

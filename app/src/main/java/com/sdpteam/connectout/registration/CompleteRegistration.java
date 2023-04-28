@@ -5,16 +5,16 @@ import static com.sdpteam.connectout.profile.Profile.Gender;
 import java.util.concurrent.CompletableFuture;
 
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.profile.ProfileDataSource;
 import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
 
 import android.net.Uri;
 
 public class CompleteRegistration {
-    private final ProfileRepository profiles;
+    private final ProfileDataSource profiles;
     private final FileStorageFirebase imageStorageFirebase;
 
-    public CompleteRegistration(ProfileRepository profiles) {
+    public CompleteRegistration(ProfileDataSource profiles) {
         this.profiles = profiles;
         imageStorageFirebase = new FileStorageFirebase();
     }

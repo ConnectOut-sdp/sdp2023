@@ -6,7 +6,7 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface EventRepository {
+public interface EventDataSource {
 
     /**
      * Saves the given Event in the firebase database

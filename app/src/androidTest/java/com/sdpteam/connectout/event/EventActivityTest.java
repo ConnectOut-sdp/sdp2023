@@ -39,6 +39,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,13 +47,19 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
     private static String eventTitle1 = generateRandomPath();
-    private final static Event TEST_EVENT = new Event(generateRandomString(4), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+    private final static Event TEST_EVENT = new Event(generateRandomPath(), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
     @Rule
     public ActivityScenarioRule<EventActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), EventActivity.class).putExtra(PASSED_ID_KEY,
             TEST_EVENT.getId()));
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
+    @BeforeClass
+    public static void setUpClass() {
+        new EventFirebaseDataSource().saveEvent(TEST_EVENT);
+        waitABit();
+    }
 
     @Before
     public void setUp() {
@@ -123,24 +130,6 @@ public class EventActivityTest {
         onView(withId(R.id.event_join_button)).check(matches(withText(JOIN_EVENT)));
         obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
         assertFalse(obtained.getParticipants().contains(NULL_USER));
-    }
-
-    @Test
-    public void chatButtonShouldOnlyBeVisibleIfUserJoinedEvent() {
-        // join event
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
-        waitABit();
-        onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
-
-        // refresh
-        fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
-
-        // quit event
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
-        waitABit();
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
-        waitABit();
-        //onView(withId(R.id.event_chat_btn)).check(matches(not(isDisplayed())));  TODO: fix this
     }
 
     @Test

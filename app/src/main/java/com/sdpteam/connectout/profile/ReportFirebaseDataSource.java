@@ -4,13 +4,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.utils.FirebaseDataSource;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ReportFirebaseDataSource extends FirebaseDataSource {
+public class ReportFirebaseDataSource {
 
     private final String reportPathString = "Report";
+    private final DatabaseReference firebaseRef;
+
+    public ReportFirebaseDataSource() {
+        firebaseRef = FirebaseDatabase.getInstance().getReference();
+    }
 
     /**
      * Saves a given report to firebase

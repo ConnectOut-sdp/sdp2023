@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.profile.ProfileDataSource;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -24,7 +24,7 @@ public class CompleteRegistrationTest {
     @Test
     public void testCompleteRegistrationActuallySetsCorrectValues() {
         final Profile[] databaseContent = new Profile[1];
-        ProfileRepository fakeProfileDatabase = new ProfileRepository() {
+        ProfileDataSource fakeProfileDatabase = new ProfileDataSource() {
             @Override
             public CompletableFuture<Boolean> saveProfile(Profile profile) {
                 CompletableFuture<Boolean> res = new CompletableFuture<>();
