@@ -44,9 +44,9 @@ public class ProfileFilterFragment extends Fragment {
 
         //Upon click, apply changes on the list.
         categoryButton.setOnCheckedChangeListener((group, checkedId) -> {
-            if(R.id.name_switch_button == checkedId){
+            if (R.id.name_switch_button == checkedId) {
                 ratingButton.setChecked(false);
-            }else{
+            } else {
                 nameButton.setChecked(false);
             }
             swapTypeOnClick(nameButton.isChecked(), text.getText().toString());

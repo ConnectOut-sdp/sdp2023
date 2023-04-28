@@ -3,8 +3,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/events_activity_id"
-        tools:context=".event.nearbyEvents.EventsActivity">
+    android:id="@+id/events_fragment_id"
+    tools:context=".event.nearbyEvents.EventsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/events_toolbar"

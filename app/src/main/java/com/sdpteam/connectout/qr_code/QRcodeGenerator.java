@@ -1,7 +1,5 @@
 package com.sdpteam.connectout.qr_code;
 
-import static androidx.activity.result.ActivityResultCallerKt.registerForActivityResult;
-
 import android.graphics.Bitmap;
 import android.graphics.Color;
 

@@ -9,9 +9,9 @@
                 android:icon="@drawable/home_image"
                 android:title="@string/menu_home" />
         <item
-                android:id="@+id/menu_filters"
-                android:icon="@drawable/filter_image"
-                android:title="@string/menu_filters" />
+                android:id="@+id/menu_profiles"
+                android:icon="@drawable/profiles_image"
+                android:title="@string/profiles" />
         <item
                 android:id="@+id/menu_my_account"
                 android:icon="@drawable/account_image"
@@ -20,6 +20,10 @@
                 android:id="@+id/menu_my_events"
                 android:icon="@drawable/event_image"
                 android:title="@string/menu_my_events" />
+        <item
+            android:id="@+id/menu_add"
+            android:icon="@drawable/add_image"
+            android:title="@string/add_event" />
     </group>
 
     <item

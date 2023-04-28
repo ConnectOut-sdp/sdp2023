@@ -1,16 +1,16 @@
 package com.sdpteam.connectout.event.nearbyEvents;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventsViewModel extends ViewModel {
 
