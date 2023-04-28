@@ -11,14 +11,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.squareup.picasso.Picasso;
 
 /**
  * Once the Profile Activity has been created, this activity can be deleted and the intent in
@@ -55,21 +54,23 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         pvm.fetchProfile(userIdToDisplay);
-        pvm.getProfileLiveData().observe(this, profile -> {
-            setTextViewsTo(profile);
-        });
+        pvm.getProfileLiveData().observe(this, this::displayProfile);
     }
 
-    private void setTextViewsTo(Profile user) {
+    private void displayProfile(Profile profile) {
         TextView name = findViewById(R.id.profileName);
         TextView email = findViewById(R.id.profileEmail);
         TextView bio = findViewById(R.id.profileBio);
         TextView gender = findViewById(R.id.profileGender);
 
-        name.setText(user.getName());
-        email.setText(user.getEmail());
-        bio.setText(user.getBio());
-        gender.setText(user.getGender().name());
+        name.setText(profile.getName());
+        email.setText(profile.getEmail());
+        bio.setText(profile.getBio());
+        gender.setText(profile.getGender().name());
+
+        ImageView profilePicture = findViewById(R.id.profilePicture);
+        String imageUrl = profile.getProfileImageUrl();
+        Picasso.get().load(imageUrl).into(profilePicture);
     }
 
     private void goToEditProfile() {
