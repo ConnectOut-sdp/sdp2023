@@ -3,8 +3,8 @@ package com.sdpteam.connectout.profile;
 public class Profile {
 
     public static class CalendarEvent {
-        private String eventId;
-        private String eventTitle;
+        private final String eventId;
+        private final String eventTitle;
         private final long eventDate;
 
         public CalendarEvent() {

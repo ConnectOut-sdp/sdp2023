@@ -9,13 +9,14 @@ public class EventParticipantIdFilter implements EventFilter {
 
     private final String userId;
 
-    public EventParticipantIdFilter(String userId){
+    public EventParticipantIdFilter(String userId) {
 
         this.userId = userId;
     }
+
     @Override
     public boolean test(Event event) {
-        if(userId == null){
+        if (userId == null) {
             return false;
         }
         return userId.equals(event.getOrganizer()) || event.getParticipants().contains(userId);

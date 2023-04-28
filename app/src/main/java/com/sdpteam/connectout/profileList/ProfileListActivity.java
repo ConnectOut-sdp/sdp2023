@@ -3,7 +3,6 @@ package com.sdpteam.connectout.profileList;
 import android.os.Bundle;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 /**

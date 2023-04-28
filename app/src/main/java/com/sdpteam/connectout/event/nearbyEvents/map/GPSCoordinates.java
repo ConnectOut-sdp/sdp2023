@@ -10,8 +10,6 @@ import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Objects;
-
 public class GPSCoordinates {
     private final double latitude;
     private final double longitude;

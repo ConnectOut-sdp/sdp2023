@@ -1,14 +1,5 @@
 package com.sdpteam.connectout.drawer;
 
-import com.google.android.material.navigation.NavigationView;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
-import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
-import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
-import com.sdpteam.connectout.profile.ProfileFragment;
-import com.sdpteam.connectout.profileList.ProfilesContainerFragment;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +11,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class DrawerActivity extends WithFragmentActivity{
+import com.google.android.material.navigation.NavigationView;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.creator.EventCreatorActivity;
+import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
+import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
+import com.sdpteam.connectout.profile.ProfileFragment;
+import com.sdpteam.connectout.profileList.ProfilesContainerFragment;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+public class DrawerActivity extends WithFragmentActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +93,8 @@ public class DrawerActivity extends WithFragmentActivity{
         }
     }
 
-    public void setupButton(String text, View.OnClickListener listener){
-        Button button =  findViewById(R.id.drawer_button);
+    public void setupButton(String text, View.OnClickListener listener) {
+        Button button = findViewById(R.id.drawer_button);
         button.setOnClickListener(listener);
         button.setText(text);
         button.setVisibility(View.VISIBLE);

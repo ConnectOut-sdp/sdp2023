@@ -1,25 +1,12 @@
 package com.sdpteam.connectout.profile;
 
-import static android.view.View.INVISIBLE;
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.profile.ProfileFragment.PASSED_ID_KEY;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.authentication.GoogleAuth;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 /**
@@ -36,7 +23,6 @@ public class ProfileActivity extends WithFragmentActivity {
         String profileId = getIntent().getStringExtra(PASSED_ID_KEY);
         replaceFragment(ProfileFragment.setupFragment(profileId), R.id.fragment_container);
     }
-
 
 
     /**

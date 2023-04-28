@@ -20,7 +20,7 @@ public class QRcodeProfileActivity extends AppCompatActivity {
 
     private final String PROFILE_BASE_URI = "https://connect-out.com/profiles/";
 
-    private String PROFILE_ID = "0123456789"; // we will need to fetch it from local database (to display our own profile)
+    private final String PROFILE_ID = "0123456789"; // we will need to fetch it from local database (to display our own profile)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class QRcodeProfileActivity extends AppCompatActivity {
 
     }
 
-    private ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override

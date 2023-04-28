@@ -11,13 +11,14 @@ public class ProfilesRatingFilter implements ProfilesFilter {
 
     private final Double val;
 
-    public ProfilesRatingFilter(Double value){
+    public ProfilesRatingFilter(Double value) {
 
         this.val = value;
     }
+
     @Override
     public boolean test(List<Profile> profiles) {
-        if(val == null){
+        if (val == null) {
             return true;
         }
         return profiles.stream().map(Profile::getRating).allMatch(value -> val <= value);

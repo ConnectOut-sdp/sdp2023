@@ -1,12 +1,5 @@
 package com.sdpteam.connectout.event.nearbyEvents.list;
 
-import java.util.List;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.profile.ProfileActivity;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +8,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.viewer.EventActivity;
+import com.sdpteam.connectout.profile.ProfileActivity;
+
+import java.util.List;
 
 /**
  * It is responsible for creating and managing the views for a list of events.
@@ -61,7 +62,7 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 
         ImageView eventImage = view.findViewById(R.id.event_list_event_image);
         //TODO set images
-        view.setOnClickListener(v-> EventActivity.openEvent(getContext(), event.getId()));
+        view.setOnClickListener(v -> EventActivity.openEvent(getContext(), event.getId()));
         return view;
     }
 }

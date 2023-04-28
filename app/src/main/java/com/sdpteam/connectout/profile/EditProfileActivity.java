@@ -1,17 +1,18 @@
 package com.sdpteam.connectout.profile;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.validation.EditProfileValidator;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.Authentication;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.validation.EditProfileValidator;
 
 public class EditProfileActivity extends AppCompatActivity {
     public final static String NULL_USER = "null_user";
@@ -38,7 +39,7 @@ public class EditProfileActivity extends AppCompatActivity {
             String uid = auth.isLoggedIn() ? auth.loggedUser().uid : NULL_USER;
 
             // validation
-            if(EditProfileValidator.editProfileValidation(nameET, emailET, bioET, male, female, other)) {
+            if (EditProfileValidator.editProfileValidation(nameET, emailET, bioET, male, female, other)) {
                 Profile newProfile = new Profile(uid, nameET.getText().toString(), emailET.getText().toString(), bioET.getText().toString(), getGender(male, female, other), 1, 1, "");
                 profileViewModel.saveProfile(newProfile);
                 goToProfile();
