@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 
 import androidx.core.view.GravityCompat;
 import androidx.test.espresso.contrib.DrawerActions;
@@ -49,6 +50,8 @@ public class DrawerActivityTest {
         // Click on the Home menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_home));
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.events_fragment_id)).check(matches(isDisplayed()));
+
     }
 
     @Test
@@ -58,6 +61,7 @@ public class DrawerActivityTest {
         // Click on the My Account menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_my_account));
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.profile_fragment_id)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -67,15 +71,17 @@ public class DrawerActivityTest {
         // Click on the My Events menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_my_events));
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.my_events_fragment_id)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void clickFiltersOptionOpensFiltersFragment() {
+    public void clickProfilesOptionOpensProfilesFragment() {
         // Click on the Filters menu item
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_profiles));
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.profiles_activity_id)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -86,6 +92,16 @@ public class DrawerActivityTest {
         // Click on the Logout menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_logout));
         intended(hasComponent(LogInActivity.class.getName()));
+    }
+
+    @Test
+    public void clickAddEventOpensEventCreatorActivity() {
+
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+
+        // Click on the Logout menu item
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_add));
+        intended(hasComponent(EventCreatorActivity.class.getName()));
     }
 
     @Test
