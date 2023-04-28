@@ -71,7 +71,7 @@ public class DrawerActivityTest {
         // Click on the My Events menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_my_events));
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
-        onView(withId(R.id.my_events_fragment_id)).check(matches(isDisplayed()));
+        onView(withId(R.id.activity_registered_events_calendar)).check(matches(isDisplayed()));
     }
 
     @Test
