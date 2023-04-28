@@ -1,12 +1,10 @@
 package com.sdpteam.connectout.event.nearbyEvents;
 
-import com.sdpteam.connectout.event.EventDataSource;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.event.EventDataSource;
 
 /**
  * Used by ViewModelProvider to instantiate the EventsViewModel with custom arguments (here the model)

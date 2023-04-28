@@ -2,7 +2,6 @@ package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
@@ -12,8 +11,6 @@ import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
-import static com.sdpteam.connectout.utils.RandomPath.generateRandomString;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -33,7 +30,6 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
-import com.sdpteam.connectout.profile.EditProfileActivity;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -46,7 +42,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
-    private static String eventTitle1 = generateRandomPath();
+    private final static String eventTitle1 = generateRandomPath();
     private final static Event TEST_EVENT = new Event(generateRandomPath(), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
     @Rule

@@ -10,17 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import org.junit.After;
-import org.junit.Test;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
@@ -31,11 +20,21 @@ import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
+import org.junit.After;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 public class EventFirebaseDataSourceTest {
 
-    private final String eventId1 = generateRandomPath();
-    private final String eventId2 = generateRandomPath();
-    private final String eventId3 = generateRandomPath();
+    private final String eventId1 = "A_" + generateRandomPath();
+    private final String eventId2 = "A_" + generateRandomPath();
+    private final String eventId3 = "A_" + generateRandomPath();
 
     private final EventFirebaseDataSource model = new EventFirebaseDataSource();
 

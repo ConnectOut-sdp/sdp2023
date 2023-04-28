@@ -5,12 +5,8 @@ import static org.hamcrest.Matchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import org.junit.Rule;
-import org.junit.Test;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
@@ -20,8 +16,12 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.ViewModel;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EventsViewModelFactoryTest {
 

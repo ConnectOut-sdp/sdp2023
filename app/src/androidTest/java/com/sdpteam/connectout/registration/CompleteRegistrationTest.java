@@ -6,18 +6,18 @@ import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import android.os.Handler;
+import android.os.Looper;
+
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileDataSource;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import org.junit.Test;
 
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileDataSource;
-
-import android.os.Handler;
-import android.os.Looper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class CompleteRegistrationTest {
 

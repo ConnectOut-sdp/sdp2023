@@ -15,24 +15,6 @@ import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import org.hamcrest.MatcherAssert;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileDataSource;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +22,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+
 import androidx.annotation.NonNull;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.fragment.app.Fragment;
@@ -51,6 +34,24 @@ import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.Authentication;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileDataSource;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RunWith(AndroidJUnit4.class)
 public class CompleteRegistrationFormTest {

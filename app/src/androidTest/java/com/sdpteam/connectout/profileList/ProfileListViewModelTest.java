@@ -6,21 +6,21 @@ import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOr
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileDataSource;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import org.junit.Rule;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
-import org.junit.Rule;
-import org.junit.Test;
-
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileDataSource;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
 public class ProfileListViewModelTest {
 
