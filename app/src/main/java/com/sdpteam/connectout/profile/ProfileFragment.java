@@ -1,6 +1,5 @@
 package com.sdpteam.connectout.profile;
 
-import static android.view.View.INVISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import android.content.Intent;
@@ -14,11 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.utils.DrawerFragment;
 
@@ -49,11 +46,11 @@ public class ProfileFragment extends DrawerFragment {
         View.OnClickListener listener;
 
         //If current user is selected one:
-        if(userIdToDisplay == null || uid.equals(userIdToDisplay)){
+        if (userIdToDisplay == null || uid.equals(userIdToDisplay)) {
             userIdToDisplay = uid;
             buttonText = "Edit Profile";
-            listener = v->goToEditProfile();
-        }else{
+            listener = v -> goToEditProfile();
+        } else {
             buttonText = "Rate Profile";
             String finalUserIdToDisplay = userIdToDisplay;
             listener = v -> goToProfileRate(finalUserIdToDisplay);

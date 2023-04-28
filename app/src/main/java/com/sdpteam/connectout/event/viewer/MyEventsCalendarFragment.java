@@ -1,6 +1,5 @@
 package com.sdpteam.connectout.event.viewer;
 
-import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.firebase.ui.database.FirebaseListOptions;
 import com.sdpteam.connectout.R;
@@ -42,7 +40,6 @@ public class MyEventsCalendarFragment extends DrawerFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registered_events_calendar, container, false);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //set up the ListView
         setUpListAdapter(view);
@@ -83,7 +80,7 @@ public class MyEventsCalendarFragment extends DrawerFragment {
             registeredEventTime.setGravity(Gravity.CENTER);
             registeredEventTitle.setGravity(Gravity.CENTER);
         };
-        Consumer<ListAdapter> setAdapter = adapter -> listOfRegisteredEvents.setAdapter(adapter);
+        Consumer<ListAdapter> setAdapter = listOfRegisteredEvents::setAdapter;
         String profileId = auth.isLoggedIn() ? auth.loggedUser().uid : NULL_USER;
         viewModel.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
     }

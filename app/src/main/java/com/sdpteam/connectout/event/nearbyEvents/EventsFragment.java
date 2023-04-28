@@ -1,9 +1,5 @@
 package com.sdpteam.connectout.event.nearbyEvents;
 
-import static android.view.View.INVISIBLE;
-
-import androidx.fragment.app.Fragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +14,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventsFilterDialog;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
 import com.sdpteam.connectout.utils.DrawerFragment;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 public class EventsFragment extends DrawerFragment {
 
@@ -43,11 +37,11 @@ public class EventsFragment extends DrawerFragment {
         Button filterBtn = view.findViewById(R.id.events_filter_button);
         Toolbar toolbar = view.findViewById(R.id.events_toolbar);
         View.OnClickListener listener = v -> {
-                final EventsFilterDialog filterDialog = new EventsFilterDialog(viewModel);
-                filterDialog.show(getParentFragmentManager(), "FilterDialog");
+            final EventsFilterDialog filterDialog = new EventsFilterDialog(viewModel);
+            filterDialog.show(getParentFragmentManager(), "FilterDialog");
         };
 
-        setupToolBar(filterBtn,toolbar,"Filter",listener);
+        setupToolBar(filterBtn, toolbar, "Filter", listener);
 
         RadioGroup mapListButton = view.findViewById(R.id.events_switch);
         getChildFragmentManager().beginTransaction().replace(R.id.nearby_events_container, eventsMapViewFragment).commit();
