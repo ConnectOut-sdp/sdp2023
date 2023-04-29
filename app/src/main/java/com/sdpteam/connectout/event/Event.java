@@ -4,6 +4,7 @@ import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
@@ -29,20 +30,23 @@ public class Event {
         }
         private final double minRating;
 
-        private final int maxNumParticipants; //TODO add a time constraint
+        private final int maxNumParticipants;
+        private final double joiningDeadline;
 
         public EventRestrictions(){
-            this(-1, Integer.MAX_VALUE);
+            this(-1, Integer.MAX_VALUE, new GregorianCalendar(2100,1, 1).getTime().getTime());
         }
 
-        public EventRestrictions(double minRating, int maxNumParticipants){
+        public EventRestrictions(double minRating, int maxNumParticipants, long joiningDeadline){
             this.minRating = minRating;
             this.maxNumParticipants = maxNumParticipants;
+            this.joiningDeadline = joiningDeadline;
         }
 
         public double getMinRating(){return minRating;}
 
         public int getMaxNumParticipants(){return maxNumParticipants;}
+        public double getJoiningDeadline(){return joiningDeadline;}
     }
     public static final Event NULL_EVENT = new Event();
 

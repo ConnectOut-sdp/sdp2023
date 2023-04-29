@@ -4,6 +4,10 @@ import static com.sdpteam.connectout.validation.ValidationUtils.handleValidation
 
 import android.widget.EditText;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
 public class EventCreationValidator {
 
     private static final int MIN_EVENT_TITLE_LENGTH = 5;
@@ -25,8 +29,9 @@ public class EventCreationValidator {
                 && handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR);
     }
 
-    public static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants){
-        return minRating <= MAX_RATING & maxNumParticipants >= MIN_NAX_NUMBER_PARTICIPANTS;
+    public static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants, long joiningDeadline){
+        long currentTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00")).getTimeInMillis();
+        return minRating <= MAX_RATING & maxNumParticipants >= MIN_NAX_NUMBER_PARTICIPANTS & joiningDeadline > currentTime;
     }
 
 }
