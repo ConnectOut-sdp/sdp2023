@@ -27,8 +27,10 @@ import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -172,6 +174,9 @@ public class EventActivity extends WithFragmentActivity {
      * Before joining an event, the profile must meet the registration criteria
      * */
     public Event.EventRestrictions.RestrictionStatus isRegistrationPossible(Profile p, Event e){
+        if (e.getRestrictions().getJoiningDeadline() < Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00")).getTimeInMillis()){
+            return Event.EventRestrictions.RestrictionStatus.JOINING_DEADLINE_PASSED;
+        }
         if (p.getRating() < e.getRestrictions().getMinRating()){
             return Event.EventRestrictions.RestrictionStatus.INSUFFICIENT_RATING;
         }

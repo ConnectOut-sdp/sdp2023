@@ -21,7 +21,9 @@ public class Event {
         public enum RestrictionStatus{
             ALL_RESTRICTIONS_SATISFIED("Thank you for your registration"),
             INSUFFICIENT_RATING("Registration blocked due to insufficient rating"),
-            MAX_NUM_PARTICIPANTS_REACHED("Registration blocked because the event is full");
+            MAX_NUM_PARTICIPANTS_REACHED("Registration blocked because the event is full"),
+
+            JOINING_DEADLINE_PASSED("The registration deadline has passed");
             private String message;
             RestrictionStatus(String message){
                 this.message = message;
@@ -31,7 +33,7 @@ public class Event {
         private final double minRating;
 
         private final int maxNumParticipants;
-        private final double joiningDeadline;
+        private final long joiningDeadline;
 
         public EventRestrictions(){
             this(-1, Integer.MAX_VALUE, new GregorianCalendar(2100,1, 1).getTime().getTime());
@@ -46,7 +48,7 @@ public class Event {
         public double getMinRating(){return minRating;}
 
         public int getMaxNumParticipants(){return maxNumParticipants;}
-        public double getJoiningDeadline(){return joiningDeadline;}
+        public long getJoiningDeadline(){return joiningDeadline;}
     }
     public static final Event NULL_EVENT = new Event();
 
