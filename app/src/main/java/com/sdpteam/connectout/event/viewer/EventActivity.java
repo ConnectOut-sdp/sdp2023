@@ -174,14 +174,14 @@ public class EventActivity extends WithFragmentActivity {
      * Before joining an event, the profile must meet the registration criteria
      * */
     public Event.EventRestrictions.RestrictionStatus isRegistrationPossible(Profile p, Event e){
-        if (e.getRestrictions().getJoiningDeadline() < Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00")).getTimeInMillis()){
-            return Event.EventRestrictions.RestrictionStatus.JOINING_DEADLINE_PASSED;
-        }
         if (p.getRating() < e.getRestrictions().getMinRating()){
             return Event.EventRestrictions.RestrictionStatus.INSUFFICIENT_RATING;
         }
         if (e.getParticipants().size() >= e.getRestrictions().getMaxNumParticipants()){
             return Event.EventRestrictions.RestrictionStatus.MAX_NUM_PARTICIPANTS_REACHED;
+        }
+        if (e.getRestrictions().getJoiningDeadline() < Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00")).getTimeInMillis()){
+            return Event.EventRestrictions.RestrictionStatus.JOINING_DEADLINE_PASSED;
         }
         return Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;
     }

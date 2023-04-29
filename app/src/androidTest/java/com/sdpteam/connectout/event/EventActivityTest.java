@@ -2,9 +2,12 @@ package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.sdpteam.connectout.event.EventFirebaseDataSource.DATABASE_EVENT_PATH;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.LEAVE_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
@@ -16,6 +19,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -23,9 +28,11 @@ import androidx.fragment.app.Fragment;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
@@ -38,10 +45,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
 
-    private final static Event TEST_EVENT = new Event("154", "event1", "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+    private static String FAKE_EVENT_ID = "EventActivityTest_" + new Random().nextInt();
+
+    private final static Event TEST_EVENT = new Event(FAKE_EVENT_ID, "event1", "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
     @Rule
     public ActivityScenarioRule<EventActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), EventActivity.class).putExtra(PASSED_ID_KEY,
@@ -141,5 +154,31 @@ public class EventActivityTest {
             toolbar.setNavigationOnClickListener(v -> Assert.assertTrue(activity.isFinishing()));
             toolbar.performClick();
         });
+    }
+
+    @Test
+    public void checkingRegistrationIsDisabledPassedDeadline() {
+        EventFirebaseDataSource dataSource = new EventFirebaseDataSource();
+        Calendar calendar = android.icu.util.Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        calendar.set(android.icu.util.Calendar.YEAR, 2022);
+        calendar.set(android.icu.util.Calendar.MONTH, 3 - 1); // Calendar.MONTH starts from 0
+        calendar.set(android.icu.util.Calendar.DAY_OF_MONTH, 18);
+        calendar.set(android.icu.util.Calendar.HOUR_OF_DAY, 4);
+        calendar.set(android.icu.util.Calendar.MINUTE, 20);
+        calendar.set(android.icu.util.Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        long unixTimestamp = calendar.getTimeInMillis();
+
+        dataSource.saveEvent(new Event(FAKE_EVENT_ID, "TEST TITLE", "TEST DESCRIPTION FOR TEST IN DESCRIPTION OF TEST",
+                null, "TEST ORGANIZER ID", new ArrayList<>(Arrays.asList("TEST ORGANIZER ID")),
+                Long.MAX_VALUE, new Event.EventRestrictions(4, 20, unixTimestamp)));
+        waitABit();
+
+        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+
+        waitABit();
+
+        onView(ViewMatchers.withId(R.id.event_chat_btn)).check(matches(isNotClickable())); // check that the registration didn't occur
+        FirebaseDatabase.getInstance().getReference().child(DATABASE_EVENT_PATH).child(FAKE_EVENT_ID).removeValue();
     }
 }
