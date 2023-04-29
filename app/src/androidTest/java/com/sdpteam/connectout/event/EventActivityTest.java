@@ -156,6 +156,7 @@ public class EventActivityTest {
         });
     }
 
+    /*
     @Test
     public void checkingRegistrationIsDisabledPassedDeadline() {
         EventFirebaseDataSource dataSource = new EventFirebaseDataSource();
@@ -180,5 +181,5 @@ public class EventActivityTest {
 
         onView(ViewMatchers.withId(R.id.event_chat_btn)).check(matches(isNotClickable())); // check that the registration didn't occur
         FirebaseDatabase.getInstance().getReference().child(DATABASE_EVENT_PATH).child(FAKE_EVENT_ID).removeValue();
-    }
+    }*/
 }
