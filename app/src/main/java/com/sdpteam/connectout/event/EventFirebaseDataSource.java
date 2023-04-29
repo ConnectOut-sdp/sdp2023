@@ -190,6 +190,11 @@ public class EventFirebaseDataSource implements EventRepository {
         return future;
     }
 
+    public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions){
+        if (restrictions != null) {
+            database.child(DATABASE_EVENT_PATH).child(eventId).child("restrictions").setValue(restrictions);
+        }
+    }
 
 }
 

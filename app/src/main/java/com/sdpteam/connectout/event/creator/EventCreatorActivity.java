@@ -22,8 +22,11 @@ import android.widget.EditText;
 import androidx.appcompat.widget.Toolbar;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -96,7 +99,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
 
         //Create associated event.
         //TODO add yourself to the participants by default?
-        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId,null, date);
+        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, new ArrayList<>(Arrays.asList(ownerId)), date);
         //Save the event & return to previous activity.
         eventCreatorViewModel.saveEvent(newEvent);
     }

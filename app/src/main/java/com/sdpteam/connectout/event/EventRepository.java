@@ -62,4 +62,6 @@ public interface EventRepository {
      * @return (CompletableFuture < List < Event > >): a changeable list of different events.
      */
     CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter);
+
+    void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions);
 }

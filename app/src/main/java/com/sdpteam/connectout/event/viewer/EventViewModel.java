@@ -1,11 +1,22 @@
 package com.sdpteam.connectout.event.viewer;
 
+import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
+
+import android.content.Intent;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileViewModel;
+
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public class EventViewModel extends ViewModel {
 
@@ -58,13 +69,47 @@ public class EventViewModel extends ViewModel {
      * Toggles the participation status of the specified user in the event,
      * if the user is attending/left the event, it removes/add the user from the event.
      *
-     * @param userId (String): id of the user whose participation status needs to be toggled
+     * @param userId (String): user's id, kept for backward compatibility issues with tests
+     * @param profileViewModel (ProfileViewModel): user whose participation status needs to be toggled
+     * @param impossibleRegistrationToast (Consumer<String>): creates Toast in case registration is impossible
+     * @param isRegistrationPossible (BiFunction<Profile, Event, Event.EventRestrictions.RestrictionStatus>):
+     *                               returns the status of the registration
      * @return (LiveData<Boolean>): upon update, true if participation status has been changed.
      */
-    public LiveData<Boolean> toggleParticipation(String userId) {
+    public LiveData<Boolean> toggleParticipation(String userId, ProfileViewModel profileViewModel, Consumer<String> impossibleRegistrationToast,
+                                                 BiFunction<Profile, Event, Event.EventRestrictions.RestrictionStatus> isRegistrationPossible,
+                                                 Consumer<Event> intentSetEventRestrictions) {
+
         MutableLiveData<Boolean> result = new MutableLiveData<>();
-        eventRepository.getEvent(lastEventId).thenAccept(event ->
-                updateParticipationStatus(userId, !event.getParticipants().contains(userId)).observeForever(result::setValue));
+        eventRepository.getEvent(lastEventId).thenAccept(event ->{
+            if (event.getOrganizer().equals(userId)){
+                //if the user is the organizer, he can't join or leave the event, but clicking on the button enables restriction editing
+                intentSetEventRestrictions.accept(event);
+                result.setValue(true);
+            }
+            else{
+                boolean userRegistered = event.getParticipants().contains(userId);
+
+                if(!userRegistered){
+                    profileViewModel.fetchProfile(userId);
+                    profileViewModel.getProfileLiveData().observeForever(profile -> {
+                        Event.EventRestrictions.RestrictionStatus status = isRegistrationPossible.apply(profile, event);
+                        if (status != Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED){
+                            impossibleRegistrationToast.accept(status.getMessage());
+                            result.setValue(false);
+                        }
+                        else{
+                            updateParticipationStatus(userId, !userRegistered).observeForever(result::setValue);
+                        }
+
+                    });
+                }
+                else{
+                    updateParticipationStatus(userId, !userRegistered).observeForever(result::setValue);
+                }
+            }
+        });
+
         return result;
     }
 
@@ -94,5 +139,9 @@ public class EventViewModel extends ViewModel {
             }
         }
         return result;
+    }
+
+    public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions){
+        eventRepository.saveEventRestrictions(eventId, restrictions);
     }
 }

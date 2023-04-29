@@ -1,10 +1,13 @@
 package com.sdpteam.connectout.event;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +159,8 @@ public class EventViewModelTest {
         EventViewModel viewModel = new EventViewModel(new EventViewModelTest.FakeModel());
         LiveData<Event> eventLiveData = viewModel.getEventLiveData();
         viewModel.getEvent("1");
-        viewModel.toggleParticipation("3");
+        viewModel.toggleParticipation("3", null, x -> Toast.makeText(getApplicationContext(), "This toast shouldn't be displayed", Toast.LENGTH_SHORT).show(),
+                (p,e) -> Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED, e -> {/*do nothing*/});
 
         Event event = LiveDataTestUtil.getOrAwaitValue(eventLiveData);
 
@@ -170,7 +174,9 @@ public class EventViewModelTest {
         LiveData<Event> eventLiveData = viewModel.getEventLiveData();
         viewModel.getEvent("1");
         viewModel.joinEvent("3");
-        viewModel.toggleParticipation("3");
+        viewModel.toggleParticipation("3", null, x -> Toast.makeText(getApplicationContext(), "This toast shouldn't be displayed", Toast.LENGTH_SHORT).show(),
+                (p,e) -> Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED, e -> {/*do nothing*/});
+
 
         Event event = LiveDataTestUtil.getOrAwaitValue(eventLiveData);
 
@@ -182,7 +188,9 @@ public class EventViewModelTest {
     public void toggleParticipationDoesNothingWhenNoLastGivenId() {
         EventViewModel viewModel = new EventViewModel(new EventViewModelTest.FakeModel());
         LiveData<Event> eventLiveData = viewModel.getEventLiveData();
-        viewModel.toggleParticipation("3");
+        viewModel.toggleParticipation("3", null, x -> Toast.makeText(getApplicationContext(), "This toast shouldn't be displayed", Toast.LENGTH_SHORT).show(),
+                (p,e) -> Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED, e -> {/*do nothing*/});
+
 
         for (int i = 1; i < 6; i++) {
             viewModel.getEvent(Integer.toString(i));
@@ -236,6 +244,11 @@ public class EventViewModelTest {
 
         public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
             return null;
+        }
+
+        @Override
+        public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
+
         }
 
         private Event findEvent(String eventId) {

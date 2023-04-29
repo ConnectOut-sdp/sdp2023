@@ -95,6 +95,11 @@ public class EventsViewModelTest {
             return CompletableFuture.completedFuture(dataSet.stream().filter(eventFilter).collect(toList()));
         }
 
+        @Override
+        public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
+
+        }
+
         private void updateData() {
             if (firstUpdate) {
                 firstUpdate = false;

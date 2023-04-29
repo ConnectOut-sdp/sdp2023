@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +20,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
@@ -33,18 +35,21 @@ public class EventActivity extends WithFragmentActivity {
     public final static String PASSED_ID_KEY = "eventId";
     public final static String JOIN_EVENT = "Join Event";
     public final static String LEAVE_EVENT = "Leave Event";
+    public final static String ADD_RESTRICTIONS = "Change Restrictions";
 
     private EventViewModel eventViewModel;
 
     private ProfileViewModel profileViewModel; //for event registration
     private String currentUserId;
 
+    private Profile currentProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        initViewModel();
+        initActivityArguments();
         initToolbar();
         initMapFragment();
         initEventView();
@@ -60,16 +65,20 @@ public class EventActivity extends WithFragmentActivity {
     }
 
     /**
-     * Setup the view model.
+     * Setup the view models and the activity arguments
      */
-    private void initViewModel() {
+    private void initActivityArguments() {
         String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
-        eventViewModel = new EventViewModel(new EventFirebaseDataSource());
-        eventViewModel.getEvent(eventId);
-        profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
-
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         currentUserId = user == null ? NULL_USER : user.uid;
+        profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
+
+        //profileViewModel.fetchProfile(currentUserId);
+
+        eventViewModel = new EventViewModel(new EventFirebaseDataSource());
+        eventViewModel.getEvent(eventId);
+
+        //currentProfile = profileViewModel.getProfileLiveData().getValue(); //TODO check that it doesn't introduce too much delay
     }
 
     /**
@@ -83,7 +92,12 @@ public class EventActivity extends WithFragmentActivity {
         ImageButton chatBtn = findViewById(R.id.event_chat_btn);
 
         participationBtn.setOnClickListener(v -> {
-            eventViewModel.toggleParticipation(currentUserId);
+            eventViewModel.toggleParticipation(currentUserId, profileViewModel,
+                    x -> impossibleRegistrationToast(x), (p,e) -> isRegistrationPossible(p,e),
+                    e -> {final Intent intent = new Intent(this, SetEventRestrictionsActivity.class);
+                        intent.putExtra(PASSED_ID_KEY, e.getId());
+                        startActivity(intent);
+            });
         });
         eventViewModel.getEventLiveData().observe(this, event ->{
             updateEventView(event, title, description, participationBtn, participantsBtn, chatBtn);
@@ -96,14 +110,13 @@ public class EventActivity extends WithFragmentActivity {
      */
     @SuppressLint("SetTextI18n")
     private void updateEventView(Event event, TextView title, TextView description, Button participationBtn, Button participantsBtn, ImageButton chatBtn) {
-
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
-        participationBtn.setText(event.getParticipants().contains(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
+        participationBtn.setText((event.getOrganizer().equals(currentUserId))? ADD_RESTRICTIONS : event.getParticipants().contains(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
         updateParticipantsButton(event, participantsBtn);
         chatBtn.setVisibility(event.getParticipants().contains(currentUserId) ? View.VISIBLE : View.INVISIBLE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
-        if (!event.getParticipants().contains(currentUserId)){
+        if (!event.getParticipants().contains(currentUserId)){ //TODO move this if-else to EventViewModel, toggleParticipation function
             profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
         }
         else{
@@ -123,12 +136,6 @@ public class EventActivity extends WithFragmentActivity {
     private void initMapFragment() {
         EventMapViewFragment map = new EventMapViewFragment(eventViewModel);
         replaceFragment(map, R.id.event_fragment_container);
-    }
-
-    private Event getEvent() {
-        // TODO retrieve event from ID using the view-model
-        //Get intent "key" which is associated to the event uid
-        return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 
     private void showParticipants(List<String> participants) {
@@ -159,6 +166,26 @@ public class EventActivity extends WithFragmentActivity {
         Intent intent = new Intent(fromContext, EventActivity.class);
         intent.putExtra(PASSED_ID_KEY, eventId);
         fromContext.startActivity(intent);
+    }
+
+    /**
+     * Before joining an event, the profile must meet the registration criteria
+     * */
+    public Event.EventRestrictions.RestrictionStatus isRegistrationPossible(Profile p, Event e){
+        if (p.getRating() < e.getRestrictions().getMinRating()){
+            return Event.EventRestrictions.RestrictionStatus.INSUFFICIENT_RATING;
+        }
+        if (e.getParticipants().size() >= e.getRestrictions().getMaxNumParticipants()){
+            return Event.EventRestrictions.RestrictionStatus.MAX_NUM_PARTICIPANTS_REACHED;
+        }
+        return Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;
+    }
+
+    /**
+     * If the registration isn't possible, the user is informed of this issue through a toast
+     * */
+    private void impossibleRegistrationToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }

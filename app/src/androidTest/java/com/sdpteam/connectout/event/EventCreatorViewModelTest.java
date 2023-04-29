@@ -121,5 +121,10 @@ public class EventCreatorViewModelTest {
         public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
             return CompletableFuture.completedFuture(EVENT_LIST);
         }
+
+        @Override
+        public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
+
+        }
     }
 }

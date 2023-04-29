@@ -11,7 +11,8 @@ public class EventCreationValidator {
 
     public static final String EVENT_TITLE_ERROR = "Title too short, should be at least " + MIN_EVENT_TITLE_LENGTH + " characters";
     public static final String EVENT_DESCRIPTION_ERROR = "Description too short, should be at least " + MIN_EVENT_DESCRIPTION_LENGTH + " characters";
-
+    public static final double MAX_RATING = 5;
+    public static final int MIN_NAX_NUMBER_PARTICIPANTS = 2;
     public static boolean isValidEventTitle(String title) {
         return title.length() >= MIN_EVENT_TITLE_LENGTH;
     }
@@ -22,6 +23,10 @@ public class EventCreationValidator {
     public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput) {
         return handleValidationFailure(isValidEventTitle(eventTitleInput.getText().toString()), eventTitleInput, EVENT_TITLE_ERROR)
                 && handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR);
+    }
+
+    public static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants){
+        return minRating <= MAX_RATING & maxNumParticipants >= MIN_NAX_NUMBER_PARTICIPANTS;
     }
 
 }
