@@ -9,8 +9,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ReportFirebaseDataSource {
 
-    private final DatabaseReference firebaseRef;
     private final String reportPathString = "Report";
+    private final DatabaseReference firebaseRef;
 
     public ReportFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();

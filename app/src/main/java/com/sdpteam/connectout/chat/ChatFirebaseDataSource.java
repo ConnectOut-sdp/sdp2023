@@ -19,14 +19,13 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class ChatFirebaseDataSource implements ChatDirectory {
+public class ChatFirebaseDataSource implements ChatDataSource {
 
     private final static int NUM_IMPORTED_MESSAGES = 50;
-    private final DatabaseReference firebaseRef;
     private final String CHATS_PATH_STRING = "Chats";
     private final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     private final String userName = (currentUser == null) ? NULL_USER : currentUser.getDisplayName();
-
+    private final DatabaseReference firebaseRef;
     private FirebaseListAdapter<ChatMessage> adapter;
 
     public ChatFirebaseDataSource() {
@@ -94,8 +93,7 @@ public class ChatFirebaseDataSource implements ChatDirectory {
      * Testing is done in the chat called TestChat, but it is important to delete the chat messages
      * generated during the test which is what this method does
      */
-    public void emptyTestMode() {
-        //hardcoded value to avoid unwanted errors
-        firebaseRef.child("Chats/TestChat").removeValue();
+    public void emptyTestMode(String path) {
+        firebaseRef.child("Chats").child(path).removeValue();
     }
 }

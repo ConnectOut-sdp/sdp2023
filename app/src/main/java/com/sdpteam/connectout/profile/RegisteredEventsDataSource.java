@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public interface RegisteredEventsRepository {
+public interface RegisteredEventsDataSource {
 
     /**
      * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)

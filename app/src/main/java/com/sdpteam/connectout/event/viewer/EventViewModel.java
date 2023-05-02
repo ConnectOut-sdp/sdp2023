@@ -5,16 +5,16 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.event.EventDataSource;
 
 public class EventViewModel extends ViewModel {
 
-    private final EventRepository eventRepository;
+    private final EventDataSource eventDataSource;
     private final MutableLiveData<Event> eventLiveData;
     private String lastEventId;
 
-    public EventViewModel(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
+    public EventViewModel(EventDataSource eventDataSource) {
+        this.eventDataSource = eventDataSource;
         eventLiveData = new MutableLiveData<>();
     }
 
@@ -24,14 +24,14 @@ public class EventViewModel extends ViewModel {
 
     public void getEvent(String eventId) {
         lastEventId = eventId;
-        eventRepository.getEvent(eventId).thenAccept(eventLiveData::setValue);
+        eventDataSource.getEvent(eventId).thenAccept(eventLiveData::setValue);
     }
 
     /**
      * Fetches the event with the last stored eventId and updates the eventLiveData accordingly.
      */
     public void refreshEvent() {
-        eventRepository.getEvent(lastEventId).thenAccept(eventLiveData::setValue);
+        eventDataSource.getEvent(lastEventId).thenAccept(eventLiveData::setValue);
     }
 
     /**
@@ -63,7 +63,7 @@ public class EventViewModel extends ViewModel {
      */
     public LiveData<Boolean> toggleParticipation(String userId) {
         MutableLiveData<Boolean> result = new MutableLiveData<>();
-        eventRepository.getEvent(lastEventId).thenAccept(event ->
+        eventDataSource.getEvent(lastEventId).thenAccept(event ->
                 updateParticipationStatus(userId, !event.getParticipants().contains(userId)).observeForever(result::setValue));
         return result;
     }
@@ -80,14 +80,14 @@ public class EventViewModel extends ViewModel {
         // Check if an event is selected
         if (lastEventId != null) {
             if (isParticipating) {
-                eventRepository.joinEvent(lastEventId, userId).thenAccept(b ->
+                eventDataSource.joinEvent(lastEventId, userId).thenAccept(b ->
                         {
                             refreshEvent();
                             result.setValue(b);
                         }
                 );
             } else {
-                eventRepository.leaveEvent(lastEventId, userId).thenAccept(b -> {
+                eventDataSource.leaveEvent(lastEventId, userId).thenAccept(b -> {
                     refreshEvent();
                     result.setValue(b);
                 });

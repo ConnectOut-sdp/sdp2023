@@ -9,25 +9,28 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.ProfileFragment.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.ProfileRateActivity.RATED_UID;
-import static com.sdpteam.connectout.profile.ProfileRateTest.uid;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-import com.sdpteam.connectout.R;
+import static org.junit.Assert.assertNull;
 
 import android.content.Intent;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import com.sdpteam.connectout.R;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 public class ProfileTest {
 
@@ -35,6 +38,8 @@ public class ProfileTest {
      * Since these tests are fetching from the database, they are also testing the
      * Model
      */
+
+    private final String uid = generateRandomPath();
 
     @Rule
     public ActivityScenarioRule<ProfileActivity> testRule = new ActivityScenarioRule<>(ProfileActivity.class);
@@ -47,6 +52,8 @@ public class ProfileTest {
     @After
     public void cleanup() {
         Intents.release();
+        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
+        model.deleteProfile(uid);
     }
 
     @Test
@@ -84,13 +91,13 @@ public class ProfileTest {
     }
 
     public void loggedUserBaseCase(String name, String email, String bio, Profile.Gender gender) {
-        Profile userProfile = new Profile(EditProfileActivity.NULL_USER, name, email,
+        Profile userProfile = new Profile(uid, name, email,
                 bio, gender, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
         fJoin(model.saveProfile(userProfile));
 
-        Profile fetchedProfile = fJoin(model.fetchProfile(EditProfileActivity.NULL_USER));
+        Profile fetchedProfile = fJoin(model.fetchProfile(uid));
         ViewMatchers.assertThat(fetchedProfile.getEmail(), is(email));
         ViewMatchers.assertThat(fetchedProfile.getName(), is(name));
         ViewMatchers.assertThat(fetchedProfile.getBio(), is(bio));
@@ -114,5 +121,16 @@ public class ProfileTest {
         assertThat(p.getEmail(), is("expresident@gmail.com"));
         assertThat(p.getGender(), is(Profile.Gender.MALE));
         assertThat(p.getId(), is("12342"));
+    }
+
+    @Test
+    public void deleteProfileTest() {
+        Profile userProfile = new Profile(uid, "test", "testmail@gmail.com",
+                "test", Profile.Gender.MALE, 1, 1, "");
+        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
+        fJoin(model.saveProfile(userProfile));
+        model.deleteProfile(uid);
+        waitABit();
+        assertNull(fJoin(model.fetchProfile(uid)));
     }
 }
