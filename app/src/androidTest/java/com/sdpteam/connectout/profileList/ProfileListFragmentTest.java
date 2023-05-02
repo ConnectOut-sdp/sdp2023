@@ -1,8 +1,8 @@
 package com.sdpteam.connectout.profileList;
 
-import org.junit.Test;
-
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+
+import org.junit.Test;
 
 public class ProfileListFragmentTest {
 

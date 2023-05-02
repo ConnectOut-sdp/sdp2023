@@ -15,6 +15,8 @@ import java.util.concurrent.CompletableFuture;
 
 import org.junit.Rule;
 import org.junit.Test;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
 
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
@@ -22,8 +24,12 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EventViewModelTest {
 
@@ -199,7 +205,7 @@ public class EventViewModelTest {
         }
     }
 
-    public static class FakeModel implements EventRepository {
+    public static class FakeModel implements EventDataSource {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 
@@ -249,6 +255,11 @@ public class EventViewModelTest {
         @Override
         public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
 
+        }
+
+        @Override
+        public boolean deleteEvent(String eventId) {
+            return false;
         }
 
         private Event findEvent(String eventId) {

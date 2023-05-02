@@ -55,8 +55,6 @@ public class ProfileListActivityTest {
     public ActivityScenarioRule<ProfileListActivity> activityRule = new ActivityScenarioRule<>(ProfileListActivity.class);
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-    @Rule
-    public ActivityScenarioRule<ProfileListActivity> activityScenarioRule = new ActivityScenarioRule<>(ProfileListActivity.class);
 
     @Before
     public void setup() {

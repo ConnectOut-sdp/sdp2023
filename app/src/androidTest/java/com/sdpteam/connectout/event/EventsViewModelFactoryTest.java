@@ -5,12 +5,8 @@ import static org.hamcrest.Matchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import org.junit.Rule;
-import org.junit.Test;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
@@ -20,8 +16,12 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.ViewModel;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EventsViewModelFactoryTest {
 
@@ -36,7 +36,7 @@ public class EventsViewModelFactoryTest {
 
     @Test
     public void createViewOnCorrectModelArgument() {
-        EventRepository mockModel = new MockModel();
+        EventDataSource mockModel = new MockModel();
         // Implicitly instantiating EventsViewModel to use that instance back in MapViewFragment
         assertThat(new EventsViewModelFactory(mockModel).create(EventsViewModel.class), isA(EventsViewModel.class));
     }
@@ -58,7 +58,7 @@ public class EventsViewModelFactoryTest {
         assertThrows(IllegalArgumentException.class, () -> factory.create(InvalidViewModel.class));
     }
 
-    private static class MockModel implements EventRepository {
+    private static class MockModel implements EventDataSource {
 
         @Override
         public boolean saveEvent(Event event) {
@@ -101,6 +101,11 @@ public class EventsViewModelFactoryTest {
         @Override
         public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
 
+        }
+
+        @Override
+        public boolean deleteEvent(String eventId) {
+            return false;
         }
     }
 
