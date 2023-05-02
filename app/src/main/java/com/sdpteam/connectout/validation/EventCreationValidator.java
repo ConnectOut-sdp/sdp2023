@@ -20,6 +20,7 @@ public class EventCreationValidator {
     public static boolean isValidEventTitle(String title) {
         return title.length() >= MIN_EVENT_TITLE_LENGTH;
     }
+
     public static boolean isValidEventDescription(String description) {
         return description.length() >= MIN_EVENT_DESCRIPTION_LENGTH;
     }

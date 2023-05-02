@@ -5,7 +5,7 @@
     <string name="nav_header_subtitle">A place to live and share</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_my_events">My activities</string>
+    <string name="menu_my_events">My events</string>
     <string name="menu_my_account">My account</string>
     <string name="menu_filters">Filters</string>
     <string name="menu_log_out">Log out</string>
@@ -69,4 +69,6 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="profiles">profiles</string>
+    <string name="add_event">Add event</string>
 </resources>

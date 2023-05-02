@@ -63,7 +63,7 @@ public class EventFirebaseDataSource implements EventRepository {
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 Event event = mutableData.getValue(Event.class);
                 //Checks if event was casted correctly.
-                if(event != null) {
+                if (event != null) {
                     success = eventModifier.apply(event);
                     mutableData.setValue(event);
                 }
@@ -80,20 +80,18 @@ public class EventFirebaseDataSource implements EventRepository {
     }
 
     /**
-     *
-     * @param eventId (String): Id of the event to which we add the participant
+     * @param eventId       (String): Id of the event to which we add the participant
      * @param participantId (String): Id of the added participant
-     * @return (CompletableFuture<Boolean>): completes to true if participant has joined the event.
+     * @return (CompletableFuture < Boolean >): completes to true if participant has joined the event.
      */
     public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
         return modifyEvent(eventId, event -> event.addParticipant(participantId));
     }
 
     /**
-     *
-     * @param eventId (String): Id of the event to which we remove the participant
+     * @param eventId       (String): Id of the event to which we remove the participant
      * @param participantId (String): Id of the removed participant
-     * @return (CompletableFuture<Boolean>): completes to true if participant has left the event.
+     * @return (CompletableFuture < Boolean >): completes to true if participant has left the event.
      */
     public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
         return modifyEvent(eventId, event -> event.removeParticipant(participantId));

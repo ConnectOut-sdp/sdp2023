@@ -11,15 +11,18 @@ import java.util.function.Predicate;
 public interface ProfilesFilter extends Predicate<List<Profile>> {
 
     ProfilesFilter NONE = e -> true;
+
     @Override
     boolean test(List<Profile> profiles);
 
     default ProfilesFilter and(ProfilesFilter other) {
         return e -> test(e) && other.test(e);
     }
+
     default ProfilesFilter or(ProfilesFilter other) {
         return e -> test(e) || other.test(e);
     }
+
     default ProfilesFilter negate() {
         return e -> !test(e);
     }

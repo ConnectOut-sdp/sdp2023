@@ -2,12 +2,12 @@ package com.sdpteam.connectout.event;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
-
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 /**
  * This class describes an event
@@ -62,16 +62,16 @@ public class Event {
     private final EventRestrictions restrictions;
 
     private Event() {
-        this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0,0), NULL_USER, new ArrayList<>(), 0);
+        this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0, 0), NULL_USER, new ArrayList<>(), 0);
     }
 
     public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
-        this(id, title, description, coordinates, organizer,new ArrayList<>(), 0);
+        this(id, title, description, coordinates, organizer, new ArrayList<>(), 0);
     }
 
 
     public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer, List<String> participants) {
-        this(id, title, description, coordinates, organizer,participants, 0);
+        this(id, title, description, coordinates, organizer, participants, 0);
     }
 
     public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer,List<String> participants, long date) {

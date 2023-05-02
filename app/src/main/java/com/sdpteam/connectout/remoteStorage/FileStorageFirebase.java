@@ -1,13 +1,13 @@
 package com.sdpteam.connectout.remoteStorage;
 
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+import android.net.Uri;
+import android.util.Log;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import android.net.Uri;
-import android.util.Log;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class FileStorageFirebase {
 

@@ -150,11 +150,11 @@ public class EventActivity extends WithFragmentActivity {
      * @param participantsBtn (Button): participant button of the view.
      */
     private void updateParticipantsButton(Event event, Button participantsBtn) {
-            String participantsBtnText = String.format(Locale.getDefault(),
-                    getString(R.string.participants_size_format),
-                    getString(R.string.participants),
-                    event.getParticipants().size());
-            participantsBtn.setText(participantsBtnText);
+        String participantsBtnText = String.format(Locale.getDefault(),
+                getString(R.string.participants_size_format),
+                getString(R.string.participants),
+                event.getParticipants().size());
+        participantsBtn.setText(participantsBtnText);
     }
 
     /**

@@ -8,8 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.firebase.ui.database.FirebaseListOptions;
-import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
-import com.sdpteam.connectout.chat.ChatMessage;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +26,7 @@ public class ProfileViewModel extends ViewModel {
         this.profileLiveData = new MutableLiveData<>();
     }
 
-    public ProfileViewModel(ProfileFirebaseDataSource profileAndRegisteredEventsRepository){
+    public ProfileViewModel(ProfileFirebaseDataSource profileAndRegisteredEventsRepository) {
         this.profileRepository = profileAndRegisteredEventsRepository;
         this.profileLiveData = new MutableLiveData<>();
         this.registeredEventsRepository = profileAndRegisteredEventsRepository;
@@ -99,8 +97,8 @@ public class ProfileViewModel extends ViewModel {
     /**
      * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
      * in list of events that a profile is registered to
-     * */
-    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
+     */
+    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId) {
         registeredEventsRepository.registerToEvent(calEvent, profileId);
     }
 }

@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/my_events_fragment"
-        tools:viewBindingIgnore="true">
+    android:id="@+id/my_events_fragment_id"
+    tools:viewBindingIgnore="true">
 
 </FrameLayout>

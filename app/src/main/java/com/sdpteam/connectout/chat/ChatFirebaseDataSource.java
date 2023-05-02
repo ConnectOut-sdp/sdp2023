@@ -2,9 +2,10 @@ package com.sdpteam.connectout.chat;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import android.view.View;
+import android.widget.ListAdapter;
+
+import androidx.annotation.NonNull;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
@@ -14,9 +15,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import android.view.View;
-import android.widget.ListAdapter;
-import androidx.annotation.NonNull;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ChatFirebaseDataSource implements ChatDirectory {
 

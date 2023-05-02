@@ -1,19 +1,20 @@
 package com.sdpteam.connectout.profileList;
 
-import java.util.List;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileActivity;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileActivity;
+
+import java.util.List;
 
 /**
  * It is responsible for creating and managing the views for a list of profiles.

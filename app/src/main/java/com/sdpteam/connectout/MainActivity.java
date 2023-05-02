@@ -28,7 +28,11 @@ import com.sdpteam.connectout.registration.CompleteRegistrationActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.drawer.DrawerActivity;
 
 public class MainActivity extends AppCompatActivity {
 

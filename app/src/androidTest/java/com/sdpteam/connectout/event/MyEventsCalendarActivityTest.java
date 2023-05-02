@@ -11,13 +11,16 @@ import static org.hamcrest.Matchers.anything;
 import android.os.SystemClock;
 
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
+import com.sdpteam.connectout.event.viewer.MyEventsCalendarActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
@@ -32,11 +35,10 @@ import java.util.Date;
 import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)
-public class RegisteredEventsCalendarActivityTest {
+public class MyEventsCalendarActivityTest {
 
     @Rule
-    public ActivityScenarioRule<RegisteredEventsCalendarActivity> activityRule = new ActivityScenarioRule<>(RegisteredEventsCalendarActivity.class);
-
+    public ActivityScenarioRule<MyEventsCalendarActivity> activityRule = new ActivityScenarioRule<>(MyEventsCalendarActivity.class);
     @Before
     public void setUp() {
         Intents.init();
