@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.viewer.EventViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,6 +91,11 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     @Override
     public CompletableFuture<List<Profile>> getListOfProfile(ProfileOrderingOption option, List<String> values) {
         CompletableFuture<List<Profile>> value = new CompletableFuture<>();
+        if(option == ProfileOrderingOption.EVENT_PARTICIPANTS){
+            //TODO do this properly later
+            CompletableFuture<List<Profile>> futureParticipants = new EventFirebaseDataSource().getEvent(values.get(0)).thenCompose(e -> fetchProfiles(e.getParticipants()));
+            return futureParticipants;
+        }
         Query query = filterProfiles(firebaseRef.child(USERS), option, values).limitToFirst(MAX_PROFILES_FETCHED);
         query.get().addOnCompleteListener(t -> {
                     List<Profile> profilesList = new ArrayList<>();
@@ -161,7 +168,8 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     public enum ProfileOrderingOption {
         NONE(""),
         RATING("rating"),
-        NAME("nameLowercase");
+        NAME("nameLowercase"),
+        EVENT_PARTICIPANTS("profiles registered to an event");
 
         private final String name;
 

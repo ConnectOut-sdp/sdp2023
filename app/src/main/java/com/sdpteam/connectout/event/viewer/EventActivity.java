@@ -25,6 +25,7 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
+import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 import java.util.Calendar;
@@ -118,6 +119,10 @@ public class EventActivity extends WithFragmentActivity {
         updateParticipantsButton(event, participantsBtn);
         chatBtn.setVisibility(event.getParticipants().contains(currentUserId) ? View.VISIBLE : View.INVISIBLE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
+        participantsBtn.setOnClickListener(v -> {
+            final Intent intent = new Intent(this, EventParticipantsListActivity.class);
+            intent.putExtra(PASSED_ID_KEY, event.getId()); //TODO we could pass the event.participants here
+            startActivity(intent);});
         if (!event.getParticipants().contains(currentUserId)){ //TODO move this if-else to EventViewModel, toggleParticipation function
             profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
         }

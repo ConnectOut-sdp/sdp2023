@@ -1,30 +1,6 @@
 package com.sdpteam.connectout;
 
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
-
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.authentication.GoogleLoginActivity;
-import com.sdpteam.connectout.chat.ChatActivity;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
-import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
-import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.event.viewer.RegisteredEventsCalendarActivity;
-import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileRateActivity;
-import com.sdpteam.connectout.profile.ReportProfileActivity;
-import com.sdpteam.connectout.profileList.ProfileListActivity;
-import com.sdpteam.connectout.qr_code.QRcodeActivity;
-import com.sdpteam.connectout.qr_code.QRcodeEventActivity;
-import com.sdpteam.connectout.qr_code.QRcodeModalActivity;
-import com.sdpteam.connectout.qr_code.QRcodeProfileActivity;
-import com.sdpteam.connectout.registration.CompleteRegistrationActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.drawer.DrawerActivity;
+import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         // Don't put anything here, just choose which activity to redirect to
         Intent drawerIntent = new Intent(getApplicationContext(), EventsActivity.class);
         this.startActivity(drawerIntent);
-
+/*
         findViewById(R.id.launcher_button_google_login).setOnClickListener(v -> start(GoogleLoginActivity.class, false));
         findViewById(R.id.launcher_button_complete_registration).setOnClickListener(v -> start(CompleteRegistrationActivity.class, false));
         findViewById(R.id.launcher_button_other_profile).setOnClickListener(v -> start(ProfileActivity.class, false));
@@ -65,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.launcher_button_qrcode_profile).setOnClickListener(v -> start(QRcodeProfileActivity.class, false));
         findViewById(R.id.launcher_button_registered_events_calendar).setOnClickListener(v -> start(RegisteredEventsCalendarActivity.class, false));
 
-
+*/
     }
 
     private void start(Class c, boolean nullUid) {

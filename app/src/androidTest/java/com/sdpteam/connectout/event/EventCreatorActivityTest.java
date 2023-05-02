@@ -71,7 +71,7 @@ public class EventCreatorActivityTest {
 
     @Before
     public void setUp() {
-
+        new GoogleAuth().logout();
         Intents.init();
     }
 

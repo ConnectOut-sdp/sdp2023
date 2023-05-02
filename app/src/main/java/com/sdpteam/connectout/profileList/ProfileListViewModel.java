@@ -42,6 +42,9 @@ public class ProfileListViewModel extends ViewModel {
             } else if (option == ProfileFirebaseDataSource.ProfileOrderingOption.NAME) {
                 inputList = parseNameInput(userInput);
             }
+            else if (option == ProfileFirebaseDataSource.ProfileOrderingOption.EVENT_PARTICIPANTS) {
+                inputList = Arrays.asList(userInput);
+            }
         }
         model.getListOfProfile(option, inputList).thenAccept(userListLiveData::setValue);
     }
