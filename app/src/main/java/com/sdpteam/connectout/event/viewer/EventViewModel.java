@@ -89,7 +89,6 @@ public class EventViewModel extends ViewModel {
             }
             else{
                 boolean userRegistered = event.getParticipants().contains(userId);
-
                 if(!userRegistered){
                     profileViewModel.fetchProfile(userId);
                     profileViewModel.getProfileLiveData().observeForever(profile -> {
