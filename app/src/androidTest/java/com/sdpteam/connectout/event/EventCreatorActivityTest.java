@@ -173,7 +173,7 @@ public class EventCreatorActivityTest {
 
         assertThat(foundEvent.getTitle(), is(title));
         //assertThat(foundEvent.getCoordinates().getLatitude(), is(not(0.0))); // the method to change the marker is not wotking
-        //assertThat(foundEvent.getCoordinates().getLongitude(), is(not(0.0)));
+        //assertThat(foundEvent.getCoordinates().getLongitude(), is(not(0.0))); // TODO: fix this for CI
         assertThat(foundEvent.getDescription(), is(description));
         assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
     }

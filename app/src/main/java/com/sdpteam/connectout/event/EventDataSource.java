@@ -62,7 +62,7 @@ public interface EventDataSource {
     CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter);
 
     /**
-     * Saves the given Event in the firebase database
+     * Deletes the given Event in the firebase database
      *
      * @param eventId (String): The given eventId to delete
      * @return (boolean): True if value is deleted

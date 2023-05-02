@@ -82,6 +82,5 @@ public class ChatActivityTest {
                 .check(matches(withText(text)));
         onData(anything()).inAdapterView(withId(R.id.list_of_messages)).atPosition(position).
                 onChildView(withId(R.id.message_user));
-        //.check(matches(withText(name)));
     }
 }

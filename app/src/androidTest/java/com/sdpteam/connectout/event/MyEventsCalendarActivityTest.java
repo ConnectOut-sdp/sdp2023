@@ -6,6 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.anything;
 
@@ -83,7 +84,7 @@ public class MyEventsCalendarActivityTest {
         eventFirebase.deleteEvent(eventId3);
         eventFirebase.deleteEvent(eventId4);
         eventFirebase.deleteEvent(eventId5);
-        SystemClock.sleep(2000);
+        waitABit();
     }
 
     @Test

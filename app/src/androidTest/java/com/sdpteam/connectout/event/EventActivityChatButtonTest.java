@@ -25,7 +25,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-
+/**
+ * Test for the chat button in the event activity
+ * NEEDS TO STAY THE UNIQUE TEST IN THIS FILE TO WORK!
+ */
 public class EventActivityChatButtonTest {
     private static String eventTitle1 = generateRandomPath();
     private final static Event TEST_EVENT = new Event(generateRandomPath(), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
