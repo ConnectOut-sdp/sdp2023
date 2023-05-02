@@ -8,6 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomString;
 import static org.hamcrest.Matchers.anything;
 
 import android.os.SystemClock;
@@ -36,7 +37,7 @@ import java.util.Date;
 @RunWith(AndroidJUnit4.class)
 public class MyEventsCalendarActivityTest {
 
-    private static final String userId = generateRandomPath();
+    private static final String userId = generateRandomString(8);
     private final String eventId1 = generateRandomPath();
     private final String eventId2 = generateRandomPath();
     private final String eventId3 = generateRandomPath();
