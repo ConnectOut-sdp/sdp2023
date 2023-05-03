@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/event_content"
             android:layout_below="@+id/event_toolbar"
-            android:layout_above="@+id/event_join_button">
+            android:layout_above="@+id/event_join_buttons">
 
 
 
@@ -78,14 +78,26 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/event_join_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
-    <Button
-            android:id="@+id/event_join_button"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:layout_centerHorizontal="true"
+        <Button
+            android:id="@+id/event_interested_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
+
+        <Button
+            android:id="@+id/event_join_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="" />
+    </LinearLayout>
 
 </RelativeLayout>

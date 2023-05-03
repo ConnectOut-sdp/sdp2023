@@ -1,12 +1,13 @@
 package com.sdpteam.connectout.event.viewer;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,7 +20,6 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
@@ -31,8 +31,10 @@ import java.util.Locale;
 public class EventActivity extends WithFragmentActivity {
 
     public final static String PASSED_ID_KEY = "eventId";
-    public final static String JOIN_EVENT = "Join Event";
-    public final static String LEAVE_EVENT = "Leave Event";
+    public final static String JOIN_EVENT = "I join!";
+    public final static String INTERESTED = "I'm interested!";
+    public final static String NOT_INTERESTED = "No longer interested";
+    public final static String LEAVE_EVENT = "Leave event";
 
     private EventViewModel eventViewModel;
 
@@ -78,32 +80,48 @@ public class EventActivity extends WithFragmentActivity {
     private void initEventView() {
         TextView title = findViewById(R.id.event_title);
         TextView description = findViewById(R.id.event_description);
-        Button participationBtn = findViewById(R.id.event_join_button);
+        Button joinBtn = findViewById(R.id.event_join_button);
+        Button interestedBtn = findViewById(R.id.event_interested_button);
         Button participantsBtn = findViewById(R.id.event_participants_button);
         ImageButton chatBtn = findViewById(R.id.event_chat_btn);
 
-        participationBtn.setOnClickListener(v -> {
-            eventViewModel.toggleParticipation(currentUserId);
-        });
-        eventViewModel.getEventLiveData().observe(this, event -> {
-            updateEventView(event, title, description, participationBtn, participantsBtn, chatBtn);
-        });
+        eventViewModel.getEventLiveData().observe(this, event ->
+                updateEventView(event, title, description, joinBtn, interestedBtn, participantsBtn, chatBtn)
+        );
         participantsBtn.setOnClickListener(v -> showParticipants(null));
     }
 
     /**
-     * Upon modification of the given event, changes its view.
+     * Upon modification of the given event, changes its view and some btn behaviors.
      */
     @SuppressLint("SetTextI18n")
-    private void updateEventView(Event event, TextView title, TextView description, Button participationBtn, Button participantsBtn, ImageButton chatBtn) {
-
+    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button participantsBtn, ImageButton chatBtn) {
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
-        participationBtn.setText(event.getParticipants().contains(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
-        updateParticipantsButton(event, participantsBtn);
-        chatBtn.setVisibility(event.getParticipants().contains(currentUserId) ? View.VISIBLE : View.INVISIBLE);
+
+        joinBtn.setText(event.hasJoined(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
+        interestedBtn.setText(event.isInterested(currentUserId) ? NOT_INTERESTED : INTERESTED);
+        interestedBtn.setVisibility(event.hasJoined(currentUserId) ? INVISIBLE : VISIBLE);
+        chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : INVISIBLE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
-        if (!event.getParticipants().contains(currentUserId)) {
+        updateParticipantsButton(event, participantsBtn);
+
+        joinBtn.setOnClickListener(v -> {
+            if (event.hasJoined(currentUserId)) {
+                eventViewModel.leaveEvent(currentUserId);
+            } else {
+                eventViewModel.joinEvent(currentUserId, false);
+            }
+        });
+        interestedBtn.setOnClickListener(v -> {
+            if (event.isInterested(currentUserId)) {
+                eventViewModel.leaveEvent(currentUserId); // remove as interested
+            } else {
+                eventViewModel.joinEvent(currentUserId, true);
+            }
+        });
+
+        if (!event.hasJoined(currentUserId)) {
             profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
         } else {
             //TODO unregister from event (need to create function in profileDataSource)
@@ -122,12 +140,6 @@ public class EventActivity extends WithFragmentActivity {
     private void initMapFragment() {
         EventMapViewFragment map = new EventMapViewFragment(eventViewModel);
         replaceFragment(map, R.id.event_fragment_container);
-    }
-
-    private Event getEvent() {
-        // TODO retrieve event from ID using the view-model
-        //Get intent "key" which is associated to the event uid
-        return new Event("a", "Some title", "Some description", new GPSCoordinates(37.7749, -122.4194), "toto");
     }
 
     private void showParticipants(List<String> participants) {

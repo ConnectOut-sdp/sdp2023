@@ -20,22 +20,35 @@ public class Event {
     private final GPSCoordinates coordinates;
     private final String organizer;
     private final List<String> participants;
+    private final List<String> interestedParticipants;
     private final long date;
 
     private Event() {
-        this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0, 0), NULL_USER, new ArrayList<>(), 0);
+        this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0, 0), NULL_USER, new ArrayList<>(), new ArrayList<>(), 0);
     }
 
     public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer) {
-        this(id, title, description, coordinates, organizer, new ArrayList<>(), 0);
+        this(id, title, description, coordinates, organizer, new ArrayList<>(), new ArrayList<>(), 0);
     }
 
-
-    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer, List<String> participants) {
-        this(id, title, description, coordinates, organizer, participants, 0);
+    public Event(String id,
+                 String title,
+                 String description,
+                 GPSCoordinates coordinates,
+                 String organizer,
+                 List<String> participants,
+                 List<String> interestedParticipants) {
+        this(id, title, description, coordinates, organizer, participants, interestedParticipants, 0);
     }
 
-    public Event(String id, String title, String description, GPSCoordinates coordinates, String organizer, List<String> participants, long date) {
+    public Event(String id,
+                 String title,
+                 String description,
+                 GPSCoordinates coordinates,
+                 String organizer,
+                 List<String> participants,
+                 List<String> interestedParticipants,
+                 long date) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -43,7 +56,7 @@ public class Event {
         this.organizer = organizer;
         this.date = date;
         this.participants = participants;
-
+        this.interestedParticipants = interestedParticipants;
     }
 
     public String getId() {
@@ -70,27 +83,59 @@ public class Event {
         return participants;
     }
 
+    public List<String> getInterestedParticipants() {
+        return interestedParticipants;
+    }
+
+    public boolean hasJoined(String userId) {
+        return participants.contains(userId);
+    }
+
+    public boolean isInterested(String userId) {
+        return interestedParticipants.contains(userId);
+    }
+
     public long getDate() {
         return date;
     }
 
     /**
+     * Adds a participant to the list. Does nothing if already in the list. Removes it from the
+     * interested participants list.
+     *
      * @param id (String): id of the participant
-     * @return (boolean): true if the participants was added.
+     * @return (boolean): true if the participants was successfully added.
      */
     public boolean addParticipant(String id) {
-        boolean absent = !participants.contains(id);
-        if (absent) {
-            participants.add(id);
+        if (participants.contains(id)) {
+            return false;
         }
-        return absent;
+        participants.add(id);
+        interestedParticipants.remove(id);
+        return true;
     }
 
     /**
+     * Adds a participants to the interested list. Does nothing if already joined the event.
+     *
+     * @param id of the participant
+     * @return true if the participants was successfully added to the interested list
+     */
+    public boolean addInterestedParticipant(String id) {
+        if (participants.contains(id) || interestedParticipants.contains(id)) {
+            return false;
+        }
+        interestedParticipants.add(id);
+        return true;
+    }
+
+    /**
+     * Completely removes the participant from list and interested list as well
      * @param id (String): id of the participant
      * @return (boolean): true if the participants was removed.
      */
     public boolean removeParticipant(String id) {
+        interestedParticipants.remove(id);
         return participants.remove(id);
     }
 }

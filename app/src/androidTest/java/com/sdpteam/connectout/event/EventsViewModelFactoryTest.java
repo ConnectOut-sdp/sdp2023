@@ -76,6 +76,11 @@ public class EventsViewModelFactoryTest {
         }
 
         @Override
+        public CompletableFuture<Boolean> joinEventAsInterested(String eventId, String participantId) {
+            return null;
+        }
+
+        @Override
         public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
             return null;
         }

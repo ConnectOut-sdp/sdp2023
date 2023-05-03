@@ -44,11 +44,11 @@ public class MyEventsCalendarActivityTest {
         Intents.init();
 
         String userId = "id_" + new Random().nextInt();
-        Event e1 = new Event("test1", "t1", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new Date(2023 - 1900, 4, 11, 13, 33).getTime());
-        Event e2 = new Event("test2", "t2", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new Date(2023 - 1900, 4, 10, 13, 40).getTime());
-        Event e3 = new Event("test3", "t3", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new Date(2023 - 1900, 4, 12, 13, 34).getTime());
-        Event e4 = new Event("test4", "t4", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new Date(2023 - 1900, 4, 10, 13, 34).getTime());
-        Event e5 = new Event("test5", "t5", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new Date(2023 - 1900, 6, 10, 13, 34).getTime());
+        Event e1 = new Event("test1", "t1", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new ArrayList<>(), new Date(2023 - 1900, 4, 11, 13, 33).getTime());
+        Event e2 = new Event("test2", "t2", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new ArrayList<>(), new Date(2023 - 1900, 4, 10, 13, 40).getTime());
+        Event e3 = new Event("test3", "t3", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new ArrayList<>(), new Date(2023 - 1900, 4, 12, 13, 34).getTime());
+        Event e4 = new Event("test4", "t4", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new ArrayList<>(), new Date(2023 - 1900, 4, 10, 13, 34).getTime());
+        Event e5 = new Event("test5", "t5", "empty", new GPSCoordinates(0, 0), "organizerId", new ArrayList<>(), new ArrayList<>(), new Date(2023 - 1900, 6, 10, 13, 34).getTime());
         //order in time is e4, e2, e1, e3 then e5
 
         EventFirebaseDataSource eventFirebase = new EventFirebaseDataSource();

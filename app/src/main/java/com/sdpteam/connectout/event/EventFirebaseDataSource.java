@@ -88,6 +88,11 @@ public class EventFirebaseDataSource implements EventRepository {
         return modifyEvent(eventId, event -> event.addParticipant(participantId));
     }
 
+    @Override
+    public CompletableFuture<Boolean> joinEventAsInterested(String eventId, String participantId) {
+        return modifyEvent(eventId, event -> event.addInterestedParticipant(participantId));
+    }
+
     /**
      * @param eventId       (String): Id of the event to which we remove the participant
      * @param participantId (String): Id of the removed participant
@@ -96,7 +101,6 @@ public class EventFirebaseDataSource implements EventRepository {
     public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
         return modifyEvent(eventId, event -> event.removeParticipant(participantId));
     }
-
 
     /**
      * @param eventId (String): Unique identifier of the event
