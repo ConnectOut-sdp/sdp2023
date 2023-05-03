@@ -190,7 +190,7 @@ public class EventFirebaseDataSource implements EventDataSource {
 
     public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions){
         if (restrictions != null) {
-            database.child(DATABASE_EVENT_PATH).child(eventId).child("restrictions").setValue(restrictions);
+            firebaseRef.child(DATABASE_EVENT_PATH).child(eventId).child("restrictions").setValue(restrictions);
         }
     }
     @Override

@@ -1,8 +1,6 @@
 package com.sdpteam.connectout.profileList;
 
-import android.content.Intent;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 
 import android.os.Bundle;
@@ -17,12 +15,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

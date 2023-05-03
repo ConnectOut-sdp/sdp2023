@@ -18,6 +18,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 
@@ -41,6 +42,7 @@ public class EventActivityChatButtonTest {
 
     @BeforeClass
     public static void setUpClass() {
+        new GoogleAuth().logout();
         new EventFirebaseDataSource().saveEvent(TEST_EVENT);
         waitABit();
     }

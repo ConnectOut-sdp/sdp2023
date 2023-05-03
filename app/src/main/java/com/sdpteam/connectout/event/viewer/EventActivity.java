@@ -21,7 +21,6 @@ import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;

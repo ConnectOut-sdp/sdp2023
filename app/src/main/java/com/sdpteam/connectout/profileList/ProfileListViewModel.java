@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileDataSource;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;

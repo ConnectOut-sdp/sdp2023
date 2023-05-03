@@ -1,23 +1,17 @@
 package com.sdpteam.connectout.event.viewer;
 
-import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
-
-import android.content.Intent;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventRepository;
-import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
+import com.sdpteam.connectout.event.EventDataSource;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import com.sdpteam.connectout.event.EventDataSource;
 
 public class EventViewModel extends ViewModel {
 
@@ -89,8 +83,9 @@ public class EventViewModel extends ViewModel {
                 result.setValue(true);
             }
             else{
-                boolean userRegistered = event.getParticipants().contains(userId);
-                if(!userRegistered){
+                List<String> participants = event.getParticipants();
+                boolean userRegistered = (participants == null)? false : participants.contains(userId);
+                if(!userRegistered & profileViewModel != null){
                     profileViewModel.fetchProfile(userId);
                     profileViewModel.getProfileLiveData().observeForever(profile -> {
                         Event.EventRestrictions.RestrictionStatus status = isRegistrationPossible.apply(profile, event);
@@ -142,6 +137,6 @@ public class EventViewModel extends ViewModel {
     }
 
     public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions){
-        eventRepository.saveEventRestrictions(eventId, restrictions);
+        eventDataSource.saveEventRestrictions(eventId, restrictions);
     }
 }

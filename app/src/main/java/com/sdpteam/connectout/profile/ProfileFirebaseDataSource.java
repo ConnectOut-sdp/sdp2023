@@ -18,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.viewer.EventViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
