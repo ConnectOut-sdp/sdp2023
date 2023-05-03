@@ -4,14 +4,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-
-import org.junit.Rule;
-import org.junit.Test;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.sdpteam.connectout.event.creator.EventCreatorViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
@@ -19,9 +14,14 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class EventCreatorViewModelTest {
     public static final Event TEST_EVENT1 = new Event("1", "Tenis", "Searching for a tenis partner", new GPSCoordinates(10, 10), "Eric");
@@ -64,7 +64,7 @@ public class EventCreatorViewModelTest {
         assertThat(e, is(TEST_EVENT1));
     }
 
-    public static class TestEventCreatorModel implements EventRepository {
+    public static class TestEventCreatorModel implements EventDataSource {
 
         public static final List<Event> EVENT_LIST = createTestList();
 
@@ -118,6 +118,11 @@ public class EventCreatorViewModelTest {
         @Override
         public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
             return CompletableFuture.completedFuture(EVENT_LIST);
+        }
+
+        @Override
+        public boolean deleteEvent(String eventId) {
+            return false;
         }
     }
 }

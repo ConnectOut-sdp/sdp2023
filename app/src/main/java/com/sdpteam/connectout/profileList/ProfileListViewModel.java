@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileRepository;
+import com.sdpteam.connectout.profile.ProfileDataSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,11 +14,11 @@ import java.util.List;
 
 public class ProfileListViewModel extends ViewModel {
 
-    private final ProfileRepository model;
+    private final ProfileDataSource model;
     private final MutableLiveData<List<Profile>> userListLiveData;
     private final static String NUMBER_REGEX = "-?\\d+(\\.\\d+)?";
 
-    public ProfileListViewModel(ProfileRepository model) {
+    public ProfileListViewModel(ProfileDataSource model) {
         this.model = model;
         this.userListLiveData = new MutableLiveData<>();
     }

@@ -3,18 +3,19 @@ package com.sdpteam.connectout.remoteStorage;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import android.content.ContentResolver;
+import android.content.res.Resources;
+import android.net.Uri;
+
+import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.utils.TestActivity;
 
-import android.content.ContentResolver;
-import android.content.res.Resources;
-import android.net.Uri;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class FileStorageFirebaseTest {

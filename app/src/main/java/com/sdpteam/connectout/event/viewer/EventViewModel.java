@@ -5,18 +5,18 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.event.EventDataSource;
 
 import java.util.concurrent.CompletableFuture;
 
 public class EventViewModel extends ViewModel {
 
-    private final EventRepository eventRepository;
+    private final EventDataSource eventDataSource;
     private final MutableLiveData<Event> eventLiveData;
     private String lastEventId;
 
-    public EventViewModel(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
+    public EventViewModel(EventDataSource eventDataSource) {
+        this.eventDataSource = eventDataSource;
         eventLiveData = new MutableLiveData<>();
     }
 
@@ -26,14 +26,14 @@ public class EventViewModel extends ViewModel {
 
     public void getEvent(String eventId) {
         lastEventId = eventId;
-        eventRepository.getEvent(eventId).thenAccept(eventLiveData::setValue);
+        eventDataSource.getEvent(eventId).thenAccept(eventLiveData::setValue);
     }
 
     /**
      * Fetches the event with the last stored eventId and updates the eventLiveData accordingly.
      */
     public void refreshEvent() {
-        eventRepository.getEvent(lastEventId).thenAccept(eventLiveData::setValue);
+        eventDataSource.getEvent(lastEventId).thenAccept(eventLiveData::setValue);
     }
 
     /**
@@ -51,8 +51,10 @@ public class EventViewModel extends ViewModel {
             result.setValue(false);
             return result;
         }
-        eventRepository.getEvent(lastEventId).thenAccept(event -> {
-            final CompletableFuture<Boolean> future = asInterested ? eventRepository.joinEventAsInterested(event.getId(), userId) : eventRepository.joinEvent(event.getId(), userId);
+        eventDataSource.getEvent(lastEventId).thenAccept(event -> {
+            final CompletableFuture<Boolean> future = asInterested ?
+                    eventDataSource.joinEventAsInterested(event.getId(), userId) :
+                    eventDataSource.joinEvent(event.getId(), userId);
 
             future.thenAccept(success -> {
                 refreshEvent();
@@ -74,7 +76,7 @@ public class EventViewModel extends ViewModel {
             result.setValue(false);
             return result;
         }
-        eventRepository.getEvent(lastEventId).thenAccept(event -> eventRepository.leaveEvent(event.getId(), userId).thenAccept(b -> {
+        eventDataSource.getEvent(lastEventId).thenAccept(event -> eventDataSource.leaveEvent(event.getId(), userId).thenAccept(b -> {
             refreshEvent();
             result.setValue(b);
         }));

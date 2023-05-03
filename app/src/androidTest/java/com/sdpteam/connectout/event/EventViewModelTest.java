@@ -196,7 +196,7 @@ public class EventViewModelTest {
         assertFalse(event.hasJoined("3"));
     }
 
-    private static class FakeModel implements EventRepository {
+    private static class FakeModel implements EventDataSource {
         private final List<Event> dataSet = new ArrayList<>();
 
         FakeModel() {
@@ -244,6 +244,11 @@ public class EventViewModelTest {
 
         public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
             return null;
+        }
+
+        @Override
+        public boolean deleteEvent(String eventId) {
+            return false;
         }
 
         private Event findEvent(String eventId) {

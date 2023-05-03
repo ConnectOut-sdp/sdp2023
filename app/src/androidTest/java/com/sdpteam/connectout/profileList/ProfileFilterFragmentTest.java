@@ -12,25 +12,26 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import android.widget.ListView;
+
+import androidx.fragment.app.testing.FragmentScenario;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
-
-import android.widget.ListView;
-import androidx.fragment.app.testing.FragmentScenario;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileFilterFragmentTest {

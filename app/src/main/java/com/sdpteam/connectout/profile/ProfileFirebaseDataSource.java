@@ -28,14 +28,13 @@ import java.util.function.Function;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
-public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredEventsRepository {
-    private final DatabaseReference firebaseRef;
+public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredEventsDataSource {
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
     private final String REGISTERED_EVENTS = "RegisteredEvents";
-    private final int NUM_IMPORTED_EVENTS = 50;
     public final static String USERS = "Users";
     public final static String PROFILE = "Profile";
+    private final DatabaseReference firebaseRef;
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
@@ -177,7 +176,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     }
 
     public void deleteProfile(String uid) {
-        firebaseRef.child(USERS).child(uid).child(PROFILE).removeValue();
+        firebaseRef.child(USERS).child(uid).removeValue();
     }
 
     /**

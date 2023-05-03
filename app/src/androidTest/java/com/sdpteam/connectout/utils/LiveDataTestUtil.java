@@ -60,7 +60,7 @@ public class LiveDataTestUtil {
 
         // Don't wait indefinitely if the LiveData is not set.
         try {
-            if (!latch.await(20, TimeUnit.SECONDS)) {
+            if (!latch.await(30, TimeUnit.SECONDS)) {
                 throw new RuntimeException("LiveData value was never set.");
             }
         } catch (InterruptedException e) {

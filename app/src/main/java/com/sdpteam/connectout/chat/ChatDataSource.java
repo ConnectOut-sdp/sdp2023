@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.chat;
 
-public interface ChatDirectory {
+public interface ChatDataSource {
 
     /**
      * Save your new ChatMessage

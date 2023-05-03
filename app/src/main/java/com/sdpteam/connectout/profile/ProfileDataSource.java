@@ -3,7 +3,7 @@ package com.sdpteam.connectout.profile;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface ProfileRepository {
+public interface ProfileDataSource {
 
     /**
      * saves the given Profile in the repository
