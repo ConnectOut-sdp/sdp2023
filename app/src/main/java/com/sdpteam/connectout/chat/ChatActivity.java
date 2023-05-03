@@ -2,31 +2,36 @@ package com.sdpteam.connectout.chat;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.DrawableCompat;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
+import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
+import com.squareup.picasso.Picasso;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -37,6 +42,7 @@ public class ChatActivity extends AppCompatActivity {
     public AuthenticatedUser au = new GoogleAuth().loggedUser();
     public String uid = (au == null) ? NULL_USER : au.uid;
     public String chatId;
+    private Uri selectedImage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +59,33 @@ public class ChatActivity extends AppCompatActivity {
         FloatingActionButton chatFab = findViewById(R.id.chat_fab);
 
         chatFab.setOnClickListener((view) -> {
-            viewModel.saveMessage(new ChatMessage(userName, uid, input.getText().toString(), chatId));
-            input.setText("");
+            if (selectedImage == null) {
+                viewModel.saveMessage(new ChatMessage(userName, uid, input.getText().toString(), chatId));
+                input.setText("");
+            } else {
+                FileStorageFirebase storageFirebase = new FileStorageFirebase();
+                storageFirebase.uploadFile(selectedImage, "jpg").thenAccept(uri -> {
+                    viewModel.saveMessage(new ChatMessage(userName, uid, input.getText().toString(), chatId, uri.toString()));
+                    input.setText("");
+                    selectedImage = null; // TODO make the ui unselect
+                });
+            }
         });
 
         //set up the ListView
         setUpListAdapter();
+
+        setUpImageSelectionFragment();
+    }
+
+    private void setUpImageSelectionFragment() {
+        ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment();
+        imageSelectionFragment.setOnImageSelectedListener(imageUri -> {
+            this.selectedImage = imageUri;
+        });
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.chat_image_upload_container, imageSelectionFragment);
+        transaction.commit();
     }
 
     /**
@@ -115,6 +142,15 @@ public class ChatActivity extends AppCompatActivity {
                 messageUser.setGravity(Gravity.CENTER);
                 Drawable backgroundDrawable = DrawableCompat.wrap(v.getBackground()).mutate();
                 backgroundDrawable.setColorFilter(0x58F8F800, PorterDuff.Mode.ADD);
+            }
+
+            String imageUrl = chatMessage.getImageUrl();
+            ImageView messageImage = v.findViewById(R.id.message_image);
+            if (imageUrl.isEmpty()) {
+                messageImage.setVisibility(View.GONE);
+            } else {
+                messageImage.setVisibility(View.VISIBLE);
+                Picasso.get().load(imageUrl).into(messageImage);
             }
         };
     }
