@@ -133,6 +133,7 @@ public class EventActivityTest {
         // leave event
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
         waitABit();
+        waitABit();
         onView(withId(R.id.refresh_button)).perform(ViewActions.click());
         waitABit();
         onView(withId(R.id.event_join_button)).check(matches(withText(JOIN_EVENT)));

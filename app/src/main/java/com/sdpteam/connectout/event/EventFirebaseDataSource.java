@@ -20,7 +20,7 @@ import java.util.function.Function;
 
 public class EventFirebaseDataSource implements EventDataSource {
     public final static String DATABASE_EVENT_PATH = "Events";
-    private final static int MAX_EVENTS_FETCHED = 100;
+    private final static int MAX_EVENTS_FETCHED = 1000;
     private final DatabaseReference firebaseRef;
 
     public EventFirebaseDataSource() {
