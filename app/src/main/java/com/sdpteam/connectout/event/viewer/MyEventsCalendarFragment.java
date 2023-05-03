@@ -2,6 +2,18 @@ package com.sdpteam.connectout.event.viewer;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import com.firebase.ui.database.FirebaseListOptions;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.ProfileViewModel;
+import com.sdpteam.connectout.utils.DrawerFragment;
+
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -11,22 +23,8 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.firebase.ui.database.FirebaseListOptions;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileViewModel;
-import com.sdpteam.connectout.utils.DrawerFragment;
-
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * This fragment sets up the Calendar UserInterface
@@ -34,7 +32,16 @@ import java.util.function.Function;
  */
 public class MyEventsCalendarFragment extends DrawerFragment {
     public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
-    Authentication auth = new GoogleAuth();
+    private final String profileId;
+
+    public MyEventsCalendarFragment() {
+        GoogleAuth googleAuth = new GoogleAuth();
+        this.profileId = googleAuth.isLoggedIn() ? googleAuth.loggedUser().uid : NULL_USER;
+    }
+
+    public MyEventsCalendarFragment(String profileId) {
+        this.profileId = profileId;
+    }
 
     @Nullable
     @Override
@@ -81,7 +88,6 @@ public class MyEventsCalendarFragment extends DrawerFragment {
             registeredEventTitle.setGravity(Gravity.CENTER);
         };
         Consumer<ListAdapter> setAdapter = listOfRegisteredEvents::setAdapter;
-        String profileId = auth.isLoggedIn() ? auth.loggedUser().uid : NULL_USER;
         viewModel.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
     }
 }

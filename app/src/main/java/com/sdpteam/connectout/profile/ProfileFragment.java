@@ -1,10 +1,17 @@
 package com.sdpteam.connectout.profile;
 
+import static com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter.*;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
+import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.sdpteam.connectout.utils.DrawerFragment;
 import com.squareup.picasso.Picasso;
 
@@ -19,6 +26,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 public class ProfileFragment extends DrawerFragment {
     public final static String PASSED_ID_KEY = "uid";
@@ -61,6 +69,15 @@ public class ProfileFragment extends DrawerFragment {
 
         pvm.fetchProfile(userIdToDisplay);
         pvm.getProfileLiveData().observe(getViewLifecycleOwner(), profile -> displayProfile(view, profile));
+
+        insertEventsListFragment(userIdToDisplay);
+    }
+
+    private void insertEventsListFragment(String userId) {
+        EventsViewModel viewModel = new ViewModelProvider(requireActivity(), new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
+        viewModel.setFilter(new EventParticipantIdFilter(userId), NONE);
+        EventsListViewFragment eventsListViewFragment = new EventsListViewFragment(viewModel);
+        getChildFragmentManager().beginTransaction().replace(R.id.profile_events_container, eventsListViewFragment).commit();
     }
 
     private void displayProfile(View view, Profile profile) {
