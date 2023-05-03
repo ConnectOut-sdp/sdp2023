@@ -6,30 +6,20 @@
         android:layout_height="match_parent"
         tools:context=".profile.ProfileActivity">
 
-    <Button
-            android:id="@+id/buttonRateProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="RATE THIS USER"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-    <Button
-            android:id="@+id/buttonEditProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.82" />
-
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/linearLayout">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/profile_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="?attr/colorPrimary"
+                app:navigationIcon="@drawable/back_arrow_image"
+                android:theme="@style/Theme.ConnectOut.AppBarOverlay" />
 
         <LinearLayout
                 android:orientation="horizontal"
@@ -104,5 +94,16 @@
                 android:text="User account created in 2023." />
     </LinearLayout>
 
+    <Button
+            android:id="@+id/buttonRatingEditProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:text="Edit Profile"
+            android:layout_margin="@dimen/fab_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

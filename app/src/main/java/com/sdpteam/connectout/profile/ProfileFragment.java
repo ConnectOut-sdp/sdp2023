@@ -2,22 +2,23 @@ package com.sdpteam.connectout.profile;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.utils.DrawerFragment;
+import com.squareup.picasso.Picasso;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.utils.DrawerFragment;
 
 public class ProfileFragment extends DrawerFragment {
     public final static String PASSED_ID_KEY = "uid";
@@ -59,19 +60,23 @@ public class ProfileFragment extends DrawerFragment {
         setupToolBar(ratingEditButton, toolbar, buttonText, listener);
 
         pvm.fetchProfile(userIdToDisplay);
-        pvm.getProfileLiveData().observe(getViewLifecycleOwner(), profile -> setTextViewsTo(view, profile));
+        pvm.getProfileLiveData().observe(getViewLifecycleOwner(), profile -> displayProfile(view, profile));
     }
 
-    private void setTextViewsTo(View view, Profile user) {
+    private void displayProfile(View view, Profile profile) {
         TextView name = view.findViewById(R.id.profileName);
         TextView email = view.findViewById(R.id.profileEmail);
         TextView bio = view.findViewById(R.id.profileBio);
         TextView gender = view.findViewById(R.id.profileGender);
 
-        name.setText(user.getName());
-        email.setText(user.getEmail());
-        bio.setText(user.getBio());
-        gender.setText(user.getGender().name());
+        name.setText(profile.getName());
+        email.setText(profile.getEmail());
+        bio.setText(profile.getBio());
+        gender.setText(profile.getGender().name());
+
+        ImageView profilePicture = view.findViewById(R.id.profilePicture);
+        String imageUrl = profile.getProfileImageUrl();
+        Picasso.get().load(imageUrl).into(profilePicture);
     }
 
     private void goToEditProfile() {
