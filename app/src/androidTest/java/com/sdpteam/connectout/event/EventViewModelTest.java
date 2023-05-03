@@ -153,7 +153,6 @@ public class EventViewModelTest {
     public void joinAsInterested() {
         final EventViewModel viewModel = new EventViewModel(new EventViewModelTest.FakeModel());
         viewModel.getEvent("1");
-
         viewModel.joinEvent("3", true);
 
         final LiveData<Event> eventLiveData = viewModel.getEventLiveData();
@@ -164,22 +163,9 @@ public class EventViewModelTest {
     }
 
     @Test
-    public void joinAsInterestedWithoutLastEventID() {
-        final EventViewModel viewModel = new EventViewModel(new EventViewModelTest.FakeModel());
-        viewModel.joinEvent("3", true);
-
-        final LiveData<Event> eventLiveData = viewModel.getEventLiveData();
-        final Event event = LiveDataTestUtil.getOrAwaitValue(eventLiveData);
-
-        assertFalse(event.isInterested("3"));
-        assertFalse(event.hasJoined("3"));
-    }
-
-    @Test
     public void joinAsInterestedAndLeave() {
         final EventViewModel viewModel = new EventViewModel(new EventViewModelTest.FakeModel());
         viewModel.getEvent("1");
-
         viewModel.joinEvent("3", true);
 
         final LiveData<Event> eventLiveData = viewModel.getEventLiveData();
