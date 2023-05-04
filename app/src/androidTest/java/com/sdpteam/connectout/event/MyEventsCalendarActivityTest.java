@@ -8,6 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomString;
 import static org.hamcrest.Matchers.anything;
 
 import android.os.SystemClock;
@@ -24,6 +25,7 @@ import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,13 +37,13 @@ import java.util.Date;
 @RunWith(AndroidJUnit4.class)
 public class MyEventsCalendarActivityTest {
 
-    private final String userId = generateRandomPath();
+    private static final String userId = generateRandomString(8);
     private final String eventId1 = generateRandomPath();
     private final String eventId2 = generateRandomPath();
     private final String eventId3 = generateRandomPath();
     private final String eventId4 = generateRandomPath();
     private final String eventId5 = generateRandomPath();
-    private final ProfileFirebaseDataSource profileFirebase = new ProfileFirebaseDataSource();
+    private static final ProfileFirebaseDataSource profileFirebase = new ProfileFirebaseDataSource();
     private final EventFirebaseDataSource eventFirebase = new EventFirebaseDataSource();
 
     @Rule
@@ -78,12 +80,19 @@ public class MyEventsCalendarActivityTest {
     @After
     public void tearDown() {
         Intents.release();
-        profileFirebase.deleteProfile(userId);
         eventFirebase.deleteEvent(eventId1);
         eventFirebase.deleteEvent(eventId2);
         eventFirebase.deleteEvent(eventId3);
         eventFirebase.deleteEvent(eventId4);
         eventFirebase.deleteEvent(eventId5);
+        SystemClock.sleep(2000);
+        profileFirebase.deleteProfile(userId);
+        waitABit();
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        profileFirebase.deleteProfile(userId);
         waitABit();
     }
 
