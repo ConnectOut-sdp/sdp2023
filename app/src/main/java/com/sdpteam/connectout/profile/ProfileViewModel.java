@@ -36,9 +36,7 @@ public class ProfileViewModel extends ViewModel {
      * trigger a fetch from repo
      */
     public void fetchProfile(String uid) {
-        profileDataSource.fetchProfile(uid).thenAccept(profile -> {
-            profileLiveData.setValue(profile);
-        });
+        profileDataSource.fetchProfile(uid).thenAccept(profileLiveData::setValue);
     }
 
     /**

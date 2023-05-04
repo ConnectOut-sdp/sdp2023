@@ -20,7 +20,9 @@ import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.Event.EventRestrictions.RestrictionStatus;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
@@ -38,14 +40,11 @@ public class EventActivity extends WithFragmentActivity {
     public final static String INTERESTED = "I'm interested!";
     public final static String NOT_INTERESTED = "No longer interested";
     public final static String LEAVE_EVENT = "Leave event";
-    public final static String ADD_RESTRICTIONS = "Change Restrictions";
 
     private EventViewModel eventViewModel;
 
     private ProfileViewModel profileViewModel; //for event registration
     private String currentUserId;
-
-    private Profile currentProfile;
 
     /**
      * Helper method to launch a event activity from the source context
@@ -101,47 +100,53 @@ public class EventActivity extends WithFragmentActivity {
         TextView description = findViewById(R.id.event_description);
         Button joinBtn = findViewById(R.id.event_join_button);
         Button interestedBtn = findViewById(R.id.event_interested_button);
+        Button restrictionsBtn = findViewById(R.id.event_restrictions_button);
         Button participantsBtn = findViewById(R.id.event_participants_button);
         ImageButton chatBtn = findViewById(R.id.event_chat_btn);
 
         eventViewModel.getEventLiveData().observe(this, event ->
-                updateEventView(event, title, description, joinBtn, interestedBtn, participantsBtn, chatBtn)
+                updateEventView(event, title, description, joinBtn, interestedBtn, restrictionsBtn, participantsBtn, chatBtn)
         );
-
-/*
-        joinBtn.setOnClickListener(v -> {
-            eventViewModel.toggleParticipation(currentUserId, profileViewModel,
-                    x -> impossibleRegistrationToast(x), (p,e) -> isRegistrationPossible(p,e),
-                    e -> {final Intent intent = new Intent(this, SetEventRestrictionsActivity.class);
-                        intent.putExtra(PASSED_ID_KEY, e.getId());
-                        startActivity(intent);
-            });
-        });
- */
     }
 
     /**
      * Upon modification of the given event, changes its view and some btn behaviors.
      */
     @SuppressLint("SetTextI18n")
-    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button participantsBtn, ImageButton chatBtn) {
+    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button restrictionsBtn, Button participantsBtn, ImageButton chatBtn) {
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
 
         joinBtn.setText(event.hasJoined(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
+        joinBtn.setVisibility(event.getOrganizer().equals(currentUserId) ? INVISIBLE : VISIBLE);
+
         interestedBtn.setText(event.isInterested(currentUserId) ? NOT_INTERESTED : INTERESTED);
-        interestedBtn.setVisibility(event.hasJoined(currentUserId) ? INVISIBLE : VISIBLE);
+        interestedBtn.setVisibility(event.getOrganizer().equals(currentUserId) || event.hasJoined(currentUserId) ? INVISIBLE : VISIBLE);
+
+        restrictionsBtn.setVisibility(event.getOrganizer().equals(currentUserId) ? VISIBLE : INVISIBLE);
+        restrictionsBtn.setOnClickListener(v -> openRestrictions(event.getId()));
+
         chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : INVISIBLE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
+
         updateParticipantsButton(event, participantsBtn);
         participantsBtn.setOnClickListener(v -> showParticipants(event.getId()));
 
         joinBtn.setOnClickListener(v -> {
             if (event.hasJoined(currentUserId)) {
                 eventViewModel.leaveEvent(currentUserId);
-            } else {
-                eventViewModel.joinEvent(currentUserId, false);
+                return;
             }
+            profileViewModel.fetchProfile(currentUserId);
+            profileViewModel.getProfileLiveData().observeForever(p -> {
+                final RestrictionStatus status = isRegistrationPossible(p, event);
+                if (status != RestrictionStatus.ALL_RESTRICTIONS_SATISFIED) {
+                    impossibleRegistrationToast(status.getMessage());
+                    return;
+                }
+                eventViewModel.joinEvent(currentUserId, false);
+            });
+
         });
         interestedBtn.setOnClickListener(v -> {
             if (event.isInterested(currentUserId)) {
@@ -156,6 +161,12 @@ public class EventActivity extends WithFragmentActivity {
         } else {
             //TODO unregister from event (need to create function in profileDataSource)
         }
+    }
+
+    private void openRestrictions(String eventId) {
+        final Intent intent = new Intent(this, SetEventRestrictionsActivity.class);
+        intent.putExtra(PASSED_ID_KEY, eventId);
+        startActivity(intent);
     }
 
     private void openChat(String eventID) {
@@ -195,20 +206,20 @@ public class EventActivity extends WithFragmentActivity {
     /**
      * Before joining an event, the profile must meet the registration criteria
      */
-    public Event.EventRestrictions.RestrictionStatus isRegistrationPossible(Profile p, Event e) {
+    public RestrictionStatus isRegistrationPossible(Profile p, Event e) {
         if (p == null) {
-            return Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;
+            return RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;
         } // for the null user
         if (p.getRating() < e.getRestrictions().getMinRating()) {
-            return Event.EventRestrictions.RestrictionStatus.INSUFFICIENT_RATING;
+            return RestrictionStatus.INSUFFICIENT_RATING;
         }
         if (e.getParticipants().size() >= e.getRestrictions().getMaxNumParticipants()) {
-            return Event.EventRestrictions.RestrictionStatus.MAX_NUM_PARTICIPANTS_REACHED;
+            return RestrictionStatus.MAX_NUM_PARTICIPANTS_REACHED;
         }
         if (e.getRestrictions().getJoiningDeadline() < Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00")).getTimeInMillis()) {
-            return Event.EventRestrictions.RestrictionStatus.JOINING_DEADLINE_PASSED;
+            return RestrictionStatus.JOINING_DEADLINE_PASSED;
         }
-        return Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;
+        return RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;
     }
 
     /**
