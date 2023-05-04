@@ -60,7 +60,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/fab_margin"
                 android:inputType="numberDecimal"
-                android:hint="Minimun User Rating" />
+                android:hint="Minimum user rating allowed" />
 
         <EditText
                 android:id="@+id/set_event_restrictions_max_num_participants"
@@ -71,7 +71,7 @@
                 android:layout_marginTop="10dp"
                 android:ems="15"
                 android:padding="20dp"
-                android:hint="Maximum Number Of Participants"
+                android:hint="Maximum number of participants"
                 android:inputType="number" />
 
         <RelativeLayout
