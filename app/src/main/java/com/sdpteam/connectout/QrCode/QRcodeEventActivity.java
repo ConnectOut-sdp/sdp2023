@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.qr_code;
+package com.sdpteam.connectout.QrCode;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,27 +13,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdpteam.connectout.R;
 
-// TODO this class is to be removed soon - add a button in the profile page instead
-public class QRcodeProfileActivity extends AppCompatActivity {
+// TODO this class is to be removed soon - add a button in the event page instead
+public class QRcodeEventActivity extends AppCompatActivity {
 
-    private Button btn_show_qr_code;
+    private Button btnShowQrCode;
 
-    private final String PROFILE_BASE_URI = "https://connect-out.com/profiles/";
+    private static final String PROFILE_BASE_URI = "https://connect-out.com/events/";
 
-    private final String PROFILE_ID = "0123456789"; // we will need to fetch it from local database (to display our own profile)
+    private final String EVENT_ID = "0123456789"; // we will need to fetch it from local database (to display our own profile)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qrcode_profile);
+        setContentView(R.layout.activity_qrcode_event);
 
-        btn_show_qr_code = findViewById(R.id.show_qr_code_btn);
-        btn_show_qr_code.setOnClickListener(new View.OnClickListener() {
+        btnShowQrCode = findViewById(R.id.show_qr_code_btn);
+        btnShowQrCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String qrCodeData = PROFILE_BASE_URI + PROFILE_ID;
-                Intent intent = new Intent(QRcodeProfileActivity.this, QRcodeModalActivity.class);
-                intent.putExtra("title", "Profile QR code");
+                String qrCodeData = PROFILE_BASE_URI + EVENT_ID;
+                Intent intent = new Intent(QRcodeEventActivity.this, QRcodeModalActivity.class);
+                intent.putExtra("title", "Event QR code");
                 intent.putExtra("qrCodeData", qrCodeData);
                 qrCodeLauncher.launch(intent);
             }
@@ -51,5 +51,4 @@ public class QRcodeProfileActivity extends AppCompatActivity {
                     }
                 }
             });
-
 }
