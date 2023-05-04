@@ -1,10 +1,15 @@
 package com.sdpteam.connectout.event;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +17,23 @@ import java.util.concurrent.CompletableFuture;
 
 import org.junit.Rule;
 import org.junit.Test;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
 
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventViewModel;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EventViewModelTest {
 
@@ -153,15 +166,24 @@ public class EventViewModelTest {
 
     @Test
     public void toggleParticipationJoinsEventWhenNotParticipating() {
+        String userId = generateRandomPath();
+        ProfileFirebaseDataSource pfds = new ProfileFirebaseDataSource();
+        pfds.saveProfile(new Profile(userId, "name", "email", "bio", Profile.Gender.MALE, 5, 10, null));
+        waitABit();
+
         EventViewModel viewModel = new EventViewModel(new EventViewModelTest.FakeModel());
         LiveData<Event> eventLiveData = viewModel.getEventLiveData();
         viewModel.getEvent("1");
-        viewModel.toggleParticipation("3");
+        viewModel.toggleParticipation(userId, null, x -> Toast.makeText(getApplicationContext(), "This toast shouldn't be displayed", Toast.LENGTH_SHORT).show(),
+                (p,e) -> Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED, e -> {/*do nothing*/});
 
         Event event = LiveDataTestUtil.getOrAwaitValue(eventLiveData);
 
         assertThat(event.getTitle(), is("event1"));
-        assertTrue(event.getParticipants().contains("3"));
+        assertThat(event.getParticipants().size(), is(1));
+        assertTrue(event.getParticipants().contains(userId));
+
+        pfds.deleteProfile(userId);
     }
 
     @Test
@@ -170,7 +192,9 @@ public class EventViewModelTest {
         LiveData<Event> eventLiveData = viewModel.getEventLiveData();
         viewModel.getEvent("1");
         viewModel.joinEvent("3");
-        viewModel.toggleParticipation("3");
+        viewModel.toggleParticipation("3", null, x -> Toast.makeText(getApplicationContext(), "This toast shouldn't be displayed", Toast.LENGTH_SHORT).show(),
+                (p,e) -> Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED, e -> {/*do nothing*/});
+
 
         Event event = LiveDataTestUtil.getOrAwaitValue(eventLiveData);
 
@@ -182,7 +206,9 @@ public class EventViewModelTest {
     public void toggleParticipationDoesNothingWhenNoLastGivenId() {
         EventViewModel viewModel = new EventViewModel(new EventViewModelTest.FakeModel());
         LiveData<Event> eventLiveData = viewModel.getEventLiveData();
-        viewModel.toggleParticipation("3");
+        viewModel.toggleParticipation("3", null, x -> Toast.makeText(getApplicationContext(), "This toast shouldn't be displayed", Toast.LENGTH_SHORT).show(),
+                (p,e) -> Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED, e -> {/*do nothing*/});
+
 
         for (int i = 1; i < 6; i++) {
             viewModel.getEvent(Integer.toString(i));
@@ -191,7 +217,7 @@ public class EventViewModelTest {
         }
     }
 
-    public static class FakeModel implements EventRepository {
+    public static class FakeModel implements EventDataSource {
         boolean firstUpdate = true;
         private ArrayList<Event> dataSet = new ArrayList<>();
 
@@ -236,6 +262,16 @@ public class EventViewModelTest {
 
         public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
             return null;
+        }
+
+        @Override
+        public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
+
+        }
+
+        @Override
+        public boolean deleteEvent(String eventId) {
+            return false;
         }
 
         private Event findEvent(String eventId) {

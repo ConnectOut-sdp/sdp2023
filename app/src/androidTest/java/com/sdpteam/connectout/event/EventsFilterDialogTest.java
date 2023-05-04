@@ -12,18 +12,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class EventsFilterDialogTest {

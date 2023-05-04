@@ -9,7 +9,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.anything;
+
+import android.content.Intent;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdpteam.connectout.R;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,34 +28,25 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.sdpteam.connectout.R;
-
-import android.content.Intent;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 @RunWith(AndroidJUnit4.class)
 public class ChatActivityTest {
-    String nameOfTestChat = "TestChat";
+    private final String nameOfTestChat = generateRandomPath();
     @Rule
     public ActivityScenarioRule<ChatActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), ChatActivity.class).putExtra("chatId", nameOfTestChat));
 
-    ChatFirebaseDataSource model = new ChatFirebaseDataSource();
+    private final ChatFirebaseDataSource model = new ChatFirebaseDataSource();
 
     @Before
     public final void setUp() {
         Intents.init();
-        model.emptyTestMode();
+        model.emptyTestMode(nameOfTestChat);
         waitABit();
     }
 
     @After
     public final void tearDown() {
         Intents.release();
-        model.emptyTestMode();
+        model.emptyTestMode(nameOfTestChat);
         waitABit();
     }
 
@@ -80,6 +82,5 @@ public class ChatActivityTest {
                 .check(matches(withText(text)));
         onData(anything()).inAdapterView(withId(R.id.list_of_messages)).atPosition(position).
                 onChildView(withId(R.id.message_user));
-                //.check(matches(withText(name)));
     }
 }

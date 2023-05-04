@@ -4,16 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.event.EventDataSource;
 
 /**
  * Used by ViewModelProvider to instantiate the EventsViewModel with custom arguments (here the model)
  */
 public class EventsViewModelFactory implements ViewModelProvider.Factory {
 
-    private final EventRepository model;
+    private final EventDataSource model;
 
-    public EventsViewModelFactory(EventRepository model) {
+    public EventsViewModelFactory(EventDataSource model) {
         this.model = model;
     }
 

@@ -7,24 +7,26 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.is;
+
+import android.content.Intent;
+
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.Authentication;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.Authentication;
-
-import android.content.Intent;
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 
@@ -33,12 +35,12 @@ public class EditProfileTest {
     private final Authentication fakeAuthNotLogged = new Authentication() {
         @Override
         public boolean isLoggedIn() {
-            return false;
+            return true;
         }
 
         @Override
         public AuthenticatedUser loggedUser() {
-            return null;
+            return new AuthenticatedUser(uid, uid, uid);
         }
 
         @Override
@@ -52,6 +54,8 @@ public class EditProfileTest {
         }
     };
 
+    private static final String uid = generateRandomPath();
+
     /**
      * Since these tests are fetching from the database, they are also testing the
      * Model
@@ -60,7 +64,7 @@ public class EditProfileTest {
     public ActivityScenarioRule<EditProfileActivity> testRule = new ActivityScenarioRule<>(EditProfileActivity.class);
 
     private static void testDifferentValues(String name, String email, String bio, Profile.Gender gender) {
-        Profile previousProfile = new Profile(EditProfileActivity.NULL_USER, "bob", "bob@gmail.com",
+        Profile previousProfile = new Profile(uid, "bob", "bob@gmail.com",
                 null, Profile.Gender.MALE, 1, 1, "");
 
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
@@ -85,7 +89,7 @@ public class EditProfileTest {
         onView(withId(R.id.saveButton)).perform(click());
         waitABit();
 
-        Profile fetchedProfile = fJoin(model.fetchProfile(EditProfileActivity.NULL_USER));
+        Profile fetchedProfile = fJoin(model.fetchProfile(uid));
         assertThat(fetchedProfile.getEmail(), is(email));
         assertThat(fetchedProfile.getName(), is(name));
         assertThat(fetchedProfile.getBio(), is(bio));
@@ -103,6 +107,7 @@ public class EditProfileTest {
     @After
     public void cleanup() {
         Intents.release();
+        new ProfileFirebaseDataSource().deleteProfile(uid);
     }
 
     @Test

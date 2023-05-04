@@ -4,18 +4,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileViewModelTest {
@@ -26,7 +26,7 @@ public class ProfileViewModelTest {
     @Test
     public void testSaveValue() {
         Profile value = new Profile("test", "aymeric", "yo@gmail.com", "empty", Profile.Gender.MALE, 1, 1, "");
-        FakeProfileRepository model = new FakeProfileRepository();
+        FakeProfileDataSource model = new FakeProfileDataSource();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
         viewModel.saveProfile(value);
@@ -36,7 +36,7 @@ public class ProfileViewModelTest {
 
     @Test
     public void testGetValue() {
-        FakeProfileRepository model = new FakeProfileRepository();
+        FakeProfileDataSource model = new FakeProfileDataSource();
         ProfileViewModel viewModel = new ProfileViewModel(model);
 
         viewModel.fetchProfile("test");
@@ -48,7 +48,7 @@ public class ProfileViewModelTest {
         assertThat(p.getEmail(), is("yo@gmail.com"));
     }
 
-    private class FakeProfileRepository implements ProfileRepository {
+    private class FakeProfileDataSource implements ProfileDataSource {
         public Profile value;
         CompletableFuture<Boolean> done = new CompletableFuture<>();
 

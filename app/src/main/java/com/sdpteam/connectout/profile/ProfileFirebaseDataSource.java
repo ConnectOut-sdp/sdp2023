@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,14 +29,13 @@ import java.util.function.Function;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
-public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredEventsRepository {
-    private final DatabaseReference firebaseRef;
+public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredEventsDataSource {
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
     private final String REGISTERED_EVENTS = "RegisteredEvents";
-    private final int NUM_IMPORTED_EVENTS = 50;
     public final static String USERS = "Users";
     public final static String PROFILE = "Profile";
+    private final DatabaseReference firebaseRef;
 
     public ProfileFirebaseDataSource() {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
@@ -89,6 +89,10 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     @Override
     public CompletableFuture<List<Profile>> getListOfProfile(ProfileOrderingOption option, List<String> values) {
         CompletableFuture<List<Profile>> value = new CompletableFuture<>();
+        if(option == ProfileOrderingOption.EVENT_PARTICIPANTS){
+            CompletableFuture<List<Profile>> futureParticipants = new EventFirebaseDataSource().getEvent(values.get(0)).thenCompose(e -> fetchProfiles(e.getParticipants()));
+            return futureParticipants;
+        }
         Query query = filterProfiles(firebaseRef.child(USERS), option, values).limitToFirst(MAX_PROFILES_FETCHED);
         query.get().addOnCompleteListener(t -> {
                     List<Profile> profilesList = new ArrayList<>();
@@ -161,7 +165,8 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     public enum ProfileOrderingOption {
         NONE(""),
         RATING("rating"),
-        NAME("nameLowercase");
+        NAME("nameLowercase"),
+        EVENT_PARTICIPANTS("profiles registered to an event");
 
         private final String name;
 
@@ -177,7 +182,7 @@ public class ProfileFirebaseDataSource implements ProfileRepository, RegisteredE
     }
 
     public void deleteProfile(String uid) {
-        firebaseRef.child(USERS).child(uid).child(PROFILE).removeValue();
+        firebaseRef.child(USERS).child(uid).removeValue();
     }
 
     /**
