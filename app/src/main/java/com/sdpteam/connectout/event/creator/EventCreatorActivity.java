@@ -83,8 +83,8 @@ public class EventCreatorActivity extends WithFragmentActivity {
         String ownerId = (user == null) ? EditProfileActivity.NULL_USER : user.uid;
 
         //Create associated event.
+        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, new ArrayList<>(singletonList(ownerId)), new ArrayList<>(), date);
         String eventUniqueId = eventCreatorViewModel.getUniqueId();
-        Event newEvent = new Event(eventUniqueId, title, description, coordinates, ownerId, null, date);
         //Save the event & return to previous activity.
         if(eventCreatorViewModel.saveEvent(newEvent)) {
             //TODO add yourself to the participants by default?
