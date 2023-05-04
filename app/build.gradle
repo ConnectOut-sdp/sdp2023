@@ -37,6 +37,9 @@ android {
 }
 
 dependencies {
+    // Picasso is for powerful image downloading with caching
+    implementation 'com.squareup.picasso:picasso:2.8'
+
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'

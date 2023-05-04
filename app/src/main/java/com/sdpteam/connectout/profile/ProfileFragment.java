@@ -13,7 +13,7 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.sdpteam.connectout.utils.DrawerFragment;
-//import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -93,7 +93,7 @@ public class ProfileFragment extends DrawerFragment {
 
         ImageView profilePicture = view.findViewById(R.id.profilePicture);
         String imageUrl = profile.getProfileImageUrl();
-//        Picasso.get().load(imageUrl).into(profilePicture);
+        Picasso.get().load(imageUrl).into(profilePicture);
     }
 
     private void goToEditProfile() {
