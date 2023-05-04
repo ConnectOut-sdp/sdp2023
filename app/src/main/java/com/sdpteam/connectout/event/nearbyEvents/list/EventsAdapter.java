@@ -6,6 +6,8 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.profile.ProfileActivity;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.squareup.picasso.Picasso;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -53,7 +55,8 @@ public class EventsAdapter extends ArrayAdapter<Event> {
             view = inflater.inflate(eventListItemResource, parent, false);
         }
 
-        Event event = getItem(position);
+        final Event event = getItem(position);
+        final String orgProfileId = event.getOrganizer();
 
         TextView eventTitle = view.findViewById(R.id.event_list_event_title);
         eventTitle.setText(event.getTitle());
@@ -62,12 +65,23 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         eventDescription.setText(event.getDescription());
 
         ImageButton profileImageButton = view.findViewById(R.id.event_list_profile_button);
-        profileImageButton.setOnClickListener(v -> ProfileActivity.openProfile(getContext(), event.getOrganizer()));
+        loadOrganizerProfileImage(orgProfileId, profileImageButton);
+        profileImageButton.setOnClickListener(v -> ProfileActivity.openProfile(getContext(), orgProfileId));
 
-        ImageView eventImage = view.findViewById(R.id.event_list_event_image);
-        //TODO set images
+        ImageView eventImage = view.findViewById(R.id.event_list_event_image);//TODO set event image
         view.setOnClickListener(v -> EventActivity.openEvent(getContext(), event.getId()));
         return view;
+    }
+
+    private static void loadOrganizerProfileImage(String organizerProfileId, ImageButton profileImageButton) {
+        // start an async job to load and display the profile image
+        new ProfileFirebaseDataSource().fetchProfile(organizerProfileId).thenAccept(profile -> {
+            final String imageUrl = profile.getProfileImageUrl();
+            if (!imageUrl.isEmpty()) {
+                Picasso.get().load(imageUrl).into(profileImageButton);
+                profileImageButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
+        });
     }
 }
 
