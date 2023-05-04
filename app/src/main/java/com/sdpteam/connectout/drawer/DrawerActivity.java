@@ -1,24 +1,24 @@
 package com.sdpteam.connectout.drawer;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.material.navigation.NavigationView;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
 import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
 import com.sdpteam.connectout.profile.ProfileFragment;
 import com.sdpteam.connectout.profileList.ProfilesContainerFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 public class DrawerActivity extends WithFragmentActivity {
     @SuppressLint("NonConstantResourceId")
