@@ -7,11 +7,13 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.notifications.NotificationService;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         enablingFirebaseCache();
+
 
         NotificationService service = new NotificationService();
         service.createNotificationChannel();
@@ -37,13 +40,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // Don't put anything here, just choose which activity to redirect to
+        // Don't Change anything in there anymore.
         Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
         this.startActivity(drawerIntent);
     }
 
+    /**
+     * Enables persistence for offline queries
+     */
     private void enablingFirebaseCache() {
-        // enabling persistence for offline queries
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }
