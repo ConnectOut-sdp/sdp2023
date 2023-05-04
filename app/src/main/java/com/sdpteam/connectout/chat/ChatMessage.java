@@ -14,23 +14,30 @@ public class ChatMessage {
 
     private final String chatId;
 
-    public ChatMessage(String userName, String userId, String messageText, long messageTime, String chatId) {
+    private final String imageUrl;
+
+    public ChatMessage(String userName, String userId, String messageText, long messageTime, String chatId, String imageUrl) {
         this.userName = userName;
         this.userId = userId;
         this.messageText = messageText;
         this.messageTime = messageTime;
         this.chatId = chatId;
+        this.imageUrl = imageUrl;
     }
 
     /**
      * if no time is specified, then the time that the constructor is called is used
      */
     public ChatMessage(String userName, String userId, String messageText, String chatId) {
-        this(userName, userId, messageText, new Date().getTime(), chatId);
+        this(userName, userId, messageText, new Date().getTime(), chatId, "");
+    }
+
+    public ChatMessage(String userName, String userId, String messageText, String chatId, String imageUrl) {
+        this(userName, userId, messageText, new Date().getTime(), chatId, imageUrl);
     }
 
     public ChatMessage() {
-        this(NULL_USER, NULL_USER, "", 0, NULL_CHAT);
+        this(NULL_USER, NULL_USER, "", 0, NULL_CHAT, "");
     }
 
     public String getUserName() {
@@ -51,5 +58,9 @@ public class ChatMessage {
 
     public String getChatId() {
         return chatId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
