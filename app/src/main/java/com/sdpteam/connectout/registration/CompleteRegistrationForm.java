@@ -123,7 +123,7 @@ public class CompleteRegistrationForm extends Fragment {
         });
 
         registrationViewModel.getProgress().observeForever(loading -> {
-            if (!loading && submitWasClicked && errView.getText().length() == 0) {
+            if (!loading && submitWasClicked && errView.getText().equals("Operation successful")) {
                 finishButton.setEnabled(false);
                 formSubmittedSuccessfully();
             }
