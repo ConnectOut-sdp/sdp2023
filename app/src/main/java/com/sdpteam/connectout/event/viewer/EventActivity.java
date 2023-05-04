@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,10 +24,12 @@ import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
+import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
-import java.util.List;
+import java.util.Calendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -35,11 +38,14 @@ public class EventActivity extends WithFragmentActivity {
     public final static String INTERESTED = "I'm interested!";
     public final static String NOT_INTERESTED = "No longer interested";
     public final static String LEAVE_EVENT = "Leave event";
+    public final static String ADD_RESTRICTIONS = "Change Restrictions";
 
     private EventViewModel eventViewModel;
 
     private ProfileViewModel profileViewModel; //for event registration
     private String currentUserId;
+
+    private Profile currentProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +72,12 @@ public class EventActivity extends WithFragmentActivity {
      */
     private void initViewModel() {
         String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
-        eventViewModel = new EventViewModel(new EventFirebaseDataSource());
-        eventViewModel.getEvent(eventId);
-        profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
-
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         currentUserId = user == null ? NULL_USER : user.uid;
+        profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
+
+        eventViewModel = new EventViewModel(new EventFirebaseDataSource());
+        eventViewModel.getEvent(eventId);
     }
 
     /**
@@ -88,7 +94,17 @@ public class EventActivity extends WithFragmentActivity {
         eventViewModel.getEventLiveData().observe(this, event ->
                 updateEventView(event, title, description, joinBtn, interestedBtn, participantsBtn, chatBtn)
         );
-        participantsBtn.setOnClickListener(v -> showParticipants(null));
+
+/*
+        joinBtn.setOnClickListener(v -> {
+            eventViewModel.toggleParticipation(currentUserId, profileViewModel,
+                    x -> impossibleRegistrationToast(x), (p,e) -> isRegistrationPossible(p,e),
+                    e -> {final Intent intent = new Intent(this, SetEventRestrictionsActivity.class);
+                        intent.putExtra(PASSED_ID_KEY, e.getId());
+                        startActivity(intent);
+            });
+        });
+ */
     }
 
     /**
@@ -105,6 +121,7 @@ public class EventActivity extends WithFragmentActivity {
         chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : INVISIBLE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
         updateParticipantsButton(event, participantsBtn);
+        participantsBtn.setOnClickListener(v -> showParticipants(event.getId()));
 
         joinBtn.setOnClickListener(v -> {
             if (event.hasJoined(currentUserId)) {
@@ -142,8 +159,10 @@ public class EventActivity extends WithFragmentActivity {
         replaceFragment(map, R.id.event_fragment_container);
     }
 
-    private void showParticipants(List<String> participants) {
-        // TODO launch new activity (or pop-up) with list of profiles
+    private void showParticipants(String eventId) {
+        final Intent intent = new Intent(this, EventParticipantsListActivity.class);
+        intent.putExtra(PASSED_ID_KEY, eventId);
+        startActivity(intent);
     }
 
     /**
@@ -164,13 +183,37 @@ public class EventActivity extends WithFragmentActivity {
      * Helper method to launch a event activity from the source context
      * (made it to avoid code duplication)
      *
-     * @param fromContext from where we are starting the intent
-     * @param eventId     event Id to open with.
+     * @param fromContext   from where we are starting the intent
+     * @param eventId       event Id to open with.
      */
     public static void openEvent(Context fromContext, String eventId) {
         Intent intent = new Intent(fromContext, EventActivity.class);
         intent.putExtra(PASSED_ID_KEY, eventId);
         fromContext.startActivity(intent);
+    }
+
+    /**
+     * Before joining an event, the profile must meet the registration criteria
+     * */
+    public Event.EventRestrictions.RestrictionStatus isRegistrationPossible(Profile p, Event e){
+        if(p == null){ return Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;} // for the null user
+        if (p.getRating() < e.getRestrictions().getMinRating()){
+            return Event.EventRestrictions.RestrictionStatus.INSUFFICIENT_RATING;
+        }
+        if (e.getParticipants().size() >= e.getRestrictions().getMaxNumParticipants()){
+            return Event.EventRestrictions.RestrictionStatus.MAX_NUM_PARTICIPANTS_REACHED;
+        }
+        if (e.getRestrictions().getJoiningDeadline() < Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00")).getTimeInMillis()){
+            return Event.EventRestrictions.RestrictionStatus.JOINING_DEADLINE_PASSED;
+        }
+        return Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;
+    }
+
+    /**
+     * If the registration isn't possible, the user is informed of this issue through a toast
+     * */
+    private void impossibleRegistrationToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }

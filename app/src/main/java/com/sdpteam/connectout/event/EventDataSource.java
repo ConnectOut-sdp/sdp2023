@@ -68,6 +68,8 @@ public interface EventDataSource {
      */
     CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter);
 
+    void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions);
+
     /**
      * Deletes the given Event in the firebase database
      *

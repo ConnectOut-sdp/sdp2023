@@ -104,6 +104,11 @@ public class EventsViewModelFactoryTest {
         }
 
         @Override
+        public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
+
+        }
+
+        @Override
         public boolean deleteEvent(String eventId) {
             return false;
         }

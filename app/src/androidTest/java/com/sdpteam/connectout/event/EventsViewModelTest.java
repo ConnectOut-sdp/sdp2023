@@ -105,6 +105,11 @@ public class EventsViewModelTest {
             return false;
         }
 
+        @Override
+        public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
+
+        }
+
         private void updateData() {
             if (firstUpdate) {
                 firstUpdate = false;

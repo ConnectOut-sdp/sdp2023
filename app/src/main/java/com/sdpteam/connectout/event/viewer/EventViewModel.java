@@ -82,4 +82,8 @@ public class EventViewModel extends ViewModel {
         }));
         return result;
     }
+
+    public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions){
+        eventDataSource.saveEventRestrictions(eventId, restrictions);
+    }
 }

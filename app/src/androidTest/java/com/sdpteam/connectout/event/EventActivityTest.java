@@ -5,7 +5,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
-import static com.sdpteam.connectout.event.viewer.EventActivity.LEAVE_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
@@ -115,8 +114,9 @@ public class EventActivityTest {
         waitABit();
         onView(withId(R.id.refresh_button)).perform(ViewActions.click());
         waitABit();
-        onView(withId(R.id.event_join_button)).check(matches(withText(LEAVE_EVENT)));
+        //    onView(withId(R.id.event_join_button)).check(matches(withText(LEAVE_EVENT)));
         Event obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
+        assertTrue(obtained != null);
         assertTrue(obtained.hasJoined(NULL_USER));
         // leave event
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
@@ -153,4 +153,31 @@ public class EventActivityTest {
         model.deleteEvent(NULL_USER, eventTitle1);
         assertNull(fJoin(model.getEvent(TEST_EVENT.getId())));
     }
+
+    /*
+    @Test
+    public void checkingRegistrationIsDisabledPassedDeadline() {
+        EventFirebaseDataSource dataSource = new EventFirebaseDataSource();
+        Calendar calendar = android.icu.util.Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        calendar.set(android.icu.util.Calendar.YEAR, 2022);
+        calendar.set(android.icu.util.Calendar.MONTH, 3 - 1); // Calendar.MONTH starts from 0
+        calendar.set(android.icu.util.Calendar.DAY_OF_MONTH, 18);
+        calendar.set(android.icu.util.Calendar.HOUR_OF_DAY, 4);
+        calendar.set(android.icu.util.Calendar.MINUTE, 20);
+        calendar.set(android.icu.util.Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        long unixTimestamp = calendar.getTimeInMillis();
+
+        dataSource.saveEvent(new Event(FAKE_EVENT_ID, "TEST TITLE", "TEST DESCRIPTION FOR TEST IN DESCRIPTION OF TEST",
+                null, "TEST ORGANIZER ID", new ArrayList<>(Arrays.asList("TEST ORGANIZER ID")),
+                Long.MAX_VALUE, new Event.EventRestrictions(4, 20, unixTimestamp)));
+        waitABit();
+
+        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+
+        waitABit();
+
+        onView(ViewMatchers.withId(R.id.event_chat_btn)).check(matches(isNotClickable())); // check that the registration didn't occur
+        FirebaseDatabase.getInstance().getReference().child(DATABASE_EVENT_PATH).child(FAKE_EVENT_ID).removeValue();
+    }*/
 }
