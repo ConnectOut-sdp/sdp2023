@@ -21,9 +21,9 @@
                 android:icon="@drawable/event_image"
                 android:title="@string/menu_my_events" />
         <item
-            android:id="@+id/menu_add"
-            android:icon="@drawable/add_image"
-            android:title="@string/add_event" />
+                android:id="@+id/menu_add"
+                android:icon="@drawable/add_image"
+                android:title="@string/add_event" />
     </group>
 
     <item

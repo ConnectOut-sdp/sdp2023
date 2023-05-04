@@ -4,16 +4,9 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
@@ -29,9 +22,15 @@ import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -146,7 +145,6 @@ public class EventActivity extends WithFragmentActivity {
                 }
                 eventViewModel.joinEvent(currentUserId, false);
             });
-
         });
         interestedBtn.setOnClickListener(v -> {
             if (event.isInterested(currentUserId)) {
@@ -228,6 +226,5 @@ public class EventActivity extends WithFragmentActivity {
     private void impossibleRegistrationToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
 }
 

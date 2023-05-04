@@ -1,11 +1,9 @@
 package com.sdpteam.connectout.event.viewer;
 
-
-import android.os.Bundle;
-
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
+import android.os.Bundle;
 
 /**
  * This activity sets up the Calendar UserInterface
@@ -19,5 +17,4 @@ public class MyEventsCalendarActivity extends WithFragmentActivity {
         setContentView(R.layout.activity_container);
         replaceFragment(new MyEventsCalendarFragment(), R.id.fragment_container);
     }
-
 }

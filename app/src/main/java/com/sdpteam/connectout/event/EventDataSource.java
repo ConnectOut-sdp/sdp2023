@@ -1,10 +1,10 @@
 package com.sdpteam.connectout.event;
 
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
-
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 
 public interface EventDataSource {
 
@@ -34,7 +34,7 @@ public interface EventDataSource {
     CompletableFuture<Boolean> joinEvent(String eventId, String participantId);
 
     /**
-     * @param eventId (String): Id of the event to which we add the participant as interested
+     * @param eventId       (String): Id of the event to which we add the participant as interested
      * @param participantId (String): Id of the interested participant
      * @return (CompletableFuture < Boolean >): completes to true if participant has joined the event as interested.
      */

@@ -8,11 +8,10 @@ import android.widget.RadioButton;
 
 public class EditProfileValidator {
 
-    private static final int MIN_NAME_LENGTH = 1;
-    private static final int MIN_BIO_LENGTH = 10;
-
     public static final String EMAIL_ERROR = "Invalid email address";
     public static final String NAME_ERROR = "Name should be longer";
+    private static final int MIN_NAME_LENGTH = 1;
+    private static final int MIN_BIO_LENGTH = 10;
     public static final String BIO_ERROR = "Bio not long enough. Should be at least " + MIN_BIO_LENGTH + " characters long";
 
     public static boolean isValidEmail(CharSequence email) {
@@ -32,7 +31,5 @@ public class EditProfileValidator {
                 && handleValidationFailure(isValidEmail(emailInput.getText().toString()), emailInput, EMAIL_ERROR)
                 && handleValidationFailure(isValidBio(bioInput.getText().toString()), bioInput, BIO_ERROR);
     }
-
-
 }
 

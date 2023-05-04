@@ -1,36 +1,25 @@
 package com.sdpteam.connectout.event.creator;
 
+import static java.util.Collections.singletonList;
+
+import java.util.ArrayList;
+
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.notifications.EventNotificationManager;
-import com.sdpteam.connectout.utils.DateSelectors;
-import com.sdpteam.connectout.validation.EventCreationValidator;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.notifications.EventNotificationManager;
 import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
-import static java.util.Collections.singletonList;
+import com.sdpteam.connectout.validation.EventCreationValidator;
 
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.appcompat.widget.Toolbar;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.utils.DateSelectors;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
-import com.sdpteam.connectout.validation.EventCreationValidator;
-
-import java.util.ArrayList;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -86,7 +75,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, new ArrayList<>(singletonList(ownerId)), new ArrayList<>(), date);
         String eventUniqueId = eventCreatorViewModel.getUniqueId();
         //Save the event & return to previous activity.
-        if(eventCreatorViewModel.saveEvent(newEvent)) {
+        if (eventCreatorViewModel.saveEvent(newEvent)) {
             //TODO add yourself to the participants by default?
             //TODO subscribe to the event using subscribeToEventTopic() in EventNotificationManager
             EventNotificationManager manager = new EventNotificationManager();

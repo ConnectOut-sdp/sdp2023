@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter.*;
+import static com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter.NONE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import com.sdpteam.connectout.R;
@@ -10,7 +10,6 @@ import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.sdpteam.connectout.utils.DrawerFragment;
 import com.squareup.picasso.Picasso;
@@ -32,6 +31,20 @@ public class ProfileFragment extends DrawerFragment {
     public final static String PASSED_ID_KEY = "uid";
 
     private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
+
+    /**
+     * Method used to launch a Profile Fragment with a given Id.
+     *
+     * @param profileId (String): Id of the profile to display
+     * @return (ProfileFragment): fragment instanced with the given Id
+     */
+    public static ProfileFragment setupFragment(String profileId) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putString(PASSED_ID_KEY, profileId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -109,20 +122,6 @@ public class ProfileFragment extends DrawerFragment {
         String userName = (String) viewById.getText();
         intent.putExtra("name", userName);
         startActivity(intent);
-    }
-
-    /**
-     * Method used to launch a Profile Fragment with a given Id.
-     *
-     * @param profileId (String): Id of the profile to display
-     * @return (ProfileFragment): fragment instanced with the given Id
-     */
-    public static ProfileFragment setupFragment(String profileId) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(PASSED_ID_KEY, profileId);
-        fragment.setArguments(args);
-        return fragment;
     }
 }
 

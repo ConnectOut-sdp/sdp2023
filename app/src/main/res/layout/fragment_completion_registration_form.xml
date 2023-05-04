@@ -122,8 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
-                android:text="error message"
-                />
+                android:text="error message" />
     </LinearLayout>
 
 

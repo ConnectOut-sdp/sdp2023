@@ -18,11 +18,11 @@ import androidx.fragment.app.DialogFragment;
 
 public class EventsFilterDialog extends DialogFragment {
 
-    private final EventsViewModel eventsViewModel;
-    private GPSCoordinates position;
     private static String TEXT_FILTER = "";
     private static int SEEKBAR_VALUE = 100;
     private static String SEEKBAR_ALL_DISTANCES = "all distances";
+    private final EventsViewModel eventsViewModel;
+    private GPSCoordinates position;
 
     public EventsFilterDialog(EventsViewModel eventsViewModel) {
         this.eventsViewModel = eventsViewModel;

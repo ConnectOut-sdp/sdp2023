@@ -1,20 +1,19 @@
 package com.sdpteam.connectout.profile;
 
-import android.view.View;
-import android.widget.ListAdapter;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.firebase.ui.database.FirebaseListOptions;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import com.firebase.ui.database.FirebaseListOptions;
+
+import android.view.View;
+import android.widget.ListAdapter;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 public class ProfileViewModel extends ViewModel {
     private final MutableLiveData<Profile> profileLiveData;
@@ -26,7 +25,7 @@ public class ProfileViewModel extends ViewModel {
         this.profileLiveData = new MutableLiveData<>();
     }
 
-    public ProfileViewModel(ProfileFirebaseDataSource profileAndRegisteredEventsRepository){
+    public ProfileViewModel(ProfileFirebaseDataSource profileAndRegisteredEventsRepository) {
         this.profileDataSource = profileAndRegisteredEventsRepository;
         this.profileLiveData = new MutableLiveData<>();
         this.registeredEventsDataSource = profileAndRegisteredEventsRepository;
@@ -95,8 +94,8 @@ public class ProfileViewModel extends ViewModel {
     /**
      * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
      * in list of events that a profile is registered to
-     * */
-    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId){
+     */
+    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId) {
         registeredEventsDataSource.registerToEvent(calEvent, profileId);
     }
 }

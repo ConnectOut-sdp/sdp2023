@@ -1,16 +1,15 @@
 package com.sdpteam.connectout.QrCode;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.viewer.EventActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class QRcodeActivity extends AppCompatActivity {
 
@@ -57,5 +56,4 @@ public class QRcodeActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }
