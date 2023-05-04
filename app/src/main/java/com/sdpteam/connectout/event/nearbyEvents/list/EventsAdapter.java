@@ -43,6 +43,17 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         this.eventListItemResource = eventListItemResource;
     }
 
+    private static void loadOrganizerProfileImage(String organizerProfileId, ImageButton profileImageButton) {
+        // start an async job to load and display the profile image
+        new ProfileFirebaseDataSource().fetchProfile(organizerProfileId).thenAccept(profile -> {
+            final String imageUrl = profile.getProfileImageUrl();
+            if (!imageUrl.isEmpty()) {
+                Picasso.get().load(imageUrl).into(profileImageButton);
+                profileImageButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
+        });
+    }
+
     /**
      * Creating and returning the view for each list item.
      */
@@ -71,17 +82,6 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         ImageView eventImage = view.findViewById(R.id.event_list_event_image);//TODO set event image
         view.setOnClickListener(v -> EventActivity.openEvent(getContext(), event.getId()));
         return view;
-    }
-
-    private static void loadOrganizerProfileImage(String organizerProfileId, ImageButton profileImageButton) {
-        // start an async job to load and display the profile image
-        new ProfileFirebaseDataSource().fetchProfile(organizerProfileId).thenAccept(profile -> {
-            final String imageUrl = profile.getProfileImageUrl();
-            if (!imageUrl.isEmpty()) {
-                Picasso.get().load(imageUrl).into(profileImageButton);
-                profileImageButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            }
-        });
     }
 }
 

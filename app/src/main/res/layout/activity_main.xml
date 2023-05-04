@@ -1,150 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:context=".MainActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".MainActivity">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="bottom"
-                    android:text="Please do a login because most of views will show nothing  (don't need to provide real google account just use the email option and give any email (real or not). THen click back two times." />
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="bottom"
+                        android:text="Please do a login because most of views will show nothing  (don't need to provide real google account just use the email option and give any email (real or not). THen click back two times." />
 
                 <Button
-                    android:text="Google Login Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_google_login" />
+                        android:text="Google Login Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_google_login" />
 
                 <Button
-                    android:text="Complete Registration Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_complete_registration" />
+                        android:text="Complete Registration Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_complete_registration" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="bottom"
-                    android:text="Profile" />
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="bottom"
+                        android:text="Profile" />
 
                 <Button
-                    android:text="My Profile Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_my_profile" />
+                        android:text="My Profile Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_my_profile" />
 
                 <Button
-                    android:text="Other Profile Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_other_profile" />
+                        android:text="Other Profile Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_other_profile" />
 
                 <Button
-                    android:text="Profile Edit Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_profile_edit" />
+                        android:text="Profile Edit Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_profile_edit" />
 
                 <Button
-                    android:text="Profile Rate Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_profile_rate" />
+                        android:text="Profile Rate Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_profile_rate" />
 
                 <Button
-                    android:text="Profile Report Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_profile_report" />
+                        android:text="Profile Report Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_profile_report" />
 
                 <Button
-                    android:text="Profile List Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_profile_list" />
+                        android:text="Profile List Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_profile_list" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="bottom"
-                    android:text="Event" />
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="bottom"
+                        android:text="Event" />
 
                 <Button
-                    android:text="All Events Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_all_events" />
+                        android:text="All Events Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_all_events" />
 
                 <Button
-                    android:text="Event Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_event" />
+                        android:text="Event Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_event" />
 
                 <Button
-                    android:text="Event Creator Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_event_creator" />
+                        android:text="Event Creator Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_event_creator" />
 
                 <Button
-                    android:text="Registered Events Calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_registered_events_calendar" />
+                        android:text="Registered Events Calendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_registered_events_calendar" />
 
                 <Button
-                    android:text="Chat Activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_chat" />
+                        android:text="Chat Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_chat" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="bottom"
-                    android:text="QRCode" />
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="bottom"
+                        android:text="QRCode" />
 
                 <Button
-                    android:text="QR code activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_qrcode" />
+                        android:text="QR code activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_qrcode" />
 
                 <Button
-                    android:text="QR code event activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_qrcode_event" />
+                        android:text="QR code event activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_qrcode_event" />
 
                 <Button
-                    android:text="QR code modal activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_qrcode_modal" />
+                        android:text="QR code modal activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_qrcode_modal" />
 
                 <Button
-                    android:text="QR code profile activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/launcher_button_qrcode_profile" />
+                        android:text="QR code profile activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/launcher_button_qrcode_profile" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

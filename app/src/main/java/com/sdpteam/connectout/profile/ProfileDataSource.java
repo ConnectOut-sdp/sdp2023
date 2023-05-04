@@ -17,7 +17,6 @@ public interface ProfileDataSource {
      */
     CompletableFuture<Profile> fetchProfile(String uid);
 
-
     /**
      * @param option (ProfileOrderingOption): option of filtering adopted, random, by name or by rating.
      * @param values (List<String>): list of parsed users inputs which corresponds to the filters.

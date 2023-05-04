@@ -18,6 +18,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 
 import org.junit.After;
@@ -79,7 +80,7 @@ public class DrawerActivityTest {
         // Click on the Filters menu item
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_profiles));
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_community));
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
         onView(withId(R.id.profiles_activity_id)).check(matches(isDisplayed()));
     }
@@ -91,7 +92,7 @@ public class DrawerActivityTest {
 
         // Click on the Logout menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_logout));
-        intended(hasComponent(LogInActivity.class.getName()));
+        intended(hasComponent(GoogleLoginActivity.class.getName()));
     }
 
     @Test

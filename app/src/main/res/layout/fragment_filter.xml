@@ -8,79 +8,79 @@
         android:id="@+id/filter_fragment">
 
     <EditText
-        android:id="@+id/text_filter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@+id/filter_apply_button"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="@string/filter_example"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:background="@color/white"
-        android:autofillHints="" />
+            android:id="@+id/text_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_toLeftOf="@+id/filter_apply_button"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="@string/filter_example"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:background="@color/white"
+            android:autofillHints="" />
 
     <FrameLayout
-        android:id="@+id/filter_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        android:layout_below="@id/text_filter"
-        android:layout_above="@+id/filter_category_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/filter_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            android:layout_below="@id/text_filter"
+            android:layout_above="@+id/filter_category_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/filter_category_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:padding="@dimen/fab_margin"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rating_switch_button"
+            android:id="@+id/filter_category_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Rating"
-            android:textAlignment="center"
-            android:checked="false"
-            android:textSize="20sp"
-            android:button="@android:color/transparent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_left_selector" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/fab_margin"
+            android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/name_switch_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Name"
-            android:checked="true"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:button="@android:color/transparent"
-            android:background="@drawable/radio_button_right_selector"
-            android:layout_weight="1" />
+                android:id="@+id/rating_switch_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Rating"
+                android:textAlignment="center"
+                android:checked="false"
+                android:textSize="20sp"
+                android:button="@android:color/transparent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_left_selector" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/name_switch_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Name"
+                android:checked="true"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_button_right_selector"
+                android:layout_weight="1" />
 
     </RadioGroup>
 
     <ToggleButton
-        android:id="@+id/filter_apply_button"
-        android:layout_width="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="true"
-        android:textOff="@string/apply_button"
-        android:textOn="@string/apply_button"
-        android:layout_height="wrap_content"/>
+            android:id="@+id/filter_apply_button"
+            android:layout_width="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"
+            android:textOff="@string/apply_button"
+            android:textOn="@string/apply_button"
+            android:layout_height="wrap_content" />
 
 </RelativeLayout>

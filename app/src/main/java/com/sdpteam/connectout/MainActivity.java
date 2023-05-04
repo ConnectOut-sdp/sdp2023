@@ -4,16 +4,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.sdpteam.connectout.drawer.DrawerActivity;
+import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.notifications.NotificationService;
-
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         enablingFirebaseCache();
 
-
         NotificationService service = new NotificationService();
         service.createNotificationChannel();
 
@@ -32,24 +28,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 String msg = "Done";
-                if(!task.isSuccessful()) {
+                if (!task.isSuccessful()) {
                     msg = "Failed";
                 }
                 System.out.println("msg");
             }
         });
 
-
         // Don't Change anything in there anymore.
-        Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
-        this.startActivity(drawerIntent);
+        Intent intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
+        this.startActivity(intent);
     }
 
     /**
      * Enables persistence for offline queries
      */
     private void enablingFirebaseCache() {
-        // enabling persistence for offline queries
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }

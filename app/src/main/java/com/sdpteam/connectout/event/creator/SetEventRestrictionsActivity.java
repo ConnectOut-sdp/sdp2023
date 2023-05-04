@@ -2,19 +2,18 @@ package com.sdpteam.connectout.event.creator;
 
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.validation.EventCreationValidator;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class SetEventRestrictionsActivity extends AppCompatActivity {
     private EventViewModel eventViewModel;
@@ -30,9 +29,9 @@ public class SetEventRestrictionsActivity extends AppCompatActivity {
         if (eventViewModel == null) {
             eventViewModel = new EventViewModel(new EventFirebaseDataSource());
         }
-       // Toolbar toolbar = findViewById(R.id.set_event_restrictions_toolbar);
-       // setSupportActionBar(toolbar);
-       // toolbar.setNavigationOnClickListener(v -> this.finish());
+        Toolbar toolbar = findViewById(R.id.set_event_restrictions_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> this.finish());
         Button saveButton = findViewById(R.id.set_event_restrictions_save_button);
 
         EditText eventMinRating = findViewById(R.id.set_event_restrictions_min_rating);
@@ -49,14 +48,14 @@ public class SetEventRestrictionsActivity extends AppCompatActivity {
             final long chosenDate = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
 
             // validation
-            if(EventCreationValidator.eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate)) {
+            if (EventCreationValidator.eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate)) {
                 saveEventRestrictions(new Event.EventRestrictions(chosenMinRating, chosenMaxNumParticipants, chosenDate));
                 this.finish();
             }
         });
     }
 
-    private void saveEventRestrictions(Event.EventRestrictions restrictions){
+    private void saveEventRestrictions(Event.EventRestrictions restrictions) {
         eventViewModel.saveEventRestrictions(eventId, restrictions);
     }
 }

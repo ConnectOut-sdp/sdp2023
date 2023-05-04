@@ -3,18 +3,17 @@ package com.sdpteam.connectout.event.location;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.location.Location;
-
-import androidx.core.app.ActivityCompat;
+import java.util.Objects;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Objects;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
+import androidx.core.app.ActivityCompat;
 
 public class LocationHelper {
 
@@ -39,6 +38,11 @@ public class LocationHelper {
             INSTANCE = new LocationHelper(context.getApplicationContext());
         }
         return INSTANCE;
+    }
+
+    public static LatLng toLatLng(Location location) {
+        Objects.requireNonNull(location);
+        return new LatLng(location.getLatitude(), location.getLongitude());
     }
 
     /**
@@ -67,16 +71,10 @@ public class LocationHelper {
         } else {
             ActivityCompat.requestPermissions(activity, new String[]{ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
-
     }
 
     public boolean hasPermission(Activity activity) {
         return ActivityCompat.checkSelfPermission(activity, ACCESS_FINE_LOCATION) == PERMISSION_GRANTED;
-    }
-
-    public static LatLng toLatLng(Location location) {
-        Objects.requireNonNull(location);
-        return new LatLng(location.getLatitude(), location.getLongitude());
     }
 
     public interface LocationCallback {
@@ -88,5 +86,4 @@ public class LocationHelper {
             onResult(null);
         }
     }
-
 }

@@ -4,8 +4,13 @@ import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOr
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.NONE;
 import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.ProfileOrderingOption.RATING;
 
-import android.view.View;
-import android.widget.ListAdapter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
@@ -19,22 +24,16 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
+import android.view.View;
+import android.widget.ListAdapter;
 import io.reactivex.rxjava3.annotations.NonNull;
 
 public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredEventsDataSource {
+    public final static String USERS = "Users";
+    public final static String PROFILE = "Profile";
     private final static int MAX_PROFILES_FETCHED = 50;
     private final static String AUTOMATIC_COMPLETION_REGEX = "\uf8ff";
     private final String REGISTERED_EVENTS = "RegisteredEvents";
-    public final static String USERS = "Users";
-    public final static String PROFILE = "Profile";
     private final DatabaseReference firebaseRef;
 
     public ProfileFirebaseDataSource() {
@@ -107,7 +106,7 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     @Override
     public CompletableFuture<List<Profile>> getListOfProfile(ProfileOrderingOption option, List<String> values) {
         CompletableFuture<List<Profile>> value = new CompletableFuture<>();
-        if(option == ProfileOrderingOption.EVENT_PARTICIPANTS){
+        if (option == ProfileOrderingOption.EVENT_PARTICIPANTS) {
             CompletableFuture<List<Profile>> futureParticipants = new EventFirebaseDataSource().getEvent(values.get(0)).thenCompose(e -> fetchProfiles(e.getParticipants()));
             return futureParticipants;
         }
@@ -177,28 +176,6 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         return root.startAt(name).endAt(name + AUTOMATIC_COMPLETION_REGEX);
     }
 
-    /**
-     * Enum describing the different types of filtering possible.
-     */
-    public enum ProfileOrderingOption {
-        NONE(""),
-        RATING("rating"),
-        NAME("nameLowercase"),
-        EVENT_PARTICIPANTS("profiles registered to an event");
-
-        private final String name;
-
-        ProfileOrderingOption(String name) {
-            this.name = name;
-        }
-
-        @androidx.annotation.NonNull
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
     public void deleteProfile(String uid) {
         firebaseRef.child(USERS).child(uid).removeValue();
     }
@@ -258,6 +235,28 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         };
 
         setAdapter.accept(adapter);
+    }
+
+    /**
+     * Enum describing the different types of filtering possible.
+     */
+    public enum ProfileOrderingOption {
+        NONE(""),
+        RATING("rating"),
+        NAME("nameLowercase"),
+        EVENT_PARTICIPANTS("profiles registered to an event");
+
+        private final String name;
+
+        ProfileOrderingOption(String name) {
+            this.name = name;
+        }
+
+        @androidx.annotation.NonNull
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 }
 

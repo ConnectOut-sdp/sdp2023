@@ -3,25 +3,24 @@ package com.sdpteam.connectout.profileList;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * non-filtered view of the list of profiles registered to an event
@@ -69,6 +68,7 @@ public class EventParticipantsListFragment extends Fragment {
         profilesAdapter = new ProfilesAdapter(container.getContext(), R.layout.adapter_text_view, profiles);
         listView.setAdapter(profilesAdapter);
     }
+
     public void changeObserved(ProfileFirebaseDataSource.ProfileOrderingOption option, String userInput) {
         if (viewModel == null) {
             return;

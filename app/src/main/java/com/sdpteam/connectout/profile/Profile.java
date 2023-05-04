@@ -2,48 +2,15 @@ package com.sdpteam.connectout.profile;
 
 public class Profile {
 
-    public static class CalendarEvent {
-        private final String eventId;
-        private final String eventTitle;
-        private final long eventDate;
-
-        public CalendarEvent() {
-            this("null_event", "no_title", 0);
-        }
-
-        public CalendarEvent(String eventId, String eventTitle, long eventDate) {
-            this.eventId = eventId;
-            this.eventTitle = eventTitle;
-            this.eventDate = eventDate;
-        }
-
-        public String getEventTitle() {
-            return eventTitle;
-        }
-
-        public long getEventDate() {
-            return eventDate;
-        }
-
-        public String getEventId() {
-            return eventId;
-        }
-    }
-
     public final static Profile NULL_PROFILE = new Profile();
     private final String name;
     private final String email;
     private final String bio;
     private final Gender gender;
-
     private final double rating;
-
     private final int numRatings;
-
     private final String id;
-
     private final String profileImageUrl;
-
     private final String nameLowercase; // for index in firebase
 
     private Profile() {
@@ -104,5 +71,33 @@ public class Profile {
 
     public enum Gender {
         FEMALE, MALE, OTHER
+    }
+
+    public static class CalendarEvent {
+        private final String eventId;
+        private final String eventTitle;
+        private final long eventDate;
+
+        public CalendarEvent() {
+            this("null_event", "no_title", 0);
+        }
+
+        public CalendarEvent(String eventId, String eventTitle, long eventDate) {
+            this.eventId = eventId;
+            this.eventTitle = eventTitle;
+            this.eventDate = eventDate;
+        }
+
+        public String getEventTitle() {
+            return eventTitle;
+        }
+
+        public long getEventDate() {
+            return eventDate;
+        }
+
+        public String getEventId() {
+            return eventId;
+        }
     }
 }

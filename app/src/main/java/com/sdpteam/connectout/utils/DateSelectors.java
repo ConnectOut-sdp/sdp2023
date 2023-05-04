@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 public class DateSelectors {
 
-    public static void setDatePickerDialog(Context context, Button btnDatePicker, EditText txtDate){
+    public static void setDatePickerDialog(Context context, Button btnDatePicker, EditText txtDate) {
         btnDatePicker.setOnClickListener(v -> {
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
@@ -22,7 +22,7 @@ public class DateSelectors {
         });
     }
 
-    public static void setTimePickerDialog(Context context, Button btnTimePicker, EditText txtTime){
+    public static void setTimePickerDialog(Context context, Button btnTimePicker, EditText txtTime) {
         btnTimePicker.setOnClickListener(v -> {
             // Get Current Time
             final Calendar c = Calendar.getInstance();
@@ -35,12 +35,12 @@ public class DateSelectors {
         });
     }
 
-    public static long parseEditTextTimeAndDate(EditText txtDate, EditText txtTime){
+    public static long parseEditTextTimeAndDate(EditText txtDate, EditText txtTime) {
         final String[] yearMonthDay = txtDate.getText().toString().split("-"); //[day, month, year]
         final String[] hourMin = txtTime.getText().toString().split(":"); //[hour, min]
         //final Date date;
         final long date;
-        if (yearMonthDay.length == 3 && hourMin.length == 2){
+        if (yearMonthDay.length == 3 && hourMin.length == 2) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
             calendar.set(Calendar.YEAR, Integer.valueOf(yearMonthDay[2]));
@@ -51,8 +51,7 @@ public class DateSelectors {
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
             date = calendar.getTimeInMillis();
-        }
-        else{
+        } else {
             //TODO should fail if the time is not appropriate (No event shouldn't have a time)
             //we said that we would do this in a future sprint task
             date = -666;

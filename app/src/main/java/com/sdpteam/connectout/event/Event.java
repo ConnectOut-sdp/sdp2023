@@ -2,11 +2,11 @@ package com.sdpteam.connectout.event;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 /**
  * This class describes an event
@@ -24,6 +24,7 @@ public class Event {
     private final List<String> interestedParticipants;
     private final long date;
     private final EventRestrictions restrictions;
+
     private Event() {
         this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0, 0), NULL_USER, new ArrayList<>(), new ArrayList<>(), 0);
     }
@@ -165,6 +166,7 @@ public class Event {
         private final double minRating;
         private final int maxNumParticipants;
         private final long joiningDeadline;
+
         public EventRestrictions() {
             this(-1, Integer.MAX_VALUE, new GregorianCalendar(2100, 1, 1).getTime().getTime());
         }

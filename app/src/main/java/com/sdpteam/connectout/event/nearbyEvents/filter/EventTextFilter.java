@@ -12,6 +12,6 @@ public class EventTextFilter implements EventFilter {
 
     @Override
     public boolean test(Event event) {
-        return (event.getTitle() + event.getDescription()).toLowerCase().contains(text);
+        return (event.getTitle() + event.getDescription()).toLowerCase().contains(text.toLowerCase());
     }
 }

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/message_box">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/message_box">
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:id="@+id/registered_event_title" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:id="@+id/registered_event_title" />
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/registered_event_time"
-        android:textStyle="normal|bold"
-        android:padding="20dp"
-        android:layout_below="@+id/registered_event_title"/>
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/registered_event_time"
+            android:textStyle="normal|bold"
+            android:padding="20dp"
+            android:layout_below="@+id/registered_event_title" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/registered_event_id"
-        android:visibility="invisible"
-        android:padding="20dp"
-        android:layout_below="@+id/registered_event_time"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/registered_event_id"
+            android:visibility="invisible"
+            android:padding="20dp"
+            android:layout_below="@+id/registered_event_time" />
 
 </RelativeLayout>

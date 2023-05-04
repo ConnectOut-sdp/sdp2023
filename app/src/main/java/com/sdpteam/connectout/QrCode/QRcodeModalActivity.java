@@ -1,14 +1,13 @@
 package com.sdpteam.connectout.QrCode;
 
+import com.sdpteam.connectout.R;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.sdpteam.connectout.R;
 
 /**
  * Activity that shows the generated QR code.

@@ -1,26 +1,33 @@
 package com.sdpteam.connectout.QrCode;
 
+import com.sdpteam.connectout.R;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sdpteam.connectout.R;
-
 // TODO this class is to be removed soon - add a button in the profile page instead
 public class QRcodeProfileActivity extends AppCompatActivity {
 
-    private Button btn_show_qr_code;
-
     private final String PROFILE_BASE_URI = "https://connect-out.com/profiles/";
-
     private final String PROFILE_ID = "0123456789"; // we will need to fetch it from local database (to display our own profile)
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        // Do something when the QRCodeActivity is finished
+                    }
+                }
+            });
+    private Button btn_show_qr_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +45,5 @@ public class QRcodeProfileActivity extends AppCompatActivity {
                 qrCodeLauncher.launch(intent);
             }
         });
-
     }
-
-    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK) {
-                        // Do something when the QRCodeActivity is finished
-                    }
-                }
-            });
-
 }

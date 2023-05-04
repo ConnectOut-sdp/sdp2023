@@ -19,15 +19,15 @@
                 android:background="@color/cardview_dark_background"
                 app:popupTheme="@style/Theme.ConnectOut.PopupOverlay"
                 app:navigationIcon="@drawable/options_image">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/fab_margin"
-                android:id="@+id/drawer_button"
-                android:visibility="invisible"/>
-        </androidx.appcompat.widget.Toolbar>
 
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:id="@+id/drawer_button"
+                    android:visibility="invisible" />
+        </androidx.appcompat.widget.Toolbar>
 
 
     </com.google.android.material.appbar.AppBarLayout>
