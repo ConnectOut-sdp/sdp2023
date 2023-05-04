@@ -47,6 +47,9 @@ public class ChatActivity extends AppCompatActivity {
     private View inputRow2; // when wanting to send an image a view will appear over the text field
     private Uri selectedImage = null;
 
+    private FloatingActionButton selectImageBtn;
+    private FloatingActionButton deselectImageBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,19 +91,23 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setUpImageSelectionButtons() {
         inputRow2 = findViewById(R.id.messageInputRow2);
-        FloatingActionButton selectImageBtn = findViewById(R.id.select_image_button);
+
+        selectImageBtn = findViewById(R.id.select_image_button);
         selectImageBtn.setOnClickListener(e -> selectImage());
-        FloatingActionButton deselectImageBtn = findViewById(R.id.deselect_image_button);
+
+        deselectImageBtn = findViewById(R.id.deselect_image_button);
         deselectImageBtn.setOnClickListener(v -> hideSelectImage());
     }
 
     private void selectImage() {
         imageSelectionFragment.performOpenSelection();
         inputRow2.setVisibility(View.VISIBLE);
+        selectImageBtn.setVisibility(View.GONE);
     }
 
     private void hideSelectImage() {
         inputRow2.setVisibility(View.GONE);
+        selectImageBtn.setVisibility(View.VISIBLE);
         selectedImage = null;
     }
 
