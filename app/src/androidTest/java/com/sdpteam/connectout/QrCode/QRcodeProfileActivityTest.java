@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.qr_code;
+package com.sdpteam.connectout.QrCode;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;

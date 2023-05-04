@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.qr_code;
+package com.sdpteam.connectout.QrCode;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import com.sdpteam.connectout.event.viewer.EventActivity;
 
 public class QRcodeActivity extends AppCompatActivity {
 
-    private Button btnScan;
     private ActivityResultLauncher<ScanOptions> barLauncher;
 
     @Override
@@ -22,7 +21,7 @@ public class QRcodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
 
-        btnScan = findViewById(R.id.btn_scan);
+        Button btnScan = findViewById(R.id.btn_scan);
         btnScan.setOnClickListener(v -> scanCode());
 
         barLauncher = registerForActivityResult(new ScanContract(), result -> {
@@ -30,16 +29,28 @@ public class QRcodeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * launches the scanner of QR codes.
+     */
     private void scanCode() {
         ScanOptions options = new ScanOptions();
         options.setPrompt("Volum up to flash on");
         options.setBeepEnabled(true);
         options.setOrientationLocked(true);
-        options.setCaptureActivity(CaptureAct.class);
+        options.setCaptureActivity(CaptureActivityContainer.class);
 
         barLauncher.launch(options);
     }
 
+    /**
+     * TODO should finish this activity
+     * TODO should identify correctly if we have an Event or a Profile
+     * TODO should use the methods openProfile or openEvent.
+     * <p>
+     * Launches the corresponding activity from the QR code
+     *
+     * @param resultText (String): id of module
+     */
     private void handleScanResult(String resultText) {
         if (resultText != null) {
             Intent intent = new Intent(QRcodeActivity.this, EventActivity.class);

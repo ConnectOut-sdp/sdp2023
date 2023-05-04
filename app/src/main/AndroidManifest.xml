@@ -27,19 +27,19 @@
             android:name=".event.viewer.MyEventsCalendarActivity"
             android:exported="false" />
         <activity
-            android:name=".qr_code.QRcodeModalActivity"
+            android:name=".QrCode.QRcodeModalActivity"
             android:exported="false" />
         <activity
-            android:name=".qr_code.QRcodeEventActivity"
+            android:name=".QrCode.QRcodeEventActivity"
             android:exported="false" />
         <activity
-            android:name=".qr_code.QRcodeProfileActivity"
+            android:name=".QrCode.QRcodeProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".qr_code.QRcodeActivity"
+            android:name=".QrCode.QRcodeActivity"
             android:exported="false" />
         <activity
-            android:name=".qr_code.CaptureAct"
+            android:name=".QrCode.CaptureActivityContainer"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme" /> <!-- c'est rouge tkt, c'est juste dans les tests que c'est utilisé ;) -->
