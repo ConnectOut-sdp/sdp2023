@@ -7,6 +7,7 @@ import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
 import com.sdpteam.connectout.utils.DrawerFragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,9 +57,13 @@ public class EventsFragment extends DrawerFragment {
         return (buttonView, isChecked) -> {
             if (R.id.map_switch_button == isChecked) {
                 listButton.setChecked(false);
+                listButton.setTextColor(Color.BLACK);
+                mapButton.setTextColor(Color.WHITE);
                 getChildFragmentManager().beginTransaction().replace(R.id.nearby_events_container, eventsMapViewFragment).commit();
             } else {
                 mapButton.setChecked(false);
+                listButton.setTextColor(Color.WHITE);
+                mapButton.setTextColor(Color.BLACK);
                 getChildFragmentManager().beginTransaction().replace(R.id.nearby_events_container, eventsListViewFragment).commit();
             }
         };

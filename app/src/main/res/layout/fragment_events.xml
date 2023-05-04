@@ -3,27 +3,27 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-    android:id="@+id/events_fragment_id"
-    tools:context=".event.nearbyEvents.EventsFragment">
+        android:id="@+id/events_fragment_id"
+        tools:context=".event.nearbyEvents.EventsFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/events_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+            android:id="@+id/events_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
 
-        android:theme="@style/Theme.ConnectOut.AppBarOverlay">
+            android:theme="@style/Theme.ConnectOut.AppBarOverlay">
 
         <Button
-            android:id="@+id/events_filter_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:text="@string/filter"
-            android:background="@color/white"
-            android:textColor="@color/white"
-            android:textSize="15sp"/>
+                android:id="@+id/events_filter_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:text="@string/filter"
+                android:background="@color/white"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
     </androidx.appcompat.widget.Toolbar>
 
     <RadioGroup
@@ -36,6 +36,19 @@
             android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/map_switch_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@string/map"
+                android:checked="true"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_button_left_selector"
+                android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/list_switch_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,20 +59,7 @@
                 android:textSize="20sp"
                 android:button="@android:color/transparent"
                 android:layout_weight="1"
-                android:background="@drawable/radio_button_left_selector" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/map_switch_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="@string/map"
-                android:checked="true"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:button="@android:color/transparent"
-                android:background="@drawable/radio_button_right_selector"
-                android:layout_weight="1" />
+                android:background="@drawable/radio_button_right_selector" />
 
     </RadioGroup>
 
@@ -78,9 +78,8 @@
     <FrameLayout
             android:id="@+id/events_task_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
-
-            />
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true" />
+    <!--    height was ?attr/actionBarSize but i guess we don't need this task bar?-->
 
 </RelativeLayout>
