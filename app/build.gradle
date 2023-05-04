@@ -94,7 +94,7 @@ dependencies {
     testImplementation 'androidx.test:rules:1.4.1'
 
     // for picasso (display images from url)
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.picasso:picasso:2.8'
 }
 
 tasks.withType(Test) {
