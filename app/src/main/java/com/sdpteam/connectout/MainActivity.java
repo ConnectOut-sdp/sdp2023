@@ -1,6 +1,7 @@
 package com.sdpteam.connectout;
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.drawer.DrawerActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
         enablingFirebaseCache();
 
         // Don't Change anything in there anymore.
-        Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
-        this.startActivity(drawerIntent);
+        Intent intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
+        this.startActivity(intent);
     }
 
     /**

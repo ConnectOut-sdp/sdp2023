@@ -82,9 +82,6 @@
                 android:exported="false"
                 android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-                android:name=".drawer.LogInActivity"
-                android:exported="false" />
-        <activity
                 android:name=".profileList.ProfileListActivity"
                 android:exported="false"
                 android:theme="@style/Theme.ConnectOut.NoActionBar" />

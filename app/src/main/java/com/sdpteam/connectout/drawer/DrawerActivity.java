@@ -3,6 +3,7 @@ package com.sdpteam.connectout.drawer;
 import com.google.android.material.navigation.NavigationView;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
 import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
@@ -88,7 +89,8 @@ public class DrawerActivity extends WithFragmentActivity {
             replaceFragment(new EventsFragment(), R.id.drawer_fragment_container);
         }
         if (itemId == R.id.menu_logout) {
-            Intent logOutIntent = new Intent(getApplicationContext(), LogInActivity.class);
+            new GoogleAuth().logout();
+            Intent logOutIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
             startActivity(logOutIntent);
         }
     }
