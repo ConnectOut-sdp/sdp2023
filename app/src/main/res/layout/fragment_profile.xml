@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/profile_toolbar"
-            android:id="@+id/linearLayout5">
+            android:id="@+id/linearLayout5"
+            android:paddingLeft="10dp">
 
         <ImageView
                 android:layout_width="80dp"
@@ -59,7 +60,7 @@
             android:id="@+id/profileGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="3dp"
+            android:padding="10dp"
             android:text="'gender'"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
             app:layout_constraintStart_toStartOf="parent" />
@@ -69,8 +70,9 @@
             android:id="@+id/profileBio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:text="'Samantha is a freelance writer and aspiring chef who loves to explore new cuisines and cultures. When she's not cooking up a storm in the kitchen, she can be found hiking in the mountains or reading a good book. With a degree in English literature and a passion for storytelling, Samantha is always looking for new ways to express herself creatively. She also enjoys volunteering at her local animal shelter and spending time with her two rescue dogs, Luna and Max. Follow Samantha's adventures on her blog and social media channels!'"
+            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"
+            android:text="'Samantha is a freelance writer and aspiring chef who loves to explore new cuisines and cultures. When she's not cooking up a storm in the kitchen, she can be found hiking in the mountains or reading a good book. With a degree in English literature and a passion for storytelling, Samantha is always looking for new ways to express herself creatively. She also enjoys volunteering at her local animal shelter and spending time with her two rescue dogs, Luna and Max.'"
             app:layout_constraintTop_toBottomOf="@+id/profileGender"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -81,20 +83,25 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="@+id/profileBio" />
-    <!--        <TextView-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="Creator of those activities" />-->
+            app:layout_constraintBottom_toBottomOf="@+id/profileBio"
+            app:layout_constraintBottom_toTopOf="@+id/title_separator" />
+
+    <TextView
+            android:id="@+id/title_separator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Participates in those activities (organizer or participant)"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/profileBio" />
 
     <FrameLayout
             android:id="@+id/profile_events_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/title_separator"
             app:layout_constraintBottom_toTopOf="@+id/divider2"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/divider"
+            app:layout_constraintStart_toStartOf="@+id/title_separator"
             app:layout_constraintEnd_toEndOf="parent" />
 
 
