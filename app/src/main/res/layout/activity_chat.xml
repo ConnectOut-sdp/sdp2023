@@ -19,85 +19,95 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:divider="@android:color/transparent"
-            android:dividerHeight="16dp" />
+            android:scrollbarStyle="outsideInset"
+            android:dividerHeight="16dp"
+            android:layout_above="@+id/message_input_container"
+            android:layout_marginBottom="15dp" />
 
     <LinearLayout
-            android:id="@+id/messageInputRow2"
+            android:id="@+id/message_input_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/messageInputRow1"
-            android:layout_marginBottom="0dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
-            android:orientation="horizontal"
-            android:background="@color/fui_buttonShadow"
-            android:visibility="visible">
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/deselect_image_button"
-                android:layout_width="wrap_content"
+        <LinearLayout
+                android:id="@+id/messageInputRow2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@string/send"
-                android:tint="@android:color/white"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-                android:focusable="true" />
+                android:layout_above="@+id/messageInputRow1"
+                android:layout_marginBottom="0dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:orientation="horizontal"
+                android:background="@color/fui_buttonShadow"
+                android:visibility="visible">
 
-        <FrameLayout
-                android:id="@+id/chat_image_upload_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-            android:id="@+id/messageInputRow1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:background="@color/fui_buttonShadow"
-            android:layout_marginBottom="0dp">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/select_image_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@string/send"
-                android:tint="@android:color/white"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_menu_gallery"
-                android:focusable="true"
-                android:layout_gravity="center_vertical"
-                android:visibility="visible" />
-
-        <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/chat_input_layout"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/chat_input"
-                    android:layout_width="match_parent"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/deselect_image_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/input" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    android:clickable="true"
+                    android:contentDescription="@string/send"
+                    android:tint="@android:color/white"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                    android:focusable="true" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/chat_fab"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                    android:id="@+id/chat_image_upload_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/messageInputRow1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@string/send"
-                android:tint="@android:color/white"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_menu_send"
-                android:focusable="true"
-                android:layout_gravity="center_vertical" />
-    </LinearLayout>
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:background="@color/fui_buttonShadow"
+                android:layout_marginBottom="0dp">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/select_image_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:contentDescription="@string/send"
+                    android:tint="@android:color/white"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/ic_menu_gallery"
+                    android:focusable="true"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="visible" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/chat_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chat_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/chat_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:contentDescription="@string/send"
+                    android:tint="@android:color/white"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/ic_menu_send"
+                    android:focusable="true"
+                    android:layout_gravity="center_vertical" />
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

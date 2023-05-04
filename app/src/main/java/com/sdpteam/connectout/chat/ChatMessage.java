@@ -35,6 +35,7 @@ public class ChatMessage {
     public ChatMessage(String userName, String userId, String messageText, String chatId, String imageUrl) {
         this(userName, userId, messageText, new Date().getTime(), chatId, imageUrl);
     }
+
     public ChatMessage() {
         this(NULL_USER, NULL_USER, "", 0, NULL_CHAT, "");
     }

@@ -23,6 +23,7 @@ import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -37,11 +38,13 @@ public class ChatActivity extends AppCompatActivity {
 
     public static final String NULL_CHAT = "null_chat";
     private final String YOU = "You";
+    private final ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment(R.drawable.mountain_image);
     public ChatViewModel viewModel = new ChatViewModel(new ChatFirebaseDataSource());
     public final String userName = viewModel.getProfileUserName();
     public AuthenticatedUser au = new GoogleAuth().loggedUser();
     public String uid = (au == null) ? NULL_USER : au.uid;
     public String chatId;
+    private View inputRow2; // when wanting to send an image a view will appear over the text field
     private Uri selectedImage = null;
 
     @Override
@@ -66,8 +69,9 @@ public class ChatActivity extends AppCompatActivity {
                 FileStorageFirebase storageFirebase = new FileStorageFirebase();
                 storageFirebase.uploadFile(selectedImage, "jpg").thenAccept(uri -> {
                     viewModel.saveMessage(new ChatMessage(userName, uid, input.getText().toString(), chatId, uri.toString()));
+                    imageSelectionFragment.reset();
                     input.setText("");
-                    selectedImage = null; // TODO make the ui unselect
+                    hideSelectImage();
                 });
             }
         });
@@ -76,10 +80,31 @@ public class ChatActivity extends AppCompatActivity {
         setUpListAdapter();
 
         setUpImageSelectionFragment();
+
+        setUpImageSelectionButtons();
+
+        hideSelectImage(); // by default hide
+    }
+
+    private void setUpImageSelectionButtons() {
+        inputRow2 = findViewById(R.id.messageInputRow2);
+        FloatingActionButton selectImageBtn = findViewById(R.id.select_image_button);
+        selectImageBtn.setOnClickListener(e -> selectImage());
+        FloatingActionButton deselectImageBtn = findViewById(R.id.deselect_image_button);
+        deselectImageBtn.setOnClickListener(v -> hideSelectImage());
+    }
+
+    private void selectImage() {
+        imageSelectionFragment.performOpenSelection();
+        inputRow2.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSelectImage() {
+        inputRow2.setVisibility(View.GONE);
+        selectedImage = null;
     }
 
     private void setUpImageSelectionFragment() {
-        ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment();
         imageSelectionFragment.setOnImageSelectedListener(imageUri -> {
             this.selectedImage = imageUri;
         });
@@ -110,6 +135,7 @@ public class ChatActivity extends AppCompatActivity {
     private void setUpListAdapter() {
         ListView listOfMessages = findViewById(R.id.list_of_messages);
         listOfMessages.setStackFromBottom(true);
+        listOfMessages.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
         Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout = a -> a.setLayout(R.layout.message);
         Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner = a -> a.setLifecycleOwner(this);
