@@ -67,7 +67,7 @@ public class RegistrationViewModel extends ViewModel {
     }
 
     private void displayFinishWithMessage(String msg) {
-        progress.setValue(false);
         errorMessage.setValue(msg);
+        progress.setValue(false);
     }
 }
