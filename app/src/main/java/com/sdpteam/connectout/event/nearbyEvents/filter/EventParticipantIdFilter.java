@@ -19,6 +19,6 @@ public class EventParticipantIdFilter implements EventFilter {
         if (userId == null) {
             return false;
         }
-        return userId.equals(event.getOrganizer()) || event.getParticipants().contains(userId);
+        return userId.equals(event.getOrganizer()) || event.hasJoined(userId);
     }
 }

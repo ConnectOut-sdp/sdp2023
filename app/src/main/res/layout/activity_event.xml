@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".event.viewer.EventActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".event.viewer.EventActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/event_toolbar"
@@ -21,9 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
 
+            android:layout_gravity="center"
             android:layout_margin="16dp"
             android:text="@string/event_title"
-            android:layout_gravity="center"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -32,60 +32,77 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:src="@drawable/message"
-            android:contentDescription="Chat" />
+            android:contentDescription="Chat"
+            android:src="@drawable/message" />
 
     </androidx.appcompat.widget.Toolbar>
 
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/event_content"
-            android:layout_below="@+id/event_toolbar"
-            android:layout_above="@+id/event_join_button">
-
+        android:id="@+id/event_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/event_join_buttons"
+        android:layout_below="@+id/event_toolbar">
 
 
         <TextView
-                android:id="@+id/event_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="16dp"
-                android:text="@string/event_description" />
+            android:id="@+id/event_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp"
+            android:text="@string/event_description" />
 
         <Button
-                android:id="@+id/event_participants_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/event_description"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:text="@string/participants" />
+            android:id="@+id/event_participants_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_description"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/participants" />
 
         <RelativeLayout
-                android:id="@+id/event_fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                android:layout_below="@+id/event_participants_button"
+            android:id="@+id/event_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/event_participants_button"
+            android:layout_margin="@dimen/fab_margin"
 
-                android:layout_margin="@dimen/fab_margin"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:defaultNavHost="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/event_join_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
-    <Button
-            android:id="@+id/event_join_button"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:layout_centerHorizontal="true"
+        <Button
+            android:id="@+id/event_interested_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Join Event" />
+            android:text="Interested" />
+
+        <Button
+            android:id="@+id/event_restrictions_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restrictions" />
+
+        <Button
+            android:id="@+id/event_join_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="Join" />
+    </LinearLayout>
 
 </RelativeLayout>
