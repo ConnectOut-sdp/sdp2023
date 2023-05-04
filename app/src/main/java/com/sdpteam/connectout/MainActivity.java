@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
      * Enables persistence for offline queries
      */
     private void enablingFirebaseCache() {
+        // enabling persistence for offline queries
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }

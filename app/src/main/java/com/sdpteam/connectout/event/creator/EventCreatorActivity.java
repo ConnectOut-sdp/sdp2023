@@ -11,24 +11,14 @@ import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
+import static java.util.Collections.singletonList;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.widget.Toolbar;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
@@ -36,12 +26,12 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 import com.sdpteam.connectout.validation.EventCreationValidator;
 
-/**
- * Activity to create events
- */
+import java.util.ArrayList;
+
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
 
@@ -74,7 +64,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
             final long date = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
 
             // validation
-            if(EventCreationValidator.eventCreationValidation(eventTitle, eventDescription)) {
+            if (EventCreationValidator.eventCreationValidation(eventTitle, eventDescription)) {
                 saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date);
                 this.finish();
             }
@@ -90,7 +80,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
      */
     private void saveEvent(String title, GPSCoordinates coordinates, String description, long date) {
         AuthenticatedUser user = new GoogleAuth().loggedUser();
-        String ownerId =(user == null)? EditProfileActivity.NULL_USER : user.uid;
+        String ownerId = (user == null) ? EditProfileActivity.NULL_USER : user.uid;
 
         //Create associated event.
         String eventUniqueId = eventCreatorViewModel.getUniqueId();
