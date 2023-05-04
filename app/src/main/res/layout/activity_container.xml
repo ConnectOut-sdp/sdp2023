@@ -5,18 +5,9 @@
         android:layout_height="match_parent"
         android:id="@+id/activity_container">
 
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/participants_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/Theme.ConnectOut.AppBarOverlay"
-            app:navigationIcon="@drawable/back_arrow_image" />
-
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/participants_toolbar"
             android:id="@+id/fragment_container" />
 
 </RelativeLayout>

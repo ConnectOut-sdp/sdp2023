@@ -20,10 +20,6 @@ public class ProfileActivity extends WithFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
 
-        Toolbar toolbar = findViewById(R.id.participants_toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> this.finish());
-
         String profileId = getIntent().getStringExtra(PASSED_ID_KEY);
         replaceFragment(ProfileFragment.setupFragment(profileId), R.id.fragment_container);
     }
