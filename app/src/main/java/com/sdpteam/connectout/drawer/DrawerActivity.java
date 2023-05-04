@@ -79,7 +79,7 @@ public class DrawerActivity extends WithFragmentActivity {
             //Go check out your events
             replaceFragment(new MyEventsCalendarFragment(), R.id.drawer_fragment_container);
         }
-        if (itemId == R.id.menu_profiles) {
+        if (itemId == R.id.menu_community) {
             //Go check out other peoples
             replaceFragment(new ProfilesContainerFragment(), R.id.drawer_fragment_container);
         }

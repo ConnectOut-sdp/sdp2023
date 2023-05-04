@@ -80,7 +80,7 @@ public class DrawerActivityTest {
         // Click on the Filters menu item
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_profiles));
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_community));
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
         onView(withId(R.id.profiles_activity_id)).check(matches(isDisplayed()));
     }

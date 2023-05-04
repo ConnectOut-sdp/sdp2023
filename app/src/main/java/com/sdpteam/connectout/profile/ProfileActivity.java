@@ -5,6 +5,7 @@ import static com.sdpteam.connectout.profile.ProfileFragment.PASSED_ID_KEY;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
@@ -18,6 +19,10 @@ public class ProfileActivity extends WithFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
+
+        Toolbar toolbar = findViewById(R.id.participants_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> this.finish());
 
         String profileId = getIntent().getStringExtra(PASSED_ID_KEY);
         replaceFragment(ProfileFragment.setupFragment(profileId), R.id.fragment_container);

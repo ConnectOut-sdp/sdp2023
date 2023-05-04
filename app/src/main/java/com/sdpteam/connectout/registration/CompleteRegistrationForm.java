@@ -98,6 +98,11 @@ public class CompleteRegistrationForm extends Fragment {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
+        conditionsInfoButton.setOnLongClickListener(v -> {
+            // TODO remove this hack to bypass the complete registration
+            formSubmittedSuccessfully();
+            return false;
+        });
 
         Button finishButton = view.findViewById(R.id.finishButton);
         finishButton.setEnabled(false);
