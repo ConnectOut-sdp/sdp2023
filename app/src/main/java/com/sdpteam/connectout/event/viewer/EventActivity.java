@@ -104,7 +104,6 @@ public class EventActivity extends WithFragmentActivity {
         eventViewModel.getEventLiveData().observe(this, event ->{
             updateEventView(event, title, description, participationBtn, participantsBtn, chatBtn);
         });
-        participantsBtn.setOnClickListener(v -> showParticipants(null));
     }
 
     /**
@@ -120,7 +119,7 @@ public class EventActivity extends WithFragmentActivity {
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
         participantsBtn.setOnClickListener(v -> {
             final Intent intent = new Intent(this, EventParticipantsListActivity.class);
-            intent.putExtra(PASSED_ID_KEY, event.getId()); //TODO we could pass the event.participants here
+            intent.putExtra(PASSED_ID_KEY, event.getId());
             startActivity(intent);});
         if (!event.getParticipants().contains(currentUserId)){ //TODO move this if-else to EventViewModel, toggleParticipation function
             profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
@@ -142,10 +141,6 @@ public class EventActivity extends WithFragmentActivity {
     private void initMapFragment() {
         EventMapViewFragment map = new EventMapViewFragment(eventViewModel);
         replaceFragment(map, R.id.event_fragment_container);
-    }
-
-    private void showParticipants(List<String> participants) {
-        // TODO launch new activity (or pop-up) with list of profiles
     }
 
     /**

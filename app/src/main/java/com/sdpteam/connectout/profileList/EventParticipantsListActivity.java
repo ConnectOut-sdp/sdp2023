@@ -26,5 +26,6 @@ public class EventParticipantsListActivity extends WithFragmentActivity {
         Fragment f = new EventParticipantsListFragment();
         f.setArguments(b);
         replaceFragment(f, R.id.fragment_container);
+
     }
 }

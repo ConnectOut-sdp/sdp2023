@@ -64,6 +64,9 @@ public class EventViewModel extends ViewModel {
      * Toggles the participation status of the specified user in the event,
      * if the user is attending/left the event, it removes/add the user from the event.
      *
+     * An organizer is registered to the event by all timese, so his button interaction opens a view
+     * that enables him to edit the event restrictions
+     *
      * @param userId (String): user's id, kept for backward compatibility issues with tests
      * @param profileViewModel (ProfileViewModel): user whose participation status needs to be toggled
      * @param impossibleRegistrationToast (Consumer<String>): creates Toast in case registration is impossible
