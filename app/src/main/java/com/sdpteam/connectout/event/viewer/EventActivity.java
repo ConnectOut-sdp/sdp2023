@@ -79,9 +79,7 @@ public class EventActivity extends WithFragmentActivity {
 
         eventViewModel = new EventViewModel(new EventFirebaseDataSource());
         eventViewModel.getEvent(eventId);
-
-        //currentProfile = profileViewModel.getProfileLiveData().getValue(); //TODO check that it doesn't introduce too much delay
-    }
+}
 
     /**
      * Initialize the event's main display.

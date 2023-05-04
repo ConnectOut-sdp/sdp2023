@@ -90,7 +90,6 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     public CompletableFuture<List<Profile>> getListOfProfile(ProfileOrderingOption option, List<String> values) {
         CompletableFuture<List<Profile>> value = new CompletableFuture<>();
         if(option == ProfileOrderingOption.EVENT_PARTICIPANTS){
-            //TODO do this properly later
             CompletableFuture<List<Profile>> futureParticipants = new EventFirebaseDataSource().getEvent(values.get(0)).thenCompose(e -> fetchProfiles(e.getParticipants()));
             return futureParticipants;
         }

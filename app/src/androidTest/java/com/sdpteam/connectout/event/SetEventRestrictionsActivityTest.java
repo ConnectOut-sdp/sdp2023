@@ -68,7 +68,6 @@ public class SetEventRestrictionsActivityTest {
     }
     @After
     public void tearDown() {
-        //TODO delete event
         FirebaseDatabase.getInstance().getReference().child(DATABASE_EVENT_PATH).child(FAKE_EVENT_ID).removeValue();
         Intents.release();
     }
@@ -108,6 +107,5 @@ public class SetEventRestrictionsActivityTest {
         calendar.set(Calendar.MILLISECOND, 0);
         long unixTimestamp = calendar.getTimeInMillis();
         assertThat(restrictedEvent.getRestrictions().getJoiningDeadline(), is(unixTimestamp));
-        //TODO add tests to EventActivityTest for the toasts
     }
 }
