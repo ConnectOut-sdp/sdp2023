@@ -46,7 +46,6 @@ public class QRcodeActivity extends AppCompatActivity {
      * TODO should finish this activity
      * TODO should identify correctly if we have an Event or a Profile
      * TODO should use the methods openProfile or openEvent.
-     * <p>
      * Launches the corresponding activity from the QR code
      *
      * @param resultText (String): id of module
@@ -58,4 +57,5 @@ public class QRcodeActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
 }
