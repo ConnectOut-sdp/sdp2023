@@ -3,6 +3,7 @@ package com.sdpteam.connectout.event.creator;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.notifications.EventNotificationManager;
 import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.validation.EventCreationValidator;
 import com.sdpteam.connectout.event.Event;
@@ -89,10 +90,14 @@ public class EventCreatorActivity extends WithFragmentActivity {
         String ownerId =(user == null)? EditProfileActivity.NULL_USER : user.uid;
 
         //Create associated event.
-        //TODO add yourself to the participants by default?
-        //TODO subscribe to the event using subscribeToEventTopic() in EventNotificationManager
-        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, null, date);
+        String eventUniqueId = eventCreatorViewModel.getUniqueId();
+        Event newEvent = new Event(eventUniqueId, title, description, coordinates, ownerId, null, date);
         //Save the event & return to previous activity.
-        eventCreatorViewModel.saveEvent(newEvent);
+        if(eventCreatorViewModel.saveEvent(newEvent)) {
+            //TODO add yourself to the participants by default?
+            //TODO subscribe to the event using subscribeToEventTopic() in EventNotificationManager
+            EventNotificationManager manager = new EventNotificationManager();
+            manager.subscribeToEventTopic(eventUniqueId);
+        }
     }
 }
