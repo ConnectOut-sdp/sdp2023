@@ -11,6 +11,7 @@ import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileViewModel;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
