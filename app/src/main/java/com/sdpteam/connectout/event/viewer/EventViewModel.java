@@ -6,8 +6,14 @@ import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventDataSource;
+import com.sdpteam.connectout.notifications.EventNotificationManager;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileViewModel;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public class EventViewModel extends ViewModel {
 
@@ -51,6 +57,9 @@ public class EventViewModel extends ViewModel {
             result.setValue(false);
             return result;
         }
+        EventNotificationManager manager = new EventNotificationManager();
+        manager.subscribeToEventTopic(lastEventId);
+
         eventDataSource.getEvent(lastEventId).thenAccept(event -> {
             final CompletableFuture<Boolean> future = asInterested ?
                     eventDataSource.joinEventAsInterested(event.getId(), userId) :
@@ -76,6 +85,9 @@ public class EventViewModel extends ViewModel {
             result.setValue(false);
             return result;
         }
+        EventNotificationManager manager = new EventNotificationManager();
+        manager.unsubscribeFromEventTopic(lastEventId);
+
         eventDataSource.getEvent(lastEventId).thenAccept(event -> eventDataSource.leaveEvent(event.getId(), userId).thenAccept(b -> {
             refreshEvent();
             result.setValue(b);

@@ -28,8 +28,8 @@ public class EventCreatorViewModel extends EventsViewModel {
         model.getEvent(userId, title).thenAccept(eventLiveData::setValue);
     }
 
-    public void saveEvent(Event event) {
-        model.saveEvent(event);
+    public Boolean saveEvent(Event event) {
+        return model.saveEvent(event);
     }
 
     public String getUniqueId() {
