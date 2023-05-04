@@ -1,5 +1,10 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.location.LocationHelper;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,13 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import androidx.fragment.app.DialogFragment;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.location.LocationHelper;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 public class EventsFilterDialog extends DialogFragment {
 
@@ -23,6 +22,7 @@ public class EventsFilterDialog extends DialogFragment {
     private GPSCoordinates position;
     private static String TEXT_FILTER = "";
     private static int SEEKBAR_VALUE = 100;
+    private static String SEEKBAR_ALL_DISTANCES = "all distances";
 
     public EventsFilterDialog(EventsViewModel eventsViewModel) {
         this.eventsViewModel = eventsViewModel;
@@ -37,6 +37,8 @@ public class EventsFilterDialog extends DialogFragment {
         final SeekBar seekBar = view.findViewById(R.id.events_filter_seekbar);
         seekBar.setProgress(SEEKBAR_VALUE);
         seekBar.setOnSeekBarChangeListener(seekBarHandler(view));
+        final TextView progressLabel = view.findViewById(R.id.events_filter_seekbar_value);
+        progressLabel.setText(SEEKBAR_ALL_DISTANCES);
         final Button applyBtn = view.findViewById(R.id.events_filter_apply_btn);
 
         final LocationHelper locationHelper = LocationHelper.getInstance(getContext());
@@ -71,7 +73,7 @@ public class EventsFilterDialog extends DialogFragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 final TextView progressLabel = view.findViewById(R.id.events_filter_seekbar_value);
                 if (progress == 100) { // acts like a disabled filter
-                    progressLabel.setText("all distances");
+                    progressLabel.setText(SEEKBAR_ALL_DISTANCES);
                     return;
                 }
                 progressLabel.setText(progress + "km");
