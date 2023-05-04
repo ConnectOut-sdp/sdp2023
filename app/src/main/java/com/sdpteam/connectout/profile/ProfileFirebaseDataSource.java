@@ -61,13 +61,13 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     /**
      * Retrieves a Profile from firebase using its Id.
      *
-     * @param uid (String): id of the user to find
+     * @param userId (String): id of the user to find
      * @return (CompletableFuture < Profile >): completes to the matching profile Id
      */
     @Override
-    public CompletableFuture<Profile> fetchProfile(String uid) {
+    public CompletableFuture<Profile> fetchProfile(String userId) {
         CompletableFuture<Profile> future = new CompletableFuture<>();
-        fetchProfiles(new ArrayList<>(Collections.singletonList(uid)))
+        fetchProfiles(new ArrayList<>(Collections.singletonList(userId)))
                 //List has at least a null element.
                 .thenApply(profiles -> future.complete(profiles.get(0)));
         return future;
