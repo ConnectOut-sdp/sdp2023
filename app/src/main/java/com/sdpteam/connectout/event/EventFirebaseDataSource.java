@@ -28,11 +28,12 @@ public class EventFirebaseDataSource implements EventDataSource {
     }
 
     /**
+     * TODO refactor in order to return a completable future boolean upon completion from firebase.
+     * <p>
+     * Saves an Event into firebase
+     *
      * @param event (Event): The given event to save
      * @return (boolean): True if value is saved
-     * <p>
-     * /!\ the save return value will be useful for the offline mode /!\
-     * @inheritDoc Saves the given Event in the firebase database
      */
     @Override
     public boolean saveEvent(Event event) {
@@ -188,11 +189,22 @@ public class EventFirebaseDataSource implements EventDataSource {
         return future;
     }
 
-    public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions){
+    /**
+     * Adds restrictions to an event.
+     *
+     * @param eventId      (String): id of the event.
+     * @param restrictions (Event.EventRestrictions): restrictions of an event.
+     */
+    public void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions) {
         if (restrictions != null) {
             firebaseRef.child(DATABASE_EVENT_PATH).child(eventId).child("restrictions").setValue(restrictions);
         }
     }
+
+    /**
+     * @param eventId (String): The given eventId to delete
+     * @return (boolean): true if event was deleted
+     */
     @Override
     public boolean deleteEvent(String eventId) {
         if (eventId != null) {
@@ -202,6 +214,11 @@ public class EventFirebaseDataSource implements EventDataSource {
         return false;
     }
 
+    /**
+     * @param userId (String): id of organizer
+     * @param title  (String): title of the event
+     * @return (boolean): true if event was deleted
+     */
     public boolean deleteEvent(String userId, String title) {
         if (userId != null && title != null) {
             firebaseRef.child(DATABASE_EVENT_PATH).orderByKey().get().addOnCompleteListener(t -> {

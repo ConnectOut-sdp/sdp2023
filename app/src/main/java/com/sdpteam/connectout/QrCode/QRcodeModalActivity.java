@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.qr_code;
+package com.sdpteam.connectout.QrCode;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,18 +10,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdpteam.connectout.R;
 
+/**
+ * Activity that shows the generated QR code.
+ */
 public class QRcodeModalActivity extends AppCompatActivity {
-
-    private ImageView qrCodeImageView;
-    private TextView modalTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode_modal);
 
-        qrCodeImageView = findViewById(R.id.qrcode_image);
-        modalTitle = findViewById(R.id.modal_title);
+        ImageView qrCodeImageView = findViewById(R.id.qrcode_image);
+        TextView modalTitle = findViewById(R.id.modal_title);
 
         // retrieving data from intent
         String title = getIntent().getStringExtra("title");
@@ -29,10 +29,9 @@ public class QRcodeModalActivity extends AppCompatActivity {
 
         // displaying the title and the qr code
         modalTitle.setText(title);
-        QRcodeGenerator qrCode = new QRcodeGenerator();
-        Bitmap qrCodeBitmap = null;
+        Bitmap qrCodeBitmap;
         try {
-            qrCodeBitmap = qrCode.generateQRCode(qrCodeData);
+            qrCodeBitmap = QRcodeGenerator.generateQRCode(qrCodeData);
             qrCodeImageView.setImageBitmap(qrCodeBitmap);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
