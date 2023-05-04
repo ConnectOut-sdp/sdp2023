@@ -49,6 +49,9 @@ public class EditProfileActivity extends AppCompatActivity {
         cancel.setOnClickListener(v -> this.finish());
     }
 
+    /**
+     * Finds the gender selected by the user
+     */
     private Profile.Gender getGender(RadioButton male, RadioButton female, RadioButton other) {
         if (male.isChecked()) {
             return Profile.Gender.MALE;
@@ -60,6 +63,9 @@ public class EditProfileActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Launches the current profile from this activity.
+     */
     private void goToProfile() {
         Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
         startActivity(intent);

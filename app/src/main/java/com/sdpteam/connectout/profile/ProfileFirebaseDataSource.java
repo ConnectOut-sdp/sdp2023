@@ -41,6 +41,12 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         firebaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
+    /**
+     * Saves the given profile in firebase
+     *
+     * @param profile (Profile): profile to save into firebase
+     * @return (CompletableFuture < Boolean >): completes to true if profile is saved
+     */
     @Override
     public CompletableFuture<Boolean> saveProfile(Profile profile) {
         CompletableFuture<Boolean> finished = new CompletableFuture<>();
@@ -52,15 +58,27 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         return finished;
     }
 
+    /**
+     * Retrieves a Profile from firebase using its Id.
+     *
+     * @param userId (String): id of the user to find
+     * @return (CompletableFuture < Profile >): completes to the matching profile Id
+     */
     @Override
-    public CompletableFuture<Profile> fetchProfile(String uid) {
+    public CompletableFuture<Profile> fetchProfile(String userId) {
         CompletableFuture<Profile> future = new CompletableFuture<>();
-        fetchProfiles(new ArrayList<>(Collections.singletonList(uid)))
+        fetchProfiles(new ArrayList<>(Collections.singletonList(userId)))
                 //List has at least a null element.
                 .thenApply(profiles -> future.complete(profiles.get(0)));
         return future;
     }
 
+    /**
+     * Retrieves a list of profiles from firebase using their Ids.
+     *
+     * @param userIds (List<String>): id of the user to find
+     * @return (CompletableFuture < List < Profile > >): completes to the matching list of profiles Ids
+     */
     public CompletableFuture<List<Profile>> fetchProfiles(List<String> userIds) {
         CompletableFuture<List<Profile>> futures = new CompletableFuture<>();
         List<Task<DataSnapshot>> tasks = new ArrayList<>();
@@ -188,10 +206,8 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     /**
      * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
      * in list of events that a profile is registered to
-     * <p>
      * this list of events is stored under USERS/profileId/REGISTERED_EVENTS
      * each CalendarEvent has an auto generated key
-     * <p>
      * We make sure that a Calendar Event isn't already in the User's memory before adding it
      * Not very efficient if the user is registered to A LOT of events. Which won't be the case so we re fine
      */
@@ -220,10 +236,8 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
 
     /**
      * sets up the FirebaseListAdapter for the registered events view
-     * <p>
      * Displays the List of Profile.CalendarEvent that is stored in Firebase under
      * USERS/profileId/REGISTERED_EVENTS
-     * <p>
      * orders the CalendarEvents by eventDate
      */
     public void setUpListAdapter(Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout,

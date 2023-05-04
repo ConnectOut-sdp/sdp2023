@@ -38,6 +38,9 @@ import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 import com.sdpteam.connectout.validation.EventCreationValidator;
 
+/**
+ * Activity to create events
+ */
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
 
