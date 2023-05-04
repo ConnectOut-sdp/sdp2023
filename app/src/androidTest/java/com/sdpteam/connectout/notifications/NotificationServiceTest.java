@@ -1,21 +1,19 @@
 package com.sdpteam.connectout.notifications;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.junit.Test;
-
-import androidx.test.core.app.ApplicationProvider;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,8 +58,6 @@ public class NotificationServiceTest {
         }
         return map;
     }
-
-
 
     @Test
     public void testCreateNotificationChannel() {
