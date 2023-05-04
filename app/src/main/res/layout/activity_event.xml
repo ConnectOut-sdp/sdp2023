@@ -68,12 +68,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/event_participants_button"
-                android:layout_margin="@dimen/fab_margin"
 
                 app:defaultNavHost="true"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="16dp"
+                android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
@@ -85,24 +89,30 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
+        <!--note: by default the visibility is gone for each of them and programmatically we will display the correct ones-->
         <Button
                 android:id="@+id/event_interested_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Interested" />
+                android:layout_margin="10dp"
+                android:text="Interested"
+                android:visibility="gone" />
 
         <Button
                 android:id="@+id/event_restrictions_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Restrictions" />
+                android:layout_margin="10dp"
+                android:text="Restrictions"
+                android:visibility="gone" />
 
         <Button
                 android:id="@+id/event_join_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="Join" />
+                android:layout_margin="10dp"
+                android:text="Join"
+                android:visibility="gone" />
     </LinearLayout>
 
 </RelativeLayout>
