@@ -87,6 +87,9 @@ dependencies {
     implementation 'com.google.zxing:core:3.4.1'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
+    // for notifications from firebase
+    implementation 'com.google.firebase:firebase-messaging'
+
     // for roboelectric tests
     testImplementation 'org.robolectric:robolectric:4.6.1'
     testImplementation 'androidx.test:core:1.4.1'

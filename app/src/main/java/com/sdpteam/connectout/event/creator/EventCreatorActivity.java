@@ -90,6 +90,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
 
         //Create associated event.
         //TODO add yourself to the participants by default?
+        //TODO subscribe to the event using subscribeToEventTopic() in EventNotificationManager
         Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, null, date);
         //Save the event & return to previous activity.
         eventCreatorViewModel.saveEvent(newEvent);

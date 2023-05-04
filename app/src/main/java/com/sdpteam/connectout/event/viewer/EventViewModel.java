@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventRepository;
+import com.sdpteam.connectout.notifications.EventNotificationManager;
 
 public class EventViewModel extends ViewModel {
 
@@ -41,6 +42,10 @@ public class EventViewModel extends ViewModel {
      * @return (LiveData < Boolean >): true if participation status has been joined.
      */
     public LiveData<Boolean> joinEvent(String userId) {
+        if(lastEventId != null) {
+            EventNotificationManager manager = new EventNotificationManager();
+            manager.subscribeToEventTopic(lastEventId);
+        }
         return updateParticipationStatus(userId, true);
     }
 
@@ -51,6 +56,10 @@ public class EventViewModel extends ViewModel {
      * @return (LiveData < Boolean >): true if participation status has been left.
      */
     public LiveData<Boolean> leaveEvent(String userId) {
+        if(lastEventId != null) {
+            EventNotificationManager manager = new EventNotificationManager();
+            manager.unsubscribeFromEventTopic(lastEventId);
+        }
         return updateParticipationStatus(userId, false);
     }
 
