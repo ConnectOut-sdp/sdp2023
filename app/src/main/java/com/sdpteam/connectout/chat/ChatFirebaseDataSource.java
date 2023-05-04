@@ -2,10 +2,9 @@ package com.sdpteam.connectout.chat;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import android.view.View;
-import android.widget.ListAdapter;
-
-import androidx.annotation.NonNull;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
@@ -15,9 +14,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import android.view.View;
+import android.widget.ListAdapter;
+import androidx.annotation.NonNull;
 
 public class ChatFirebaseDataSource implements ChatDataSource {
 
@@ -72,6 +71,14 @@ public class ChatFirebaseDataSource implements ChatDataSource {
         config.setAdapter.accept(adapter);
     }
 
+    /**
+     * Testing is done in the chat called TestChat, but it is important to delete the chat messages
+     * generated during the test which is what this method does
+     */
+    public void emptyTestMode(String path) {
+        firebaseRef.child("Chats").child(path).removeValue();
+    }
+
     public static class ChatAdapterFirebaseConfig {
         Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLayout;
         Function<FirebaseListOptions.Builder<ChatMessage>, FirebaseListOptions.Builder<ChatMessage>> setLifecycleOwner;
@@ -87,13 +94,5 @@ public class ChatFirebaseDataSource implements ChatDataSource {
             this.populateView = populateView;
             this.setAdapter = setAdapter;
         }
-    }
-
-    /**
-     * Testing is done in the chat called TestChat, but it is important to delete the chat messages
-     * generated during the test which is what this method does
-     */
-    public void emptyTestMode(String path) {
-        firebaseRef.child("Chats").child(path).removeValue();
     }
 }

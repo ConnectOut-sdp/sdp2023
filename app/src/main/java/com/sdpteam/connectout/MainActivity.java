@@ -1,12 +1,12 @@
 package com.sdpteam.connectout;
-import android.content.Intent;
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.sdpteam.connectout.drawer.DrawerActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
         // Don't Change anything in there anymore.
         Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
         this.startActivity(drawerIntent);
-
     }
 
     /**
