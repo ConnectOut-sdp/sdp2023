@@ -1,5 +1,14 @@
 package com.sdpteam.connectout.event.nearbyEvents.list;
 
+import java.util.List;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.viewer.EventActivity;
+import com.sdpteam.connectout.profile.ProfileActivity;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.squareup.picasso.Picasso;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,16 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.profile.ProfileActivity;
-
-import java.util.List;
 
 /**
  * It is responsible for creating and managing the views for a list of events.
@@ -37,6 +38,11 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         this.eventListItemResource = eventListItemResource;
     }
 
+    public EventsAdapter(@NonNull Context context, int eventListItemResource) {
+        super(context, eventListItemResource);
+        this.eventListItemResource = eventListItemResource;
+    }
+
     /**
      * Creating and returning the view for each list item.
      */
@@ -49,7 +55,8 @@ public class EventsAdapter extends ArrayAdapter<Event> {
             view = inflater.inflate(eventListItemResource, parent, false);
         }
 
-        Event event = getItem(position);
+        final Event event = getItem(position);
+        final String orgProfileId = event.getOrganizer();
 
         TextView eventTitle = view.findViewById(R.id.event_list_event_title);
         eventTitle.setText(event.getTitle());
@@ -58,12 +65,23 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         eventDescription.setText(event.getDescription());
 
         ImageButton profileImageButton = view.findViewById(R.id.event_list_profile_button);
-        profileImageButton.setOnClickListener(v -> ProfileActivity.openProfile(getContext(), event.getOrganizer()));
+        loadOrganizerProfileImage(orgProfileId, profileImageButton);
+        profileImageButton.setOnClickListener(v -> ProfileActivity.openProfile(getContext(), orgProfileId));
 
-        ImageView eventImage = view.findViewById(R.id.event_list_event_image);
-        //TODO set images
+        ImageView eventImage = view.findViewById(R.id.event_list_event_image);//TODO set event image
         view.setOnClickListener(v -> EventActivity.openEvent(getContext(), event.getId()));
         return view;
+    }
+
+    private static void loadOrganizerProfileImage(String organizerProfileId, ImageButton profileImageButton) {
+        // start an async job to load and display the profile image
+        new ProfileFirebaseDataSource().fetchProfile(organizerProfileId).thenAccept(profile -> {
+            final String imageUrl = profile.getProfileImageUrl();
+            if (!imageUrl.isEmpty()) {
+                Picasso.get().load(imageUrl).into(profileImageButton);
+                profileImageButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
+        });
     }
 }
 
