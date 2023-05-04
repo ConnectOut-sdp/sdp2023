@@ -71,7 +71,7 @@ public class EventsFilterDialog extends DialogFragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 final TextView progressLabel = view.findViewById(R.id.events_filter_seekbar_value);
                 if (progress == 100) { // acts like a disabled filter
-                    progressLabel.setText("");
+                    progressLabel.setText("all distances");
                     return;
                 }
                 progressLabel.setText(progress + "km");
