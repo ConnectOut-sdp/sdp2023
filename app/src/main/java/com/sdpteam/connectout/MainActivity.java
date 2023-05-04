@@ -1,15 +1,9 @@
 package com.sdpteam.connectout;
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +13,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
-import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.MyEventsCalendarActivity;
+import com.sdpteam.connectout.notifications.NotificationService;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.ProfileActivity;
 import com.sdpteam.connectout.profile.ProfileRateActivity;
@@ -35,7 +29,6 @@ import com.sdpteam.connectout.qr_code.QRcodeEventActivity;
 import com.sdpteam.connectout.qr_code.QRcodeModalActivity;
 import com.sdpteam.connectout.qr_code.QRcodeProfileActivity;
 import com.sdpteam.connectout.registration.CompleteRegistrationActivity;
-import com.sdpteam.connectout.notifications.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         enablingFirebaseCache();
-        createNotificationChannel();
+
+        NotificationService service = new NotificationService();
+        service.createNotificationChannel();
 
         FirebaseMessaging.getInstance().subscribeToTopic("event_TESTING").addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -81,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.launcher_button_qrcode_profile).setOnClickListener(v -> start(QRcodeProfileActivity.class, false));
         findViewById(R.id.launcher_button_registered_events_calendar).setOnClickListener(v -> start(MyEventsCalendarActivity.class, false));
 
-
     }
 
     private void start(Class c, boolean nullUid) {
@@ -99,19 +93,6 @@ public class MainActivity extends AppCompatActivity {
     private void enablingFirebaseCache() {
         // enabling persistence for offline queries
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = Constants.NOTIFICATION_NAME;
-            String description = Constants.NOTIFICATION_DESCRIPTION;
-            String channelId = Constants.NOTIFICATION_CHANNEL_ID;
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
     }
 
 }
