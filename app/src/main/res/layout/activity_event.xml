@@ -89,7 +89,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-        <!--note: by default the visibility is gone for each of them and programmatically we will display the correct ones-->
+        <!--note: by default the visibility is gone for each of them (except join) and programmatically we will display the correct ones-->
         <Button
                 android:id="@+id/event_interested_button"
                 android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Join"
-                android:visibility="gone" />
+                android:visibility="visible" />
     </LinearLayout>
 
 </RelativeLayout>
