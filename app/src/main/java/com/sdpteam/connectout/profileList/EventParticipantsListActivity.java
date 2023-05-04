@@ -3,6 +3,7 @@ package com.sdpteam.connectout.profileList;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -20,6 +21,10 @@ public class EventParticipantsListActivity extends WithFragmentActivity {
         //Create the view of the activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
+        Toolbar toolbar = findViewById(R.id.participants_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> this.finish());
+
         String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
         Bundle b = new Bundle();
         b.putString(PASSED_ID_KEY, eventId);

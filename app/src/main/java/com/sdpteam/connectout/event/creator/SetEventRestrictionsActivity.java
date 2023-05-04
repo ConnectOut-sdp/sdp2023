@@ -30,9 +30,9 @@ public class SetEventRestrictionsActivity extends AppCompatActivity {
         if (eventViewModel == null) {
             eventViewModel = new EventViewModel(new EventFirebaseDataSource());
         }
-       // Toolbar toolbar = findViewById(R.id.set_event_restrictions_toolbar);
-       // setSupportActionBar(toolbar);
-       // toolbar.setNavigationOnClickListener(v -> this.finish());
+        Toolbar toolbar = findViewById(R.id.set_event_restrictions_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> this.finish());
         Button saveButton = findViewById(R.id.set_event_restrictions_save_button);
 
         EditText eventMinRating = findViewById(R.id.set_event_restrictions_min_rating);
