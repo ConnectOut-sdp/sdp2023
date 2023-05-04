@@ -37,9 +37,6 @@ android {
 }
 
 dependencies {
-    // Picasso is for powerful image downloading with caching
-    implementation 'com.squareup.picasso:picasso:2.8'
-
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
@@ -49,6 +46,7 @@ dependencies {
     // implementation 'com.google.firebase:firebase-database:20.1.0'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'androidx.preference:preference:1.2.0'
     testImplementation "androidx.arch.core:core-testing:2.2.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
@@ -95,6 +93,9 @@ dependencies {
     testImplementation 'androidx.test:core:1.4.1'
     testImplementation 'androidx.test:runner:1.4.1'
     testImplementation 'androidx.test:rules:1.4.1'
+
+    // for picasso (display images from url)
+    implementation 'com.squareup.picasso:picasso:2.8'
 }
 
 tasks.withType(Test) {
