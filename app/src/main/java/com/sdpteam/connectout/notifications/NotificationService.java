@@ -37,7 +37,7 @@ public class NotificationService extends FirebaseMessagingService {
         }
     }
 
-    public void sendNotification(String title, String text) {
+    private void sendNotification(String title, String text) {
         int notificationId = (int) (System.currentTimeMillis() % 10000);
 
         // Opens up the MainActivity when user clicks on the notification

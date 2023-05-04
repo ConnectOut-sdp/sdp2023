@@ -40,15 +40,8 @@ public class NotificationServiceTest {
                 .setMessageId("1")
                 .setData(bundleToMap(bundle));
 
-        builder.build().getNotification(); // todo this test doesn't work so i put the sendNotification method in public to get the coverage
-
+        builder.build().getNotification();
         notificationService.onMessageReceived(builder.build());
-    }
-
-    @Test
-    public void testOnMessageReceived2() {
-        NotificationService notificationService = new NotificationService();
-        notificationService.sendNotification("Title", "text");
     }
 
     private Map<String, String> bundleToMap(Bundle bundle) {

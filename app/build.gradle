@@ -90,6 +90,7 @@ dependencies {
 
     // for notifications from firebase
     implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-functions'
 
     // for roboelectric tests
     testImplementation 'org.robolectric:robolectric:4.6.1'
