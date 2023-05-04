@@ -10,8 +10,7 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 /**
- * Once the Profile Activity has been created, this activity can be deleted and the intent in
- * EditProfileActivity must be adapted
+ * Activity showing the current user's information
  */
 public class ProfileActivity extends WithFragmentActivity {
 
