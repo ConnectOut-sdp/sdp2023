@@ -44,8 +44,6 @@ public class EventActivity extends WithFragmentActivity {
     private ProfileViewModel profileViewModel; //for event registration
     private String currentUserId;
 
-    private Profile currentProfile;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

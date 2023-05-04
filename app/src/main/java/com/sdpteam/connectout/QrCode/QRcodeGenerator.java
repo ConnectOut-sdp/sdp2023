@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.qr_code;
+package com.sdpteam.connectout.QrCode;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,7 +12,14 @@ public class QRcodeGenerator {
 
     private static final int QR_CODE_SIZE = 512;
 
-    public Bitmap generateQRCode(String data) throws IllegalArgumentException {
+    /**
+     * Generates QR codes from given data.
+     *
+     * @param data (String): data to parse into the QR code
+     * @return (Bitmap): map coloration of QR code
+     * @throws (IllegalArgumentException): if failed to encode the data.
+     */
+    public static Bitmap generateQRCode(String data) throws IllegalArgumentException {
         if (data == null || data.isEmpty()) {
             throw new IllegalArgumentException("Data cannot be null or empty");
         }
