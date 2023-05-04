@@ -2,9 +2,14 @@ package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.sdpteam.connectout.event.EventFirebaseDataSource.DATABASE_EVENT_PATH;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
+import static com.sdpteam.connectout.event.viewer.EventActivity.LEAVE_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
@@ -15,6 +20,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -22,10 +29,14 @@ import androidx.fragment.app.Fragment;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
@@ -39,11 +50,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
     private final static String eventTitle1 = generateRandomPath();
     private final static Event TEST_EVENT = new Event(generateRandomPath(), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
-
     @Rule
     public ActivityScenarioRule<EventActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), EventActivity.class).putExtra(PASSED_ID_KEY,
             TEST_EVENT.getId()));
@@ -114,10 +128,10 @@ public class EventActivityTest {
         waitABit();
         onView(withId(R.id.refresh_button)).perform(ViewActions.click());
         waitABit();
-        //    onView(withId(R.id.event_join_button)).check(matches(withText(LEAVE_EVENT)));
+    //    onView(withId(R.id.event_join_button)).check(matches(withText(LEAVE_EVENT)));
         Event obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
         assertTrue(obtained != null);
-        assertTrue(obtained.hasJoined(NULL_USER));
+        assertTrue(obtained.getParticipants().contains(NULL_USER));
         // leave event
         onView(withId(R.id.event_join_button)).perform(ViewActions.click());
         waitABit();
@@ -126,7 +140,7 @@ public class EventActivityTest {
         waitABit();
         onView(withId(R.id.event_join_button)).check(matches(withText(JOIN_EVENT)));
         obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
-        assertFalse(obtained.hasJoined(NULL_USER));
+        assertFalse(obtained.getParticipants().contains(NULL_USER));
     }
 
     @Test

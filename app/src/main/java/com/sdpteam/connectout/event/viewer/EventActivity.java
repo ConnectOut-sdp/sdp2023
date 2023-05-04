@@ -1,13 +1,12 @@
 package com.sdpteam.connectout.event.viewer;
 
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
@@ -28,16 +28,15 @@ import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class EventActivity extends WithFragmentActivity {
 
     public final static String PASSED_ID_KEY = "eventId";
-    public final static String JOIN_EVENT = "I join!";
-    public final static String INTERESTED = "I'm interested!";
-    public final static String NOT_INTERESTED = "No longer interested";
-    public final static String LEAVE_EVENT = "Leave event";
+    public final static String JOIN_EVENT = "Join Event";
+    public final static String LEAVE_EVENT = "Leave Event";
     public final static String ADD_RESTRICTIONS = "Change Restrictions";
 
     private EventViewModel eventViewModel;
@@ -52,7 +51,7 @@ public class EventActivity extends WithFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        initViewModel();
+        initActivityArguments();
         initToolbar();
         initMapFragment();
         initEventView();
@@ -68,17 +67,19 @@ public class EventActivity extends WithFragmentActivity {
     }
 
     /**
-     * Setup the view model.
+     * Setup the view models and the activity arguments
      */
-    private void initViewModel() {
+    private void initActivityArguments() {
         String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         currentUserId = user == null ? NULL_USER : user.uid;
         profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
 
+        //profileViewModel.fetchProfile(currentUserId);
+
         eventViewModel = new EventViewModel(new EventFirebaseDataSource());
         eventViewModel.getEvent(eventId);
-    }
+}
 
     /**
      * Initialize the event's main display.
@@ -86,17 +87,11 @@ public class EventActivity extends WithFragmentActivity {
     private void initEventView() {
         TextView title = findViewById(R.id.event_title);
         TextView description = findViewById(R.id.event_description);
-        Button joinBtn = findViewById(R.id.event_join_button);
-        Button interestedBtn = findViewById(R.id.event_interested_button);
+        Button participationBtn = findViewById(R.id.event_join_button);
         Button participantsBtn = findViewById(R.id.event_participants_button);
         ImageButton chatBtn = findViewById(R.id.event_chat_btn);
 
-        eventViewModel.getEventLiveData().observe(this, event ->
-                updateEventView(event, title, description, joinBtn, interestedBtn, participantsBtn, chatBtn)
-        );
-
-/*
-        joinBtn.setOnClickListener(v -> {
+        participationBtn.setOnClickListener(v -> {
             eventViewModel.toggleParticipation(currentUserId, profileViewModel,
                     x -> impossibleRegistrationToast(x), (p,e) -> isRegistrationPossible(p,e),
                     e -> {final Intent intent = new Intent(this, SetEventRestrictionsActivity.class);
@@ -104,43 +99,30 @@ public class EventActivity extends WithFragmentActivity {
                         startActivity(intent);
             });
         });
- */
+        eventViewModel.getEventLiveData().observe(this, event ->{
+            updateEventView(event, title, description, participationBtn, participantsBtn, chatBtn);
+        });
     }
 
     /**
-     * Upon modification of the given event, changes its view and some btn behaviors.
+     * Upon modification of the given event, changes its view.
      */
     @SuppressLint("SetTextI18n")
-    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button participantsBtn, ImageButton chatBtn) {
+    private void updateEventView(Event event, TextView title, TextView description, Button participationBtn, Button participantsBtn, ImageButton chatBtn) {
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
-
-        joinBtn.setText(event.hasJoined(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
-        interestedBtn.setText(event.isInterested(currentUserId) ? NOT_INTERESTED : INTERESTED);
-        interestedBtn.setVisibility(event.hasJoined(currentUserId) ? INVISIBLE : VISIBLE);
-        chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : INVISIBLE);
-        chatBtn.setOnClickListener(v -> openChat(event.getId()));
+        participationBtn.setText((event.getOrganizer().equals(currentUserId))? ADD_RESTRICTIONS : event.getParticipants().contains(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
         updateParticipantsButton(event, participantsBtn);
-        participantsBtn.setOnClickListener(v -> showParticipants(event.getId()));
-
-        joinBtn.setOnClickListener(v -> {
-            if (event.hasJoined(currentUserId)) {
-                eventViewModel.leaveEvent(currentUserId);
-            } else {
-                eventViewModel.joinEvent(currentUserId, false);
-            }
-        });
-        interestedBtn.setOnClickListener(v -> {
-            if (event.isInterested(currentUserId)) {
-                eventViewModel.leaveEvent(currentUserId); // remove as interested
-            } else {
-                eventViewModel.joinEvent(currentUserId, true);
-            }
-        });
-
-        if (!event.hasJoined(currentUserId)) {
+        chatBtn.setVisibility(event.getParticipants().contains(currentUserId) ? View.VISIBLE : View.INVISIBLE);
+        chatBtn.setOnClickListener(v -> openChat(event.getId()));
+        participantsBtn.setOnClickListener(v -> {
+            final Intent intent = new Intent(this, EventParticipantsListActivity.class);
+            intent.putExtra(PASSED_ID_KEY, event.getId());
+            startActivity(intent);});
+        if (!event.getParticipants().contains(currentUserId)){ //TODO move this if-else to EventViewModel, toggleParticipation function
             profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
-        } else {
+        }
+        else{
             //TODO unregister from event (need to create function in profileDataSource)
         }
     }
@@ -159,16 +141,9 @@ public class EventActivity extends WithFragmentActivity {
         replaceFragment(map, R.id.event_fragment_container);
     }
 
-    private void showParticipants(String eventId) {
-        final Intent intent = new Intent(this, EventParticipantsListActivity.class);
-        intent.putExtra(PASSED_ID_KEY, eventId);
-        startActivity(intent);
-    }
-
     /**
      * Updates the participant button's text to display the event's number of participants.
-     *
-     * @param event           (Event): current displayed event.
+     * @param event (Event): current displayed event.
      * @param participantsBtn (Button): participant button of the view.
      */
     private void updateParticipantsButton(Event event, Button participantsBtn) {
@@ -183,8 +158,8 @@ public class EventActivity extends WithFragmentActivity {
      * Helper method to launch a event activity from the source context
      * (made it to avoid code duplication)
      *
-     * @param fromContext   from where we are starting the intent
-     * @param eventId       event Id to open with.
+     * @param fromContext from where we are starting the intent
+     * @param eventId   event Id to open with.
      */
     public static void openEvent(Context fromContext, String eventId) {
         Intent intent = new Intent(fromContext, EventActivity.class);

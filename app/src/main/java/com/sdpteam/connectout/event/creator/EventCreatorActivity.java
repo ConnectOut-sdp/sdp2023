@@ -1,13 +1,33 @@
 package com.sdpteam.connectout.event.creator;
 
-import static java.util.Collections.singletonList;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.utils.DateSelectors;
+import com.sdpteam.connectout.validation.EventCreationValidator;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.widget.Toolbar;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
@@ -15,13 +35,8 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
-import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 import com.sdpteam.connectout.validation.EventCreationValidator;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -74,7 +89,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         String ownerId =(user == null)? EditProfileActivity.NULL_USER : user.uid;
 
         //Create associated event.
-        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, new ArrayList<>(singletonList(ownerId)), new ArrayList<>(), date);
+        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, new ArrayList<>(Arrays.asList(ownerId)), date);
         //Save the event & return to previous activity.
         eventCreatorViewModel.saveEvent(newEvent);
     }
