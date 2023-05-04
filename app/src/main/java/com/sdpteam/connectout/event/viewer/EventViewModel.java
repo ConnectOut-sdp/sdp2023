@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventRepository;
 import com.sdpteam.connectout.notifications.EventNotificationManager;
 import com.sdpteam.connectout.event.EventDataSource;
 import com.sdpteam.connectout.profile.Profile;
