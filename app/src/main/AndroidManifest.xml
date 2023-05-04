@@ -68,7 +68,8 @@
             android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
             android:name=".profile.ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.ConnectOut.NoActionBar"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -59,6 +59,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Date;
+
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
 
@@ -181,7 +183,7 @@ public class EventCreatorActivityTest {
 
     @Test
     public void testTimeAndDateSelection() throws InterruptedException {
-        String title = eventTitle4;
+        String title = generateRandomPath();
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         onView(ViewMatchers.withId(R.id.event_creator_title)).perform(typeText(title));
         Espresso.closeSoftKeyboard();

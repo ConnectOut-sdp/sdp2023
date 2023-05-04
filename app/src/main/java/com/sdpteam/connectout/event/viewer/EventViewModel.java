@@ -87,7 +87,7 @@ public class EventViewModel extends ViewModel {
                 boolean userRegistered = (participants == null)? false : participants.contains(userId);
                 if(!userRegistered & profileViewModel != null){
                     profileViewModel.fetchProfile(userId);
-                    profileViewModel.getProfileLiveData().observeForever(profile -> {
+                    profileViewModel.getProfileLiveData().observeForever(profile -> { //should it be observeForever or observe?
                         Event.EventRestrictions.RestrictionStatus status = isRegistrationPossible.apply(profile, event);
                         if (status != Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED){
                             impossibleRegistrationToast.accept(status.getMessage());

@@ -178,6 +178,7 @@ public class EventActivity extends WithFragmentActivity {
      * Before joining an event, the profile must meet the registration criteria
      * */
     public Event.EventRestrictions.RestrictionStatus isRegistrationPossible(Profile p, Event e){
+        if(p == null){ return Event.EventRestrictions.RestrictionStatus.ALL_RESTRICTIONS_SATISFIED;} // for the null user
         if (p.getRating() < e.getRestrictions().getMinRating()){
             return Event.EventRestrictions.RestrictionStatus.INSUFFICIENT_RATING;
         }
