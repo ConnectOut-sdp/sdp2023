@@ -88,21 +88,19 @@ public class EventCreatorViewModelTest {
 
         @Override
         public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
-            EVENT_LIST.forEach(e -> {
-                if (e.getId().equals(eventId)) {
-                    e.addParticipant(participantId);
-                }
-            });
+            EVENT_LIST.stream().filter(e -> e.getId().equals(eventId)).forEach(e -> e.addParticipant(participantId));
+            return CompletableFuture.completedFuture(true);
+        }
+
+        @Override
+        public CompletableFuture<Boolean> joinEventAsInterested(String eventId, String participantId) {
+            EVENT_LIST.stream().filter(e -> e.getId().equals(eventId)).forEach(e -> e.addInterestedParticipant(participantId));
             return CompletableFuture.completedFuture(true);
         }
 
         @Override
         public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
-            EVENT_LIST.forEach(e -> {
-                if (e.getId().equals(eventId)) {
-                    e.getParticipants().remove(participantId);
-                }
-            });
+            EVENT_LIST.stream().filter(e -> e.getId().equals(eventId)).forEach(e -> e.getParticipants().remove(participantId));
             return CompletableFuture.completedFuture(true);
         }
 

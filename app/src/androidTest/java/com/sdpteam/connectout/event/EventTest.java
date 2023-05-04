@@ -33,18 +33,48 @@ public class EventTest {
 
     @Test
     public void addsParticipantToEventOnce() {
-        assertTrue(TEST_EVENT.addParticipant("1"));
-        assertTrue(TEST_EVENT.getParticipants().contains("1"));
-        assertFalse(TEST_EVENT.addParticipant("1"));
-        assertTrue(TEST_EVENT.getParticipants().contains("1"));
+        assertTrue(TEST_EVENT.addParticipant("2"));
+        assertTrue(TEST_EVENT.hasJoined("2"));
+        assertFalse(TEST_EVENT.addParticipant("2"));
+        assertTrue(TEST_EVENT.hasJoined("2"));
     }
 
     @Test
     public void removeParticipantToEventOnce() {
         TEST_EVENT.addParticipant("1");
-        assertTrue(TEST_EVENT.getParticipants().contains("1"));
+        assertTrue(TEST_EVENT.hasJoined("1"));
         assertTrue(TEST_EVENT.removeParticipant("1"));
-        assertFalse(TEST_EVENT.getParticipants().contains("1"));
+        assertFalse(TEST_EVENT.hasJoined("1"));
         assertFalse(TEST_EVENT.removeParticipant("1"));
+    }
+
+    @Test
+    public void addInterestedParticipant() {
+        TEST_EVENT.addInterestedParticipant("1");
+        assertTrue(TEST_EVENT.isInterested("1"));
+        assertFalse(TEST_EVENT.hasJoined("1"));
+    }
+
+    @Test
+    public void removeInterestedParticipant() {
+        TEST_EVENT.addInterestedParticipant("1");
+        assertTrue(TEST_EVENT.isInterested("1"));
+        assertFalse(TEST_EVENT.hasJoined("1"));
+
+        TEST_EVENT.removeParticipant("1");
+        assertFalse(TEST_EVENT.isInterested("1"));
+        assertFalse(TEST_EVENT.hasJoined("1"));
+    }
+
+    @Test
+    public void joinAfterBeingInterested() {
+        TEST_EVENT.addInterestedParticipant("1");
+        assertTrue(TEST_EVENT.isInterested("1"));
+        assertFalse(TEST_EVENT.hasJoined("1"));
+
+        TEST_EVENT.addParticipant("1");
+
+        assertFalse(TEST_EVENT.isInterested("1"));
+        assertTrue(TEST_EVENT.hasJoined("1"));
     }
 }

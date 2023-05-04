@@ -34,6 +34,13 @@ public interface EventDataSource {
     CompletableFuture<Boolean> joinEvent(String eventId, String participantId);
 
     /**
+     * @param eventId (String): Id of the event to which we add the participant as interested
+     * @param participantId (String): Id of the interested participant
+     * @return (CompletableFuture < Boolean >): completes to true if participant has joined the event as interested.
+     */
+    CompletableFuture<Boolean> joinEventAsInterested(String eventId, String participantId);
+
+    /**
      * @param eventId       (String): Id of the event to which we remove the participant
      * @param participantId (String): Id of the removed participant
      * @return (CompletableFuture < Boolean >): completes to true if participant has left the event.
