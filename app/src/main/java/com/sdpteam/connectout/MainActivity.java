@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
+import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.notifications.NotificationService;
 
 import android.content.Intent;
@@ -24,20 +25,9 @@ public class MainActivity extends AppCompatActivity {
         NotificationService service = new NotificationService();
         service.createNotificationChannel();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("event_TESTING").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                String msg = "Done";
-                if (!task.isSuccessful()) {
-                    msg = "Failed";
-                }
-                System.out.println("msg");
-            }
-        });
-
         // Don't Change anything in there anymore.
-        Intent intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
-        this.startActivity(intent);
+        Intent drawerIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class); // DrawerActivity
+        this.startActivity(drawerIntent);
     }
 
     /**
