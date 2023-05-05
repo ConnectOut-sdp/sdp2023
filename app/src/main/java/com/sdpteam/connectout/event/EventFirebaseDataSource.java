@@ -1,6 +1,9 @@
 package com.sdpteam.connectout.event;
 
-import androidx.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -13,10 +16,7 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
+import androidx.annotation.NonNull;
 
 public class EventFirebaseDataSource implements EventDataSource {
     public final static String DATABASE_EVENT_PATH = "Events";
@@ -163,7 +163,6 @@ public class EventFirebaseDataSource implements EventDataSource {
     public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
 
-
         firebaseRef.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
                 .limitToFirst(MAX_EVENTS_FETCHED).orderByKey()
                 .get()
@@ -183,7 +182,6 @@ public class EventFirebaseDataSource implements EventDataSource {
                                         }
                                     });
                             allProfilesFutures.add(profilesFuture);
-
                         }
                     }
                     // Wait for all profile tasks to complete, then complete the future with the events
@@ -238,7 +236,5 @@ public class EventFirebaseDataSource implements EventDataSource {
         }
         return false;
     }
-
-
 }
 

@@ -31,8 +31,8 @@ import androidx.annotation.Nullable;
  * It consists in the list of events to which a user has registered
  */
 public class MyEventsCalendarFragment extends DrawerFragment {
-    public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
     private final String profileId;
+    public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
 
     public MyEventsCalendarFragment() {
         GoogleAuth googleAuth = new GoogleAuth();

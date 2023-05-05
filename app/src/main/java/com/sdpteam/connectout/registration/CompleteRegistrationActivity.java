@@ -1,10 +1,9 @@
 package com.sdpteam.connectout.registration;
 
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.sdpteam.connectout.R;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CompleteRegistrationActivity extends AppCompatActivity {
 

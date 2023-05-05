@@ -16,12 +16,11 @@ import androidx.fragment.app.Fragment;
 
 public class ImageSelectionFragment extends Fragment {
 
+    private final int PICK_IMAGE_REQUEST = 1;
+    private final int previewResourceId;
     private ImageView preview;
     private Button chooseButton;
     private OnImageSelectedListener mListener;
-
-    private final int PICK_IMAGE_REQUEST = 1;
-    private final int previewResourceId;
 
     public ImageSelectionFragment() {
         this(R.drawable.account_image);

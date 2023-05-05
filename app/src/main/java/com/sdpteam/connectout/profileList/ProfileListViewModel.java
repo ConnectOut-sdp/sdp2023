@@ -1,22 +1,22 @@
 package com.sdpteam.connectout.profileList;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDataSource;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileDataSource;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 public class ProfileListViewModel extends ViewModel {
 
+    private final static String NUMBER_REGEX = "-?\\d+(\\.\\d+)?";
     private final ProfileDataSource model;
     private final MutableLiveData<List<Profile>> userListLiveData;
-    private final static String NUMBER_REGEX = "-?\\d+(\\.\\d+)?";
 
     public ProfileListViewModel(ProfileDataSource model) {
         this.model = model;
@@ -41,14 +41,12 @@ public class ProfileListViewModel extends ViewModel {
                 Collections.sort(inputList);
             } else if (option == ProfileFirebaseDataSource.ProfileOrderingOption.NAME) {
                 inputList = parseNameInput(userInput);
-            }
-            else if (option == ProfileFirebaseDataSource.ProfileOrderingOption.EVENT_PARTICIPANTS) {
+            } else if (option == ProfileFirebaseDataSource.ProfileOrderingOption.EVENT_PARTICIPANTS) {
                 inputList = Arrays.asList(userInput);
             }
         }
         model.getListOfProfile(option, inputList).thenAccept(userListLiveData::setValue);
     }
-
 
     /**
      * @param userInput (String): input given by the user

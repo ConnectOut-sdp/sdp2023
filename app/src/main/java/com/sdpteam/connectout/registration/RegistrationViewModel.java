@@ -3,12 +3,11 @@ package com.sdpteam.connectout.registration;
 import static com.sdpteam.connectout.profile.Profile.Gender;
 import static com.sdpteam.connectout.registration.CompleteRegistration.MandatoryFields;
 
-import android.net.Uri;
+import com.sdpteam.connectout.authentication.Authentication;
 
+import android.net.Uri;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.sdpteam.connectout.authentication.Authentication;
 
 public class RegistrationViewModel extends ViewModel {
 
@@ -67,7 +66,7 @@ public class RegistrationViewModel extends ViewModel {
     }
 
     private void displayFinishWithMessage(String msg) {
-        progress.setValue(false);
         errorMessage.setValue(msg);
+        progress.setValue(false);
     }
 }

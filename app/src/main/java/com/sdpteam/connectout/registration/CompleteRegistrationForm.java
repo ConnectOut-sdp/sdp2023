@@ -2,6 +2,14 @@ package com.sdpteam.connectout.registration;
 
 import static com.sdpteam.connectout.profile.Profile.Gender;
 
+import java.util.Arrays;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.drawer.DrawerActivity;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,20 +22,12 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
-
-import java.util.Arrays;
 
 public class CompleteRegistrationForm extends Fragment {
 
@@ -41,6 +41,8 @@ public class CompleteRegistrationForm extends Fragment {
     private RegistrationViewModel registrationViewModel;
 
     private Uri selectedImage = null;
+
+    private boolean submitWasClicked = false; //thus waiting for a response (see getProgress() from the view model)
 
     public static CompleteRegistrationForm newInstance() {
         CompleteRegistrationForm completeRegistrationForm = new CompleteRegistrationForm();
@@ -96,6 +98,11 @@ public class CompleteRegistrationForm extends Fragment {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
+        conditionsInfoButton.setOnLongClickListener(v -> {
+            // TODO remove this hack to bypass the complete registration
+            formSubmittedSuccessfully();
+            return false;
+        });
 
         Button finishButton = view.findViewById(R.id.finishButton);
         finishButton.setEnabled(false);
@@ -121,8 +128,8 @@ public class CompleteRegistrationForm extends Fragment {
         });
 
         registrationViewModel.getProgress().observeForever(loading -> {
-            finishButton.setEnabled(!loading);
-            if (!loading) {
+            if (!loading && submitWasClicked && errView.getText().equals("Operation successful")) {
+                finishButton.setEnabled(false);
                 formSubmittedSuccessfully();
             }
         });
@@ -136,11 +143,12 @@ public class CompleteRegistrationForm extends Fragment {
         final String name = nameEditor.getText().toString();
         final String email = emailEditor.getText().toString();
         final String bio = bioEditor.getText().toString();
-
+        submitWasClicked = true;
         registrationViewModel.completeRegistration(name, email, bio, gender, selectedImage);
     }
 
     private void formSubmittedSuccessfully() {
-        // TODO navigate to home page view
+        Intent intent = new Intent(getContext(), DrawerActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,23 +1,22 @@
 package com.sdpteam.connectout.authentication;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 
-import android.content.Intent;
-
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.registration.CompleteRegistrationActivity;
+
+import android.content.Intent;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class GoogleLoginActivityTest {
@@ -64,11 +63,9 @@ public class GoogleLoginActivityTest {
 
             activity.redirectIfAuthenticated(); // trick to avoid clicking the firebase button
         });
-        try {
-            Thread.sleep(2000); //wtf in ci it does not work
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        onView(ViewMatchers.withId(R.id.greetingMessage)).check(matches(withText("David \nemail@gmail.com")));
+
+        // Check that the intent was sent with the correct extra
+        intended(Matchers.allOf(hasComponent(CompleteRegistrationActivity.class.getName()),
+                hasExtra(Matchers.equalTo("loginInfo"), Matchers.equalTo("David \nemail@gmail.com"))));
     }
 }

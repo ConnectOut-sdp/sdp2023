@@ -7,13 +7,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.notifications.NotificationService;
 
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
      * Enables persistence for offline queries
      */
     private void enablingFirebaseCache() {
-        // enabling persistence for offline queries
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }

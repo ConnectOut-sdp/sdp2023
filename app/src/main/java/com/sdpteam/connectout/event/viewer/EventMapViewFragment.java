@@ -1,15 +1,14 @@
 package com.sdpteam.connectout.event.viewer;
 
-import android.view.View;
-import android.widget.ImageButton;
-
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
+
+import android.view.View;
+import android.widget.ImageButton;
+import androidx.annotation.NonNull;
 
 public class EventMapViewFragment extends MapViewFragment {
 

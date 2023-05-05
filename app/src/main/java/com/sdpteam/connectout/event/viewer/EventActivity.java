@@ -1,19 +1,12 @@
 package com.sdpteam.connectout.event.viewer;
 
-import static android.view.View.INVISIBLE;
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
@@ -29,9 +22,15 @@ import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -118,15 +117,15 @@ public class EventActivity extends WithFragmentActivity {
         description.setText(event.getDescription());
 
         joinBtn.setText(event.hasJoined(currentUserId) ? LEAVE_EVENT : JOIN_EVENT);
-        joinBtn.setVisibility(event.getOrganizer().equals(currentUserId) ? INVISIBLE : VISIBLE);
+        joinBtn.setVisibility(event.getOrganizer().equals(currentUserId) ? GONE : VISIBLE);
 
         interestedBtn.setText(event.isInterested(currentUserId) ? NOT_INTERESTED : INTERESTED);
-        interestedBtn.setVisibility(event.getOrganizer().equals(currentUserId) || event.hasJoined(currentUserId) ? INVISIBLE : VISIBLE);
+        interestedBtn.setVisibility(event.getOrganizer().equals(currentUserId) || event.hasJoined(currentUserId) ? GONE : VISIBLE);
 
-        restrictionsBtn.setVisibility(event.getOrganizer().equals(currentUserId) ? VISIBLE : INVISIBLE);
+        restrictionsBtn.setVisibility(event.getOrganizer().equals(currentUserId) ? VISIBLE : GONE);
         restrictionsBtn.setOnClickListener(v -> openRestrictions(event.getId()));
 
-        chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : INVISIBLE);
+        chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : GONE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
 
         updateParticipantsButton(event, participantsBtn);
@@ -146,7 +145,6 @@ public class EventActivity extends WithFragmentActivity {
                 }
                 eventViewModel.joinEvent(currentUserId, false);
             });
-
         });
         interestedBtn.setOnClickListener(v -> {
             if (event.isInterested(currentUserId)) {
@@ -228,6 +226,5 @@ public class EventActivity extends WithFragmentActivity {
     private void impossibleRegistrationToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
 }
 

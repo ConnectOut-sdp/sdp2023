@@ -6,14 +6,14 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toRadians;
 
-import android.location.Location;
-
 import com.google.android.gms.maps.model.LatLng;
 
+import android.location.Location;
+
 public class GPSCoordinates {
+    private static final int EARTH_RADIUS = 6371;
     private final double latitude;
     private final double longitude;
-    private static final int EARTH_RADIUS = 6371;
 
     private GPSCoordinates() {
         this(0, 0);
@@ -30,6 +30,10 @@ public class GPSCoordinates {
     public GPSCoordinates(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public static GPSCoordinates fromLocation(Location location) {
+        return location == null ? null : new GPSCoordinates(location.getLatitude(), location.getLongitude());
     }
 
     public double getLatitude() {
@@ -53,9 +57,5 @@ public class GPSCoordinates {
         final double a = sin(dLat / 2) * sin(dLat / 2) + cos(toRadians(latitude)) * cos(toRadians(other.latitude)) * sin(dLon / 2) * sin(dLon / 2);
         final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
         return c * EARTH_RADIUS;
-    }
-
-    public static GPSCoordinates fromLocation(Location location) {
-        return location == null ? null : new GPSCoordinates(location.getLatitude(), location.getLongitude());
     }
 }
