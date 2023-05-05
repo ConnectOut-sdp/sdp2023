@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.MutableLiveData;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
@@ -31,6 +32,7 @@ import com.sdpteam.connectout.utils.WithFragmentActivity;
 import com.sdpteam.connectout.validation.EventCreationValidator;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
@@ -84,13 +86,13 @@ public class EventCreatorActivity extends WithFragmentActivity {
 
         //Create associated event.
         Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, new ArrayList<>(singletonList(ownerId)), new ArrayList<>(), date);
-        String eventUniqueId = eventCreatorViewModel.getUniqueId();
         //Save the event & return to previous activity.
         if(eventCreatorViewModel.saveEvent(newEvent)) {
             //TODO add yourself to the participants by default?
-            //TODO subscribe to the event using subscribeToEventTopic() in EventNotificationManager
             EventNotificationManager manager = new EventNotificationManager();
-            manager.subscribeToEventTopic(eventUniqueId);
+            manager.subscribeToEventTopic(newEvent.getId());
+
+            System.out.println("\n\n\n\nSubscribed to this event : " + newEvent.getId() + "\n\n\n\n");
         }
     }
 }

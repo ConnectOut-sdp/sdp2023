@@ -24,24 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
         enablingFirebaseCache();
 
-
         NotificationService service = new NotificationService();
         service.createNotificationChannel();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("event_TESTING").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                String msg = "Done";
-                if(!task.isSuccessful()) {
-                    msg = "Failed";
-                }
-                System.out.println("msg");
-            }
-        });
-
-
         // Don't Change anything in there anymore.
-        Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class);
+        Intent drawerIntent = new Intent(getApplicationContext(), DrawerActivity.class); // DrawerActivity
         this.startActivity(drawerIntent);
     }
 
