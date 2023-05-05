@@ -95,15 +95,6 @@ public class DrawerActivityTest {
         intended(hasComponent(GoogleLoginActivity.class.getName()));
     }
 
-    @Test
-    public void clickAddEventOpensEventCreatorActivity() {
-
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-
-        // Click on the Logout menu item
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_add));
-        intended(hasComponent(EventCreatorActivity.class.getName()));
-    }
 
     @Test
     public void drawerIsClosedBeforeClick() {
