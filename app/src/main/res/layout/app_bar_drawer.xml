@@ -16,8 +16,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/cardview_dark_background"
-                app:popupTheme="@style/Theme.ConnectOut.PopupOverlay"
+            android:background="?attr/colorSecondaryVariant"
+            app:popupTheme="@style/Theme.ConnectOut.PopupOverlay"
                 app:navigationIcon="@drawable/options_image">
 
             <Button
