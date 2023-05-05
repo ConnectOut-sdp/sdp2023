@@ -16,9 +16,12 @@ import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 import com.sdpteam.connectout.validation.EventCreationValidator;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+
 import androidx.appcompat.widget.Toolbar;
 
 public class EventCreatorActivity extends WithFragmentActivity {
@@ -74,12 +77,17 @@ public class EventCreatorActivity extends WithFragmentActivity {
         //Create associated event.
         Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, new ArrayList<>(singletonList(ownerId)), new ArrayList<>(), date);
         //Save the event & return to previous activity.
-        if(eventCreatorViewModel.saveEvent(newEvent)) {
+        if (eventCreatorViewModel.saveEvent(newEvent)) {
             //TODO add yourself to the participants by default?
             EventNotificationManager manager = new EventNotificationManager();
             manager.subscribeToEventTopic(newEvent.getId());
 
             System.out.println("\n\n\n\nSubscribed to this event : " + newEvent.getId() + "\n\n\n\n");
         }
+    }
+
+    public static void openEventCreator(Context fromContext) {
+        Intent creationIntent = new Intent(fromContext, EventCreatorActivity.class);
+        fromContext.startActivity(creationIntent);
     }
 }
