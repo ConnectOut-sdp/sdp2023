@@ -10,7 +10,7 @@
             android:id="@+id/events_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+        android:background="?attr/colorSecondary"
 
             android:theme="@style/Theme.ConnectOut.AppBarOverlay">
 
@@ -54,32 +54,54 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="@string/list"
-                android:textAlignment="center"
-                android:checked="false"
-                android:textSize="20sp"
-                android:button="@android:color/transparent"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_right_selector" />
+            android:textAlignment="center"
+            android:checked="false"
+            android:textSize="20sp"
+            android:button="@android:color/transparent"
+            android:layout_weight="1"
+            android:background="@drawable/radio_button_right_selector" />
 
     </RadioGroup>
 
 
-    <FrameLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/events_view_container"
+        android:layout_below="@+id/events_switch"
+        android:layout_above="@+id/events_list_add_button"
+        android:layout_margin="@dimen/fab_margin">
+
+        <FrameLayout
             android:id="@+id/nearby_events_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/events_task_bar"
-            android:layout_below="@+id/events_switch"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin" />
+            android:layout_height="match_parent" />
 
-    <FrameLayout
-            android:id="@+id/events_task_bar"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentBottom="true" />
-    <!--    height was ?attr/actionBarSize but i guess we don't need this task bar?-->
+        <ImageButton
+            android:id="@+id/events_map_add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_image"
+            android:background="@color/fui_transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_above="@+id/nearby_events_container"
+            android:minWidth="50dp"
+            android:minHeight="50dp" />
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/events_list_add_button"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/add_event"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin" />
 
 </RelativeLayout>
