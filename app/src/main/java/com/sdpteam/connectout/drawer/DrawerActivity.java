@@ -83,11 +83,6 @@ public class DrawerActivity extends WithFragmentActivity {
             //Go check out other peoples
             replaceFragment(new ProfilesContainerFragment(), R.id.drawer_fragment_container);
         }
-        if (itemId == R.id.menu_add) {
-            Intent creationIntent = new Intent(getApplicationContext(), EventCreatorActivity.class);
-            startActivity(creationIntent);
-            replaceFragment(new EventsFragment(), R.id.drawer_fragment_container);
-        }
         if (itemId == R.id.menu_logout) {
             new GoogleAuth().logout();
             Intent logOutIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class);

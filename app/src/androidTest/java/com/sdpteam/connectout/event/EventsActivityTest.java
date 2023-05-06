@@ -114,6 +114,20 @@ public class EventsActivityTest {
     }
 
     @Test
+    public void clickMapAddButtonLaunchesCreateActivity() {
+        onView(withId(R.id.map_switch_button)).perform(click());
+        onView(withId(R.id.events_map_add_button)).perform(click());
+        onView(withId(R.id.event_creator_title)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void clickListAddButtonLaunchesCreateActivity() {
+        onView(withId(R.id.list_switch_button)).perform(click());
+        onView(withId(R.id.events_list_add_button)).perform(click());
+        onView(withId(R.id.event_creator_title)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void clickingOnAEventLaunchesRightEventPage() {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(ViewMatchers.withId(R.id.events_list_view)).check(matches(isDisplayed()));
