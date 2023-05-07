@@ -6,6 +6,7 @@ import static com.sdpteam.connectout.registration.CompleteRegistration.Mandatory
 import com.sdpteam.connectout.authentication.Authentication;
 
 import android.net.Uri;
+import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
