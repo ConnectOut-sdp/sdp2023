@@ -9,6 +9,7 @@ public interface PostDataSource {
 
     /**
      * Create or update a post identified with Post.id
+     * Note that if you want to create a new post, just provide a null id.
      *
      * @return a completable future of a Result (which says if it is successful or not)
      */
