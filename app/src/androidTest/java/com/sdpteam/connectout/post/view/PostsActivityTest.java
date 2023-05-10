@@ -4,6 +4,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,5 +41,7 @@ public class PostsActivityTest {
     @Test
     public void testListFragmentDisplayed() {
         onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
+        waitABit();
+        waitABit();
     }
 }

@@ -58,8 +58,10 @@ public class PostListFragment extends Fragment {
                 ".jpg?alt=media&token=c5abae50-d2af-4361-bb75-d975f8460a6d");
         imagesUrls.add("https://firebasestorage.googleapis.com/v0/b/my-project-test-a847f.appspot.com/o/1683269290710_5e3659ce-9aea-4f90-aea2-64eb941d6a6c" +
                 ".jpg?alt=media&token=590a4df0-12c1-491a-9b89-f621c8f2bbe3");
-        posts.add(new Post("idid", "pid", "eid", "chatId", imagesUrls, 6, Post.PostVisibility.PUBLIC, "Awesome title", "My awesome post description here that is very long because why not"));
-        posts.add(new Post("idid2", "pid", "eid", "chatId", imagesUrls.stream().sorted().collect(Collectors.toList()), 24, Post.PostVisibility.PUBLIC, "Like my post!!", "Let's go an watch the movie Shrek again, it's so funny and nostalgic about my childhood!"));
+        posts.add(new Post("idid", "eAzCDL8zdZaJu635KhtUnh2foFo2", "eid", "chatId", imagesUrls, 6, Post.PostVisibility.PUBLIC, "Awesome title", "My awesome post description here that is very long " +
+                "because why not"));
+        posts.add(new Post("idid2", "T60S7sst1sQ4sPCwcOC13JawOgD3", "eid", "chatId", imagesUrls.stream().sorted().collect(Collectors.toList()), 24, Post.PostVisibility.PUBLIC, "Like my post!!",
+                "Let's go an watch the movie Shrek again, it's so funny and nostalgic about my childhood!"));
         return posts;
     }
 }
