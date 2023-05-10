@@ -34,7 +34,7 @@ public class PostFirebaseDataSourceTest {
 
     @Test
     public void methodsNotImplementedThrowErrorMsg() {
-        Post post = new Post(postId1, "", "", "", new ArrayList<>(), 0, Post.PostVisibility.PUBLIC);
+        Post post = new Post(postId1, "", "", "", new ArrayList<>(), 0, Post.PostVisibility.PUBLIC, "title", "description");
         assertFalse(fJoin(model.savePost(post)).isSuccess());
         assertFalse(fJoin(model.deletePost("invalid")).isSuccess());
         assertFalse(fJoin(model.fetchPost("invalid")).isSuccess());

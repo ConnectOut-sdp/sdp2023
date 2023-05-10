@@ -18,7 +18,11 @@ public class Post {
     private final int nbrLikes;
     private final PostVisibility visibility;
 
-    public Post(String id, String profileId, String eventId, String commentsChatId, List<String> imagesUrls, int nbrLikes, PostVisibility visibility) {
+    private final String title;
+
+    private final String description;
+
+    public Post(String id, String profileId, String eventId, String commentsChatId, List<String> imagesUrls, int nbrLikes, PostVisibility visibility, String title, String description) {
         this.id = id;
         this.profileId = profileId;
         this.eventId = eventId;
@@ -26,6 +30,8 @@ public class Post {
         this.imagesUrls = imagesUrls;
         this.nbrLikes = nbrLikes;
         this.visibility = visibility;
+        this.title = title;
+        this.description = description;
     }
 
     /**
@@ -62,5 +68,13 @@ public class Post {
 
     public PostVisibility getVisibility() {
         return visibility;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

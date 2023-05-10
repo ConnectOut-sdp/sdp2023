@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+    <TextView
+            android:id="@+id/post_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Post Title, give a like!" />
+
+    <TextView
+            android:id="@+id/post_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:text="My awesome post description here that is very long because why not" />
+
+
+    <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/post_images_view_pager" />
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/post_images_dots_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dotsColor="@color/teal_300"
+            app:selectedDotColor="@color/teal_700"
+            app:dotsSize="16dp"
+            app:progressMode="true" />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <ImageButton
+                android:id="@+id/post_like_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:paddingRight="15dp"
+                android:background="@null"
+                android:src="@drawable/heart" />
+
+        <TextView
+                android:id="@+id/post_like_count_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/post_like_button"
+                android:layout_toStartOf="@id/post_comments_button"
+                android:gravity="center_vertical"
+                android:text="100 likes" />
+
+        <Button
+                android:id="@+id/post_comments_button"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Comments >"
+                android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+
