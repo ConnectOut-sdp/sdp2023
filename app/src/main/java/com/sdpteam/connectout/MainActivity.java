@@ -7,6 +7,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.notifications.NotificationService;
+import com.sdpteam.connectout.post.view.PostsActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         service.createNotificationChannel();
 
         // Don't Change anything in there anymore.
-        Intent drawerIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class); // DrawerActivity
+        Intent drawerIntent = new Intent(getApplicationContext(), PostsActivity.class); // DrawerActivity
         this.startActivity(drawerIntent);
     }
 

@@ -1,1 +1,0 @@
-I defined a model interface, you can mock it in your tests and write the whole ui.

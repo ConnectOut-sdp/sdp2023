@@ -47,6 +47,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     testImplementation "androidx.arch.core:core-testing:2.2.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
@@ -100,6 +101,11 @@ dependencies {
 
     // for picasso (display images from url)
     implementation 'com.squareup.picasso:picasso:2.8'
+
+    // for image slideshow in Post ui
+    implementation("com.tbuonomo:dotsindicator:4.3")
+
+
 }
 
 tasks.withType(Test) {

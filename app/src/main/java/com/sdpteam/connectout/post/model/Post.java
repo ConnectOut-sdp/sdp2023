@@ -18,7 +18,11 @@ public class Post {
     private final int nbrLikes;
     private final PostVisibility visibility;
 
-    public Post(String id, String profileId, String eventId, String commentsChatId, List<String> imagesUrls, int nbrLikes, PostVisibility visibility) {
+    private final String title;
+
+    private final String description;
+
+    public Post(String id, String profileId, String eventId, String commentsChatId, List<String> imagesUrls, int nbrLikes, PostVisibility visibility, String title, String description) {
         this.id = id;
         this.profileId = profileId;
         this.eventId = eventId;
@@ -26,6 +30,8 @@ public class Post {
         this.imagesUrls = imagesUrls;
         this.nbrLikes = nbrLikes;
         this.visibility = visibility;
+        this.title = title;
+        this.description = description;
     }
 
     /**
@@ -33,7 +39,17 @@ public class Post {
      * SEMIPRIVATE means only users that are taking part (joined) to this event (eventId)
      */
     public enum PostVisibility {
-        PUBLIC, SEMIPRIVATE
+        PUBLIC("Everyone in the app can see this post"), SEMIPRIVATE("People who joined this event can see this post");
+
+        private final String desc;
+
+        PostVisibility(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
     }
 
     public String getId() {
@@ -62,5 +78,13 @@ public class Post {
 
     public PostVisibility getVisibility() {
         return visibility;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
