@@ -80,7 +80,8 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         final ImageView visibilityIcon = view.findViewById(R.id.post_visibility_icon);
         visibilityIcon.setImageResource(post.getVisibility().equals(PUBLIC) ? R.drawable.public_icon : R.drawable.not_public_icon);
         visibilityIcon.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Post is " + post.getVisibility().toString() + " (" + post.getVisibility().getDesc() + ")", Toast.LENGTH_LONG).show();
+            String text = "Post is " + post.getVisibility().toString() + " (" + post.getVisibility().getDesc() + ")";
+            Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
         });
 
         displayAuthorInfo(view, post);
