@@ -13,7 +13,7 @@ public interface PostDataSource {
      *
      * @return a completable future of a Result (which says if it is successful or not)
      */
-    CompletableFuture<Result<Void>> savePost(Post post);
+    CompletableFuture<Result<String>> savePost(Post post);
 
     /**
      * Delete a post identified with Post.id
@@ -21,7 +21,7 @@ public interface PostDataSource {
      * @param postId post id to be deleted
      * @return a completable future of a Result (which says if it is successful or not)
      */
-    CompletableFuture<Result<Void>> deletePost(String postId);
+    CompletableFuture<Result<String>> deletePost(String postId);
 
     /**
      * @param postId (String): id of the post to be fetched
