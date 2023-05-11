@@ -19,6 +19,7 @@ public class PostTest {
         assertThat(m.getImagesUrls(), is(new ArrayList<>()));
         assertThat(m.getNbrLikes(), is(1));
         assertThat(m.getVisibility(), is(Post.PostVisibility.PUBLIC));
+        assertThat(m.getVisibility().getDesc(), is("Everyone in the app can see this post"));
         assertThat(m.getTitle(), is("title"));
         assertThat(m.getDescription(), is("description"));
     }

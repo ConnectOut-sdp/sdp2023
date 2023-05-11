@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         service.createNotificationChannel();
 
         // Don't Change anything in there anymore.
-        Intent drawerIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class); // DrawerActivity
+        Intent drawerIntent = new Intent(getApplicationContext(), PostsActivity.class); // DrawerActivity
         this.startActivity(drawerIntent);
     }
 

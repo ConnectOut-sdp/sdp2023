@@ -1,6 +1,9 @@
 package com.sdpteam.connectout.post.view;
 
+import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
+
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.profile.ProfileActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
@@ -24,6 +28,7 @@ import androidx.viewpager.widget.ViewPager;
  * ArrayAdapter for the ListView that inflates each posts ui.
  * It is responsible for creating and managing the views for a list of posts.
  * In fact it knows how to create a view for a single post that will be displayed in the list.
+ * If the event id is null or empty then the button that opens the event will be hidden.
  */
 public class PostsAdapter extends ArrayAdapter<Post> {
 
@@ -57,12 +62,25 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
         ImageButton likeButton = view.findViewById(R.id.post_like_button);
         likeButton.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Unsupported operation for now", Toast.LENGTH_SHORT).show();
             // TODO like this post
         });
 
         Button commentsButton = view.findViewById(R.id.post_comments_button);
+        commentsButton.setVisibility(getVisibility(post.getCommentsChatId()));
         commentsButton.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Unsupported operation for now", Toast.LENGTH_SHORT).show();
             // TODO open chat for this post
+        });
+
+        final Button eventButton = view.findViewById(R.id.post_event_button);
+        eventButton.setVisibility(getVisibility(post.getEventId()));
+        eventButton.setOnClickListener(v -> EventActivity.openEvent(getContext(), post.getEventId()));
+
+        final ImageView visibilityIcon = view.findViewById(R.id.post_visibility_icon);
+        visibilityIcon.setImageResource(post.getVisibility().equals(PUBLIC) ? R.drawable.public_icon : R.drawable.not_public_icon);
+        visibilityIcon.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Post is " + post.getVisibility().toString() + " (" + post.getVisibility().getDesc() + ")", Toast.LENGTH_LONG).show();
         });
 
         displayAuthorInfo(view, post);
@@ -70,21 +88,27 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         return view;
     }
 
+    private static int getVisibility(String value) {
+        return value == null || value.isEmpty() ? View.GONE : View.VISIBLE;
+    }
+
     private void displayAuthorInfo(View view, Post post) {
-        // We could maybe create a fragment for that with its own view model that load the profile image and name but I don't know how to do it and it is not a big deal.
+        // TODO We could maybe create a fragment for that with its own view model that load the profile image and name but I don't know how to do it and it is not a big deal.
         // The complexity comes from the fact that I was having issues adding a Fragment with its ViewModel to an ArrayAdapter.
-        // This is a complex problem in Android because ArrayAdapter's getView() method is called multiple times, making it difficult to ensure that each instance of the Fragment has its own ViewModel and
+        // This is a complex problem in Android because ArrayAdapter's getView() method is called multiple times, making it difficult to ensure that each instance of the Fragment has its own
+        // ViewModel and
         // that they are properly initialized before being added to the views.
         // But I am sure it should be possible if you want to try, do it ! :D
 
-        String profileId = post.getProfileId();
+        final String profileId = post.getProfileId();
 
-        View profileImageAndNameContainer = view.findViewById(R.id.post_profile_bar);
-        profileImageAndNameContainer.setOnClickListener(v -> ProfileActivity.openProfile(getContext(), profileId));
+        final ImageButton profileImageBtn = view.findViewById(R.id.post_profile_image);
+        final TextView profileNameText = view.findViewById(R.id.post_profile_name);
 
-        ImageButton profileImageBtn = view.findViewById(R.id.post_profile_image);
+        View.OnClickListener openProfile = v -> ProfileActivity.openProfile(getContext(), profileId);
+        profileImageBtn.setOnClickListener(openProfile);
+        profileNameText.setOnClickListener(openProfile);
 
-        TextView profileNameText = view.findViewById(R.id.post_profile_name);
         profileNameText.setText(profileId);
         new ProfileFirebaseDataSource().fetchProfile(profileId).thenAccept(profile -> {
             profileNameText.setText(profile.getName());

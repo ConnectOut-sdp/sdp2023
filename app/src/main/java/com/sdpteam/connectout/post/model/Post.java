@@ -39,7 +39,17 @@ public class Post {
      * SEMIPRIVATE means only users that are taking part (joined) to this event (eventId)
      */
     public enum PostVisibility {
-        PUBLIC, SEMIPRIVATE
+        PUBLIC("Everyone in the app can see this post"), SEMIPRIVATE("People who joined this event can see this post");
+
+        private final String desc;
+
+        PostVisibility(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
     }
 
     public String getId() {
