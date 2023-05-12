@@ -20,6 +20,10 @@ import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.mockito.junit.MockitoJUnitRunner;
 
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventDataSource;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.Result;
 
 //@RunWith(MockitoJUnitRunner.class)
@@ -67,13 +71,22 @@ public class PostFirebaseDataSourceTest {
 
     @Test
     public void saveAndFetchPostInfoIsConserved() {
-        Post post = new Post(postId2, "pid", "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        String eventId = generateRandomPath();
+        Event event = new Event(eventId, "Title", "Desc", null, "orgId");
+        EventFirebaseDataSource eventFirebaseDataSource = new EventFirebaseDataSource();
+        assertTrue(eventFirebaseDataSource.saveEvent(event));
+        waitABit();
+
+        Post post = new Post(postId2, "pid", eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
         assertTrue(fJoin(model.savePost(post)).isSuccess());
 
         Result<Post> fetchedResult = fJoin(model.fetchPost(postId2));
         assertTrue(fetchedResult.isSuccess());
         Post fetchedPost = fetchedResult.value();
         assertSamePosts(fetchedPost, post);
+
+        assertTrue(eventFirebaseDataSource.deleteEvent(event.getId()));
+        waitABit();
     }
 
     @Test
@@ -115,55 +128,68 @@ public class PostFirebaseDataSourceTest {
         assertPostInList(post1, fetchedPosts);
         assertPostInList(post2, fetchedPosts);
         assertPostInList(post3, fetchedPosts);
+
+
+        assertTrue(fJoin(model.deletePost(postId1)).isSuccess());
+        assertTrue(fJoin(model.deletePost(postId2)).isSuccess());
+        assertTrue(fJoin(model.deletePost(postId3)).isSuccess());
     }
 
-//    @Test
-//    public void getAllPostsFiltersOutNotPublicPosts() {
-//        ArrayList<String> imagesUrls = new ArrayList<>();
-//        imagesUrls.add("url1");
-//        imagesUrls.add("url2");
-//        imagesUrls.add("url3");
-//        String pid = "pid_" + generateRandomPath();
-//        String pidSomeoneElse = "pid_" + generateRandomPath();
-//        Post post1 = new Post(postId1, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-//        Post post2 = new Post(postId2, pidSomeoneElse, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE);
-//        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-//        assertFalse(fJoin(model.savePost(post1)).isSuccess());
-//        assertFalse(fJoin(model.savePost(post2)).isSuccess());
-//        assertFalse(fJoin(model.savePost(post3)).isSuccess());
-//
-//        Result<List<Post>> fetchedResult = fJoin(model.fetchAllPosts(pid));
-//        assertTrue(fetchedResult.isSuccess());
-//        List<Post> fetchedPosts = fetchedResult.value();
-//        assertThat(fetchedPosts.size(), is(2));
-//        assertTrue(fetchedPosts.contains(post1));
-//        assertFalse(fetchedPosts.contains(post2));
-//        assertTrue(fetchedPosts.contains(post3));
-//    }
+    @Test
+    public void getAllPostsFiltersOutNotPublicPosts() {
+        ArrayList<String> imagesUrls = new ArrayList<>();
+        imagesUrls.add("url1");
+        imagesUrls.add("url2");
+        imagesUrls.add("url3");
+        String pid = "pid_" + generateRandomPath();
+        String pidSomeoneElse = "pid_" + generateRandomPath();
+        Post post1 = new Post(postId1, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        Post post2 = new Post(postId2, pidSomeoneElse, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE);
+        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        assertTrue(fJoin(model.savePost(post1)).isSuccess());
+        assertTrue(fJoin(model.savePost(post2)).isSuccess());
+        assertTrue(fJoin(model.savePost(post3)).isSuccess());
 
-//    @Test
-//    public void getAllPostsOfEvent() {
-//        ArrayList<String> imagesUrls = new ArrayList<>();
-//        imagesUrls.add("url1");
-//        imagesUrls.add("url2");
-//        imagesUrls.add("url3");
-//        String pid = "pid_" + generateRandomPath();
-//        String pidSomeoneElse = "pid_" + generateRandomPath();
-//        Post post1 = new Post(postId1, pid, "notThisEventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-//        Post post2 = new Post(postId2, pidSomeoneElse, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-//        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-//        assertFalse(fJoin(model.savePost(post1)).isSuccess());
-//        assertFalse(fJoin(model.savePost(post2)).isSuccess());
-//        assertFalse(fJoin(model.savePost(post3)).isSuccess());
-//
-//        Result<List<Post>> fetchedResult = fJoin(model.fetchAllPostsOfEvent(pid, "eventId"));
-//        assertTrue(fetchedResult.isSuccess());
-//        List<Post> fetchedPosts = fetchedResult.value();
-//        assertThat(fetchedPosts.size(), is(2));
-//        assertPostInList(post1, fetchedPosts);
-//        assertPostInList(post2, fetchedPosts);
-//        assertPostInList(post3, fetchedPosts);
-//    }
+        Result<List<Post>> fetchedResult = fJoin(model.fetchAllPosts(pid));
+        assertTrue(fetchedResult.isSuccess());
+        List<Post> fetchedPosts = fetchedResult.value();
+        assertThat(fetchedPosts.size(), is(2));
+        assertTrue(fetchedPosts.contains(post1));
+        assertFalse(fetchedPosts.contains(post2));
+        assertTrue(fetchedPosts.contains(post3));
+
+        assertTrue(fJoin(model.deletePost(postId1)).isSuccess());
+        assertTrue(fJoin(model.deletePost(postId2)).isSuccess());
+        assertTrue(fJoin(model.deletePost(postId3)).isSuccess());
+    }
+
+    @Test
+    public void getAllPostsOfEvent() {
+        ArrayList<String> imagesUrls = new ArrayList<>();
+        imagesUrls.add("url1");
+        imagesUrls.add("url2");
+        imagesUrls.add("url3");
+        String pid = "pid_" + generateRandomPath();
+        String pidSomeoneElse = "pid_" + generateRandomPath();
+        Post post1 = new Post(postId1, pid, "notThisEventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        Post post2 = new Post(postId2, pidSomeoneElse, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        assertTrue(fJoin(model.savePost(post1)).isSuccess());
+        assertTrue(fJoin(model.savePost(post2)).isSuccess());
+        assertTrue(fJoin(model.savePost(post3)).isSuccess());
+
+        Result<List<Post>> fetchedResult = fJoin(model.fetchAllPostsOfEvent(pid, "eventId"));
+        assertTrue(fetchedResult.isSuccess());
+        List<Post> fetchedPosts = fetchedResult.value();
+        assertThat(fetchedPosts.size(), is(2));
+        assertPostInList(post1, fetchedPosts);
+        assertPostInList(post2, fetchedPosts);
+        assertPostInList(post3, fetchedPosts);
+
+        assertTrue(fJoin(model.savePost(post1)).isSuccess());
+        assertTrue(fJoin(model.savePost(post2)).isSuccess());
+        assertTrue(fJoin(model.savePost(post3)).isSuccess());
+    }
 
     private static void assertSamePosts(Post a, Post b) {
         assertEquals(a.getId(), b.getId());
