@@ -32,8 +32,10 @@ import androidx.viewpager.widget.ViewPager;
  */
 public class PostsAdapter extends ArrayAdapter<Post> {
 
+    private final int postItemResource;
     public PostsAdapter(@NonNull Context context, int resource) {
         super(context, resource);
+        postItemResource = resource;
     }
 
     @NonNull
@@ -42,7 +44,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.post_list_item_view, parent, false);
+            view = inflater.inflate(postItemResource, parent, false);
         }
         final Post post = getItem(position);
 
