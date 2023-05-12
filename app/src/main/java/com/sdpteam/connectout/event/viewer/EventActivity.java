@@ -16,6 +16,7 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.Event.EventRestrictions.RestrictionStatus;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
+import com.sdpteam.connectout.post.view.PostsFragment;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
@@ -43,6 +44,7 @@ public class EventActivity extends WithFragmentActivity {
     private EventViewModel eventViewModel;
 
     private ProfileViewModel profileViewModel; //for event registration
+    private String eventId;
     private String currentUserId;
 
     /**
@@ -65,6 +67,7 @@ public class EventActivity extends WithFragmentActivity {
 
         initViewModel();
         initToolbar();
+        initPostsFragment();
         initMapFragment();
         initEventView();
     }
@@ -82,7 +85,7 @@ public class EventActivity extends WithFragmentActivity {
      * Setup the view model.
      */
     private void initViewModel() {
-        String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
+        eventId = getIntent().getStringExtra(PASSED_ID_KEY);
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         currentUserId = user == null ? NULL_USER : user.uid;
         profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
@@ -179,6 +182,11 @@ public class EventActivity extends WithFragmentActivity {
     private void initMapFragment() {
         EventMapViewFragment map = new EventMapViewFragment(eventViewModel);
         replaceFragment(map, R.id.event_fragment_container);
+    }
+
+    private void initPostsFragment() {
+        PostsFragment postsFragment = new PostsFragment(eventId, null);
+        replaceFragment(postsFragment, R.id.event_post_fragment_container);
     }
 
     private void showParticipants(String eventId) {
