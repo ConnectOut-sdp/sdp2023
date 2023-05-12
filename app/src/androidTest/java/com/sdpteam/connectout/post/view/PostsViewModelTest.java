@@ -7,12 +7,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostDataSource;
 import com.sdpteam.connectout.post.view.PostsViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 import com.sdpteam.connectout.utils.Result;
 
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -31,6 +34,9 @@ public class PostsViewModelTest {
     private final static Post TEST_POST_EVENT = new Post(POST_ID, PROFILE_ID, EVENT_ID, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.SEMIPRIVATE, "title", "desc");
     private final static Post TEST_POST_USER = new Post(POST_ID, PROFILE_ID, null, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.SEMIPRIVATE, "title", "desc");
     private final static Post TEST_POST_AUTHOR = new Post(POST_ID, AUTHOR_ID, null, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
+
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Test
     public void getPostsWithEventsFindsCorrectPosts() {
