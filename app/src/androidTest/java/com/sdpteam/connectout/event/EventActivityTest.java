@@ -27,6 +27,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.authentication.GoogleAuthTest;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
@@ -67,6 +69,7 @@ public class EventActivityTest {
         new EventFirebaseDataSource().saveEvent(TEST_EVENT);
         waitABit();
         Intents.init();
+        new GoogleAuth().logout();
     }
 
     @After
@@ -80,8 +83,8 @@ public class EventActivityTest {
             final Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.event_fragment_container);
             assertTrue(fragment instanceof EventMapViewFragment);
         });
-        onView(withId(R.id.map)).perform(ViewActions.click());
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.map)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
     }
 
     @Test
@@ -92,8 +95,8 @@ public class EventActivityTest {
             EventMapViewFragment mapViewFragment = (EventMapViewFragment) fragment;
             mapViewFragment.showEventOnMap(TEST_EVENT);
         });
-        onView(withId(R.id.map)).perform(ViewActions.click());
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.map)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
     }
 
     @Test
@@ -110,22 +113,34 @@ public class EventActivityTest {
     @Test
     public void consecutiveJoinAndLeaveEventChangesBelongingUser() {
         //join event
-        onView(withId(R.id.event_join_button)).check(matches(withText(JOIN_EVENT)));
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).check(matches(withText(JOIN_EVENT)));
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        waitABit();
+        waitABit();
         waitABit();
         //    onView(withId(R.id.event_join_button)).check(matches(withText(LEAVE_EVENT)));
         Event obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
         assertNotNull(obtained);
         assertTrue(obtained.hasJoined(NULL_USER));
         // leave event
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
         waitABit();
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        waitABit();
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        waitABit();
+        waitABit();
+        waitABit();
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo());
+        waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
         waitABit();
         onView(withId(R.id.event_join_button)).check(matches(withText(JOIN_EVENT)));
+        waitABit();
         obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
         assertFalse(obtained.hasJoined(NULL_USER));
     }
@@ -154,6 +169,7 @@ public class EventActivityTest {
         model.deleteEvent(NULL_USER, eventTitle1);
         assertNull(fJoin(model.getEvent(TEST_EVENT.getId())));
     }
+
 
     /*
     @Test
