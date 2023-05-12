@@ -5,21 +5,30 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
+import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.post.model.Post;
+import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import java.util.ArrayList;
 
 @RunWith(AndroidJUnit4.class)
 public class PostsActivityTest {
@@ -29,6 +38,24 @@ public class PostsActivityTest {
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
+    private final static String POST_ID = "A_" + generateRandomPath();
+    private final static String EVENT_ID = "A_" + generateRandomPath();
+    private final static String COMMENT_ID = "A_" + generateRandomPath();
+
+    private final static Post TEST_POST_EVENT = new Post(POST_ID, NULL_USER, EVENT_ID, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
+
+
+    @BeforeClass
+    public static void setUpClass() {
+        new PostFirebaseDataSource().savePost(TEST_POST_EVENT);
+        waitABit();
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        new PostFirebaseDataSource().deletePost(TEST_POST_EVENT.getId());
+    }
 
     @Before
     public void setup() {

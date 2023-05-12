@@ -3,11 +3,13 @@ package com.sdpteam.connectout.post.view;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.core.internal.deps.guava.base.Objects;
 
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostDataSource;
@@ -79,8 +81,10 @@ public class PostsViewModelTest {
     @Test
     public void getPostsWithNoUserIdDoesNothing() {
         PostsViewModel viewModel = new PostsViewModel(new FakePostDataSource(true));
+        List<Post> expected = LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData());
         viewModel.getPosts(null, EVENT_ID, null);
-        assertThrows(RuntimeException.class, () -> LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData()));
+        List<Post> obtained = LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData());
+        assertTrue(Objects.equal(obtained, expected));
     }
 
     @Test
@@ -96,7 +100,7 @@ public class PostsViewModelTest {
         List<Post> expected = LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData());
         viewModel.refreshPosts();
         List<Post> obtained = LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData());
-        assertThat(obtained, is(expected));
+        assertTrue(Objects.equal(obtained, expected));
     }
 
     @Test
@@ -106,7 +110,7 @@ public class PostsViewModelTest {
         List<Post> expected = LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData());
         viewModel.refreshPosts();
         List<Post> obtained = LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData());
-        assertThat(obtained, is(expected));
+        assertTrue(Objects.equal(obtained, expected));
     }
 
     @Test
@@ -116,7 +120,7 @@ public class PostsViewModelTest {
         List<Post> expected = LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData());
         viewModel.refreshPosts();
         List<Post> obtained = LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData());
-        assertThat(obtained, is(expected));
+        assertTrue(Objects.equal(obtained, expected));
     }
 
     private static class FakePostDataSource implements PostDataSource {

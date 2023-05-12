@@ -63,9 +63,9 @@ public class EventActivityChatButtonTest {
         fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
 
         // quit event
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
     //    onView(withId(R.id.event_chat_btn)).check(matches(not(isDisplayed())));
     }

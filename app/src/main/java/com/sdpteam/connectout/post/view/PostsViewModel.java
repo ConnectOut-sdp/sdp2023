@@ -33,6 +33,9 @@ public class PostsViewModel extends ViewModel {
      * Ask for an update with the last given options.
      */
     public void refreshPosts() {
+        if (lastOption == null) {
+            return;
+        }
         switch (lastOption) {
             case EVENT:
                 getEventPosts(lastUserId, lastOptionId);
