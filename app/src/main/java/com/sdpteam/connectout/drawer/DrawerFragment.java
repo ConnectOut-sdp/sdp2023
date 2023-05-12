@@ -1,11 +1,12 @@
-package com.sdpteam.connectout.utils;
-
-import com.sdpteam.connectout.drawer.DrawerActivity;
+package com.sdpteam.connectout.drawer;
 
 import android.view.View;
 import android.widget.Button;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
+import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 /**
  * Fragments of a drawer.
@@ -36,4 +37,9 @@ public abstract class DrawerFragment extends Fragment {
             fragmentToolbar.setNavigationOnClickListener(v -> getActivity().finish());
         }
     }
+
+    public void setupToolBar(Toolbar fragmentToolbar) {
+        setupToolBar(new Button(null), fragmentToolbar, "", null);
+    }
 }
+
