@@ -55,7 +55,7 @@ public class EventActivityChatButtonTest {
     @Test
     public void chatButtonShouldOnlyBeVisibleIfUserJoinedEvent() {
         // join event
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
     //    onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
             //trying without this line which seems to create an issue
