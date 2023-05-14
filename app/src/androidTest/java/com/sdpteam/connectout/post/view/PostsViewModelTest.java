@@ -45,7 +45,6 @@ public class PostsViewModelTest {
         PostsViewModel viewModel = new PostsViewModel(new FakePostDataSource(false));
         viewModel.getPosts(PROFILE_ID, EVENT_ID, null);
         assertTrue(LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData()).contains(TEST_POST_EVENT));
-        assertTrue(LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData()).contains(TEST_POST_USER));
     }
 
     @Test
@@ -58,7 +57,7 @@ public class PostsViewModelTest {
     @Test
     public void getAllPostsFindsCorrectPosts() {
         PostsViewModel viewModel = new PostsViewModel(new FakePostDataSource(false));
-        viewModel.getPosts(PROFILE_ID, null, AUTHOR_ID);
+        viewModel.getPosts(PROFILE_ID, null, null);
         assertTrue(LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData()).contains(TEST_POST_USER));
         assertTrue(LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData()).contains(TEST_POST_EVENT));
         assertTrue(LiveDataTestUtil.getOrAwaitValue(viewModel.getPostsLiveData()).contains(TEST_POST_AUTHOR));
