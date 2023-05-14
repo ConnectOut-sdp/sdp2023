@@ -77,18 +77,25 @@ public class PostsActivityTest {
     @Test
     public void visibilityDisplayedAndClickable() {
         onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
+        waitABit();
+        waitABit();
         onView(withIndex(withId(R.id.post_visibility_icon), 0)).perform(click()); // click this button on the first post in the list
     }
 
     @Test
     public void commentsButtonDisplayedAndClickable() {
         onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
+        waitABit();
+        waitABit();
         onView(withIndex(withId(R.id.post_comments_button), 0)).perform(click()); // click this button on the first post in the list
     }
 
     @Test
     public void likeButtonDisplayedAndClickable() {
         onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
+        waitABit();
+        waitABit();
+        waitABit();
         onView(withIndex(withId(R.id.post_like_button), 0)).perform(click()); // click this button on the first post in the list
     }
 }
