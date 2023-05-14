@@ -18,9 +18,7 @@ public class PostFirebaseDataSource implements PostDataSource {
     //TODO fix through firebase task
     @Override
     public CompletableFuture<Result<Void>> savePost(Post post) {
-        String newId = FirebaseDatabase.getInstance().getReference().child(POSTS).push().getKey();
-        Post newPost = new Post(newId, post.getProfileId(), post.getEventId(), post.getCommentsChatId(), post.getImagesUrls(), post.getNbrLikes(), post.getVisibility(), post.getTitle(), post.getDescription());
-        FirebaseDatabase.getInstance().getReference().child(POSTS).child(newPost.getId()).setValue(newPost);
+        FirebaseDatabase.getInstance().getReference().child(POSTS).child(post.getId()).setValue(post);
         return CompletableFuture.completedFuture(null);
     }
 
