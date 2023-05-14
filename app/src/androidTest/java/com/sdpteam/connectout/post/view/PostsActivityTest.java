@@ -44,17 +44,23 @@ public class PostsActivityTest {
     private final static String COMMENT_ID = "A_" + generateRandomPath();
 
     private final static Post TEST_POST_EVENT = new Post(POST_ID, NULL_USER, EVENT_ID, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
+    private final static Post TEST_POST_EVENT1 = new Post(POST_ID + "1", NULL_USER, EVENT_ID, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
+    private final static Post TEST_POST_EVENT2 = new Post(POST_ID + "2", NULL_USER, EVENT_ID, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
 
 
     @BeforeClass
     public static void setUpClass() {
         new PostFirebaseDataSource().savePost(TEST_POST_EVENT);
+        new PostFirebaseDataSource().savePost(TEST_POST_EVENT1);
+        new PostFirebaseDataSource().savePost(TEST_POST_EVENT2);
         waitABit();
     }
 
     @AfterClass
     public static void tearDownClass() {
         new PostFirebaseDataSource().deletePost(TEST_POST_EVENT.getId());
+        new PostFirebaseDataSource().deletePost(TEST_POST_EVENT1.getId());
+        new PostFirebaseDataSource().deletePost(TEST_POST_EVENT2.getId());
     }
 
     @Before
