@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter.NONE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
+import com.sdpteam.connectout.QrCode.QRcodeActivity;
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.QrCode.QRcodeProfileActivity;
 import com.sdpteam.connectout.R;
@@ -76,6 +77,19 @@ public class ProfileFragment extends DrawerFragment {
         String buttonText;
         View.OnClickListener listener;
 
+        Button sharePersonalQrCodeButton = view.findViewById(R.id.buttonSharePersonalQrCode);
+        sharePersonalQrCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String qrCodeData = "profile/" + uid;
+                Intent intent = new Intent(getActivity(), QRcodeModalActivity.class);
+                intent.putExtra("title", "Profile QR code");
+                intent.putExtra("qrCodeData", qrCodeData);
+
+                qrCodeLauncher.launch(intent);
+            }
+        });
+
         //If current user is selected one:
         if (userIdToDisplay == null || uid.equals(userIdToDisplay)) {
             userIdToDisplay = uid;
@@ -85,19 +99,9 @@ public class ProfileFragment extends DrawerFragment {
             buttonText = "Rate Profile";
             String finalUserIdToDisplay = userIdToDisplay;
             listener = v -> goToProfileRate(finalUserIdToDisplay);
-        }
 
-        Button sharePersonalQrCodeButton = view.findViewById(R.id.buttonSharePersonalQrCode);
-        sharePersonalQrCodeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String qrCodeData = "profile/" + uid;
-                Intent intent = new Intent(getActivity(), QRcodeModalActivity.class);
-                intent.putExtra("title", "Profile QR code");
-                intent.putExtra("qrCodeData", qrCodeData);
-                qrCodeLauncher.launch(intent);
-            }
-        });
+            sharePersonalQrCodeButton.setVisibility(View.GONE);
+        }
 
         setupToolBar(ratingEditButton, toolbar, buttonText, listener);
 
@@ -155,5 +159,6 @@ public class ProfileFragment extends DrawerFragment {
                     }
                 }
             });
+
 }
 

@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.sdpteam.connectout.QrCode.QRcodeActivity;
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
@@ -26,10 +28,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.Toolbar;
 
 public class EventActivity extends WithFragmentActivity {
@@ -101,10 +109,12 @@ public class EventActivity extends WithFragmentActivity {
         Button interestedBtn = findViewById(R.id.event_interested_button);
         Button restrictionsBtn = findViewById(R.id.event_restrictions_button);
         Button participantsBtn = findViewById(R.id.event_participants_button);
+        ImageButton sharePersonalQrCodeButton = findViewById(R.id.buttonShareEventQrCode);
+
         ImageButton chatBtn = findViewById(R.id.event_chat_btn);
 
         eventViewModel.getEventLiveData().observe(this, event ->
-                updateEventView(event, title, description, joinBtn, interestedBtn, restrictionsBtn, participantsBtn, chatBtn)
+                updateEventView(event, title, description, joinBtn, interestedBtn, restrictionsBtn, participantsBtn, chatBtn, sharePersonalQrCodeButton)
         );
     }
 
@@ -112,7 +122,7 @@ public class EventActivity extends WithFragmentActivity {
      * Upon modification of the given event, changes its view and some btn behaviors.
      */
     @SuppressLint("SetTextI18n")
-    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button restrictionsBtn, Button participantsBtn, ImageButton chatBtn) {
+    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button restrictionsBtn, Button participantsBtn, ImageButton chatBtn, ImageButton shareQrCodeBtn) {
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
 
@@ -127,6 +137,15 @@ public class EventActivity extends WithFragmentActivity {
 
         chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : GONE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
+
+        shareQrCodeBtn.setOnClickListener(v -> {
+            String qrCodeData = "event/" + event.getId();
+            Intent intent = new Intent(EventActivity.this, QRcodeModalActivity.class);
+            intent.putExtra("title", "Event QR code");
+            intent.putExtra("qrCodeData", qrCodeData);
+            qrCodeLauncher.launch(intent);
+            System.out.println(event.getId());
+        });
 
         updateParticipantsButton(event, participantsBtn);
         participantsBtn.setOnClickListener(v -> showParticipants(event.getId()));
@@ -226,5 +245,16 @@ public class EventActivity extends WithFragmentActivity {
     private void impossibleRegistrationToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        // Do something when the QRCodeActivity is finished
+                    }
+                }
+            });
 }
 

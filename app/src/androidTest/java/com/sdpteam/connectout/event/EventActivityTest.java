@@ -1,7 +1,11 @@
 package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
@@ -26,6 +30,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
@@ -153,6 +158,16 @@ public class EventActivityTest {
         waitABit();
         model.deleteEvent(NULL_USER, eventTitle1);
         assertNull(fJoin(model.getEvent(TEST_EVENT.getId())));
+    }
+
+    @Test
+    public void shareQrCodeButton() {
+        onView(withId(R.id.buttonShareEventQrCode)).perform(click());
+        intended(hasComponent(QRcodeModalActivity.class.getName()));
+
+        // Verify that the intent has the expected key
+        intended(hasExtraWithKey("title"));
+        intended(hasExtraWithKey("qrCodeData"));
     }
 
     /*

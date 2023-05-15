@@ -10,7 +10,11 @@ import com.sdpteam.connectout.profile.ProfileFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class QRcodeActivity extends AppCompatActivity {
@@ -60,22 +64,19 @@ public class QRcodeActivity extends AppCompatActivity {
 
                 if (type.equals("event")) {
                     // Navigate to event using the ID
-                    Intent eventIntent = new Intent(QRcodeActivity.this, EventActivity.class);
-                    eventIntent.putExtra("event_id", id);
-                    startActivity(eventIntent);
+                    EventActivity.openEvent(getApplicationContext(), id);
                 } else if (type.equals("profile")) {
                     // Navigate to profile using the ID
                     ProfileFragment.setupFragment(id);
                 } else {
-                    // Invalid type
-                    // Handle the error or show a message to the user
+                    // Invalid type -> we go back
                     finish();
                 }
             } else {
-                // Invalid URL format
-                // Handle the error or show a message to the user
+                // Invalid URL format -> we go back
                 finish();
             }
         }
     }
+
 }
