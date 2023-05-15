@@ -22,7 +22,8 @@
                 android:title="@string/menu_my_events" />
         <item
             android:id="@+id/scan_qr_code"
-            android:title="Scan a QR code" />
+            android:title="Scan a QR code"
+            android:icon="@drawable/qr_code_image" />
     </group>
 
     <item

@@ -17,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.sdpteam.connectout.QrCode.QRcodeActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.event.creator.EventCreatorActivity;
@@ -77,6 +78,16 @@ public class DrawerActivityTest {
 
     @Test
     public void clickProfilesOptionOpensProfilesFragment() {
+        // Click on the Scan QR Code menu item
+        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(ViewMatchers.withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.scan_qr_code));
+
+        // Verify that QRCodeActivity is started
+        intended(hasComponent(QRcodeActivity.class.getName()));
+    }
+
+    @Test
+    public void clickScanQrCodeOpensQrCodeActivity() {
         // Click on the Filters menu item
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
