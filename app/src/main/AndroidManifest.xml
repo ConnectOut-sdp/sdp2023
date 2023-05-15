@@ -35,12 +35,6 @@
                 android:name=".QrCode.QRcodeModalActivity"
                 android:exported="false" />
         <activity
-                android:name=".QrCode.QRcodeEventActivity"
-                android:exported="false" />
-        <activity
-                android:name=".QrCode.QRcodeProfileActivity"
-                android:exported="false" />
-        <activity
                 android:name=".QrCode.QRcodeActivity"
                 android:exported="false" />
         <activity

@@ -4,13 +4,10 @@ import static android.app.Activity.RESULT_OK;
 import static com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter.NONE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import com.sdpteam.connectout.QrCode.QRcodeActivity;
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
-import com.sdpteam.connectout.QrCode.QRcodeProfileActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
