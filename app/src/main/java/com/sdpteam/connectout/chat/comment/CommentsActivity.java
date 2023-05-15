@@ -2,6 +2,8 @@ package com.sdpteam.connectout.chat.comment;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -22,6 +24,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
 import com.sdpteam.connectout.chat.ChatMessage;
 import com.sdpteam.connectout.chat.ChatViewModel;
+import com.sdpteam.connectout.event.viewer.EventActivity;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -58,6 +61,19 @@ public class CommentsActivity extends AppCompatActivity {
         });
 
         setUpListAdapter();
+    }
+
+    /**
+     * Helper method to launch a event activity from the source context
+     * (made it to avoid code duplication)
+     *
+     * @param fromContext from where we are starting the intent
+     * @param postId     event Id to open with.
+     */
+    public static void openComments(Context fromContext, String postId) {
+        Intent intent = new Intent(fromContext, CommentsActivity.class);
+        intent.putExtra(PASSED_COMMENTS_KEY, postId);
+        fromContext.startActivity(intent);
     }
 
     /**

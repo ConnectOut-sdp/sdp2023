@@ -3,6 +3,7 @@ package com.sdpteam.connectout.post.view;
 import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.chat.comment.CommentsActivity;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.profile.ProfileActivity;
@@ -68,10 +69,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
         Button commentsButton = view.findViewById(R.id.post_comments_button);
         commentsButton.setVisibility(getVisibility(post.getCommentsChatId()));
-        commentsButton.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Unsupported operation for now", Toast.LENGTH_SHORT).show();
-            // TODO open chat for this post
-        });
+        commentsButton.setOnClickListener(v -> CommentsActivity.openComments(getContext(), post.getCommentsChatId()));
 
         final Button eventButton = view.findViewById(R.id.post_event_button);
         eventButton.setVisibility(getVisibility(post.getEventId()));
