@@ -1,6 +1,8 @@
 package com.sdpteam.connectout.drawer;
 
 import com.google.android.material.navigation.NavigationView;
+import com.sdpteam.connectout.QrCode.QRcodeActivity;
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
@@ -82,6 +84,11 @@ public class DrawerActivity extends WithFragmentActivity {
         if (itemId == R.id.menu_community) {
             //Go check out other peoples
             replaceFragment(new ProfilesContainerFragment(), R.id.drawer_fragment_container);
+        }
+        if (itemId == R.id.scan_qr_code) {
+            //Go to the scan QR code activity
+            Intent intent = new Intent(DrawerActivity.this, QRcodeActivity.class);
+            startActivity(intent);
         }
         if (itemId == R.id.menu_logout) {
             new GoogleAuth().logout();

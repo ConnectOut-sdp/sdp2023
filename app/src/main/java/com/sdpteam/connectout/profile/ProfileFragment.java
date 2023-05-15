@@ -1,11 +1,15 @@
 package com.sdpteam.connectout.profile;
 
+import static android.app.Activity.RESULT_OK;
 import static com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter.NONE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
+import com.sdpteam.connectout.QrCode.QRcodeProfileActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
@@ -22,6 +26,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -78,6 +87,18 @@ public class ProfileFragment extends DrawerFragment {
             listener = v -> goToProfileRate(finalUserIdToDisplay);
         }
 
+        Button sharePersonalQrCodeButton = view.findViewById(R.id.buttonSharePersonalQrCode);
+        sharePersonalQrCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String qrCodeData = "profile/" + uid;
+                Intent intent = new Intent(getActivity(), QRcodeModalActivity.class);
+                intent.putExtra("title", "Profile QR code");
+                intent.putExtra("qrCodeData", qrCodeData);
+                qrCodeLauncher.launch(intent);
+            }
+        });
+
         setupToolBar(ratingEditButton, toolbar, buttonText, listener);
 
         pvm.fetchProfile(userIdToDisplay);
@@ -123,5 +144,16 @@ public class ProfileFragment extends DrawerFragment {
         intent.putExtra("name", userName);
         startActivity(intent);
     }
+
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        // Do something when the QRCodeActivity is finished
+                    }
+                }
+            });
 }
 

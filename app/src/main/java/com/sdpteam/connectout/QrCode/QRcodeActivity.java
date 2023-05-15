@@ -4,6 +4,8 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.viewer.EventActivity;
+import com.sdpteam.connectout.profile.ProfileActivity;
+import com.sdpteam.connectout.profile.ProfileFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,12 +22,11 @@ public class QRcodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
 
-        Button btnScan = findViewById(R.id.btn_scan);
-        btnScan.setOnClickListener(v -> scanCode());
-
         barLauncher = registerForActivityResult(new ScanContract(), result -> {
             handleScanResult(result.getContents());
         });
+
+        scanCode();
     }
 
     /**
@@ -51,9 +52,30 @@ public class QRcodeActivity extends AppCompatActivity {
      */
     private void handleScanResult(String resultText) {
         if (resultText != null) {
-            Intent intent = new Intent(QRcodeActivity.this, EventActivity.class);
-            intent.putExtra("url", resultText);
-            startActivity(intent);
+            // parsing
+            String[] parts = resultText.split("/");
+            if (parts.length == 2) {
+                String type = parts[0]; // "event" or "profile"
+                String id = parts[1]; // the ID value
+
+                if (type.equals("event")) {
+                    // Navigate to event using the ID
+                    Intent eventIntent = new Intent(QRcodeActivity.this, EventActivity.class);
+                    eventIntent.putExtra("event_id", id);
+                    startActivity(eventIntent);
+                } else if (type.equals("profile")) {
+                    // Navigate to profile using the ID
+                    ProfileFragment.setupFragment(id);
+                } else {
+                    // Invalid type
+                    // Handle the error or show a message to the user
+                    finish();
+                }
+            } else {
+                // Invalid URL format
+                // Handle the error or show a message to the user
+                finish();
+            }
         }
     }
 }

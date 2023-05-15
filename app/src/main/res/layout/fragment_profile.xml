@@ -54,7 +54,6 @@
                     android:text="'email'" />
 
         </LinearLayout>
-
     </LinearLayout>
 
     <TextView
@@ -120,6 +119,15 @@
             android:text="User account created in 2023."
             app:layout_constraintBottom_toBottomOf="parent"
             tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/buttonSharePersonalQrCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share Personal QR code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
             android:id="@+id/buttonRatingEditProfile"
