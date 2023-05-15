@@ -54,7 +54,7 @@ public class QRcodeActivity extends AppCompatActivity {
      *
      * @param resultText (String): id of module
      */
-    private void handleScanResult(String resultText) {
+    public boolean handleScanResult(String resultText) {
         if (resultText != null) {
             // parsing
             String[] parts = resultText.split("/");
@@ -64,19 +64,24 @@ public class QRcodeActivity extends AppCompatActivity {
 
                 if (type.equals("event")) {
                     // Navigate to event using the ID
-                    EventActivity.openEvent(getApplicationContext(), id);
+                    EventActivity.openEvent(QRcodeActivity.this, id);
+                    return true;
                 } else if (type.equals("profile")) {
                     // Navigate to profile using the ID
                     ProfileFragment.setupFragment(id);
+                    return true;
                 } else {
                     // Invalid type -> we go back
                     finish();
+                    return false;
                 }
             } else {
                 // Invalid URL format -> we go back
                 finish();
+                return false;
             }
         }
+        return false;
     }
 
 }

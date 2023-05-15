@@ -1,18 +1,10 @@
 package com.sdpteam.connectout.QrCode;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.assertNotNull;
-
-import android.widget.Button;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,27 +14,61 @@ import org.junit.runner.RunWith;
 public class QRcodeActivityTest {
 
     @Rule
-    public ActivityScenarioRule<QRcodeActivity> activityScenarioRule = new ActivityScenarioRule<>(QRcodeActivity.class);
+    public ActivityScenarioRule<QRcodeActivity> testRule = new ActivityScenarioRule<>(QRcodeActivity.class);
+
 
     @Test
-    public void isButtonNotNull() {
-        activityScenarioRule.getScenario().onActivity(activity -> {
-            Button button = activity.findViewById(R.id.close_button);
-            if (button != null) {
-                assertNotNull(button);
-            }
+    public void testHandleScanResultForProfile() {
+        testRule.getScenario().onActivity(activity ->
+        {
+            // Given
+            String profileResult = "profile/12345";
+            assertTrue(activity.handleScanResult(profileResult));
         });
     }
 
     @Test
-    public void isButtonDisplayed() {
-        onView(withId(R.id.btn_scan)).check(matches(isDisplayed()));
+    public void testHandleScanResultForEvent() {
+        testRule.getScenario().onActivity(activity ->
+        {
+            // Given
+            String eventResult = "event/54321";
+            assertTrue(activity.handleScanResult(eventResult));
+        });
     }
 
     @Test
-    public void isButtonClickable() {
-        onView(withId(R.id.btn_scan)).check(matches(isClickable()));
+    public void testHandleScanResultForInvalidType() {
+        testRule.getScenario().onActivity(activity ->
+        {
+            // Given
+            String invalidTypeResult = "invalidType/12345";
+            assertFalse(activity.handleScanResult(invalidTypeResult));
+        });
     }
+
+    @Test
+    public void testHandleScanResultForInvalidFormat() {
+        testRule.getScenario().onActivity(activity ->
+        {
+            // Given
+            String invalidFormatResult = "invalidFormat";
+            assertFalse(activity.handleScanResult(invalidFormatResult));
+        });
+    }
+
+    @Test
+    public void testHandleScanResultForNullInput() {
+        testRule.getScenario().onActivity(activity ->
+        {
+            // Given
+            String invalidFormatResult = null;
+            assertFalse(activity.handleScanResult(invalidFormatResult));
+        });
+    }
+
+
+
 }
 
 
