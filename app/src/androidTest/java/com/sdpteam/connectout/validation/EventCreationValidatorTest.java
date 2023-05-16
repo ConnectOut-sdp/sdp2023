@@ -31,28 +31,28 @@ public class EventCreationValidatorTest {
     public void testIsValidDateFormat_ValidDate() {
         // Valid date format: "dd-MM-yyyy"
         String validDate = "16-05-2023";
-        assertTrue(EventCreationValidator.isValidDateFormat(validDate));
+        assertTrue(EventCreationValidator.isValidFormat(validDate, EventCreationValidator.DATE_FORMAT));
     }
 
     @Test
     public void testIsValidDateFormat_InvalidDate() {
         // Invalid date format: "dd-MM-yyyy"
         String invalidDate = "2023-05-16";
-        assertFalse(EventCreationValidator.isValidDateFormat(invalidDate));
+        assertFalse(EventCreationValidator.isValidFormat(invalidDate, EventCreationValidator.DATE_FORMAT));
     }
 
     @Test
     public void testIsValidTimeFormat_ValidTime() {
         // Valid time format: "HH:mm:ss"
         String validTime = "12:30:45";
-        assertTrue(EventCreationValidator.isValidTimeFormat(validTime));
+        assertTrue(EventCreationValidator.isValidFormat(validTime, EventCreationValidator.TIME_FORMAT));
     }
 
     @Test
     public void testIsValidTimeFormat_InvalidTime() {
         // Invalid time format: "HH:mm:ss"
         String invalidTime = "12-30-45";
-        assertFalse(EventCreationValidator.isValidTimeFormat(invalidTime));
+        assertFalse(EventCreationValidator.isValidFormat(invalidTime, EventCreationValidator.TIME_FORMAT));
     }
 
     @Test
@@ -72,6 +72,9 @@ public class EventCreationValidatorTest {
 
         EditText txtDateInput = new EditText(appContext);
         EditText txtTimeInput = new EditText(appContext);
+        txtDateInput.setText("16-05-2500");
+        txtTimeInput.setText("12:30:45");
+
         long date = System.currentTimeMillis() + 100000000;
 
         // Test case 1: valid input

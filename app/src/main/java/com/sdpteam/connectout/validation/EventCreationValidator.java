@@ -27,24 +27,15 @@ public class EventCreationValidator {
         return title.length() >= MIN_EVENT_TITLE_LENGTH;
     }
 
-    public static boolean isValidDateFormat(String dateStr) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    public static final String DATE_FORMAT = "dd-MM-yyyy";
+    public static final String TIME_FORMAT = "HH:mm:ss";
+
+    public static boolean isValidFormat(String dateStr, String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         dateFormat.setLenient(false);
 
         try {
             dateFormat.parse(dateStr);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
-    }
-
-    public static boolean isValidTimeFormat(String timeStr) {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        timeFormat.setLenient(false);
-
-        try {
-            timeFormat.parse(timeStr);
             return true;
         } catch (ParseException e) {
             return false;
@@ -63,8 +54,8 @@ public class EventCreationValidator {
     public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput, EditText txtDateInput, EditText txtTimeInput, long date) {
         return handleValidationFailure(isValidEventTitle(eventTitleInput.getText().toString()), eventTitleInput, EVENT_TITLE_ERROR)
                 && handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR)
-                && handleValidationFailure(isValidDateFormat(txtDateInput.getText().toString()), txtDateInput, DATE_FORMAT_ERROR)
-                && handleValidationFailure(isValidTimeFormat(txtTimeInput.getText().toString()), txtTimeInput, TIME_FORMAT_ERROR)
+                && handleValidationFailure(isValidFormat(txtDateInput.getText().toString(), DATE_FORMAT), txtDateInput, DATE_FORMAT_ERROR)
+                && handleValidationFailure(isValidFormat(txtTimeInput.getText().toString(), TIME_FORMAT), txtTimeInput, TIME_FORMAT_ERROR)
                 && handleValidationFailure(isValidDate(date), txtTimeInput, TIME_ERROR);
     }
 
