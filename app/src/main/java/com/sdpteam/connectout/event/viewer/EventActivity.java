@@ -147,7 +147,6 @@ public class EventActivity extends WithFragmentActivity {
             intent.putExtra("title", "Event QR code");
             intent.putExtra("qrCodeData", qrCodeData);
             qrCodeLauncher.launch(intent);
-            System.out.println(event.getId());
         });
 
         updateParticipantsButton(event, participantsBtn);

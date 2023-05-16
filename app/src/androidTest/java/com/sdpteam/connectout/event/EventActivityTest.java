@@ -6,6 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
@@ -55,7 +56,11 @@ import java.util.ArrayList;
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
     private final static String eventTitle1 = generateRandomPath();
+    private final static String eventTitleQR = generateRandomPath();
+
     private final static Event TEST_EVENT = new Event(generateRandomPath(), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+
+    private final static Event TEST_EVENT_QR = new Event(generateRandomPath(), eventTitleQR, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
     private final static String POST_ID = "A_" + generateRandomPath();
     private final static String COMMENT_ID = "A_" + generateRandomPath();
@@ -81,6 +86,7 @@ public class EventActivityTest {
     @AfterClass
     public static void tearDownClass() {
         new EventFirebaseDataSource().deleteEvent(TEST_EVENT.getId());
+        new EventFirebaseDataSource().deleteEvent(TEST_EVENT_QR.getId());
         new PostFirebaseDataSource().deletePost(TEST_POST.getId());
         new PostFirebaseDataSource().deletePost(TEST_POST2.getId());
     }
@@ -96,6 +102,18 @@ public class EventActivityTest {
     @After
     public void tearDown() {
         Intents.release();
+    }
+
+    @Test
+    public void shareQrCodeButton() {
+        onView(withId(R.id.buttonShareEventQrCode)).check(matches(isDisplayed()));
+        onView(withId(R.id.buttonShareEventQrCode)).perform(click());
+        intended(hasComponent(QRcodeModalActivity.class.getName()));
+
+
+        // Verify that the intent has the expected key
+        intended(hasExtraWithKey("title"));
+        intended(hasExtraWithKey("qrCodeData"));
     }
 
     @Test
@@ -178,27 +196,17 @@ public class EventActivityTest {
     @Test
     public void deleteEventTest() {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
-        model.saveEvent(TEST_EVENT);
+        model.saveEvent(TEST_EVENT_QR);
         waitABit();
-        model.deleteEvent(TEST_EVENT.getId());
+        model.deleteEvent(TEST_EVENT_QR.getId());
         waitABit();
-        assertNull(fJoin(model.getEvent(TEST_EVENT.getId())));
-        model.saveEvent(TEST_EVENT);
+        assertNull(fJoin(model.getEvent(TEST_EVENT_QR.getId())));
+        model.saveEvent(TEST_EVENT_QR);
         waitABit();
-        model.deleteEvent(TEST_EVENT.getId());
+        model.deleteEvent(TEST_EVENT_QR.getId());
         waitABit();
-        model.deleteEvent(NULL_USER, eventTitle1);
-        assertNull(fJoin(model.getEvent(TEST_EVENT.getId())));
-    }
-
-    @Test
-    public void shareQrCodeButton() {
-        onView(withId(R.id.buttonShareEventQrCode)).perform(click());
-        intended(hasComponent(QRcodeModalActivity.class.getName()));
-
-        // Verify that the intent has the expected key
-        intended(hasExtraWithKey("title"));
-        intended(hasExtraWithKey("qrCodeData"));
+        model.deleteEvent(NULL_USER, eventTitleQR);
+        assertNull(fJoin(model.getEvent(TEST_EVENT_QR.getId())));
     }
 
     /*
