@@ -3,12 +3,24 @@ package com.sdpteam.connectout.post.view;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.chat.comment.CommentsActivity;
+import com.sdpteam.connectout.post.model.Post;
+import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,16 +29,6 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.post.model.Post;
-import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import java.util.ArrayList;
 
@@ -94,6 +96,7 @@ public class PostsActivityTest {
         waitABit();
         waitABit();
         onView(withIndex(withId(R.id.post_comments_button), 0)).perform(click()); // click this button on the first post in the list
+        intended(hasComponent(CommentsActivity.class.getName()));
     }
 
     @Test
