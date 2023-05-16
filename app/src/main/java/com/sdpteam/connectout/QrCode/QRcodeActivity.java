@@ -1,21 +1,15 @@
 package com.sdpteam.connectout.QrCode;
 
+import android.os.Bundle;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.profile.ProfileFragment;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class QRcodeActivity extends AppCompatActivity {
 

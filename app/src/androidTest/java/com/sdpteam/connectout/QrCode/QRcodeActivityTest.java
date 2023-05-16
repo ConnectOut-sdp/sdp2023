@@ -23,7 +23,9 @@ public class QRcodeActivityTest {
         {
             // Given
             String profileResult = "profile/12345";
-            assertTrue(activity.handleScanResult(profileResult));
+
+            Boolean bool = activity.handleScanResult(profileResult);
+            assertTrue(bool);
         });
     }
 
@@ -41,6 +43,7 @@ public class QRcodeActivityTest {
     public void testHandleScanResultForInvalidType() {
         testRule.getScenario().onActivity(activity ->
         {
+
             // Given
             String invalidTypeResult = "invalidType/12345";
             assertFalse(activity.handleScanResult(invalidTypeResult));

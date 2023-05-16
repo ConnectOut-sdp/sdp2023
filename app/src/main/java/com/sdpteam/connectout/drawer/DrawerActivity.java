@@ -1,28 +1,27 @@
 package com.sdpteam.connectout.drawer;
 
-import com.google.android.material.navigation.NavigationView;
-import com.sdpteam.connectout.QrCode.QRcodeActivity;
-import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.authentication.GoogleLoginActivity;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
-import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
-import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
-import com.sdpteam.connectout.profile.ProfileFragment;
-import com.sdpteam.connectout.profileList.ProfilesContainerFragment;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.navigation.NavigationView;
+import com.sdpteam.connectout.QrCode.QRcodeActivity;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.authentication.GoogleLoginActivity;
+import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
+import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
+import com.sdpteam.connectout.profile.ProfileFragment;
+import com.sdpteam.connectout.profileList.ProfilesContainerFragment;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 public class DrawerActivity extends WithFragmentActivity {
     @SuppressLint("NonConstantResourceId")
@@ -71,7 +70,6 @@ public class DrawerActivity extends WithFragmentActivity {
     private void displayFragment(int itemId) {
         Fragment fragment = null;
         int containerId = R.id.drawer_fragment_container;
-
         switch (itemId) {
             case R.id.menu_home:
                 fragment = new EventsFragment();
@@ -93,7 +91,6 @@ public class DrawerActivity extends WithFragmentActivity {
                 startActivity(new Intent(getApplicationContext(), GoogleLoginActivity.class));
                 return;
         }
-
         if (fragment != null) {
             replaceFragment(fragment, containerId);
         }
