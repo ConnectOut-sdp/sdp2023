@@ -2,14 +2,6 @@ package com.sdpteam.connectout.registration;
 
 import static com.sdpteam.connectout.profile.Profile.Gender;
 
-import java.util.Arrays;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.drawer.DrawerActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,12 +14,21 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.drawer.DrawerActivity;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
+
+import java.util.Arrays;
 
 public class CompleteRegistrationForm extends Fragment {
 

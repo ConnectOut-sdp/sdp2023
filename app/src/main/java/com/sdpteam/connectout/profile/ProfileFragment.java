@@ -1,20 +1,7 @@
 package com.sdpteam.connectout.profile;
 
-import static android.app.Activity.RESULT_OK;
 import static com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter.NONE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
-
-import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
-import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
-import com.sdpteam.connectout.drawer.DrawerFragment;
-import com.squareup.picasso.Picasso;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,14 +12,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.drawer.DrawerFragment;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
+import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
+import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends DrawerFragment {
     public final static String PASSED_ID_KEY = "uid";

@@ -1,16 +1,17 @@
 package com.sdpteam.connectout.profileList;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.drawer.DrawerFragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.drawer.DrawerFragment;
 
 public class ProfilesContainerFragment extends DrawerFragment {
 

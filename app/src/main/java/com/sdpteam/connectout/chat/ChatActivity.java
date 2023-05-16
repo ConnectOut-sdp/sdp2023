@@ -2,19 +2,6 @@ package com.sdpteam.connectout.chat;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import com.firebase.ui.database.FirebaseListOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
-import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
-import com.squareup.picasso.Picasso;
-
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -29,10 +16,24 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.firebase.ui.database.FirebaseListOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
+import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
+import com.squareup.picasso.Picasso;
+
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ChatActivity extends AppCompatActivity {
 

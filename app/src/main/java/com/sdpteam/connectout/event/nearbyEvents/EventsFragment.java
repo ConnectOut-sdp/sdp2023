@@ -2,13 +2,6 @@ package com.sdpteam.connectout.event.nearbyEvents;
 
 import static com.sdpteam.connectout.event.creator.EventCreatorActivity.openEventCreator;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventsFilterDialog;
-import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
-import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
-import com.sdpteam.connectout.drawer.DrawerFragment;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,10 +11,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.drawer.DrawerFragment;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventsFilterDialog;
+import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
+import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
 
 public class EventsFragment extends DrawerFragment {
 

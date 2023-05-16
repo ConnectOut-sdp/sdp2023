@@ -20,7 +20,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.sdpteam.connectout.QrCode.QRcodeActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 
 import org.junit.After;
 import org.junit.Before;

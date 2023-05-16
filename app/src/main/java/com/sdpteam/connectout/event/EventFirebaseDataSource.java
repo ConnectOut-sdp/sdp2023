@@ -1,9 +1,6 @@
 package com.sdpteam.connectout.event;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -16,7 +13,10 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
-import androidx.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 public class EventFirebaseDataSource implements EventDataSource {
     public final static String DATABASE_EVENT_PATH = "Events";

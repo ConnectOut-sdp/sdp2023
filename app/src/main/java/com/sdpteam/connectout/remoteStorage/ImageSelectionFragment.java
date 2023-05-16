@@ -2,8 +2,6 @@ package com.sdpteam.connectout.remoteStorage;
 
 import static android.app.Activity.RESULT_OK;
 
-import com.sdpteam.connectout.R;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import androidx.fragment.app.Fragment;
+
+import com.sdpteam.connectout.R;
 
 public class ImageSelectionFragment extends Fragment {
 

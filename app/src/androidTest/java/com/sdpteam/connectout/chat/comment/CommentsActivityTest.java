@@ -12,7 +12,6 @@ import static com.sdpteam.connectout.chat.comment.CommentsActivity.PASSED_COMMEN
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
-
 import static org.hamcrest.Matchers.anything;
 
 import android.content.Intent;

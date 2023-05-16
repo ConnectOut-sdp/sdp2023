@@ -2,15 +2,16 @@ package com.sdpteam.connectout.chat;
 
 import static com.sdpteam.connectout.chat.ChatFirebaseDataSource.ChatAdapterFirebaseConfig;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import android.view.View;
+import android.widget.ListAdapter;
+
+import androidx.lifecycle.ViewModel;
 
 import com.firebase.ui.database.FirebaseListOptions;
 
-import android.view.View;
-import android.widget.ListAdapter;
-import androidx.lifecycle.ViewModel;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ChatViewModel extends ViewModel {
     public ChatFirebaseDataSource chatFirebaseDataSource;

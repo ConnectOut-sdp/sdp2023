@@ -19,7 +19,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import com.sdpteam.connectout.post.model.Post;
 
 import android.content.Intent;
 
@@ -38,7 +37,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
-
+import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
 import org.junit.After;

@@ -2,18 +2,19 @@ package com.sdpteam.connectout.event.creator;
 
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.validation.EventCreationValidator;
-
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 public class SetEventRestrictionsActivity extends AppCompatActivity {
     private EventViewModel eventViewModel;

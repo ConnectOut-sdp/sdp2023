@@ -2,8 +2,11 @@ package com.sdpteam.connectout.event.nearbyEvents.map;
 
 import static com.sdpteam.connectout.event.location.LocationHelper.toLatLng;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import android.annotation.SuppressLint;
+import android.view.View;
+import android.widget.ImageButton;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,10 +18,8 @@ import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.MapViewFragment;
 
-import android.annotation.SuppressLint;
-import android.view.View;
-import android.widget.ImageButton;
-import androidx.annotation.NonNull;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventsMapViewFragment extends MapViewFragment {
 

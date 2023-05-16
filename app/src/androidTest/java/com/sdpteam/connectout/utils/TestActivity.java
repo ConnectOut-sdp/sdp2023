@@ -1,9 +1,10 @@
 package com.sdpteam.connectout.utils;
 
-import com.sdpteam.connectout.R;
-
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sdpteam.connectout.R;
 
 /**
  * To test fragments
