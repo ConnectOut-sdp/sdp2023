@@ -23,6 +23,7 @@ public class Post {
 
     private final String description;
 
+    //Used for firebase class cast
     public Post() {
         this(null, null, null, null, new ArrayList<>(), 0, null, null, null);
     }

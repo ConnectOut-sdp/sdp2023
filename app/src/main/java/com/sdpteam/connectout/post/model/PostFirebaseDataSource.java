@@ -53,12 +53,13 @@ public class PostFirebaseDataSource implements PostDataSource {
 
         return future;
     }
-
+    //TODO fix through firebase task
     @Override
     public CompletableFuture<Result<List<Post>>> fetchAllPostsOfEvent(String userId, String eventId) {
         return fetchAllPosts(userId);
     }
 
+    //TODO fix through firebase task
     @Override
     public CompletableFuture<Result<List<Post>>> fetchPostMadeByUser(String userId, String authorId) {
         return fetchAllPosts(userId);
