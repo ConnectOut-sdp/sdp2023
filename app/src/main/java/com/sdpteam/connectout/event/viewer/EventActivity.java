@@ -253,12 +253,6 @@ public class EventActivity extends WithFragmentActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    // Do something when the QRCodeActivity is finished
-                }
-            });
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
 }
 
