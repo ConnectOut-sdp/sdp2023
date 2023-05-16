@@ -50,13 +50,11 @@ public class QRcodeActivity extends AppCompatActivity {
      */
     public boolean handleScanResult(String resultText) {
         boolean handled = false;
-
         if (resultText != null) {
             String[] parts = resultText.split("/");
             if (parts.length == 2) {
                 String type = parts[0];
                 String id = parts[1];
-
                 if (type.equals("event")) {
                     EventActivity.openEvent(QRcodeActivity.this, id);
                     handled = true;
@@ -66,7 +64,6 @@ public class QRcodeActivity extends AppCompatActivity {
                 }
             }
         }
-
         finish();
         return handled;
     }
