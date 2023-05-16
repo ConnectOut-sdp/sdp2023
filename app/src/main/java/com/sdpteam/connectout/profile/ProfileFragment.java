@@ -89,7 +89,6 @@ public class ProfileFragment extends DrawerFragment {
             sharePersonalQrCodeButton.setVisibility(View.GONE);
         }
 
-
             setupToolBar(ratingEditButton, toolbar, buttonText, listener);
 
         pvm.fetchProfile(userIdToDisplay);

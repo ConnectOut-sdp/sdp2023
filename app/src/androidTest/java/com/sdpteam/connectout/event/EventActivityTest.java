@@ -35,7 +35,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.authentication.GoogleAuthTest;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
@@ -55,12 +54,12 @@ import java.util.ArrayList;
 
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
-    private final static String eventTitle1 = generateRandomPath();
-    private final static String eventTitleQR = generateRandomPath();
+    private final static String EVENT_TITLE_1 = generateRandomPath();
+    private final static String EVENT_TITLE_QR = generateRandomPath();
 
-    private final static Event TEST_EVENT = new Event(generateRandomPath(), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+    private final static Event TEST_EVENT = new Event(generateRandomPath(), EVENT_TITLE_1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
-    private final static Event TEST_EVENT_QR = new Event(generateRandomPath(), eventTitleQR, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+    private final static Event TEST_EVENT_QR = new Event(generateRandomPath(), EVENT_TITLE_QR, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
     private final static String POST_ID = "A_" + generateRandomPath();
     private final static String COMMENT_ID = "A_" + generateRandomPath();
@@ -205,7 +204,7 @@ public class EventActivityTest {
         waitABit();
         model.deleteEvent(TEST_EVENT_QR.getId());
         waitABit();
-        model.deleteEvent(NULL_USER, eventTitleQR);
+        model.deleteEvent(NULL_USER, EVENT_TITLE_QR);
         assertNull(fJoin(model.getEvent(TEST_EVENT_QR.getId())));
     }
 
