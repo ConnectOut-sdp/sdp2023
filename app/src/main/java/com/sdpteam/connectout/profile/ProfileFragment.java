@@ -74,18 +74,7 @@ public class ProfileFragment extends DrawerFragment {
         String buttonText;
         View.OnClickListener listener;
 
-        Button sharePersonalQrCodeButton = view.findViewById(R.id.buttonSharePersonalQrCode);
-        sharePersonalQrCodeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String qrCodeData = "profile/" + uid;
-                Intent intent = new Intent(getActivity(), QRcodeModalActivity.class);
-                intent.putExtra("title", "Profile QR code");
-                intent.putExtra("qrCodeData", qrCodeData);
-
-                qrCodeLauncher.launch(intent);
-            }
-        });
+        Button sharePersonalQrCodeButton = initializeSharePersonalQrCodeButton(view, uid);
 
         //If current user is selected one:
         if (userIdToDisplay == null || uid.equals(userIdToDisplay)) {
@@ -100,12 +89,30 @@ public class ProfileFragment extends DrawerFragment {
             sharePersonalQrCodeButton.setVisibility(View.GONE);
         }
 
-        setupToolBar(ratingEditButton, toolbar, buttonText, listener);
+
+            setupToolBar(ratingEditButton, toolbar, buttonText, listener);
 
         pvm.fetchProfile(userIdToDisplay);
         pvm.getProfileLiveData().observe(getViewLifecycleOwner(), profile -> displayProfile(view, profile));
 
         insertEventsListFragment(userIdToDisplay);
+    }
+
+    private Button initializeSharePersonalQrCodeButton(@NonNull View view, String uid) {
+        Button sharePersonalQrCodeButton = view.findViewById(R.id.buttonSharePersonalQrCode);
+        sharePersonalQrCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String qrCodeData = "profile/" + uid;
+                Intent intent = new Intent(getActivity(), QRcodeModalActivity.class);
+                intent.putExtra("title", "Profile QR code");
+                intent.putExtra("qrCodeData", qrCodeData);
+
+                qrCodeLauncher.launch(intent);
+            }
+        });
+
+        return sharePersonalQrCodeButton;
     }
 
     private void insertEventsListFragment(String userId) {

@@ -68,34 +68,29 @@ public class DrawerActivity extends WithFragmentActivity {
      * @param itemId (int): Id of the wanted fragment
      */
     private void displayFragment(int itemId) {
-        //Select next view change upon different options
-        if (itemId == R.id.menu_home) {
-            //Go back to the Map/List view
-            replaceFragment(new EventsFragment(), R.id.drawer_fragment_container);
-        }
-        if (itemId == R.id.menu_my_account) {
-            //Go check out your account
-            replaceFragment(new ProfileFragment(), R.id.drawer_fragment_container);
-        }
-        if (itemId == R.id.menu_my_events) {
-            //Go check out your events
-            replaceFragment(new MyEventsCalendarFragment(), R.id.drawer_fragment_container);
-        }
-        if (itemId == R.id.menu_community) {
-            //Go check out other peoples
-            replaceFragment(new ProfilesContainerFragment(), R.id.drawer_fragment_container);
-        }
-        if (itemId == R.id.scan_qr_code) {
-            //Go to the scan QR code activity
-            Intent intent = new Intent(DrawerActivity.this, QRcodeActivity.class);
-            startActivity(intent);
-        }
-        if (itemId == R.id.menu_logout) {
-            new GoogleAuth().logout();
-            Intent logOutIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
-            startActivity(logOutIntent);
+        switch (itemId) {
+            case R.id.menu_home:
+                replaceFragment(new EventsFragment(), R.id.drawer_fragment_container);
+                return;
+            case R.id.menu_my_account:
+                replaceFragment(new ProfileFragment(), R.id.drawer_fragment_container);
+                return;
+            case R.id.menu_my_events:
+                replaceFragment(new MyEventsCalendarFragment(), R.id.drawer_fragment_container);
+                return;
+            case R.id.menu_community:
+                replaceFragment(new ProfilesContainerFragment(), R.id.drawer_fragment_container);
+                return;
+            case R.id.scan_qr_code:
+                startActivity(new Intent(DrawerActivity.this, QRcodeActivity.class));
+                return;
+            case R.id.menu_logout:
+                new GoogleAuth().logout();
+                startActivity(new Intent(getApplicationContext(), GoogleLoginActivity.class));
+                return;
         }
     }
+
 
     public void setupButton(String text, View.OnClickListener listener) {
         Button button = findViewById(R.id.drawer_button);

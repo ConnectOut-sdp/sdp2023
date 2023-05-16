@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".event.viewer.EventActivity">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/event_toolbar"
         android:layout_width="match_parent"
@@ -36,7 +37,6 @@
             android:src="@drawable/message" />
 
     </androidx.appcompat.widget.Toolbar>
-
 
     <RelativeLayout
         android:id="@+id/event_content"
