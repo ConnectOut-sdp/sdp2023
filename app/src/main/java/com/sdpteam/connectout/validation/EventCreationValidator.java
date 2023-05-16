@@ -6,6 +6,8 @@ import android.widget.EditText;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class EventCreationValidator {
 
@@ -15,12 +17,39 @@ public class EventCreationValidator {
     public static final String EVENT_TITLE_ERROR = "Title too short, should be at least " + MIN_EVENT_TITLE_LENGTH + " characters";
     private static final int MIN_EVENT_DESCRIPTION_LENGTH = 20;
     public static final String EVENT_DESCRIPTION_ERROR = "Description too short, should be at least " + MIN_EVENT_DESCRIPTION_LENGTH + " characters";
+
+    public static final String DATE_FORMAT_ERROR = "Date format is invalid !";
+
+    public static final String TIME_FORMAT_ERROR = "Time format is invalid !";
     public static final String TIME_ERROR = "Time selected is invalid !";
 
     public static boolean isValidEventTitle(String title) {
         return title.length() >= MIN_EVENT_TITLE_LENGTH;
     }
 
+    public static boolean isValidDateFormat(String dateStr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setLenient(false);
+
+        try {
+            dateFormat.parse(dateStr);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    public static boolean isValidTimeFormat(String timeStr) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        timeFormat.setLenient(false);
+
+        try {
+            timeFormat.parse(timeStr);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 
     public static boolean isValidDate(long date) {
         long currentTime = System.currentTimeMillis();
@@ -31,9 +60,11 @@ public class EventCreationValidator {
         return description.length() >= MIN_EVENT_DESCRIPTION_LENGTH;
     }
 
-    public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput, EditText txtTimeInput, long date) {
+    public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput, EditText txtDateInput, EditText txtTimeInput, long date) {
         return handleValidationFailure(isValidEventTitle(eventTitleInput.getText().toString()), eventTitleInput, EVENT_TITLE_ERROR)
                 && handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR)
+                && handleValidationFailure(isValidDateFormat(txtDateInput.getText().toString()), txtDateInput, DATE_FORMAT_ERROR)
+                && handleValidationFailure(isValidTimeFormat(txtTimeInput.getText().toString()), txtTimeInput, TIME_FORMAT_ERROR)
                 && handleValidationFailure(isValidDate(date), txtTimeInput, TIME_ERROR);
     }
 

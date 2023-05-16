@@ -28,6 +28,34 @@ public class EventCreationValidatorTest {
     }
 
     @Test
+    public void testIsValidDateFormat_ValidDate() {
+        // Valid date format: "dd-MM-yyyy"
+        String validDate = "16-05-2023";
+        assertTrue(EventCreationValidator.isValidDateFormat(validDate));
+    }
+
+    @Test
+    public void testIsValidDateFormat_InvalidDate() {
+        // Invalid date format: "dd-MM-yyyy"
+        String invalidDate = "2023-05-16";
+        assertFalse(EventCreationValidator.isValidDateFormat(invalidDate));
+    }
+
+    @Test
+    public void testIsValidTimeFormat_ValidTime() {
+        // Valid time format: "HH:mm:ss"
+        String validTime = "12:30:45";
+        assertTrue(EventCreationValidator.isValidTimeFormat(validTime));
+    }
+
+    @Test
+    public void testIsValidTimeFormat_InvalidTime() {
+        // Invalid time format: "HH:mm:ss"
+        String invalidTime = "12-30-45";
+        assertFalse(EventCreationValidator.isValidTimeFormat(invalidTime));
+    }
+
+    @Test
     public void testEventDate() {
         long eventTime = System.currentTimeMillis() + 100000000;
         long eventNotValidTime = System.currentTimeMillis() - 100000000;
@@ -49,24 +77,24 @@ public class EventCreationValidatorTest {
         // Test case 1: valid input
         eventTitleInput.setText("Valid title adfasdf");
         eventDescriptionInput.setText("Valid description with more than 20 characters adsfasdfasdf");
-        assertTrue(EventCreationValidator.eventCreationValidation(eventTitleInput, eventDescriptionInput, txtDateInput, date));
+        assertTrue(EventCreationValidator.eventCreationValidation(eventTitleInput, eventDescriptionInput, txtDateInput, txtTimeInput, date));
 
         // Test case 2: invalid event title
         eventTitleInput.setText("a");
         eventDescriptionInput.setText("Valid description with more than 20 characters adfasdfasdf");
-        assertFalse(EventCreationValidator.eventCreationValidation(eventTitleInput, eventDescriptionInput, txtDateInput, date));
+        assertFalse(EventCreationValidator.eventCreationValidation(eventTitleInput, eventDescriptionInput, txtDateInput, txtTimeInput, date));
         assertEquals(EventCreationValidator.EVENT_TITLE_ERROR, eventTitleInput.getError().toString());
 
         // Test case 3: invalid event description
         eventTitleInput.setText("Valid title adfasdf");
         eventDescriptionInput.setText("a");
-        assertFalse(EventCreationValidator.eventCreationValidation(eventTitleInput, eventDescriptionInput, txtDateInput, date));
+        assertFalse(EventCreationValidator.eventCreationValidation(eventTitleInput, eventDescriptionInput, txtDateInput, txtTimeInput, date));
         assertEquals(EventCreationValidator.EVENT_DESCRIPTION_ERROR, eventDescriptionInput.getError().toString());
 
         // Test case 4: both inputs invalid
         eventTitleInput.setText("");
         eventDescriptionInput.setText("");
-        assertFalse(EventCreationValidator.eventCreationValidation(eventTitleInput, eventDescriptionInput, txtDateInput, date));
+        assertFalse(EventCreationValidator.eventCreationValidation(eventTitleInput, eventDescriptionInput, txtDateInput, txtTimeInput, date));
         assertEquals(EventCreationValidator.EVENT_TITLE_ERROR, eventTitleInput.getError().toString());
         assertEquals(EventCreationValidator.EVENT_DESCRIPTION_ERROR, eventDescriptionInput.getError().toString());
     }

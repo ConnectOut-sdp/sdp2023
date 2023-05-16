@@ -58,7 +58,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
             final long date = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
 
             // validation
-            if (EventCreationValidator.eventCreationValidation(eventTitle, eventDescription, txtTime, date)) {
+            if (EventCreationValidator.eventCreationValidation(eventTitle, eventDescription, txtDate, txtTime, date)) {
                 saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date);
                 this.finish();
             }
