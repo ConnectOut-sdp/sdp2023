@@ -1,7 +1,12 @@
 package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
@@ -14,6 +19,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import com.sdpteam.connectout.post.model.Post;
 
 import android.content.Intent;
 
@@ -26,13 +32,13 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.authentication.GoogleAuthTest;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
-import com.sdpteam.connectout.post.model.Post;
+
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
 import org.junit.After;
@@ -48,8 +54,12 @@ import java.util.ArrayList;
 
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
-    private final static String eventTitle1 = generateRandomPath();
-    private final static Event TEST_EVENT = new Event(generateRandomPath(), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+    private final static String EVENT_TITLE_1 = generateRandomPath();
+    private final static String EVENT_TITLE_QR = generateRandomPath();
+
+    private final static Event TEST_EVENT = new Event(generateRandomPath(), EVENT_TITLE_1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+
+    private final static Event TEST_EVENT_QR = new Event(generateRandomPath(), EVENT_TITLE_QR, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
     private final static String POST_ID = "A_" + generateRandomPath();
     private final static String COMMENT_ID = "A_" + generateRandomPath();
@@ -75,6 +85,7 @@ public class EventActivityTest {
     @AfterClass
     public static void tearDownClass() {
         new EventFirebaseDataSource().deleteEvent(TEST_EVENT.getId());
+        new EventFirebaseDataSource().deleteEvent(TEST_EVENT_QR.getId());
         new PostFirebaseDataSource().deletePost(TEST_POST.getId());
         new PostFirebaseDataSource().deletePost(TEST_POST2.getId());
     }
@@ -90,6 +101,18 @@ public class EventActivityTest {
     @After
     public void tearDown() {
         Intents.release();
+    }
+
+    @Test
+    public void shareQrCodeButton() {
+        onView(withId(R.id.buttonShareEventQrCode)).check(matches(isDisplayed()));
+        onView(withId(R.id.buttonShareEventQrCode)).perform(click());
+        intended(hasComponent(QRcodeModalActivity.class.getName()));
+
+
+        // Verify that the intent has the expected key
+        intended(hasExtraWithKey("title"));
+        intended(hasExtraWithKey("qrCodeData"));
     }
 
     @Test
@@ -172,19 +195,18 @@ public class EventActivityTest {
     @Test
     public void deleteEventTest() {
         EventFirebaseDataSource model = new EventFirebaseDataSource();
-        model.saveEvent(TEST_EVENT);
+        model.saveEvent(TEST_EVENT_QR);
         waitABit();
-        model.deleteEvent(TEST_EVENT.getId());
+        model.deleteEvent(TEST_EVENT_QR.getId());
         waitABit();
-        assertNull(fJoin(model.getEvent(TEST_EVENT.getId())));
-        model.saveEvent(TEST_EVENT);
+        assertNull(fJoin(model.getEvent(TEST_EVENT_QR.getId())));
+        model.saveEvent(TEST_EVENT_QR);
         waitABit();
-        model.deleteEvent(TEST_EVENT.getId());
+        model.deleteEvent(TEST_EVENT_QR.getId());
         waitABit();
-        model.deleteEvent(NULL_USER, eventTitle1);
-        assertNull(fJoin(model.getEvent(TEST_EVENT.getId())));
+        model.deleteEvent(NULL_USER, EVENT_TITLE_QR);
+        assertNull(fJoin(model.getEvent(TEST_EVENT_QR.getId())));
     }
-
 
     /*
     @Test

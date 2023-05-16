@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -9,14 +9,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.ConnectOut"
-        tools:targetApi="31">
+            android:allowBackup="true"
+            android:dataExtractionRules="@xml/data_extraction_rules"
+            android:fullBackupContent="@xml/backup_rules"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/Theme.ConnectOut"
+            tools:targetApi="31">
         <activity
             android:name=".chat.comment.CommentsActivity"
             android:exported="false" />
@@ -24,89 +24,83 @@
             android:name=".post.view.PostsActivity"
             android:exported="false" />
         <activity
-            android:name=".profileList.EventParticipantsListActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".profileList.EventParticipantsListActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".event.creator.SetEventRestrictionsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".event.creator.SetEventRestrictionsActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".event.viewer.MyEventsCalendarActivity"
-            android:exported="false" />
+                android:name=".event.viewer.MyEventsCalendarActivity"
+                android:exported="false" />
         <activity
-            android:name=".QrCode.QRcodeModalActivity"
-            android:exported="false" />
+                android:name=".QrCode.QRcodeModalActivity"
+                android:exported="false" />
         <activity
-            android:name=".QrCode.QRcodeEventActivity"
-            android:exported="false" />
+                android:name=".QrCode.QRcodeActivity"
+                android:exported="false" />
         <activity
-            android:name=".QrCode.QRcodeProfileActivity"
-            android:exported="false" />
+                android:name=".QrCode.CaptureActivityContainer"
+                android:screenOrientation="portrait"
+                android:stateNotNeeded="true"
+                android:theme="@style/zxing_CaptureTheme" /> <!-- c'est rouge tkt, c'est juste dans les tests que c'est utilisé ;) -->
         <activity
-            android:name=".QrCode.QRcodeActivity"
-            android:exported="false" />
+                android:name=".utils.TestActivity"
+                android:exported="false" />
         <activity
-            android:name=".QrCode.CaptureActivityContainer"
-            android:screenOrientation="portrait"
-            android:stateNotNeeded="true"
-            android:theme="@style/zxing_CaptureTheme" /> <!-- c'est rouge tkt, c'est juste dans les tests que c'est utilisé ;) -->
+                android:name=".event.nearbyEvents.EventsActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".utils.TestActivity"
-            android:exported="false" />
+                android:name=".chat.ChatActivity"
+                android:exported="false" />
         <activity
-            android:name=".event.nearbyEvents.EventsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".profile.ReportProfileActivity"
+                android:exported="false" />
         <activity
-            android:name=".chat.ChatActivity"
-            android:exported="false" />
+                android:name=".profile.ProfileRateActivity"
+                android:exported="false" />
         <activity
-            android:name=".profile.ReportProfileActivity"
-            android:exported="false" />
+                android:name=".registration.CompleteRegistrationActivity"
+                android:exported="false" />
         <activity
-            android:name=".profile.ProfileRateActivity"
-            android:exported="false" />
+                android:name=".event.viewer.EventActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".registration.CompleteRegistrationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".event.viewer.EventActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
-        <activity
-            android:name=".profile.ProfileActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".profile.ProfileActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyA-zOfg_1F76v7EckDDKQndOpbj3xP6HVA" />
 
         <activity
-            android:name=".event.creator.EventCreatorActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".event.creator.EventCreatorActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".profileList.ProfileListActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".profileList.ProfileListActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".drawer.DrawerActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ConnectOut.NoActionBar" />
+                android:name=".drawer.DrawerActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".authentication.ProfileGreetingActivity"
-            android:exported="false" />
+                android:name=".authentication.ProfileGreetingActivity"
+                android:exported="false" />
         <activity
-            android:name=".authentication.GoogleLoginActivity"
-            android:exported="false" />
+                android:name=".authentication.GoogleLoginActivity"
+                android:exported="false" />
         <activity
-            android:name=".profile.EditProfileActivity"
-            android:exported="false" />
+                android:name=".profile.EditProfileActivity"
+                android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+                android:name=".MainActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -115,8 +109,8 @@
         </activity>
 
         <service
-            android:name=".notifications.NotificationService"
-            android:exported="false">
+                android:name=".notifications.NotificationService"
+                android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

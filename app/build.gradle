@@ -105,7 +105,6 @@ dependencies {
     // for image slideshow in Post ui
     implementation("com.tbuonomo:dotsindicator:4.3")
 
-
 }
 
 tasks.withType(Test) {
