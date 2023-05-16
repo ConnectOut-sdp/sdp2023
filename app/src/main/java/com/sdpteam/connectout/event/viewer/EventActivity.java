@@ -255,12 +255,9 @@ public class EventActivity extends WithFragmentActivity {
 
     private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK) {
-                        // Do something when the QRCodeActivity is finished
-                    }
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // Do something when the QRCodeActivity is finished
                 }
             });
 }

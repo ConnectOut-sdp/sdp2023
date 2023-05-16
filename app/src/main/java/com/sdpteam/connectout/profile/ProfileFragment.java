@@ -100,16 +100,13 @@ public class ProfileFragment extends DrawerFragment {
 
     private Button initializeSharePersonalQrCodeButton(@NonNull View view, String uid) {
         Button sharePersonalQrCodeButton = view.findViewById(R.id.buttonSharePersonalQrCode);
-        sharePersonalQrCodeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String qrCodeData = "profile/" + uid;
-                Intent intent = new Intent(getActivity(), QRcodeModalActivity.class);
-                intent.putExtra("title", "Profile QR code");
-                intent.putExtra("qrCodeData", qrCodeData);
+        sharePersonalQrCodeButton.setOnClickListener(v -> {
+            String qrCodeData = "profile/" + uid;
+            Intent intent = new Intent(getActivity(), QRcodeModalActivity.class);
+            intent.putExtra("title", "Profile QR code");
+            intent.putExtra("qrCodeData", qrCodeData);
 
-                qrCodeLauncher.launch(intent);
-            }
+            qrCodeLauncher.launch(intent);
         });
 
         return sharePersonalQrCodeButton;
@@ -155,12 +152,9 @@ public class ProfileFragment extends DrawerFragment {
 
     private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK) {
-                        // Do something when the QRCodeActivity is finished
-                    }
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // Do something when the QRCodeActivity is finished
                 }
             });
 
