@@ -115,8 +115,18 @@ public class EventCreatorActivityTest {
     @Test
     public void clickSaveButtonFinishesActivity() {
         onView(withId(R.id.event_creator_title)).perform(ViewActions.typeText(eventTitle1), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.event_creator_description)).perform(ViewActions.typeText("Test Description"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.event_creator_description)).perform(ViewActions.typeText("Test Description Test Description Test Description Test Description Test Description"), ViewActions.closeSoftKeyboard());
+
+        //we select March 18 th 2054 at 4:20
+        onView(ViewMatchers.withId(R.id.btn_date)).perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2050, 3, 18));
+        onView(withText("OK")).perform(click());
+        onView(ViewMatchers.withId(R.id.btn_time)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(4, 20));
+        onView(withText("OK")).perform(click());
+
         onView(withId(R.id.event_creator_save_button)).perform(click());
+
 
         //Might return null if activity already terminated
         try {
@@ -131,13 +141,12 @@ public class EventCreatorActivityTest {
     @Test
     public void markerIsDraggable() {
         onView(withId(R.id.map)).perform(longClick()); //drags little bit the marker
-        onView(withId(R.id.event_creator_save_button)).perform(click());
     }
 
     @Test
     public void testManualSaveAndGetCorrectValues() {
         String title = eventTitle2;
-        String description = "Search for tenis partner";
+        String description = "Search for tenis partner a really good player is better";
 
         Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
@@ -156,7 +165,7 @@ public class EventCreatorActivityTest {
     @Test
     public void testAutomaticSaveAndGetCorrectValues() {
         String title = eventTitle3;
-        String description = "Search for tenis partner";
+        String description = "Search for tenis partner, a really good one please";
 
         EventFirebaseDataSource model = new EventFirebaseDataSource();
 
@@ -166,6 +175,15 @@ public class EventCreatorActivityTest {
         Espresso.closeSoftKeyboard();
         //onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
         onView(withId(R.id.map)).perform(new PressAndSwipeUpAction());
+
+        //we select March 18 th 2050 at 4:20
+        onView(ViewMatchers.withId(R.id.btn_date)).perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2050, 3, 18));
+        onView(withText("OK")).perform(click());
+        onView(ViewMatchers.withId(R.id.btn_time)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(4, 20));
+        onView(withText("OK")).perform(click());
+
         onView(withId(R.id.event_creator_save_button)).perform(click());
         waitABit();
         Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, title));
@@ -188,11 +206,10 @@ public class EventCreatorActivityTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.map)).perform(longClick()); //drags a little bit the marker
 
+        //we select March 18 th 2054 at 4:20
         onView(ViewMatchers.withId(R.id.btn_date)).perform(click());
-        //we select March 18 th 2024 at 4:20
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2024, 3, 18));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2050, 3, 18));
         onView(withText("OK")).perform(click());
-
         onView(ViewMatchers.withId(R.id.btn_time)).perform(click());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(4, 20));
         onView(withText("OK")).perform(click());
@@ -204,7 +221,7 @@ public class EventCreatorActivityTest {
 
         Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, title));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
-        calendar.set(Calendar.YEAR, 2024);
+        calendar.set(Calendar.YEAR, 2050);
         calendar.set(Calendar.MONTH, 3 - 1); // Calendar.MONTH starts from 0
         calendar.set(Calendar.DAY_OF_MONTH, 18);
         calendar.set(Calendar.HOUR_OF_DAY, 4);

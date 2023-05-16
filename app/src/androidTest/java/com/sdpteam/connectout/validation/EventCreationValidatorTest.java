@@ -30,7 +30,7 @@ public class EventCreationValidatorTest {
     @Test
     public void testIsValidDateFormat_ValidDate() {
         // Valid date format: "dd-MM-yyyy"
-        String validDate = "16-05-2023";
+        String validDate = "16-05-2500";
         assertTrue(EventCreationValidator.isValidFormat(validDate, EventCreationValidator.DATE_FORMAT));
     }
 
@@ -43,8 +43,8 @@ public class EventCreationValidatorTest {
 
     @Test
     public void testIsValidTimeFormat_ValidTime() {
-        // Valid time format: "HH:mm:ss"
-        String validTime = "12:30:45";
+        // Valid time format: "HH:mm"
+        String validTime = "12:30";
         assertTrue(EventCreationValidator.isValidFormat(validTime, EventCreationValidator.TIME_FORMAT));
     }
 
@@ -73,7 +73,7 @@ public class EventCreationValidatorTest {
         EditText txtDateInput = new EditText(appContext);
         EditText txtTimeInput = new EditText(appContext);
         txtDateInput.setText("16-05-2500");
-        txtTimeInput.setText("12:30:45");
+        txtTimeInput.setText("12:30");
 
         long date = System.currentTimeMillis() + 100000000;
 

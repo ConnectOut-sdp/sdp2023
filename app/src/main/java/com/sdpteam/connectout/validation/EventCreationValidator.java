@@ -28,7 +28,7 @@ public class EventCreationValidator {
     }
 
     public static final String DATE_FORMAT = "dd-MM-yyyy";
-    public static final String TIME_FORMAT = "HH:mm:ss";
+    public static final String TIME_FORMAT = "HH:mm";
 
     public static boolean isValidFormat(String dateStr, String format) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
