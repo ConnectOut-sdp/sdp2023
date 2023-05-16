@@ -4,6 +4,8 @@ import static com.sdpteam.connectout.validation.ValidationUtils.handleValidation
 
 import android.widget.EditText;
 
+import com.sdpteam.connectout.utils.DateSelectors;
+
 import java.util.Calendar;
 import java.util.TimeZone;
 import java.text.ParseException;
@@ -51,7 +53,8 @@ public class EventCreationValidator {
         return description.length() >= MIN_EVENT_DESCRIPTION_LENGTH;
     }
 
-    public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput, EditText txtDateInput, EditText txtTimeInput, long date) {
+    public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput, EditText txtDateInput, EditText txtTimeInput) {
+        final long date = DateSelectors.parseEditTextTimeAndDate(txtDateInput, txtTimeInput);
         return handleValidationFailure(isValidEventTitle(eventTitleInput.getText().toString()), eventTitleInput, EVENT_TITLE_ERROR)
                 && handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR)
                 && handleValidationFailure(isValidFormat(txtDateInput.getText().toString(), DATE_FORMAT), txtDateInput, DATE_FORMAT_ERROR)
