@@ -48,7 +48,6 @@ public class EventCreatorActivity extends WithFragmentActivity {
         EditText txtDate = findViewById(R.id.in_date);
         EditText txtTime = findViewById(R.id.in_time);
         DateSelectors.setDatePickerDialog(this, findViewById(R.id.btn_date), txtDate);
-
         DateSelectors.setTimePickerDialog(this, findViewById(R.id.btn_time), txtTime);
         saveButton.setOnClickListener(v -> {
             final String chosenTitle = eventTitle.getText().toString();
