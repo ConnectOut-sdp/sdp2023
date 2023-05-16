@@ -2,15 +2,6 @@ package com.sdpteam.connectout.post.view;
 
 import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.chat.comment.CommentsActivity;
-import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.post.model.Post;
-import com.sdpteam.connectout.profile.ProfileActivity;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.squareup.picasso.Picasso;
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +19,7 @@ import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.chat.comment.CommentsActivity;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.profile.Profile;
