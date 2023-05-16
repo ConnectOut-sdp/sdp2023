@@ -21,9 +21,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.viewer.EventActivity;
+import com.sdpteam.connectout.post.model.Post;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileActivity;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.ProfileViewModel;
+import com.squareup.picasso.Picasso;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 /**
  * ArrayAdapter for the ListView that inflates each posts ui.
@@ -33,8 +45,11 @@ import androidx.viewpager.widget.ViewPager;
  */
 public class PostsAdapter extends ArrayAdapter<Post> {
 
+    private final int postItemResource;
+
     public PostsAdapter(@NonNull Context context, int resource) {
         super(context, resource);
+        postItemResource = resource;
     }
 
     @NonNull
@@ -43,7 +58,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.post_list_item_view, parent, false);
+            view = inflater.inflate(postItemResource, parent, false);
         }
         final Post post = getItem(position);
 
@@ -92,13 +107,6 @@ public class PostsAdapter extends ArrayAdapter<Post> {
     }
 
     private void displayAuthorInfo(View view, Post post) {
-        // TODO We could maybe create a fragment for that with its own view model that load the profile image and name but I don't know how to do it and it is not a big deal.
-        // The complexity comes from the fact that I was having issues adding a Fragment with its ViewModel to an ArrayAdapter.
-        // This is a complex problem in Android because ArrayAdapter's getView() method is called multiple times, making it difficult to ensure that each instance of the Fragment has its own
-        // ViewModel and
-        // that they are properly initialized before being added to the views.
-        // But I am sure it should be possible if you want to try, do it ! :D
-
         final String profileId = post.getProfileId();
 
         final ImageButton profileImageBtn = view.findViewById(R.id.post_profile_image);
@@ -109,13 +117,16 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         profileNameText.setOnClickListener(openProfile);
 
         profileNameText.setText(profileId);
-        new ProfileFirebaseDataSource().fetchProfile(profileId).thenAccept(profile -> {
+        ProfileViewModel profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
+        profileViewModel.fetchProfile(profileId);
+        Observer<Profile> profileObserver = profile -> {
             profileNameText.setText(profile.getName());
             final String imageUrl = profile.getProfileImageUrl();
             if (!imageUrl.isEmpty()) {
                 Picasso.get().load(imageUrl).into(profileImageBtn);
                 profileImageBtn.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
-        });
+        };
+        profileViewModel.getProfileLiveData().observeForever(profileObserver);
     }
 }

@@ -92,6 +92,10 @@ public class DrawerActivity extends WithFragmentActivity {
 
     public void setupButton(String text, View.OnClickListener listener) {
         Button button = findViewById(R.id.drawer_button);
+        if (listener == null) {
+            button.setVisibility(View.GONE);
+            return;
+        }
         button.setOnClickListener(listener);
         button.setText(text);
         button.setVisibility(View.VISIBLE);
