@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.post.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,11 @@ public class Post {
     private final String title;
 
     private final String description;
+
+    //Used for firebase class cast
+    public Post() {
+        this(null, null, null, null, new ArrayList<>(), 0, null, null, null);
+    }
 
     public Post(String id, String profileId, String eventId, String commentsChatId, List<String> imagesUrls, int nbrLikes, PostVisibility visibility, String title, String description) {
         this.id = id;

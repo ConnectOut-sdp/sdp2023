@@ -14,6 +14,6 @@ public class PostsActivity extends WithFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
-        replaceFragment(new PostListFragment(), R.id.fragment_container);
+        replaceFragment(new PostsFragment(), R.id.fragment_container);
     }
 }

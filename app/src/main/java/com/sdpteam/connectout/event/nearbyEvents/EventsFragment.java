@@ -1,18 +1,14 @@
 package com.sdpteam.connectout.event.nearbyEvents;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
 import static com.sdpteam.connectout.event.creator.EventCreatorActivity.openEventCreator;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventsFilterDialog;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
-import com.sdpteam.connectout.utils.DrawerFragment;
+import com.sdpteam.connectout.drawer.DrawerFragment;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;

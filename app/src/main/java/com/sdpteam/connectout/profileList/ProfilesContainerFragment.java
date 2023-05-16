@@ -1,7 +1,7 @@
 package com.sdpteam.connectout.profileList;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.utils.DrawerFragment;
+import com.sdpteam.connectout.drawer.DrawerFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

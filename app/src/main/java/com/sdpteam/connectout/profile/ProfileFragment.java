@@ -11,7 +11,7 @@ import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
-import com.sdpteam.connectout.utils.DrawerFragment;
+import com.sdpteam.connectout.drawer.DrawerFragment;
 import com.squareup.picasso.Picasso;
 
 import android.content.Intent;
