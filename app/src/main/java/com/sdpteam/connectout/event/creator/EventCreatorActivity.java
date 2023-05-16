@@ -2,6 +2,7 @@ package com.sdpteam.connectout.event.creator;
 
 import static java.util.Collections.singletonList;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
         EditText txtDate = findViewById(R.id.in_date);
         EditText txtTime = findViewById(R.id.in_time);
         DateSelectors.setDatePickerDialog(this, findViewById(R.id.btn_date), txtDate);
+
         DateSelectors.setTimePickerDialog(this, findViewById(R.id.btn_time), txtTime);
         saveButton.setOnClickListener(v -> {
             final String chosenTitle = eventTitle.getText().toString();
@@ -56,7 +58,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
             final long date = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
 
             // validation
-            if (EventCreationValidator.eventCreationValidation(eventTitle, eventDescription)) {
+            if (EventCreationValidator.eventCreationValidation(eventTitle, eventDescription, txtTime, date)) {
                 saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date);
                 this.finish();
             }
