@@ -3,9 +3,6 @@ package com.sdpteam.connectout.post.view;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -13,7 +10,6 @@ import androidx.test.espresso.core.internal.deps.guava.base.Objects;
 
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostDataSource;
-import com.sdpteam.connectout.post.view.PostsViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 import com.sdpteam.connectout.utils.Result;
 

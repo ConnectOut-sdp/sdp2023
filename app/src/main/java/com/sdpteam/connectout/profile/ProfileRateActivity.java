@@ -2,15 +2,16 @@ package com.sdpteam.connectout.profile;
 
 import static com.sdpteam.connectout.profile.ReportProfileActivity.REPORTED_UID;
 
-import com.sdpteam.connectout.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sdpteam.connectout.R;
 
 public class ProfileRateActivity extends AppCompatActivity {
 

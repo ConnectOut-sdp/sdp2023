@@ -1,8 +1,8 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
-import java.util.List;
-
 import com.sdpteam.connectout.profile.Profile;
+
+import java.util.List;
 
 /**
  * Filters participants by their ratings

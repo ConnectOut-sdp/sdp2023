@@ -1,9 +1,9 @@
 package com.sdpteam.connectout.post.model;
 
+import com.sdpteam.connectout.utils.Result;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
-import com.sdpteam.connectout.utils.Result;
 
 public interface PostDataSource {
 

@@ -1,16 +1,12 @@
 package com.sdpteam.connectout.post.model;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.utils.Result;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.utils.Result;
 
 public class PostFirebaseDataSource implements PostDataSource {
     private static final String POSTS = "Posts";

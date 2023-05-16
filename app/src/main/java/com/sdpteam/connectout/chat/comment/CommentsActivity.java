@@ -24,7 +24,6 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
 import com.sdpteam.connectout.chat.ChatMessage;
 import com.sdpteam.connectout.chat.ChatViewModel;
-import com.sdpteam.connectout.event.viewer.EventActivity;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;

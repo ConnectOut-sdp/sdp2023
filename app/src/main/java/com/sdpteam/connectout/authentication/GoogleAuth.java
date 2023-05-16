@@ -1,13 +1,13 @@
 package com.sdpteam.connectout.authentication;
 
-import java.util.Arrays;
-import java.util.List;
+import android.content.Intent;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import android.content.Intent;
+import java.util.Arrays;
+import java.util.List;
 
 // https://firebase.google.com/docs/auth/android/firebaseui
 public class GoogleAuth implements Authentication {

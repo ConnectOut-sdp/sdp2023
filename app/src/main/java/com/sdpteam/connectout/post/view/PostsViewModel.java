@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostDataSource;
-import com.sdpteam.connectout.profile.ProfileDataSource;
 import com.sdpteam.connectout.utils.Result;
 
 import java.util.ArrayList;
