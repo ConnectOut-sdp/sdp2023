@@ -22,6 +22,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 public class DrawerActivity extends WithFragmentActivity {
     @SuppressLint("NonConstantResourceId")
@@ -68,19 +69,22 @@ public class DrawerActivity extends WithFragmentActivity {
      * @param itemId (int): Id of the wanted fragment
      */
     private void displayFragment(int itemId) {
+        Fragment fragment = null;
+        int containerId = R.id.drawer_fragment_container;
+
         switch (itemId) {
             case R.id.menu_home:
-                replaceFragment(new EventsFragment(), R.id.drawer_fragment_container);
-                return;
+                fragment = new EventsFragment();
+                break;
             case R.id.menu_my_account:
-                replaceFragment(new ProfileFragment(), R.id.drawer_fragment_container);
-                return;
+                fragment = new ProfileFragment();
+                break;
             case R.id.menu_my_events:
-                replaceFragment(new MyEventsCalendarFragment(), R.id.drawer_fragment_container);
-                return;
+                fragment = new MyEventsCalendarFragment();
+                break;
             case R.id.menu_community:
-                replaceFragment(new ProfilesContainerFragment(), R.id.drawer_fragment_container);
-                return;
+                fragment = new ProfilesContainerFragment();
+                break;
             case R.id.scan_qr_code:
                 startActivity(new Intent(DrawerActivity.this, QRcodeActivity.class));
                 return;
@@ -89,7 +93,12 @@ public class DrawerActivity extends WithFragmentActivity {
                 startActivity(new Intent(getApplicationContext(), GoogleLoginActivity.class));
                 return;
         }
+
+        if (fragment != null) {
+            replaceFragment(fragment, containerId);
+        }
     }
+
 
 
     public void setupButton(String text, View.OnClickListener listener) {
