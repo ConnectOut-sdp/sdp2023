@@ -72,17 +72,13 @@ public class DrawerActivity extends WithFragmentActivity {
         int containerId = R.id.drawer_fragment_container;
         switch (itemId) {
             case R.id.menu_home:
-                fragment = new EventsFragment();
-                break;
+                fragment = new EventsFragment(); break;
             case R.id.menu_my_account:
-                fragment = new ProfileFragment();
-                break;
+                fragment = new ProfileFragment(); break;
             case R.id.menu_my_events:
-                fragment = new MyEventsCalendarFragment();
-                break;
+                fragment = new MyEventsCalendarFragment(); break;
             case R.id.menu_community:
-                fragment = new ProfilesContainerFragment();
-                break;
+                fragment = new ProfilesContainerFragment(); break;
             case R.id.scan_qr_code:
                 startActivity(new Intent(DrawerActivity.this, QRcodeActivity.class));
                 return;
@@ -91,9 +87,7 @@ public class DrawerActivity extends WithFragmentActivity {
                 startActivity(new Intent(getApplicationContext(), GoogleLoginActivity.class));
                 return;
         }
-        if (fragment != null) {
-            replaceFragment(fragment, containerId);
-        }
+        if (fragment != null) replaceFragment(fragment, containerId);
     }
 
 

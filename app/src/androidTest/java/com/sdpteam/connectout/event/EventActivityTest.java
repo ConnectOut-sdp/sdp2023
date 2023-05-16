@@ -37,7 +37,7 @@ import com.sdpteam.connectout.authentication.GoogleAuthTest;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
-import com.sdpteam.connectout.post.model.Post;
+
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
 import org.junit.After;
