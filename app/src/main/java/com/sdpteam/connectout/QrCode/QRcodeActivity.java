@@ -55,30 +55,26 @@ public class QRcodeActivity extends AppCompatActivity {
      * @param resultText (String): id of module
      */
     public boolean handleScanResult(String resultText) {
-        if (resultText == null) return false;
+        boolean handled = false;
 
-        String[] parts = resultText.split("/");
-        if (parts.length != 2) {
-            finish();
-            return false;
-        }
+        if (resultText != null) {
+            String[] parts = resultText.split("/");
+            if (parts.length == 2) {
+                String type = parts[0];
+                String id = parts[1];
 
-        String type = parts[0];
-        String id = parts[1];
-
-        if (type.equals("event")) {
-            EventActivity.openEvent(QRcodeActivity.this, id);
-            finish();
-            return true;
-        }
-
-        if (type.equals("profile")) {
-            ProfileActivity.openProfile(QRcodeActivity.this, id);
-            finish();
-            return true;
+                if (type.equals("event")) {
+                    EventActivity.openEvent(QRcodeActivity.this, id);
+                    handled = true;
+                } else if (type.equals("profile")) {
+                    ProfileActivity.openProfile(QRcodeActivity.this, id);
+                    handled = true;
+                }
+            }
         }
 
         finish();
-        return false;
+        return handled;
     }
+
 }
