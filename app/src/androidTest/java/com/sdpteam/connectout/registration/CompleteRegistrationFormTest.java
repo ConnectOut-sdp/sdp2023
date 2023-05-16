@@ -12,6 +12,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static com.sdpteam.connectout.profile.Profile.Gender.FEMALE;
 import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
 
@@ -279,14 +280,14 @@ public class CompleteRegistrationFormTest {
         getInstrumentation().runOnMainSync(() -> {
             viewModel.completeRegistration("Donald", "email@test.com", "bio2", MALE, mockedUri);
         });
-        SystemClock.sleep(2000);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        waitABit();
+        waitABit();
+        waitABit();
 
         onView((withId(R.id.complete_registration_error_msg))).check(matches(withText("Operation successful")));
+        waitABit();
+        waitABit();
+        waitABit();
         Profile updatedProfile = fJoin(fakeProfilesDatabase.fetchProfile("007"));
         MatcherAssert.assertThat(updatedProfile.getName(), is("Donald"));
         MatcherAssert.assertThat(updatedProfile.getEmail(), is("email@test.com"));

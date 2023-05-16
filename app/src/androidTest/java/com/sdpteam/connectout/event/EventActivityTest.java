@@ -32,9 +32,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.authentication.GoogleAuthTest;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
+import com.sdpteam.connectout.post.model.Post;
+import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,10 +49,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
     private final static String eventTitle1 = generateRandomPath();
     private final static Event TEST_EVENT = new Event(generateRandomPath(), eventTitle1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+
+    private final static String POST_ID = "A_" + generateRandomPath();
+    private final static String COMMENT_ID = "A_" + generateRandomPath();
+    private final static String PROFILE_ID = "A_" + generateRandomPath();
+
+    private final static Post TEST_POST = new Post(POST_ID, PROFILE_ID, TEST_EVENT.getId(), COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
+    private final static Post TEST_POST2 = new Post(POST_ID + "1", PROFILE_ID, TEST_EVENT.getId(), COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
 
     @Rule
     public ActivityScenarioRule<EventActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), EventActivity.class).putExtra(PASSED_ID_KEY,
@@ -59,12 +72,16 @@ public class EventActivityTest {
     @BeforeClass
     public static void setUpClass() {
         new EventFirebaseDataSource().saveEvent(TEST_EVENT);
+        new PostFirebaseDataSource().savePost(TEST_POST);
+        new PostFirebaseDataSource().savePost(TEST_POST2);
         waitABit();
     }
 
     @AfterClass
     public static void tearDownClass() {
         new EventFirebaseDataSource().deleteEvent(TEST_EVENT.getId());
+        new PostFirebaseDataSource().deletePost(TEST_POST.getId());
+        new PostFirebaseDataSource().deletePost(TEST_POST2.getId());
     }
 
     @Before
@@ -72,6 +89,7 @@ public class EventActivityTest {
         new EventFirebaseDataSource().saveEvent(TEST_EVENT);
         waitABit();
         Intents.init();
+        new GoogleAuth().logout();
     }
 
     @After
@@ -85,8 +103,8 @@ public class EventActivityTest {
             final Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.event_fragment_container);
             assertTrue(fragment instanceof EventMapViewFragment);
         });
-        onView(withId(R.id.map)).perform(ViewActions.click());
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.map)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
     }
 
     @Test
@@ -97,8 +115,8 @@ public class EventActivityTest {
             EventMapViewFragment mapViewFragment = (EventMapViewFragment) fragment;
             mapViewFragment.showEventOnMap(TEST_EVENT);
         });
-        onView(withId(R.id.map)).perform(ViewActions.click());
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.map)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
     }
 
     @Test
@@ -115,22 +133,34 @@ public class EventActivityTest {
     @Test
     public void consecutiveJoinAndLeaveEventChangesBelongingUser() {
         //join event
-        onView(withId(R.id.event_join_button)).check(matches(withText(JOIN_EVENT)));
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).check(matches(withText(JOIN_EVENT)));
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        waitABit();
+        waitABit();
         waitABit();
         //    onView(withId(R.id.event_join_button)).check(matches(withText(LEAVE_EVENT)));
         Event obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
         assertNotNull(obtained);
         assertTrue(obtained.hasJoined(NULL_USER));
         // leave event
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
         waitABit();
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        waitABit();
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        waitABit();
+        waitABit();
+        waitABit();
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo());
+        waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
         waitABit();
         onView(withId(R.id.event_join_button)).check(matches(withText(JOIN_EVENT)));
+        waitABit();
         obtained = fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
         assertFalse(obtained.hasJoined(NULL_USER));
     }

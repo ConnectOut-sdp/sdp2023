@@ -6,13 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".event.viewer.EventActivity">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/event_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-
         android:theme="@style/Theme.ConnectOut.AppBarOverlay"
         app:navigationIcon="@drawable/back_arrow_image">
 
@@ -21,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:text="@string/event_title"
@@ -38,97 +35,120 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <RelativeLayout
-        android:id="@+id/event_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/event_join_buttons"
+        android:layout_height="match_parent"
         android:layout_below="@+id/event_toolbar">
 
-
-        <TextView
-            android:id="@+id/event_description"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="16dp"
-            android:text="@string/event_description" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/event_participants_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/event_description"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:text="@string/participants" />
+            <RelativeLayout
+                android:id="@+id/event_content"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_weight="10"
+                android:layout_above="@+id/event_post_fragment_container"
+                android:layout_below="@+id/event_toolbar">
 
-        <ImageButton
-            android:id="@+id/buttonShareEventQrCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/event_description"
-            android:layout_alignLeft="@+id/event_participants_button"
-            android:layout_marginLeft="180dp"
-            android:layout_marginTop="30dp"
-            android:paddingBottom="15dp"
-            android:src="@drawable/qr_code_image"
-            android:text="QR Code" />
+                <TextView
+                    android:id="@+id/event_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="16dp"
+                    android:text="@string/event_description" />
 
-        <RelativeLayout
-            android:id="@+id/event_fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/event_participants_button"
+                <Button
+                    android:id="@+id/event_participants_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/event_description"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/participants" />
 
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="16dp"
-            app:defaultNavHost="true"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ExtraText">
+                <ImageButton
+                    android:id="@+id/buttonShareEventQrCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/event_description"
+                    android:layout_alignLeft="@+id/event_participants_button"
+                    android:layout_marginLeft="180dp"
+                    android:layout_marginTop="30dp"
+                    android:paddingBottom="15dp"
+                    android:src="@drawable/qr_code_image"
+                    android:text="QR Code" />
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/event_fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/event_participants_button"
+                    android:layout_height="match_parent"
+                    app:defaultNavHost="true"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:layout_marginStart="@dimen/fab_margin"
+                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:layout_marginBottom="16dp"
+                    android:layout_alignParentBottom="true" />
 
+            </RelativeLayout>
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/event_post_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                app:defaultNavHost="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="@dimen/fab_margin" />
 
-    <LinearLayout
-        android:id="@+id/event_join_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/event_join_buttons"
+                android:layout_gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
 
-        <!--note: by default the visibility is gone for each of them (except join) and programmatically we will display the correct ones-->
-        <Button
-            android:id="@+id/event_interested_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Interested"
-            android:visibility="gone" />
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/event_restrictions_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Restrictions"
-            android:visibility="gone" />
+                <!--note: by default the visibility is gone for each of them (except join) and programmatically we will display the correct ones-->
+                <Button
+                    android:id="@+id/event_interested_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    android:text="Interested"
+                    android:textSize="10dp"
+                    android:layout_toEndOf="@id/event_join_button" />
 
-        <Button
-            android:id="@+id/event_join_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Join"
-            android:visibility="visible" />
-    </LinearLayout>
+                <Button
+                    android:id="@+id/event_restrictions_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Restrictions"
+                    android:visibility="gone" />
 
+                <Button
+                    android:id="@+id/event_join_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    android:text="Join"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

@@ -12,7 +12,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
-import com.sdpteam.connectout.utils.DrawerFragment;
+import com.sdpteam.connectout.drawer.DrawerFragment;
 
 import android.os.Bundle;
 import android.text.format.DateFormat;
