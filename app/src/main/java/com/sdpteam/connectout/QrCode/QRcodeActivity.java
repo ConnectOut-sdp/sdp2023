@@ -53,19 +53,22 @@ public class QRcodeActivity extends AppCompatActivity {
         if (resultText != null) {
             String[] parts = resultText.split("/");
             if (parts.length == 2) {
-                String type = parts[0];
-                String id = parts[1];
-                if (type.equals("event")) {
-                    EventActivity.openEvent(QRcodeActivity.this, id);
-                    handled = true;
-                } else if (type.equals("profile")) {
-                    ProfileActivity.openProfile(QRcodeActivity.this, id);
-                    handled = true;
-                }
+                handled = handleQrCodeTypes(parts[0], parts[1]);
             }
         }
         finish();
         return handled;
     }
 
+    private boolean handleQrCodeTypes(String type, String id) {
+        if (type.equals("event")) {
+            EventActivity.openEvent(QRcodeActivity.this, id);
+            return true;
+        }
+        if (type.equals("profile")) {
+            ProfileActivity.openProfile(QRcodeActivity.this, id);
+            return true;
+        }
+        return false;
+    }
 }
