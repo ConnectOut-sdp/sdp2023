@@ -60,7 +60,7 @@ public class CommentsActivityTest {
     }
 
     @Test
-    public void testOnOptionsItemSelected_WithHomeItemId_FinishActivity() {
+    public void testOnOptionsItemSelectedWithHomeItemIdFinishActivity() {
         activityRule.getScenario().onActivity(activity ->
         {
             MenuItem menuItem = new TestMenuItem(android.R.id.home);
