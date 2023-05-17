@@ -150,6 +150,7 @@ public class EventActivityTest {
     @Test
     public void consecutiveJoinAndLeaveEventChangesBelongingUser() {
         //join event
+        waitABit();
         onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).check(matches(withText(JOIN_EVENT)));
         onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
