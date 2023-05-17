@@ -105,6 +105,15 @@ public class DrawerActivityTest {
         intended(hasComponent(GoogleLoginActivity.class.getName()));
     }
 
+    @Test
+    public void clickCommunityPostsOpensPostsFragment() {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+
+        // Click on the Community Posts menu item
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_posts));
+        onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.post_fragment_id)).check(matches(isDisplayed()));
+    }
 
     @Test
     public void drawerIsClosedBeforeClick() {

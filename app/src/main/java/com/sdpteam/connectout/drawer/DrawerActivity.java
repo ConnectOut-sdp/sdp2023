@@ -19,6 +19,7 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
 import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
+import com.sdpteam.connectout.post.view.PostsFragment;
 import com.sdpteam.connectout.profile.ProfileFragment;
 import com.sdpteam.connectout.profileList.ProfilesContainerFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
@@ -79,6 +80,8 @@ public class DrawerActivity extends WithFragmentActivity {
                 fragment = new MyEventsCalendarFragment(); break;
             case R.id.menu_community:
                 fragment = new ProfilesContainerFragment(); break;
+            case R.id.menu_posts:
+                fragment = new PostsFragment(); break;
             case R.id.scan_qr_code:
                 startActivity(new Intent(DrawerActivity.this, QRcodeActivity.class));
                 return;

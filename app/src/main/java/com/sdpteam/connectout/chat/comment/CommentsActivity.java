@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.database.FirebaseListOptions;
@@ -73,6 +75,19 @@ public class CommentsActivity extends AppCompatActivity {
         Intent intent = new Intent(fromContext, CommentsActivity.class);
         intent.putExtra(PASSED_COMMENTS_KEY, postId);
         fromContext.startActivity(intent);
+    }
+
+    /**
+     * Returns to the previous activity if the return button in the Actionbar is pressed
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
