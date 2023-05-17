@@ -96,6 +96,14 @@ public class PostFirebaseDataSourceTest {
     }
 
     @Test
+    public void fetchAllPostsNetworkErrorResultIsNotSuccess() {
+        PostFirebaseDataSource.forceFail = true; // simulate network error
+        Result<List<Post>> fetchedResult = fJoin(model.fetchAllPosts("id"));
+        assertFalse(fetchedResult.isSuccess());
+        PostFirebaseDataSource.forceFail = false;
+    }
+
+    @Test
     public void fetchNonExistingPostResultIsNotSuccess() {
         Result<Post> fetchedResult = fJoin(model.fetchPost("invalid"));
         assertFalse(fetchedResult.isSuccess());

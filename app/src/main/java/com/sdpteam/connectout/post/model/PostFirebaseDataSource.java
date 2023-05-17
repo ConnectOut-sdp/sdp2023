@@ -135,7 +135,7 @@ public class PostFirebaseDataSource implements PostDataSource {
         });
     }
 
-    private static CompletableFuture<List<String>> eventIdsUserCanAccess(String userId) {
+    private CompletableFuture<List<String>> eventIdsUserCanAccess(String userId) {
         final EventParticipantIdFilter organizerOrParticipant = new EventParticipantIdFilter(userId);
 
         return new EventFirebaseDataSource()
