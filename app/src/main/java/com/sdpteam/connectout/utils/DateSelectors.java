@@ -18,6 +18,10 @@ public class DateSelectors {
             int day = c.get(Calendar.DAY_OF_MONTH);
             DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                     (view, year1, monthOfYear, dayOfMonth) -> txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1), year, month, day);
+
+            // Adding a restriction: user cannot select a date in the past
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
             datePickerDialog.show();
         });
     }
