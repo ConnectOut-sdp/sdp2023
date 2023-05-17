@@ -17,13 +17,9 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.mockito.junit.MockitoJUnitRunner;
 
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventDataSource;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.Result;
 
 //@RunWith(MockitoJUnitRunner.class)
@@ -64,7 +60,7 @@ public class PostFirebaseDataSourceTest {
 
     @Test
     public void savePostAndDeleteIt() {
-        Post post = new Post(postId1, "", "", "", imagesUrls, 0, Post.PostVisibility.PUBLIC);
+        Post post = new Post(postId1, "", "", "", imagesUrls, 0, Post.PostVisibility.PUBLIC, "", "");
         assertTrue(fJoin(model.savePost(post)).isSuccess());
         assertTrue(fJoin(model.deletePost(postId1)).isSuccess());
     }
@@ -77,7 +73,7 @@ public class PostFirebaseDataSourceTest {
         assertTrue(eventFirebaseDataSource.saveEvent(event));
         waitABit();
 
-        Post post = new Post(postId2, "pid", eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        Post post = new Post(postId2, "pid", eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         assertTrue(fJoin(model.savePost(post)).isSuccess());
 
         Result<Post> fetchedResult = fJoin(model.fetchPost(postId2));
@@ -92,7 +88,7 @@ public class PostFirebaseDataSourceTest {
     @Test
     public void failsSavePostResultIsNotSuccess() {
         PostFirebaseDataSource.forceFail = true;
-        Post post = new Post(postId1, "pid", "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        Post post = new Post(postId1, "pid", "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         assertFalse(fJoin(model.savePost(post)).isSuccess());
         PostFirebaseDataSource.forceFail = false;
     }
@@ -114,9 +110,9 @@ public class PostFirebaseDataSourceTest {
     @Test
     public void getAllPostsWorks() {
         String pid = "pid_" + generateRandomPath();
-        Post post1 = new Post(postId1, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-        Post post2 = new Post(postId2, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        Post post1 = new Post(postId1, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
+        Post post2 = new Post(postId2, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
+        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         assertTrue(fJoin(model.savePost(post1)).isSuccess());
         assertTrue(fJoin(model.savePost(post2)).isSuccess());
         assertTrue(fJoin(model.savePost(post3)).isSuccess());
@@ -128,7 +124,6 @@ public class PostFirebaseDataSourceTest {
         assertPostInList(post1, fetchedPosts);
         assertPostInList(post2, fetchedPosts);
         assertPostInList(post3, fetchedPosts);
-
 
         assertTrue(fJoin(model.deletePost(postId1)).isSuccess());
         assertTrue(fJoin(model.deletePost(postId2)).isSuccess());
@@ -143,9 +138,9 @@ public class PostFirebaseDataSourceTest {
         imagesUrls.add("url3");
         String pid = "pid_" + generateRandomPath();
         String pidSomeoneElse = "pid_" + generateRandomPath();
-        Post post1 = new Post(postId1, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-        Post post2 = new Post(postId2, pidSomeoneElse, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE);
-        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        Post post1 = new Post(postId1, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
+        Post post2 = new Post(postId2, pidSomeoneElse, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE, "", "");
+        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         assertTrue(fJoin(model.savePost(post1)).isSuccess());
         assertTrue(fJoin(model.savePost(post2)).isSuccess());
         assertTrue(fJoin(model.savePost(post3)).isSuccess());
@@ -171,9 +166,9 @@ public class PostFirebaseDataSourceTest {
         imagesUrls.add("url3");
         String pid = "pid_" + generateRandomPath();
         String pidSomeoneElse = "pid_" + generateRandomPath();
-        Post post1 = new Post(postId1, pid, "notThisEventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-        Post post2 = new Post(postId2, pidSomeoneElse, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
-        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC);
+        Post post1 = new Post(postId1, pid, "notThisEventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
+        Post post2 = new Post(postId2, pidSomeoneElse, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
+        Post post3 = new Post(postId3, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         assertTrue(fJoin(model.savePost(post1)).isSuccess());
         assertTrue(fJoin(model.savePost(post2)).isSuccess());
         assertTrue(fJoin(model.savePost(post3)).isSuccess());
