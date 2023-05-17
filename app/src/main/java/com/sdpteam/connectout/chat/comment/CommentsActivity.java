@@ -78,19 +78,6 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     /**
-     * Returns to the previous activity if the return button in the Actionbar is pressed
-     */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            this.finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
      * The view must not interact directly with Firebase, as such the FirebaseListAdapter is created
      * by the model.
      * However the adapter needs indirect access to the view elements as such we pass lambdas so that
