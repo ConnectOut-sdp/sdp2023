@@ -109,7 +109,7 @@ public class ProfileFragment extends DrawerFragment {
     }
 
     private void insertEventsListFragment(String userId) {
-        EventsViewModel viewModel = new ViewModelProvider(requireActivity(), new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
+        EventsViewModel viewModel = new EventsViewModel(new EventFirebaseDataSource());
         viewModel.setFilter(new EventParticipantIdFilter(userId), NONE);
         EventsListViewFragment eventsListViewFragment = new EventsListViewFragment(viewModel);
         getChildFragmentManager().beginTransaction().replace(R.id.profile_events_container, eventsListViewFragment).commit();
