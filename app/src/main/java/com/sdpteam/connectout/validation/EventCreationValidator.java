@@ -44,7 +44,7 @@ public class EventCreationValidator {
         }
     }
 
-    public static boolean isValidDate(long date) {
+    public static boolean isValidTime(long date) {
         long currentTime = System.currentTimeMillis();
         return date >= currentTime;
     }
@@ -59,7 +59,7 @@ public class EventCreationValidator {
                 && handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR)
                 && handleValidationFailure(isValidFormat(txtDateInput.getText().toString(), DATE_FORMAT), txtDateInput, DATE_FORMAT_ERROR)
                 && handleValidationFailure(isValidFormat(txtTimeInput.getText().toString(), TIME_FORMAT), txtTimeInput, TIME_FORMAT_ERROR)
-                && handleValidationFailure(isValidDate(date), txtTimeInput, TIME_ERROR);
+                && handleValidationFailure(isValidTime(date), txtTimeInput, TIME_ERROR);
     }
 
     public static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants, long joiningDeadline) {

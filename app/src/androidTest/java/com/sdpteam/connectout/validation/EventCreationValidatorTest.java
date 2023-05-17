@@ -59,8 +59,8 @@ public class EventCreationValidatorTest {
     public void testEventDate() {
         long eventTime = System.currentTimeMillis() + 100000000;
         long eventNotValidTime = System.currentTimeMillis() - 100000000;
-        assertTrue(EventCreationValidator.isValidDate(eventTime));
-        assertFalse(EventCreationValidator.isValidDate(eventNotValidTime));
+        assertTrue(EventCreationValidator.isValidTime(eventTime));
+        assertFalse(EventCreationValidator.isValidTime(eventNotValidTime));
     }
 
     @Test
