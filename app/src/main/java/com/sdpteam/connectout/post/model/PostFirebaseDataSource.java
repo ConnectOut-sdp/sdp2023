@@ -27,7 +27,8 @@ public class PostFirebaseDataSource implements PostDataSource {
     public CompletableFuture<Result<String>> savePost(Post post) {
         if (post.getId() == null) {
             String newId = FirebaseDatabase.getInstance().getReference().child(POSTS).push().getKey();
-            post = new Post(newId, post.getProfileId(), post.getEventId(), post.getCommentsChatId(), post.getImagesUrls(), post.getNbrLikes(), post.getVisibility());
+            post = new Post(newId, post.getProfileId(), post.getEventId(), post.getCommentsChatId(), post.getImagesUrls(), post.getNbrLikes(), post.getVisibility(), post.getTitle(),
+                    post.getDescription());
         }
         final Post finalPost = post;
 
