@@ -1,11 +1,11 @@
 package com.sdpteam.connectout.post.model;
 
+import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
+import static com.sdpteam.connectout.post.model.Post.PostVisibility.SEMIPRIVATE;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -63,31 +63,46 @@ public class PostFirebaseDataSource implements PostDataSource {
 
     @Override
     public CompletableFuture<Result<Post>> fetchPost(String postId) {
-        CompletableFuture<Result<Post>> result = new CompletableFuture<>();
+        final CompletableFuture<Result<Post>> result = new CompletableFuture<>();
+        final CompletableFuture<Result<Post>> subStep = new CompletableFuture<>();
+
         FirebaseDatabase.getInstance().getReference().child(POSTS).child(postId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult().exists() && !forceFail) {
                         final Post post = task.getResult().getValue(Post.class);
                         System.out.println("Post fetched successfully " + post.toString());
-                        CompletableFuture<Event> futureEvent = new EventFirebaseDataSource().getEvent(post.getEventId());
-                        Event event = fJoin(futureEvent);
-                        if (event != null) {
-                            if (post.getVisibility().equals(Post.PostVisibility.PUBLIC)) {
-                                result.complete(new Result<>(post, true));
-                            } else if (post.getVisibility().equals(Post.PostVisibility.SEMIPRIVATE) &&
-                                    event.getOrganizer().equals(post.getProfileId()) || event.getParticipants().contains(post.getProfileId())) {
-                                result.complete(new Result<>(post, true));
-                            } else {
-                                result.complete(new Result<>(null, false, "Error occurred, user has not access to this post"));
-                            }
-                        } else {
-                            result.complete(new Result<>(null, false, "Error timeout occurred, the event of the post may no exist " +
-                                    "and thus we cannot check if the user is allowed to access this post (eventId " + post.getEventId() + ")"));
-                        }
+                        subStep.complete(new Result<>(post, true));
                     } else {
-                        result.complete(new Result<>(null, false, "Error occurred, post may not exist under id " + postId));
+                        subStep.complete(new Result<>(null, false, "Error occurred, post may not exist under id " + postId));
                     }
                 });
+
+        // checking if the user has access to this post :
+        subStep.thenAccept(postResult -> {
+            if (!postResult.isSuccess()) {
+                result.complete(postResult);
+                return;
+            }
+            final Post post = Objects.requireNonNull(postResult.value());
+
+            if (post.getVisibility().equals(PUBLIC)) {
+                result.complete(new Result<>(post, true));
+            } else if (post.getVisibility().equals(SEMIPRIVATE)) {
+                Event event = (new EventFirebaseDataSource().getEvent(post.getEventId())).join();
+                if (event != null) {
+                    if (event.getOrganizer().equals(post.getProfileId()) || event.getParticipants().contains(post.getProfileId())) {
+                        result.complete(new Result<>(post, true));
+                    } else {
+                        result.complete(new Result<>(null, false, "Error occurred, user has not access to this post"));
+                    }
+                } else {
+                    result.complete(new Result<>(null, false,
+                            "Error the event associated to the post does not exist! (maybe a timeout issue) postId" + postId + " eventId" + post.getEventId()));
+                }
+            } else {
+                result.complete(new Result<>(null, false, "Event has visibility set to " + post.getVisibility().toString() + " which is not supported by this verion of the app"));
+            }
+        }).join();
         return result;
     }
 
@@ -103,7 +118,7 @@ public class PostFirebaseDataSource implements PostDataSource {
                             .map(childSnapshot -> childSnapshot.getValue(Post.class))
                             .filter(Objects::nonNull)
                             .filter(post -> {
-                                if (post.getVisibility() != null && post.getVisibility().equals(Post.PostVisibility.SEMIPRIVATE) && post.getEventId() != null) {
+                                if (post.getVisibility() != null && post.getVisibility().equals(SEMIPRIVATE) && post.getEventId() != null) {
                                     return allEventsUserCanAccess.contains(post.getEventId());
                                 } else {
                                     return true;
@@ -154,13 +169,5 @@ public class PostFirebaseDataSource implements PostDataSource {
                 return listResult;
             }
         });
-    }
-
-    private static <E> E fJoin(CompletableFuture<E> future) {
-        try {
-            return future.get(5, TimeUnit.SECONDS);
-        } catch (ExecutionException | InterruptedException | TimeoutException e) {
-            return null;
-        }
     }
 }
