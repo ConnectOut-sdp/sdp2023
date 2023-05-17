@@ -1,14 +1,11 @@
 package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
-import static org.hamcrest.Matchers.not;
 
 import android.content.Intent;
 
@@ -55,7 +52,7 @@ public class EventActivityChatButtonTest {
     @Test
     public void chatButtonShouldOnlyBeVisibleIfUserJoinedEvent() {
         // join event
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
     //    onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
             //trying without this line which seems to create an issue
@@ -63,9 +60,9 @@ public class EventActivityChatButtonTest {
         fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
 
         // quit event
-        onView(withId(R.id.event_join_button)).perform(ViewActions.click());
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
-        onView(withId(R.id.refresh_button)).perform(ViewActions.click());
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
     //    onView(withId(R.id.event_chat_btn)).check(matches(not(isDisplayed())));
     }

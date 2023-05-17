@@ -5,6 +5,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.ProfileFragment.PASSED_ID_KEY;
@@ -21,10 +23,10 @@ import android.content.Intent;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
 
 import org.junit.After;
@@ -82,12 +84,22 @@ public class ProfileTest {
         // test intent
         onView(withId(R.id.buttonRatingEditProfile)).perform(click());
         intended(allOf(hasComponent(ProfileRateActivity.class.getName()),
-                IntentMatchers.hasExtra(RATED_UID, uid)));
+                hasExtra(RATED_UID, uid)));
     }
 
     @Test
     public void loggedUserTest1() {
         loggedUserBaseCase("Toto", "toto@gmail.com", "This is my bio, Toto's life", Profile.Gender.MALE);
+    }
+
+    @Test
+    public void shareQrCodeButton() {
+        onView(withId(R.id.buttonSharePersonalQrCode)).perform(click());
+        intended(hasComponent(QRcodeModalActivity.class.getName()));
+
+        // Verify that the intent has the expected key
+        intended(hasExtraWithKey("title"));
+        intended(hasExtraWithKey("qrCodeData"));
     }
 
     public void loggedUserBaseCase(String name, String email, String bio, Profile.Gender gender) {

@@ -7,6 +7,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.notifications.NotificationService;
+import com.sdpteam.connectout.post.view.PostsActivity;
 
 import android.content.Intent;
 import android.os.Bundle;

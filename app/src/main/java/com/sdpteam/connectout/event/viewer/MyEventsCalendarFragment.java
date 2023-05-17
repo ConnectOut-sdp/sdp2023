@@ -2,18 +2,6 @@ package com.sdpteam.connectout.event.viewer;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import com.firebase.ui.database.FirebaseListOptions;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileViewModel;
-import com.sdpteam.connectout.utils.DrawerFragment;
-
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -23,8 +11,21 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.firebase.ui.database.FirebaseListOptions;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.drawer.DrawerFragment;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.ProfileViewModel;
+
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * This fragment sets up the Calendar UserInterface

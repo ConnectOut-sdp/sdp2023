@@ -1,9 +1,9 @@
 package com.sdpteam.connectout.event.nearbyEvents;
 
+import android.os.Bundle;
+
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
-
-import android.os.Bundle;
 
 public class EventsActivity extends WithFragmentActivity {
 

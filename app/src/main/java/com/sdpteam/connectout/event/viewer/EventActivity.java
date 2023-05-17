@@ -4,24 +4,6 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.chat.ChatActivity;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.Event.EventRestrictions.RestrictionStatus;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.ProfileViewModel;
-import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +12,30 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.Toolbar;
+
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.chat.ChatActivity;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.Event.EventRestrictions.RestrictionStatus;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
+import com.sdpteam.connectout.post.view.PostsFragment;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.ProfileViewModel;
+import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -43,6 +48,7 @@ public class EventActivity extends WithFragmentActivity {
     private EventViewModel eventViewModel;
 
     private ProfileViewModel profileViewModel; //for event registration
+    private String eventId;
     private String currentUserId;
 
     /**
@@ -65,6 +71,7 @@ public class EventActivity extends WithFragmentActivity {
 
         initViewModel();
         initToolbar();
+        initPostsFragment();
         initMapFragment();
         initEventView();
     }
@@ -82,7 +89,7 @@ public class EventActivity extends WithFragmentActivity {
      * Setup the view model.
      */
     private void initViewModel() {
-        String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
+        eventId = getIntent().getStringExtra(PASSED_ID_KEY);
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         currentUserId = user == null ? NULL_USER : user.uid;
         profileViewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
@@ -101,10 +108,12 @@ public class EventActivity extends WithFragmentActivity {
         Button interestedBtn = findViewById(R.id.event_interested_button);
         Button restrictionsBtn = findViewById(R.id.event_restrictions_button);
         Button participantsBtn = findViewById(R.id.event_participants_button);
+        ImageButton sharePersonalQrCodeButton = findViewById(R.id.buttonShareEventQrCode);
+
         ImageButton chatBtn = findViewById(R.id.event_chat_btn);
 
         eventViewModel.getEventLiveData().observe(this, event ->
-                updateEventView(event, title, description, joinBtn, interestedBtn, restrictionsBtn, participantsBtn, chatBtn)
+                updateEventView(event, title, description, joinBtn, interestedBtn, restrictionsBtn, participantsBtn, chatBtn, sharePersonalQrCodeButton)
         );
     }
 
@@ -112,7 +121,7 @@ public class EventActivity extends WithFragmentActivity {
      * Upon modification of the given event, changes its view and some btn behaviors.
      */
     @SuppressLint("SetTextI18n")
-    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button restrictionsBtn, Button participantsBtn, ImageButton chatBtn) {
+    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button restrictionsBtn, Button participantsBtn, ImageButton chatBtn, ImageButton shareQrCodeBtn) {
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
 
@@ -127,6 +136,14 @@ public class EventActivity extends WithFragmentActivity {
 
         chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : GONE);
         chatBtn.setOnClickListener(v -> openChat(event.getId()));
+
+        shareQrCodeBtn.setOnClickListener(v -> {
+            String qrCodeData = "event/" + event.getId();
+            Intent intent = new Intent(EventActivity.this, QRcodeModalActivity.class);
+            intent.putExtra("title", "Event QR code");
+            intent.putExtra("qrCodeData", qrCodeData);
+            qrCodeLauncher.launch(intent);
+        });
 
         updateParticipantsButton(event, participantsBtn);
         participantsBtn.setOnClickListener(v -> showParticipants(event.getId()));
@@ -181,6 +198,11 @@ public class EventActivity extends WithFragmentActivity {
         replaceFragment(map, R.id.event_fragment_container);
     }
 
+    private void initPostsFragment() {
+        PostsFragment postsFragment = new PostsFragment(eventId, null);
+        replaceFragment(postsFragment, R.id.event_post_fragment_container);
+    }
+
     private void showParticipants(String eventId) {
         final Intent intent = new Intent(this, EventParticipantsListActivity.class);
         intent.putExtra(PASSED_ID_KEY, eventId);
@@ -226,5 +248,7 @@ public class EventActivity extends WithFragmentActivity {
     private void impossibleRegistrationToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
 }
 

@@ -1,10 +1,5 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.location.LocationHelper;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import androidx.fragment.app.DialogFragment;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.location.LocationHelper;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 public class EventsFilterDialog extends DialogFragment {
 

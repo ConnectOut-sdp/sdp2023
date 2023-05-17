@@ -1,11 +1,11 @@
 package com.sdpteam.connectout.profile;
 
-import java.util.concurrent.CompletableFuture;
-
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ReportFirebaseDataSource {
 

@@ -1,15 +1,15 @@
 package com.sdpteam.connectout.QrCode;
 
+import android.os.Bundle;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.viewer.EventActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.appcompat.app.AppCompatActivity;
+import com.sdpteam.connectout.profile.ProfileActivity;
 
 public class QRcodeActivity extends AppCompatActivity {
 
@@ -20,12 +20,11 @@ public class QRcodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
 
-        Button btnScan = findViewById(R.id.btn_scan);
-        btnScan.setOnClickListener(v -> scanCode());
-
         barLauncher = registerForActivityResult(new ScanContract(), result -> {
             handleScanResult(result.getContents());
         });
+
+        scanCode();
     }
 
     /**
@@ -42,18 +41,31 @@ public class QRcodeActivity extends AppCompatActivity {
     }
 
     /**
-     * TODO should finish this activity
-     * TODO should identify correctly if we have an Event or a Profile
-     * TODO should use the methods openProfile or openEvent.
      * Launches the corresponding activity from the QR code
      *
      * @param resultText (String): id of module
      */
-    private void handleScanResult(String resultText) {
+    public boolean handleScanResult(String resultText) {
+        boolean handled = false;
         if (resultText != null) {
-            Intent intent = new Intent(QRcodeActivity.this, EventActivity.class);
-            intent.putExtra("url", resultText);
-            startActivity(intent);
+            String[] parts = resultText.split("/");
+            if (parts.length == 2) {
+                handled = handleQrCodeTypes(parts[0], parts[1]);
+            }
         }
+        finish();
+        return handled;
+    }
+
+    private boolean handleQrCodeTypes(String type, String id) {
+        if (type.equals("event")) {
+            EventActivity.openEvent(QRcodeActivity.this, id);
+            return true;
+        }
+        if (type.equals("profile")) {
+            ProfileActivity.openProfile(QRcodeActivity.this, id);
+            return true;
+        }
+        return false;
     }
 }

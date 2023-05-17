@@ -5,12 +5,10 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static com.sdpteam.connectout.event.EventFirebaseDataSource.DATABASE_EVENT_PATH;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -22,7 +20,6 @@ import android.widget.TimePicker;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.CloseKeyboardAction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.intent.Intents;
@@ -32,7 +29,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
 
 import org.hamcrest.Matchers;
@@ -43,8 +39,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.sql.Time;
-import java.util.GregorianCalendar;
 import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)

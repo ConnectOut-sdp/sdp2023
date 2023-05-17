@@ -2,10 +2,10 @@ package com.sdpteam.connectout.validation;
 
 import static com.sdpteam.connectout.validation.ValidationUtils.handleValidationFailure;
 
+import android.widget.EditText;
+
 import java.util.Calendar;
 import java.util.TimeZone;
-
-import android.widget.EditText;
 
 public class EventCreationValidator {
 

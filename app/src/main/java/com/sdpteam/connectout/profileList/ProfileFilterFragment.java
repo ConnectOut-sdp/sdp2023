@@ -1,8 +1,5 @@
 package com.sdpteam.connectout.profileList;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +8,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ToggleButton;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 /**
  * Adds a filtering context and features to the list of profile displayed.

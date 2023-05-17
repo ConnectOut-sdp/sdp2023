@@ -1,9 +1,9 @@
 package com.sdpteam.connectout.utils;
 
+import android.view.View;
+
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-
-import android.view.View;
 
 public class WithIndexMatcher {
     /**

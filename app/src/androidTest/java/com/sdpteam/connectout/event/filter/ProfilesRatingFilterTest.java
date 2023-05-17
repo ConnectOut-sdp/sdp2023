@@ -3,14 +3,14 @@ package com.sdpteam.connectout.event.filter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesRatingFilter;
+import com.sdpteam.connectout.profile.Profile;
 
 import org.junit.Test;
 
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesRatingFilter;
-import com.sdpteam.connectout.profile.Profile;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ProfilesRatingFilterTest {
 
