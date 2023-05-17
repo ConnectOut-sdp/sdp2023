@@ -6,6 +6,7 @@ import static com.sdpteam.connectout.post.model.Post.PostVisibility.SEMIPRIVATE;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -144,26 +145,21 @@ public class PostFirebaseDataSource implements PostDataSource {
 
     @Override
     public CompletableFuture<Result<List<Post>>> fetchAllPostsOfEvent(String userId, String eventId) {
-        return fetchAllPosts(userId).thenApply(listResult -> {
-            if (listResult.isSuccess()) {
-                List<Post> postStream = listResult.value().stream()
-                        .filter(post -> post.getEventId().equals(eventId))
-                        .collect(Collectors.toList());
-
-                return new Result<>(postStream, true);
-            } else {
-                return listResult;
-            }
-        });
+        return fetchAllPostsFiltered(userId, post -> post.getEventId().equals(eventId));
     }
 
     @Override
     public CompletableFuture<Result<List<Post>>> fetchPostMadeByUser(String userId, String authorId) {
+        return fetchAllPostsFiltered(userId, post -> post.getProfileId().equals(authorId));
+    }
+
+    private CompletableFuture<Result<List<Post>>> fetchAllPostsFiltered(String userId, Predicate<Post> postPredicateFilter) {
         return fetchAllPosts(userId).thenApply(listResult -> {
             if (listResult.isSuccess()) {
                 List<Post> postStream = listResult.value().stream()
-                        .filter(post -> post.getProfileId().equals(authorId))
+                        .filter(postPredicateFilter)
                         .collect(Collectors.toList());
+
                 return new Result<>(postStream, true);
             } else {
                 return listResult;
