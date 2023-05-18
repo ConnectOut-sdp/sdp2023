@@ -8,30 +8,30 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import android.widget.ListView;
-
-import androidx.fragment.app.testing.FragmentScenario;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+
+import android.widget.ListView;
+import androidx.fragment.app.testing.FragmentScenario;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileFilterFragmentTest {
@@ -52,6 +52,7 @@ public class ProfileFilterFragmentTest {
 
         onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
         List<Profile> profiles = new ArrayList<>();
@@ -78,6 +79,7 @@ public class ProfileFilterFragmentTest {
         onView(withId(R.id.text_filter)).perform(typeText("Alice"));
         closeSoftKeyboard();
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
         List<Profile> profiles = new ArrayList<>();
@@ -103,6 +105,7 @@ public class ProfileFilterFragmentTest {
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.text_filter)).perform(typeText("I dont know how to use filter "), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
         List<Profile> profiles = new ArrayList<>();
@@ -131,6 +134,7 @@ public class ProfileFilterFragmentTest {
         closeSoftKeyboard();
         onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
         List<Profile> profiles = new ArrayList<>();

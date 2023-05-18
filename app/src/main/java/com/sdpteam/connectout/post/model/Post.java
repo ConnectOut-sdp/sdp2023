@@ -2,6 +2,7 @@ package com.sdpteam.connectout.post.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A post is identified by it's id.
@@ -92,5 +93,24 @@ public class Post {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Post post = (Post) o;
+        return nbrLikes == post.nbrLikes && Objects.equals(id, post.id) && Objects.equals(profileId, post.profileId) && Objects.equals(eventId, post.eventId) && Objects.equals(commentsChatId,
+                post.commentsChatId) && Objects.equals(imagesUrls, post.imagesUrls) && visibility == post.visibility && Objects.equals(title, post.title) && Objects.equals(description,
+                post.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, profileId, eventId, commentsChatId, imagesUrls, nbrLikes, visibility, title, description);
     }
 }

@@ -21,26 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import android.content.Intent;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.fragment.app.Fragment;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
-import com.sdpteam.connectout.post.model.Post;
-import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
-import com.sdpteam.connectout.post.view.PostCreatorActivity;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -51,7 +32,25 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.event.viewer.EventActivity;
+import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
+import com.sdpteam.connectout.post.model.Post;
+import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
+
+import android.content.Intent;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.fragment.app.Fragment;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
@@ -77,18 +76,18 @@ public class EventActivityTest {
 
     @BeforeClass
     public static void setUpClass() {
-        new EventFirebaseDataSource().saveEvent(TEST_EVENT);
-        new PostFirebaseDataSource().savePost(TEST_POST);
-        new PostFirebaseDataSource().savePost(TEST_POST2);
+        assertTrue(new EventFirebaseDataSource().saveEvent(TEST_EVENT));
+        assertTrue(fJoin(new PostFirebaseDataSource().savePost(TEST_POST)).isSuccess());
+        assertTrue(fJoin(new PostFirebaseDataSource().savePost(TEST_POST2)).isSuccess());
         waitABit();
     }
 
     @AfterClass
     public static void tearDownClass() {
-        new EventFirebaseDataSource().deleteEvent(TEST_EVENT.getId());
-        new EventFirebaseDataSource().deleteEvent(TEST_EVENT_QR.getId());
-        new PostFirebaseDataSource().deletePost(TEST_POST.getId());
-        new PostFirebaseDataSource().deletePost(TEST_POST2.getId());
+        assertTrue(new EventFirebaseDataSource().deleteEvent(TEST_EVENT.getId()));
+        assertTrue(new EventFirebaseDataSource().deleteEvent(TEST_EVENT_QR.getId()));
+        assertTrue(fJoin(new PostFirebaseDataSource().deletePost(TEST_POST.getId())).isSuccess());
+        assertTrue(fJoin(new PostFirebaseDataSource().deletePost(TEST_POST2.getId())).isSuccess());
     }
 
     @Before
