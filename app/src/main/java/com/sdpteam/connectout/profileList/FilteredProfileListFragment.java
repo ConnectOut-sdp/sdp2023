@@ -52,7 +52,6 @@ public class FilteredProfileListFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                System.out.println(s);
             }
 
             @Override
