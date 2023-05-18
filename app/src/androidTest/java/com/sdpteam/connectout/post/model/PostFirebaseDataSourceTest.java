@@ -162,10 +162,10 @@ public class PostFirebaseDataSourceTest {
     @Test
     public void failsSavePostResultIsNotSuccess() {
         final String postId = "P6_" + generateRandomPath();
-        PostFirebaseDataSource.forceFail = true;
+        PostFirebaseDataSource.FORCE_FAIL = true;
         Post post = new Post(postId, "pid", "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         assertFalse(fJoin(model.savePost(post)).isSuccess());
-        PostFirebaseDataSource.forceFail = false;
+        PostFirebaseDataSource.FORCE_FAIL = false;
 
         assertTrue(fJoin(model.deletePost(postId)).isSuccess());
     }
@@ -186,26 +186,26 @@ public class PostFirebaseDataSourceTest {
 
     @Test
     public void fetchAllPostsNetworkErrorResultIsNotSuccess() {
-        PostFirebaseDataSource.forceFail = true; // simulate network error
+        PostFirebaseDataSource.FORCE_FAIL = true; // simulate network error
         Result<List<Post>> fetchedResult = fJoin(model.fetchAllPosts("id"));
         assertFalse(fetchedResult.isSuccess());
-        PostFirebaseDataSource.forceFail = false;
+        PostFirebaseDataSource.FORCE_FAIL = false;
     }
 
     @Test
     public void deleteNonExistingPostResultIsNotSuccess() {
-        PostFirebaseDataSource.forceFail = true;
+        PostFirebaseDataSource.FORCE_FAIL = true;
         Result<String> deleteResult = fJoin(model.deletePost("invalid"));
         assertFalse(deleteResult.isSuccess());
-        PostFirebaseDataSource.forceFail = false;
+        PostFirebaseDataSource.FORCE_FAIL = false;
     }
 
     @Test
     public void failedFetchAllPostsOfEvent() {
-        PostFirebaseDataSource.forceFail = true;
+        PostFirebaseDataSource.FORCE_FAIL = true;
         Result<List<Post>> fetchedResult = fJoin(model.fetchAllPostsOfEvent("id", "id2"));
         assertFalse(fetchedResult.isSuccess());
-        PostFirebaseDataSource.forceFail = false;
+        PostFirebaseDataSource.FORCE_FAIL = false;
     }
 
     @Test
@@ -216,10 +216,10 @@ public class PostFirebaseDataSourceTest {
 
     @Test
     public void fetchPostsMadeByUserWithCrash() {
-        PostFirebaseDataSource.forceFail = true;
+        PostFirebaseDataSource.FORCE_FAIL = true;
         Result<List<Post>> listResult = fJoin(model.fetchPostMadeByUser("uid1", "auth1"));
         assertFalse(listResult.isSuccess());
-        PostFirebaseDataSource.forceFail = false;
+        PostFirebaseDataSource.FORCE_FAIL = false;
     }
 
     @Test
