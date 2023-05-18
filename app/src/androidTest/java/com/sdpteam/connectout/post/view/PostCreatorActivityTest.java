@@ -18,14 +18,26 @@ import org.junit.runner.RunWith;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
+import android.content.Intent;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
 @RunWith(AndroidJUnit4.class)
 public class PostCreatorActivityTest {
+
     @Rule
-    public ActivityScenarioRule<PostCreatorActivity> testRule = new ActivityScenarioRule<>(PostCreatorActivity.class);
+    public ActivityTestRule<PostCreatorActivity> testRule = new ActivityTestRule<PostCreatorActivity>(PostCreatorActivity.class) {
+        @Override
+        protected Intent getActivityIntent() {
+            Intent intent = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), PostCreatorActivity.class);
+            intent.putExtra("profileId", "yourProfileId");
+            intent.putExtra("eventId", "yourEventId");
+            intent.putExtra("eventName", "yourEventName");
+            return intent;
+        }
+    };
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -48,11 +60,8 @@ public class PostCreatorActivityTest {
         onView(withId(R.id.post_creator_status)).check(matches(isDisplayed())).check(matches(withText("Post created successfully")));
 
         // cleanup
-        final String[] postId = {null};
-        testRule.getScenario().onActivity(activity -> {
-            postId[0] = activity.viewModel.statusMsgLiveData().getValue().value();
-        });
-        assertNotNull(postId[0]);
-        assertTrue(fJoin(new PostFirebaseDataSource().deletePost(postId[0])).isSuccess());
+        final String postId = testRule.getActivity().viewModel.statusMsgLiveData().getValue().value();
+        assertNotNull(postId);
+        assertTrue(fJoin(new PostFirebaseDataSource().deletePost(postId)).isSuccess());
     }
 }
