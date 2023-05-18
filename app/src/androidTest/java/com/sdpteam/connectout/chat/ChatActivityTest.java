@@ -11,8 +11,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.anything;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
+import android.view.MenuItem;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
@@ -21,6 +24,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.utils.TestMenuItem;
 
 import org.junit.After;
 import org.junit.Before;
@@ -48,6 +52,26 @@ public class ChatActivityTest {
         Intents.release();
         model.emptyTestMode(nameOfTestChat);
         waitABit();
+    }
+
+    @Test
+    public void testOnOptionsItemSelectedWithHomeItemIdFinishActivity() {
+        activityRule.getScenario().onActivity(activity ->
+        {
+            MenuItem menuItem = new TestMenuItem(android.R.id.home);
+            // Assert that the activity should not be finished
+            assertTrue(activity.onOptionsItemSelected(menuItem));
+        });
+    }
+
+    @Test
+    public void testOnOptionsItemSelectedWithNonHomeItemIdDoNotFinishActivity() {
+        activityRule.getScenario().onActivity(activity ->
+        {
+            MenuItem menuItem = new TestMenuItem(android.R.id.copy);
+            // Assert that the activity should not be finished
+            assertFalse(activity.onOptionsItemSelected(menuItem));
+        });
     }
 
     @Test

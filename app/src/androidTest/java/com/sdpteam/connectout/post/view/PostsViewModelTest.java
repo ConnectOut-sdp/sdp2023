@@ -126,12 +126,12 @@ public class PostsViewModelTest {
         }
 
         @Override
-        public CompletableFuture<Result<Void>> savePost(Post post) {
+        public CompletableFuture<Result<String>> savePost(Post post) {
             return null;
         }
 
         @Override
-        public CompletableFuture<Result<Void>> deletePost(String postId) {
+        public CompletableFuture<Result<String>> deletePost(String postId) {
             return null;
         }
 
