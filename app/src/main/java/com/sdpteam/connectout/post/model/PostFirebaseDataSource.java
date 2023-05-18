@@ -3,20 +3,19 @@ package com.sdpteam.connectout.post.model;
 import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
 import static com.sdpteam.connectout.post.model.Post.PostVisibility.SEMIPRIVATE;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
+import com.sdpteam.connectout.utils.Result;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
-import com.sdpteam.connectout.utils.Result;
 
 public class PostFirebaseDataSource implements PostDataSource {
     public static boolean FORCE_FAIL = false; // workaround because Mocking the isSuccessful() of the Task class is not possible
@@ -138,7 +137,7 @@ public class PostFirebaseDataSource implements PostDataSource {
         final EventParticipantIdFilter organizerOrParticipant = new EventParticipantIdFilter(userId);
 
         return new EventFirebaseDataSource()
-                .getEventsByFilter(organizerOrParticipant, ProfilesFilter.NONE)
+                .getEventsByFilter(organizerOrParticipant)
                 .thenApply(events -> events.stream().map(Event::getId).collect(Collectors.toList()));
     }
 
