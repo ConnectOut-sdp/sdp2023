@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.post.model;
 
+import static com.sdpteam.connectout.post.model.Post.PostVisibility.SEMIPRIVATE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -93,6 +95,13 @@ public class Post {
 
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * effectively checks if the event is semi private and if the associated event is not null
+     */
+    public boolean isSemiPrivate() {
+        return getVisibility() != null && getVisibility().equals(SEMIPRIVATE) && getEventId() != null;
     }
 
     @Override

@@ -19,7 +19,7 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.utils.Result;
 
 public class PostFirebaseDataSource implements PostDataSource {
-    public static boolean forceFail = false; // workaround because Mocking the isSuccessful() of the Task class is not possible
+    public static boolean FORCE_FAIL = false; // workaround because Mocking the isSuccessful() of the Task class is not possible
     // (MockitoException: Mockito cannot mock this class: class com.google.android.gms.tasks.Task)
 
     private static final String POSTS = "Posts";
@@ -37,8 +37,7 @@ public class PostFirebaseDataSource implements PostDataSource {
 
         FirebaseDatabase.getInstance().getReference().child(POSTS).child(post.getId()).setValue(post)
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && !forceFail) {
-                        System.out.println("Post saved successfully");
+                    if (task.isSuccessful() && !FORCE_FAIL) {
                         result.complete(new Result<>(finalPost.getId(), true));
                     } else {
                         result.complete(new Result<>(null, false, "Post save failed"));
@@ -52,8 +51,7 @@ public class PostFirebaseDataSource implements PostDataSource {
         CompletableFuture<Result<String>> result = new CompletableFuture<>();
         FirebaseDatabase.getInstance().getReference().child(POSTS).child(postId).removeValue()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && !forceFail) {
-                        System.out.println("Post saved successfully");
+                    if (task.isSuccessful() && !FORCE_FAIL) {
                         result.complete(new Result<>(postId, true));
                     } else {
                         result.complete(new Result<>(null, false, "Post save failed"));
@@ -69,7 +67,7 @@ public class PostFirebaseDataSource implements PostDataSource {
 
         FirebaseDatabase.getInstance().getReference().child(POSTS).child(postId).get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult().exists() && !forceFail) {
+                    if (task.isSuccessful() && task.getResult().exists() && !FORCE_FAIL) {
                         final Post post = task.getResult().getValue(Post.class);
                         System.out.println("Post fetched successfully " + post.toString());
                         subStep.complete(new Result<>(post, true));
@@ -92,18 +90,19 @@ public class PostFirebaseDataSource implements PostDataSource {
                 result.complete(new Result<>(post, true));
             } else if (post.getVisibility().equals(SEMIPRIVATE)) {
                 final Event event = (new EventFirebaseDataSource().getEvent(post.getEventId())).join();
-                if (event != null) {
+                if (event == null) {
+                    result.complete(new Result<>(null, false,
+                            "Error the event associated to the post does not exist! (maybe a timeout issue) postId" + postId + " eventId" + post.getEventId()));
+                } else {
                     if (event.getOrganizer().equals(post.getProfileId()) || event.getParticipants().contains(post.getProfileId())) {
                         result.complete(new Result<>(post, true));
                     } else {
                         result.complete(new Result<>(null, false, "Error occurred, user has not access to this post"));
                     }
-                } else {
-                    result.complete(new Result<>(null, false,
-                            "Error the event associated to the post does not exist! (maybe a timeout issue) postId" + postId + " eventId" + post.getEventId()));
                 }
             }
         }).join();
+
         return result;
     }
 
@@ -113,13 +112,13 @@ public class PostFirebaseDataSource implements PostDataSource {
             final CompletableFuture<Result<List<Post>>> result = new CompletableFuture<>();
 
             FirebaseDatabase.getInstance().getReference().child(POSTS).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult().exists() && !forceFail) {
+                if (task.isSuccessful() && task.getResult().exists() && !FORCE_FAIL) {
                     final DataSnapshot dataSnapshot = task.getResult();
                     final List<Post> postList = StreamSupport.stream(dataSnapshot.getChildren().spliterator(), false)
                             .map(childSnapshot -> childSnapshot.getValue(Post.class))
                             .filter(Objects::nonNull)
                             .filter(post -> {
-                                if (post.getVisibility() != null && post.getVisibility().equals(SEMIPRIVATE) && post.getEventId() != null) {
+                                if (post.isSemiPrivate()) {
                                     return allEventsUserCanAccess.contains(post.getEventId());
                                 } else {
                                     return true;
@@ -153,11 +152,11 @@ public class PostFirebaseDataSource implements PostDataSource {
         return fetchAllPostsFiltered(userId, post -> post.getProfileId().equals(authorId));
     }
 
-    private CompletableFuture<Result<List<Post>>> fetchAllPostsFiltered(String userId, Predicate<Post> postPredicateFilter) {
+    private CompletableFuture<Result<List<Post>>> fetchAllPostsFiltered(String userId, Predicate<Post> postFilter) {
         return fetchAllPosts(userId).thenApply(listResult -> {
-            if (listResult.isSuccess() && !forceFail) {
+            if (listResult.isSuccess() && !FORCE_FAIL) {
                 List<Post> postStream = listResult.value().stream()
-                        .filter(postPredicateFilter)
+                        .filter(postFilter)
                         .collect(Collectors.toList());
 
                 return new Result<>(postStream, true);
