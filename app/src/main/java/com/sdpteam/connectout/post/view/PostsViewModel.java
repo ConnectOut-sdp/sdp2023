@@ -1,16 +1,16 @@
 package com.sdpteam.connectout.post.view;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostDataSource;
 import com.sdpteam.connectout.utils.Result;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 

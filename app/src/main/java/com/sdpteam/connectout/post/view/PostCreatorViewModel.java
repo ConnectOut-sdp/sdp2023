@@ -54,7 +54,7 @@ public class PostCreatorViewModel {
     private void finishPostCreation(List<Uri> uris, Post tmpPost) {
         final List<String> imageUrls = uris.stream().map(Uri::toString).collect(Collectors.toList());
 
-        final Post finalPost = new Post("tmpPostgetId",
+        final Post finalPost = new Post(tmpPost.getId(),
                 tmpPost.getProfileId(),
                 tmpPost.getEventId(),
                 "",
@@ -64,9 +64,9 @@ public class PostCreatorViewModel {
                 tmpPost.getTitle(),
                 tmpPost.getDescription());
 
-        postDataSource.savePost(finalPost).thenAccept(voidResult -> {
-            if (voidResult.isSuccess()) {
-                statusMsg.setValue(new Result<>("voidResult.value().getId()", true, "Post created successfully"));
+        postDataSource.savePost(finalPost).thenAccept(postIdResult -> {
+            if (postIdResult.isSuccess()) {
+                statusMsg.setValue(new Result<>(postIdResult.value(), true, "Post created successfully"));
             } else {
                 statusMsg.setValue(new Result<>(null, false, "Images uploaded successfully, but post creation failed!"));
             }

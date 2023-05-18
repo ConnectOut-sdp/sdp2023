@@ -38,10 +38,12 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 public class PostsAdapter extends ArrayAdapter<Post> {
 
     private final int postItemResource;
+    private final boolean seeEventsVisible;
 
-    public PostsAdapter(@NonNull Context context, int resource) {
+    public PostsAdapter(@NonNull Context context, int resource, boolean seeEventsVisible) {
         super(context, resource);
         postItemResource = resource;
+        this.seeEventsVisible = seeEventsVisible;
     }
 
     @NonNull
@@ -79,7 +81,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         commentsButton.setOnClickListener(v -> CommentsActivity.openComments(getContext(), post.getCommentsChatId()));
 
         final Button eventButton = view.findViewById(R.id.post_event_button);
-        eventButton.setVisibility(getVisibility(post.getEventId()));
+        eventButton.setVisibility(seeEventsVisible ? View.VISIBLE : View.GONE);
         eventButton.setOnClickListener(v -> EventActivity.openEvent(getContext(), post.getEventId()));
 
         final ImageView visibilityIcon = view.findViewById(R.id.post_visibility_icon);
