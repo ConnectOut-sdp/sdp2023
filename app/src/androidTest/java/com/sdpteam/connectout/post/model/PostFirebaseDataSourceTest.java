@@ -6,10 +6,8 @@ import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +34,9 @@ public class PostFirebaseDataSourceTest {
         imagesUrls.add("url2");
         imagesUrls.add("url3");
 
-//        MockitoAnnotations.initMocks(this);
-// does not work, cannot mock the Task class so it does a isSuccessful() of false
+        // MockitoAnnotations.initMocks(this);
+        // does not work, cannot mock the Task class so it does a isSuccessful() of false
     }
-
-    //    @Test
-//    public void modelReturnNullOnNonExistingEventEId() {
-//        Result<Post> foundPost = fJoin(model.fetchPost("invalid"));
-//        assertFalse(foundPost.isSuccess());
-//    }
 
     @Test
     public void createPost() {
@@ -80,7 +72,7 @@ public class PostFirebaseDataSourceTest {
         Result<Post> fetchedResult = fJoin(model.fetchPost(postId));
         assertTrue(fetchedResult.isSuccess());
         Post fetchedPost = fetchedResult.value();
-        assertSamePosts(fetchedPost, post);
+        assertEquals(fetchedPost, post);
 
         assertTrue(fJoin(model.deletePost(postId)).isSuccess());
         assertTrue(eventFirebaseDataSource.deleteEvent(event.getId()));
@@ -94,7 +86,7 @@ public class PostFirebaseDataSourceTest {
         assertTrue(eventFirebaseDataSource.saveEvent(new Event(eventId, "", "", null, "")));
         waitABit();
 
-        String postId = "P11_" + generateRandomPath();
+        String postId = "P2_" + generateRandomPath();
         Post post = new Post(postId, "pid", eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         assertTrue(fJoin(model.savePost(post)).isSuccess());
 
@@ -118,7 +110,7 @@ public class PostFirebaseDataSourceTest {
         waitABit();
         waitABit();
 
-        String postId = "P11_" + generateRandomPath();
+        String postId = "P3_" + generateRandomPath();
         Post post = new Post(postId, postAuthorId, eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE, "", "");
         assertTrue(fJoin(model.savePost(post)).isSuccess());
 
@@ -141,7 +133,7 @@ public class PostFirebaseDataSourceTest {
         waitABit();
         waitABit();
 
-        String postId = "P11_" + generateRandomPath();
+        String postId = "P4_" + generateRandomPath();
         Post post = new Post(postId, postAuthorId, eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE, "", "");
         assertTrue(fJoin(model.savePost(post)).isSuccess());
 
@@ -155,7 +147,7 @@ public class PostFirebaseDataSourceTest {
 
     @Test
     public void fetchPostWithNonExistingEventShouldFail() {
-        String postId = "P11_" + generateRandomPath();
+        String postId = "P5_" + generateRandomPath();
         String eventId = "eventIdNotExists";
         Post post = new Post(postId, "pid", eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE, "", "");
         assertTrue(fJoin(model.savePost(post)).isSuccess());
@@ -169,7 +161,7 @@ public class PostFirebaseDataSourceTest {
 
     @Test
     public void failsSavePostResultIsNotSuccess() {
-        final String postId = "P2_" + generateRandomPath();
+        final String postId = "P6_" + generateRandomPath();
         PostFirebaseDataSource.forceFail = true;
         Post post = new Post(postId, "pid", "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         assertFalse(fJoin(model.savePost(post)).isSuccess());
@@ -181,7 +173,7 @@ public class PostFirebaseDataSourceTest {
     @Test
     public void postWithUnsupportedVisibility() {
         Post.PostVisibility visibility = null;
-        final String postId = "P2_" + generateRandomPath();
+        final String postId = "P7_" + generateRandomPath();
         Post post = new Post(postId, "pid", "eventId", "commentsId", imagesUrls, 10, visibility, "", "");
         assertTrue(fJoin(model.savePost(post)).isSuccess());
 
@@ -193,8 +185,8 @@ public class PostFirebaseDataSourceTest {
     }
 
     @Test
-    public void failedFetchAllPostsOfEvent() {
-        PostFirebaseDataSource.forceFail = true;
+    public void fetchAllPostsNetworkErrorResultIsNotSuccess() {
+        PostFirebaseDataSource.forceFail = true; // simulate network error
         Result<List<Post>> fetchedResult = fJoin(model.fetchAllPosts("id"));
         assertFalse(fetchedResult.isSuccess());
         PostFirebaseDataSource.forceFail = false;
@@ -209,9 +201,9 @@ public class PostFirebaseDataSourceTest {
     }
 
     @Test
-    public void fetchAllPostsNetworkErrorResultIsNotSuccess() {
-        PostFirebaseDataSource.forceFail = true; // simulate network error
-        Result<List<Post>> fetchedResult = fJoin(model.fetchAllPosts("id"));
+    public void failedFetchAllPostsOfEvent() {
+        PostFirebaseDataSource.forceFail = true;
+        Result<List<Post>> fetchedResult = fJoin(model.fetchAllPostsOfEvent("id", "id2"));
         assertFalse(fetchedResult.isSuccess());
         PostFirebaseDataSource.forceFail = false;
     }
@@ -223,11 +215,19 @@ public class PostFirebaseDataSourceTest {
     }
 
     @Test
+    public void fetchPostsMadeByUserWithCrash() {
+        PostFirebaseDataSource.forceFail = true;
+        Result<List<Post>> listResult = fJoin(model.fetchPostMadeByUser("uid1", "auth1"));
+        assertFalse(listResult.isSuccess());
+        PostFirebaseDataSource.forceFail = false;
+    }
+
+    @Test
     public void getAllPostsWorks() {
         String pid = "pid_" + generateRandomPath();
-        final String postId1 = "P3a_" + generateRandomPath();
-        final String postId2 = "P3b_" + generateRandomPath();
-        final String postId3 = "P3c_" + generateRandomPath();
+        final String postId1 = "P8a_" + generateRandomPath();
+        final String postId2 = "P8b_" + generateRandomPath();
+        final String postId3 = "P8c_" + generateRandomPath();
 
         Post post1 = new Post(postId1, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
         Post post2 = new Post(postId2, pid, "eventId", "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
@@ -241,9 +241,9 @@ public class PostFirebaseDataSourceTest {
         List<Post> fetchedPosts =
                 fetchedResult.value().stream().filter(post -> post.getId().equals(postId1) || post.getId().equals(postId2) || post.getId().equals(postId3)).collect(Collectors.toList());
         assertThat(fetchedPosts.size(), is(3));
-        assertPostInList(post1, fetchedPosts);
-        assertPostInList(post2, fetchedPosts);
-        assertPostInList(post3, fetchedPosts);
+        assertTrue(fetchedPosts.contains(post1));
+        assertTrue(fetchedPosts.contains(post2));
+        assertTrue(fetchedPosts.contains(post3));
 
         assertTrue(fJoin(model.deletePost(postId1)).isSuccess());
         assertTrue(fJoin(model.deletePost(postId2)).isSuccess());
@@ -257,9 +257,9 @@ public class PostFirebaseDataSourceTest {
         imagesUrls.add("url2");
         imagesUrls.add("url3");
 
-        final String postId1 = "P4a_" + generateRandomPath();
-        final String postId2 = "P4b_" + generateRandomPath();
-        final String postId3 = "P4c_" + generateRandomPath();
+        final String postId1 = "P9a_" + generateRandomPath();
+        final String postId2 = "P9b_" + generateRandomPath();
+        final String postId3 = "P9c_" + generateRandomPath();
 
         String pid = "pid_" + generateRandomPath();
         String pidSomeoneElse = "pid_" + generateRandomPath();
@@ -296,9 +296,9 @@ public class PostFirebaseDataSourceTest {
         imagesUrls.add("url2");
         imagesUrls.add("url3");
 
-        final String postId1 = "P5a_" + generateRandomPath();
-        final String postId2 = "P5b_" + generateRandomPath();
-        final String postId3 = "P5c_" + generateRandomPath();
+        final String postId1 = "P10a_" + generateRandomPath();
+        final String postId2 = "P10b_" + generateRandomPath();
+        final String postId3 = "P10c_" + generateRandomPath();
         String pid = "pid_" + generateRandomPath();
         String pidSomeoneElse = "pid_" + generateRandomPath();
 
@@ -331,26 +331,5 @@ public class PostFirebaseDataSourceTest {
         Result<List<Post>> listResult = fJoin(model.fetchPostMadeByUser("uid1", "auth1"));
         assertTrue(listResult.isSuccess());
         assertTrue(listResult.value().isEmpty());
-    }
-
-    private static void assertSamePosts(Post a, Post b) {
-        assertEquals(a.getId(), b.getId());
-        assertEquals(a.getProfileId(), b.getProfileId());
-        assertEquals(a.getEventId(), b.getEventId());
-        assertEquals(a.getCommentsChatId(), b.getCommentsChatId());
-        assertEquals(a.getNbrLikes(), b.getNbrLikes());
-        assertSame(a.getVisibility(), b.getVisibility());
-        assertEquals(a.getImagesUrls().size(), b.getImagesUrls().size());
-        assertTrue(b.getImagesUrls().containsAll(a.getImagesUrls()));
-    }
-
-    private static void assertPostInList(Post x, List<Post> list) {
-        for (Post y : list) {
-            if (x.getId().equals(y.getId())) {
-                assertSamePosts(x, y);
-                return;
-            }
-        }
-        fail("Post " + x.getId() + " not found in list");
     }
 }
