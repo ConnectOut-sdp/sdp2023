@@ -10,6 +10,7 @@ import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -57,16 +58,16 @@ public class PostsActivityTest {
         imagesUrls.add("https://firebasestorage.googleapis.com/v0/b/my-project-test-a847f.appspot.com/o/1683269290710_5e3659ce-9aea-4f90-aea2-64eb941d6a6c" +
                 ".jpg?alt=media&token=590a4df0-12c1-491a-9b89-f621c8f2bbe3");
 
-        fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT));
-        fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT1));
-        fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT2));
+        assertTrue(fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT)).isSuccess());
+        assertTrue(fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT1)).isSuccess());
+        assertTrue(fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT2)).isSuccess());
     }
 
     @AfterClass
     public static void tearDownClass() {
-        fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT.getId()));
-        fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT1.getId()));
-        fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT2.getId()));
+        assertTrue(fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT.getId())).isSuccess());
+        assertTrue(fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT1.getId())).isSuccess());
+        assertTrue(fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT2.getId())).isSuccess());
     }
 
     @Before
