@@ -23,4 +23,23 @@ public class PostTest {
         assertThat(m.getTitle(), is("title"));
         assertThat(m.getDescription(), is("description"));
     }
+
+    @Test
+    public void equalsTest() {
+        Post m1 = new Post("id", "pid", "eventId", "commentsChatId", new ArrayList<>(), 1, Post.PostVisibility.PUBLIC, "title", "description");
+        Post m2 = new Post("id", "pid", "eventId", "commentsChatId", new ArrayList<>(), 1, Post.PostVisibility.PUBLIC, "title", "description");
+        assertThat(m1.equals(m2), is(true));
+    }
+
+    @Test
+    public void equalsWithNullIsFalse() {
+        Post m1 = new Post("id", "pid", "eventId", "commentsChatId", new ArrayList<>(), 1, Post.PostVisibility.PUBLIC, "title", "description");
+        assertThat(m1.equals(null), is(false));
+    }
+
+    @Test
+    public void equalsWithUnrelatedClassIsFalse() {
+        Post m1 = new Post("id", "pid", "eventId", "commentsChatId", new ArrayList<>(), 1, Post.PostVisibility.PUBLIC, "title", "description");
+        assertThat(m1.equals(new Object()), is(false));
+    }
 }

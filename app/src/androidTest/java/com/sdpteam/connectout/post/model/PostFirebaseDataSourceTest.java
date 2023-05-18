@@ -179,7 +179,7 @@ public class PostFirebaseDataSourceTest {
 
         Result<Post> result = fJoin(model.fetchPost(postId));
         assertFalse(result.isSuccess());
-        assertEquals(result.msg(), "Event has visibility set to NULL which is not supported by this version of the app");
+        assertEquals(result.msg(), "Event has visibility set to NULL which is not expected");
 
         assertTrue(fJoin(model.deletePost(postId)).isSuccess());
     }

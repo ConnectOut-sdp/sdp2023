@@ -86,9 +86,8 @@ public class PostFirebaseDataSource implements PostDataSource {
             }
             final Post post = Objects.requireNonNull(postResult.value());
 
-            if (post.getVisibility() == null || (!post.getVisibility().equals(PUBLIC) && !post.getVisibility().equals(SEMIPRIVATE))) {
-                String desc = post.getVisibility() == null ? "NULL" : post.getVisibility().toString();
-                result.complete(new Result<>(null, false, "Event has visibility set to " + desc + " which is not supported by this version of the app"));
+            if (post.getVisibility() == null) {
+                result.complete(new Result<>(null, false, "Event has visibility set to NULL which is not expected"));
             } else if (post.getVisibility().equals(PUBLIC)) {
                 result.complete(new Result<>(post, true));
             } else if (post.getVisibility().equals(SEMIPRIVATE)) {
