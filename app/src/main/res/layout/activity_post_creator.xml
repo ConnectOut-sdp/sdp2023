@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/post_creator_id"
+        tools:context=".post.view.PostCreatorActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/post_creator_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.ConnectOut.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/post_creator_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.ConnectOut.PopupOverlay"
+                app:navigationIcon="@drawable/back_arrow_image">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/toolbar_title" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_creator_content"
+            android:layout_above="@+id/post_creator_save_button"
+            android:layout_below="@id/post_creator_appbar"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/post_creator_title_description"
+                android:text="Creating a post for event named eventNameHere"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:paddingVertical="10dp" />
+
+        <EditText
+                android:id="@+id/post_creator_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Post title"
+                android:paddingVertical="20dp"
+                android:layout_below="@+id/post_creator_title_description" />
+
+        <EditText
+                android:id="@+id/post_creator_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/post_creator_title"
+                android:layout_centerHorizontal="true"
+                android:paddingVertical="20dp"
+                android:ems="15"
+                android:hint="Post description"
+                android:inputType="text" />
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
+                android:id="@+id/post_creator_select_images"
+                android:layout_below="@+id/post_creator_description">
+
+            <TextView
+                    android:id="@+id/post_creator_images_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Please import at most 3 images for this post"
+                    android:paddingBottom="20dp" />
+
+            <RelativeLayout
+                    android:id="@+id/post_creator_image_1_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ok1"
+                    android:layout_below="@id/post_creator_images_title" />
+
+            <RelativeLayout
+                    android:id="@+id/post_creator_image_2_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ok2"
+                    android:layout_below="@id/post_creator_image_1_container"
+                    android:paddingVertical="5dp" />
+
+            <RelativeLayout
+                    android:id="@+id/post_creator_image_3_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ok3"
+                    android:layout_below="@id/post_creator_image_2_container" />
+
+        </RelativeLayout>
+
+        <Switch
+                android:id="@+id/post_creator_visibilitySwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Public post"
+                android:layout_below="@+id/post_creator_select_images"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/post_creator_visibilitySwitch"
+                android:text="Public posts are visible by all users (in Posts feed menu)\nOtherwise the post is semi-private, meaning only the event participants can see it." />
+
+        <TextView
+                android:id="@+id/post_creator_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin" />
+    </RelativeLayout>
+
+
+    <Button
+            android:id="@+id/post_creator_save_button"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create post" />
+
+</RelativeLayout>

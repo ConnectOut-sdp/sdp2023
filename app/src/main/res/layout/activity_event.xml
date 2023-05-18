@@ -1,154 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".event.viewer.EventActivity">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".event.viewer.EventActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/event_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/Theme.ConnectOut.AppBarOverlay"
-        app:navigationIcon="@drawable/back_arrow_image">
+            android:id="@+id/event_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/Theme.ConnectOut.AppBarOverlay"
+            app:navigationIcon="@drawable/back_arrow_image">
 
         <TextView
-            android:id="@+id/event_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:text="@string/event_title"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+                android:id="@+id/event_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:text="@string/event_title"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/event_chat_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:contentDescription="Chat"
-            android:src="@drawable/message" />
+                android:id="@+id/event_chat_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:contentDescription="Chat"
+                android:src="@drawable/message" />
 
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/event_toolbar">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/event_toolbar">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/event_content"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_weight="10"
-                android:layout_above="@+id/event_post_fragment_container"
-                android:layout_below="@+id/event_toolbar">
+                    android:id="@+id/event_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:layout_weight="10"
+                    android:layout_above="@+id/event_post_fragment_container"
+                    android:layout_below="@+id/event_toolbar">
 
                 <TextView
-                    android:id="@+id/event_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="16dp"
-                    android:text="@string/event_description" />
+                        android:id="@+id/event_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="16dp"
+                        android:text="@string/event_description" />
 
                 <Button
-                    android:id="@+id/event_participants_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/event_description"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="30dp"
-                    android:text="@string/participants" />
+                        android:id="@+id/event_participants_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/event_description"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="30dp"
+                        android:text="@string/participants" />
 
                 <ImageButton
-                    android:id="@+id/buttonShareEventQrCode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/event_description"
-                    android:layout_alignLeft="@+id/event_participants_button"
-                    android:layout_marginLeft="180dp"
-                    android:layout_marginTop="30dp"
-                    android:paddingBottom="15dp"
-                    android:src="@drawable/qr_code_image"
-                    android:text="QR Code" />
+                        android:id="@+id/buttonShareEventQrCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/event_description"
+                        android:layout_alignLeft="@+id/event_participants_button"
+                        android:layout_marginLeft="180dp"
+                        android:layout_marginTop="30dp"
+                        android:paddingBottom="15dp"
+                        android:src="@drawable/qr_code_image"
+                        android:text="QR Code" />
 
                 <RelativeLayout
-                    android:id="@+id/event_fragment_container"
+                        android:id="@+id/event_fragment_container"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/event_participants_button"
+                        android:layout_height="match_parent"
+                        app:defaultNavHost="true"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:layout_marginStart="@dimen/fab_margin"
+                        android:layout_marginEnd="@dimen/fab_margin"
+                        android:layout_marginBottom="16dp"
+                        android:layout_alignParentBottom="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/event_post_fragment_container"
                     android:layout_width="match_parent"
-                    android:layout_below="@+id/event_participants_button"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
                     app:defaultNavHost="true"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="@dimen/fab_margin"
-                    android:layout_marginStart="@dimen/fab_margin"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="16dp"
-                    android:layout_alignParentBottom="true" />
+                    android:layout_margin="@dimen/fab_margin" />
 
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/event_post_fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                app:defaultNavHost="true"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="@dimen/fab_margin" />
-
-            <RelativeLayout
-                android:id="@+id/event_join_buttons"
-                android:layout_gravity="end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-
-                android:orientation="horizontal">
-
+            <LinearLayout
+                    android:id="@+id/event_join_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
                 <!--note: by default the visibility is gone for each of them (except join) and programmatically we will display the correct ones-->
                 <Button
-                    android:id="@+id/event_interested_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="10dp"
-                    android:text="Interested"
-                    android:textSize="10dp"
-                    android:layout_toEndOf="@id/event_join_button" />
+                        android:id="@+id/event_restrictions_button"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:text="Restrictions"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
 
                 <Button
-                    android:id="@+id/event_restrictions_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:text="Restrictions"
-                    android:visibility="gone" />
+                        android:id="@+id/event_join_button"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Join"
+                        android:textSize="12sp"
+                        android:layout_margin="10dp"
+                        android:visibility="visible" />
 
                 <Button
-                    android:id="@+id/event_join_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="10dp"
-                    android:text="Join"
-                    android:visibility="visible" />
+                        android:id="@+id/event_interested_button"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:text="Maybe join"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
 
-            </RelativeLayout>
+                <Button
+                        android:id="@+id/event_make_post_button"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:text="Make a post"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+            </LinearLayout>
+
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
