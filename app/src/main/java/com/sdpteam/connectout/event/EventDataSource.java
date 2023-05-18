@@ -1,7 +1,6 @@
 package com.sdpteam.connectout.event;
 
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -62,11 +61,10 @@ public interface EventDataSource {
     String getUniqueId();
 
     /**
-     * @param eventFilter    (EventFilter): Custom filter to apply upon the event's attribute
-     * @param profilesFilter (ProfilesFilter): Custom filter to apply upon the participants profile's attribute
+     * @param eventFilter (EventFilter): Custom filter to apply upon the event's attribute
      * @return (CompletableFuture < List < Event > >): a changeable list of different events.
      */
-    CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter);
+    CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter);
 
     void saveEventRestrictions(String eventId, Event.EventRestrictions restrictions);
 

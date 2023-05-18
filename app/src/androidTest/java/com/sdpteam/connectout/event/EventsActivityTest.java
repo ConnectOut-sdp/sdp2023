@@ -29,7 +29,6 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.profile.ProfileActivity;
 
@@ -89,7 +88,7 @@ public class EventsActivityTest {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
-        List<Event> events = fJoin(new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE, ProfilesFilter.NONE));
+        List<Event> events = fJoin(new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE));
         int index = 0;
         if (!events.isEmpty()) {
             String expectedTitle = events.get(index).getTitle();
@@ -104,7 +103,7 @@ public class EventsActivityTest {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
-        List<Event> events = fJoin(new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE, ProfilesFilter.NONE));
+        List<Event> events = fJoin(new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE));
         int listIdx = 0;
         if (!events.isEmpty()) {
             String expectedOrganizer = events.get(listIdx).getOrganizer();

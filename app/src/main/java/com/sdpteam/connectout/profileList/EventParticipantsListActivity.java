@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profileList.filter.ProfileParticipationFilter;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 /**
@@ -21,19 +22,18 @@ public class EventParticipantsListActivity extends WithFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //Create the view of the activity.
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_list);
+        setContentView(R.layout.activity_community);
 
-        Toolbar toolbar = findViewById(R.id.user_list_toolbar);
-        Button filterButton = findViewById(R.id.user_list_button);
+        final Toolbar toolbar = findViewById(R.id.user_list_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> this.finish());
+
+        final Button filterButton = findViewById(R.id.user_list_button);
         filterButton.setVisibility(View.GONE);
 
-        String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
-        Bundle b = new Bundle();
-        b.putString(PASSED_ID_KEY, eventId);
-        Fragment f = new EventParticipantsListFragment();
-        f.setArguments(b);
+        final String eventId = getIntent().getStringExtra(PASSED_ID_KEY);
+
+        final Fragment f = new FilteredProfileListFragment(new ProfileParticipationFilter(eventId));
         replaceFragment(f, R.id.container_users_listview);
     }
 }

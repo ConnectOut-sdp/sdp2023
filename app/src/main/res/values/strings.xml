@@ -15,7 +15,7 @@
     <string name="login_password">Password</string>
     <string name="log_in_button">Log In</string>
     <string name="sign_in_button">Sign In</string>
-    <string name="filter_example">eg: Alice, Bob, 3.5;5 …</string>
+    <string name="search_placeholder">Search…</string>
     <string name="greetings_text">Greetings</string>
     <string name="connect_out_logo">Connect out Logo</string>
     <string name="submit">submit</string>
