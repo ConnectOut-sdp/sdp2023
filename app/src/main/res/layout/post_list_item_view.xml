@@ -102,6 +102,7 @@
                 android:text="See event >"
                 android:layout_marginRight="10dp"
                 android:textSize="12sp" />
+
         <Button
                 android:id="@+id/post_comments_button"
                 android:layout_height="match_parent"

@@ -77,7 +77,6 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         });
 
         Button commentsButton = view.findViewById(R.id.post_comments_button);
-        commentsButton.setVisibility(getVisibility(post.getCommentsChatId()));
         commentsButton.setOnClickListener(v -> CommentsActivity.openComments(getContext(), post.getCommentsChatId()));
 
         final Button eventButton = view.findViewById(R.id.post_event_button);
@@ -94,10 +93,6 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         displayAuthorInfo(view, post);
 
         return view;
-    }
-
-    private static int getVisibility(String value) {
-        return value == null || value.isEmpty() ? View.GONE : View.VISIBLE;
     }
 
     private void displayAuthorInfo(View view, Post post) {
