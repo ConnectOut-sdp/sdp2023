@@ -40,9 +40,9 @@ import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
+import com.sdpteam.connectout.post.view.PostCreatorActivity;
 
 import android.content.Intent;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.fragment.app.Fragment;
@@ -108,7 +108,6 @@ public class EventActivityTest {
         onView(withId(R.id.buttonShareEventQrCode)).check(matches(isDisplayed()));
         onView(withId(R.id.buttonShareEventQrCode)).perform(click());
         intended(hasComponent(QRcodeModalActivity.class.getName()));
-
 
         // Verify that the intent has the expected key
         intended(hasExtraWithKey("title"));
