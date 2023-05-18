@@ -77,6 +77,72 @@ public class PostFirebaseDataSourceTest {
     }
 
     @Test
+    public void fetchPublicPost() {
+        final String eventId = "eventId" + generateRandomPath();
+        EventFirebaseDataSource eventFirebaseDataSource = new EventFirebaseDataSource();
+        assertTrue(eventFirebaseDataSource.saveEvent(new Event(eventId, "", "", null, "")));
+        waitABit();
+
+        String postId = "P11_" + generateRandomPath();
+        Post post = new Post(postId, "pid", eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.PUBLIC, "", "");
+        assertTrue(fJoin(model.savePost(post)).isSuccess());
+
+        Result<Post> result = fJoin(model.fetchPost(postId));
+        assertTrue(result.isSuccess());
+        assertEquals(result.value().getId(), postId);
+        assertEquals(Post.PostVisibility.PUBLIC, result.value().getVisibility());
+
+        assertTrue(fJoin(model.deletePost(postId)).isSuccess());
+        assertTrue(eventFirebaseDataSource.deleteEvent(eventId));
+    }
+
+    @Test
+    public void fetchPostSemiPrivateChecked() {
+        String postAuthorId = "pid";
+        String organizerId = "pid";
+
+        final String eventId = "eventId" + generateRandomPath();
+        EventFirebaseDataSource eventFirebaseDataSource = new EventFirebaseDataSource();
+        assertTrue(eventFirebaseDataSource.saveEvent(new Event(eventId, "", "", null, organizerId)));
+        waitABit();
+        waitABit();
+
+        String postId = "P11_" + generateRandomPath();
+        Post post = new Post(postId, postAuthorId, eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE, "", "");
+        assertTrue(fJoin(model.savePost(post)).isSuccess());
+
+        Result<Post> result = (model.fetchPost(postId)).join();
+        assertTrue(result.isSuccess());
+        assertEquals(result.value(), post);
+
+        assertTrue(fJoin(model.deletePost(postId)).isSuccess());
+        assertTrue(eventFirebaseDataSource.deleteEvent(eventId));
+    }
+
+    @Test
+    public void fetchPostSemiPrivateCheckedFails() {
+        String postAuthorId = "pid";
+        String organizerId = "pidDifferent";
+
+        final String eventId = "eventId" + generateRandomPath();
+        EventFirebaseDataSource eventFirebaseDataSource = new EventFirebaseDataSource();
+        assertTrue(eventFirebaseDataSource.saveEvent(new Event(eventId, "", "", null, organizerId)));
+        waitABit();
+        waitABit();
+
+        String postId = "P11_" + generateRandomPath();
+        Post post = new Post(postId, postAuthorId, eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE, "", "");
+        assertTrue(fJoin(model.savePost(post)).isSuccess());
+
+        Result<Post> result = (model.fetchPost(postId)).join();
+        assertFalse(result.isSuccess());
+        assertEquals(result.msg(), "Error occurred, user has not access to this post");
+
+        assertTrue(fJoin(model.deletePost(postId)).isSuccess());
+        assertTrue(eventFirebaseDataSource.deleteEvent(eventId));
+    }
+
+    @Test
     public void failsSavePostResultIsNotSuccess() {
         final String postId = "P2_" + generateRandomPath();
         PostFirebaseDataSource.forceFail = true;
@@ -211,6 +277,13 @@ public class PostFirebaseDataSourceTest {
 
         assertTrue(eventFirebaseDataSource.deleteEvent(eventId));
         waitABit();
+    }
+
+    @Test
+    public void fetchPostsMadeByNonExistingUserReturnsEmptyList() {
+        Result<List<Post>> listResult = fJoin(model.fetchPostMadeByUser("uid1", "auth1"));
+        assertTrue(listResult.isSuccess());
+        assertTrue(listResult.value().isEmpty());
     }
 
     private static void assertSamePosts(Post a, Post b) {

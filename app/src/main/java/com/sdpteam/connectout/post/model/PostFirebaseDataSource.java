@@ -79,7 +79,7 @@ public class PostFirebaseDataSource implements PostDataSource {
                 });
 
         // checking if the user has access to this post :
-        subStep.thenAccept(postResult -> {
+        subStep.thenAcceptAsync(postResult -> {
             if (!postResult.isSuccess()) {
                 result.complete(postResult);
                 return;
@@ -89,7 +89,7 @@ public class PostFirebaseDataSource implements PostDataSource {
             if (post.getVisibility().equals(PUBLIC)) {
                 result.complete(new Result<>(post, true));
             } else if (post.getVisibility().equals(SEMIPRIVATE)) {
-                Event event = (new EventFirebaseDataSource().getEvent(post.getEventId())).join();
+                final Event event = (new EventFirebaseDataSource().getEvent(post.getEventId())).join();
                 if (event != null) {
                     if (event.getOrganizer().equals(post.getProfileId()) || event.getParticipants().contains(post.getProfileId())) {
                         result.complete(new Result<>(post, true));

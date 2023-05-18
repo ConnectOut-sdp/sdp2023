@@ -110,10 +110,12 @@ public class EventFirebaseDataSource implements EventDataSource {
      */
     @Override
     public CompletableFuture<Event> getEvent(String eventId) {
+        System.out.println("Fetching event from firebase: " + eventId);
         CompletableFuture<Event> future = new CompletableFuture<>();
         Task<DataSnapshot> task = firebaseRef.child(DATABASE_EVENT_PATH).child(eventId).get();
         task.addOnCompleteListener(t -> {
             Event valueFromFirebase = t.getResult().getValue(Event.class);
+            System.out.println("Event fetched from firebase: " + valueFromFirebase);
             future.complete(valueFromFirebase);
         });
         return future;
