@@ -99,8 +99,8 @@
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:layout_toLeftOf="@id/post_comments_button"
-                android:text="See event >"
-                android:layout_marginRight="10dp"
+                android:text="See event"
+                android:layout_marginRight="5dp"
                 android:textSize="12sp" />
 
         <Button
@@ -108,7 +108,7 @@
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="Comments >"
+                android:text="Comments"
                 android:textSize="12sp" />
 
     </RelativeLayout>
