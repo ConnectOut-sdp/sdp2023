@@ -86,7 +86,10 @@ public class PostFirebaseDataSource implements PostDataSource {
             }
             final Post post = Objects.requireNonNull(postResult.value());
 
-            if (post.getVisibility().equals(PUBLIC)) {
+            if (post.getVisibility() == null || (!post.getVisibility().equals(PUBLIC) && !post.getVisibility().equals(SEMIPRIVATE))) {
+                String desc = post.getVisibility() == null ? "NULL" : post.getVisibility().toString();
+                result.complete(new Result<>(null, false, "Event has visibility set to " + desc + " which is not supported by this version of the app"));
+            } else if (post.getVisibility().equals(PUBLIC)) {
                 result.complete(new Result<>(post, true));
             } else if (post.getVisibility().equals(SEMIPRIVATE)) {
                 final Event event = (new EventFirebaseDataSource().getEvent(post.getEventId())).join();
@@ -100,8 +103,6 @@ public class PostFirebaseDataSource implements PostDataSource {
                     result.complete(new Result<>(null, false,
                             "Error the event associated to the post does not exist! (maybe a timeout issue) postId" + postId + " eventId" + post.getEventId()));
                 }
-            } else {
-                result.complete(new Result<>(null, false, "Event has visibility set to " + post.getVisibility().toString() + " which is not supported by this verion of the app"));
             }
         }).join();
         return result;
@@ -155,7 +156,7 @@ public class PostFirebaseDataSource implements PostDataSource {
 
     private CompletableFuture<Result<List<Post>>> fetchAllPostsFiltered(String userId, Predicate<Post> postPredicateFilter) {
         return fetchAllPosts(userId).thenApply(listResult -> {
-            if (listResult.isSuccess()) {
+            if (listResult.isSuccess() && !forceFail) {
                 List<Post> postStream = listResult.value().stream()
                         .filter(postPredicateFilter)
                         .collect(Collectors.toList());

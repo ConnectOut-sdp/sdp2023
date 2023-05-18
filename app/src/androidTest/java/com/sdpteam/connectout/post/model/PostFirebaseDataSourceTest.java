@@ -47,6 +47,17 @@ public class PostFirebaseDataSourceTest {
 //    }
 
     @Test
+    public void createPost() {
+        // providing null postId will create a new one
+        Post post = new Post(null, "sfsaf", "dgdsg", "dsgs", imagesUrls, 0, Post.PostVisibility.PUBLIC, "", "");
+        Result<String> result = fJoin(model.savePost(post));
+        assertTrue(result.isSuccess());
+        String postId = result.value();
+
+        assertTrue(fJoin(model.deletePost(postId)).isSuccess());
+    }
+
+    @Test
     public void savePostAndDeleteIt() {
         final String postId1 = "P0_" + generateRandomPath();
         Post post = new Post(postId1, "sfsaf", "dgdsg", "dsgs", imagesUrls, 0, Post.PostVisibility.PUBLIC, "", "");
@@ -143,6 +154,20 @@ public class PostFirebaseDataSourceTest {
     }
 
     @Test
+    public void fetchPostWithNonExistingEventShouldFail() {
+        String postId = "P11_" + generateRandomPath();
+        String eventId = "eventIdNotExists";
+        Post post = new Post(postId, "pid", eventId, "commentsId", imagesUrls, 10, Post.PostVisibility.SEMIPRIVATE, "", "");
+        assertTrue(fJoin(model.savePost(post)).isSuccess());
+
+        Result<Post> result = fJoin(model.fetchPost(postId));
+        assertFalse(result.isSuccess());
+        assertEquals(result.msg(), "Error the event associated to the post does not exist! (maybe a timeout issue) postId" + postId + " eventId" + eventId);
+
+        assertTrue(fJoin(model.deletePost(postId)).isSuccess());
+    }
+
+    @Test
     public void failsSavePostResultIsNotSuccess() {
         final String postId = "P2_" + generateRandomPath();
         PostFirebaseDataSource.forceFail = true;
@@ -151,6 +176,28 @@ public class PostFirebaseDataSourceTest {
         PostFirebaseDataSource.forceFail = false;
 
         assertTrue(fJoin(model.deletePost(postId)).isSuccess());
+    }
+
+    @Test
+    public void postWithUnsupportedVisibility() {
+        Post.PostVisibility visibility = null;
+        final String postId = "P2_" + generateRandomPath();
+        Post post = new Post(postId, "pid", "eventId", "commentsId", imagesUrls, 10, visibility, "", "");
+        assertTrue(fJoin(model.savePost(post)).isSuccess());
+
+        Result<Post> result = fJoin(model.fetchPost(postId));
+        assertFalse(result.isSuccess());
+        assertEquals(result.msg(), "Event has visibility set to NULL which is not supported by this version of the app");
+
+        assertTrue(fJoin(model.deletePost(postId)).isSuccess());
+    }
+
+    @Test
+    public void failedFetchAllPostsOfEvent() {
+        PostFirebaseDataSource.forceFail = true;
+        Result<List<Post>> fetchedResult = fJoin(model.fetchAllPosts("id"));
+        assertFalse(fetchedResult.isSuccess());
+        PostFirebaseDataSource.forceFail = false;
     }
 
     @Test
