@@ -139,17 +139,17 @@ public class PostFirebaseDataSource implements PostDataSource {
 
         return new EventFirebaseDataSource()
                 .getEventsByFilter(organizerOrParticipant, ProfilesFilter.NONE)
-                .thenApply(events -> events.stream().map(Event::getId).collect(Collectors.toList()));
+                .thenApply(events -> events.stream().map(Event::getId).filter(Objects::nonNull).collect(Collectors.toList()));
     }
 
     @Override
     public CompletableFuture<Result<List<Post>>> fetchAllPostsOfEvent(String userId, String eventId) {
-        return fetchAllPostsFiltered(userId, post -> post.getEventId().equals(eventId));
+        return fetchAllPostsFiltered(userId, post -> post.getEventId() != null && post.getEventId().equals(eventId));
     }
 
     @Override
     public CompletableFuture<Result<List<Post>>> fetchPostMadeByUser(String userId, String authorId) {
-        return fetchAllPostsFiltered(userId, post -> post.getProfileId().equals(authorId));
+        return fetchAllPostsFiltered(userId, post -> post.getProfileId() != null && post.getProfileId().equals(authorId));
     }
 
     private CompletableFuture<Result<List<Post>>> fetchAllPostsFiltered(String userId, Predicate<Post> postFilter) {

@@ -65,7 +65,7 @@ public class PostCreatorViewModel {
             if (postIdResult.isSuccess()) {
                 statusMsg.setValue(new Result<>(postIdResult.value(), true, "Post created successfully"));
             } else {
-                statusMsg.setValue(new Result<>(null, false, "Images uploaded successfully, but post creation failed!"));
+                statusMsg.setValue(new Result<>(null, false, imageUrls.size() + " images uploaded successfully, but post creation failed!"));
             }
         });
     }

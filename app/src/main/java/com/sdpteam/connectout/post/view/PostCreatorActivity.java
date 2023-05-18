@@ -2,9 +2,9 @@ package com.sdpteam.connectout.post.view;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
 
@@ -32,13 +32,12 @@ public class PostCreatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_creator);
 
-
-        final String profileId = getIntent().getStringExtra("profileId");
-        final String eventId = getIntent().getStringExtra("eventId");
-        final String eventName = getIntent().getStringExtra("eventName");
+        final String profileId = Objects.requireNonNull(getIntent().getStringExtra("profileId"));
+        final String eventId = Objects.requireNonNull(getIntent().getStringExtra("eventId"));
+        final String eventName = Objects.requireNonNull(getIntent().getStringExtra("eventName"));
 
         if (viewModel == null) {
-            viewModel = new PostCreatorViewModel(new PostFirebaseDataSource(),profileId);
+            viewModel = new PostCreatorViewModel(new PostFirebaseDataSource(), profileId);
         }
 
         initToolbar();
@@ -62,7 +61,6 @@ public class PostCreatorActivity extends AppCompatActivity {
             statusView.setText("Starting...");
             viewModel.createPost(eventId, postTitle, postDesc, isPublic, selectedImages);
         });
-
     }
 
     private void initImageSelectors() {
