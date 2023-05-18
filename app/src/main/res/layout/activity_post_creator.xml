@@ -84,26 +84,23 @@
                     android:text="Please import at most 3 images for this post"
                     android:paddingBottom="20dp" />
 
-            <RelativeLayout
+            <FrameLayout
                     android:id="@+id/post_creator_image_1_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ok1"
                     android:layout_below="@id/post_creator_images_title" />
 
-            <RelativeLayout
+            <FrameLayout
                     android:id="@+id/post_creator_image_2_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ok2"
                     android:layout_below="@id/post_creator_image_1_container"
                     android:paddingVertical="5dp" />
 
-            <RelativeLayout
+            <FrameLayout
                     android:id="@+id/post_creator_image_3_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ok3"
                     android:layout_below="@id/post_creator_image_2_container" />
 
         </RelativeLayout>

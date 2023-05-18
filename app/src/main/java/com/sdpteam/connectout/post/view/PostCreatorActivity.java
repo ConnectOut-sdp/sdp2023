@@ -44,6 +44,11 @@ public class PostCreatorActivity extends AppCompatActivity {
         initTitle(eventName);
         initImageSelectors();
 
+        final TextView statusView = findViewById(R.id.post_creator_status);
+        viewModel.statusMsgLiveData().observeForever(stringResult -> {
+            statusView.setText(stringResult.msg());
+        });
+
         final Switch visibilitySwitch = findViewById(R.id.post_creator_visibilitySwitch);
         final Button submitBtn = findViewById(R.id.post_creator_save_button);
         final TextView title = findViewById(R.id.post_creator_title);
@@ -53,8 +58,10 @@ public class PostCreatorActivity extends AppCompatActivity {
             String postDesc = desc.getText().toString();
             boolean isPublic = visibilitySwitch.isChecked();
             List<Uri> selectedImages = Arrays.asList(selectedImage1, selectedImage2, selectedImage3);
+            statusView.setText("Starting...");
             viewModel.createPost(eventId, postTitle, postDesc, isPublic, selectedImages);
         });
+
     }
 
     private void initImageSelectors() {

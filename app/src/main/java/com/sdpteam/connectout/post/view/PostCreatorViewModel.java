@@ -26,6 +26,10 @@ public class PostCreatorViewModel {
         statusMsg = new MutableLiveData<>();
     }
 
+    public MutableLiveData<Result<String>> statusMsgLiveData() {
+        return statusMsg;
+    }
+
     public void createPost(String eventId, String title, String desc, boolean isPublic, List<Uri> images) {
         final String authorId = user.uid;
         final PostVisibility postVisibility = isPublic ? PostVisibility.PUBLIC : PostVisibility.SEMIPRIVATE;
@@ -50,7 +54,7 @@ public class PostCreatorViewModel {
     private void finishPostCreation(List<Uri> uris, Post tmpPost) {
         final List<String> imageUrls = uris.stream().map(Uri::toString).collect(Collectors.toList());
 
-        final Post finalPost = new Post(tmpPost.getId(),
+        final Post finalPost = new Post("tmpPostgetId",
                 tmpPost.getProfileId(),
                 tmpPost.getEventId(),
                 "",
