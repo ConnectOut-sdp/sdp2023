@@ -8,19 +8,12 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.chat.comment.CommentsActivity;
-import com.sdpteam.connectout.post.model.Post;
-import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -30,7 +23,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.chat.comment.CommentsActivity;
+import com.sdpteam.connectout.post.model.Post;
+import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class PostsActivityTest {
@@ -44,25 +45,31 @@ public class PostsActivityTest {
     private final static String POST_ID = "A_" + generateRandomPath();
     private final static String EVENT_ID = "A_" + generateRandomPath();
     private final static String COMMENT_ID = "A_" + generateRandomPath();
+    private static ArrayList<String> imagesUrls = new ArrayList<>();
 
-    private final static Post TEST_POST_EVENT = new Post(POST_ID, NULL_USER, EVENT_ID, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
-    private final static Post TEST_POST_EVENT1 = new Post(POST_ID + "1", NULL_USER, EVENT_ID, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
-    private final static Post TEST_POST_EVENT2 = new Post(POST_ID + "2", NULL_USER, EVENT_ID, COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
+    private final static Post TEST_POST_EVENT = new Post(POST_ID, NULL_USER, EVENT_ID, COMMENT_ID, imagesUrls, 100, Post.PostVisibility.PUBLIC, "title", "desc");
 
+    private final static Post TEST_POST_EVENT1 = new Post(POST_ID + "1", NULL_USER, EVENT_ID, COMMENT_ID, imagesUrls, 100, Post.PostVisibility.PUBLIC, "title", "desc");
+    private final static Post TEST_POST_EVENT2 = new Post(POST_ID + "2", NULL_USER, EVENT_ID, COMMENT_ID, imagesUrls, 100, Post.PostVisibility.PUBLIC, "title", "desc");
 
     @BeforeClass
     public static void setUpClass() {
-        new PostFirebaseDataSource().savePost(TEST_POST_EVENT);
-        new PostFirebaseDataSource().savePost(TEST_POST_EVENT1);
-        new PostFirebaseDataSource().savePost(TEST_POST_EVENT2);
-        waitABit();
+        imagesUrls.clear();
+        imagesUrls.add("https://firebasestorage.googleapis.com/v0/b/my-project-test-a847f.appspot.com/o/1683269814271_40078ef6-3886-4c15-b013-940b8d3f1614" +
+                ".jpg?alt=media&token=c5abae50-d2af-4361-bb75-d975f8460a6d");
+        imagesUrls.add("https://firebasestorage.googleapis.com/v0/b/my-project-test-a847f.appspot.com/o/1683269290710_5e3659ce-9aea-4f90-aea2-64eb941d6a6c" +
+                ".jpg?alt=media&token=590a4df0-12c1-491a-9b89-f621c8f2bbe3");
+
+        fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT));
+        fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT1));
+        fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT2));
     }
 
     @AfterClass
     public static void tearDownClass() {
-        new PostFirebaseDataSource().deletePost(TEST_POST_EVENT.getId());
-        new PostFirebaseDataSource().deletePost(TEST_POST_EVENT1.getId());
-        new PostFirebaseDataSource().deletePost(TEST_POST_EVENT2.getId());
+        fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT.getId()));
+        fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT1.getId()));
+        fJoin(new PostFirebaseDataSource().deletePost(TEST_POST_EVENT2.getId()));
     }
 
     @Before
