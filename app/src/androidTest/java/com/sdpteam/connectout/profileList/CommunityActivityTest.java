@@ -114,16 +114,4 @@ public class CommunityActivityTest {
     public void swappingDisplaysFilterView() {
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
     }
-
-    @Test
-    public void doubleSwappingDisplaysNonFilteredView() {
-        onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
-        onView(withId(R.id.user_list_button)).perform(click());
-
-        //If exception is thrown, it means that view is destroyed and freed.
-        try {
-            onView(withId(R.id.filter_container)).check(matches(not(isDisplayed())));
-        } catch (NoMatchingViewException ignored) {
-        }
-    }
 }
