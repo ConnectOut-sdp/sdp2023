@@ -52,7 +52,6 @@ public class PostFirebaseDataSource implements PostDataSource {
         FirebaseDatabase.getInstance().getReference().child(POSTS).child(postId).removeValue()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !FORCE_FAIL) {
-                        System.out.println("Post saved successfully");
                         result.complete(new Result<>(postId, true));
                     } else {
                         result.complete(new Result<>(null, false, "Post save failed"));
@@ -91,18 +90,19 @@ public class PostFirebaseDataSource implements PostDataSource {
                 result.complete(new Result<>(post, true));
             } else if (post.getVisibility().equals(SEMIPRIVATE)) {
                 final Event event = (new EventFirebaseDataSource().getEvent(post.getEventId())).join();
-                if (event != null) {
+                if (event == null) {
+                    result.complete(new Result<>(null, false,
+                            "Error the event associated to the post does not exist! (maybe a timeout issue) postId" + postId + " eventId" + post.getEventId()));
+                } else {
                     if (event.getOrganizer().equals(post.getProfileId()) || event.getParticipants().contains(post.getProfileId())) {
                         result.complete(new Result<>(post, true));
                     } else {
                         result.complete(new Result<>(null, false, "Error occurred, user has not access to this post"));
                     }
-                } else {
-                    result.complete(new Result<>(null, false,
-                            "Error the event associated to the post does not exist! (maybe a timeout issue) postId" + postId + " eventId" + post.getEventId()));
                 }
             }
         }).join();
+
         return result;
     }
 
