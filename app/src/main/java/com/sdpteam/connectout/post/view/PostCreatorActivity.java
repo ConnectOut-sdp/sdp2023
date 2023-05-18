@@ -32,13 +32,14 @@ public class PostCreatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_creator);
 
-        if (viewModel == null) {
-            viewModel = new PostCreatorViewModel(new PostFirebaseDataSource(), new GoogleAuth());
-        }
 
         final String profileId = getIntent().getStringExtra("profileId");
         final String eventId = getIntent().getStringExtra("eventId");
         final String eventName = getIntent().getStringExtra("eventName");
+
+        if (viewModel == null) {
+            viewModel = new PostCreatorViewModel(new PostFirebaseDataSource(),profileId);
+        }
 
         initToolbar();
         initTitle(eventName);

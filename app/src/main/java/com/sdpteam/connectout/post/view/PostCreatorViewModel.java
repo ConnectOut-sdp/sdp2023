@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.Post.PostVisibility;
 import com.sdpteam.connectout.post.model.PostDataSource;
@@ -17,12 +15,12 @@ import androidx.lifecycle.MutableLiveData;
 
 public class PostCreatorViewModel {
     private final PostDataSource postDataSource;
-    private AuthenticatedUser user;
-    private MutableLiveData<Result<String>> statusMsg;
+    private final String user;
+    private final MutableLiveData<Result<String>> statusMsg;
 
-    public PostCreatorViewModel(PostDataSource postDataSource, Authentication auth) {
+    public PostCreatorViewModel(PostDataSource postDataSource, String currentUserId) {
         this.postDataSource = postDataSource;
-        this.user = Objects.requireNonNull(auth.loggedUser());
+        this.user = currentUserId;
         statusMsg = new MutableLiveData<>();
     }
 
@@ -31,10 +29,9 @@ public class PostCreatorViewModel {
     }
 
     public void createPost(String eventId, String title, String desc, boolean isPublic, List<Uri> images) {
-        final String authorId = user.uid;
         final PostVisibility postVisibility = isPublic ? PostVisibility.PUBLIC : PostVisibility.SEMIPRIVATE;
 
-        Post tmpPost = new Post(null, authorId, eventId, "", null, 0, postVisibility, title, desc);
+        Post tmpPost = new Post(null, user, eventId, "", null, 0, postVisibility, title, desc);
 
         List<Uri> localImagesUris = images.stream().filter(Objects::nonNull).collect(Collectors.toList());
         uploadImages(localImagesUris, tmpPost);

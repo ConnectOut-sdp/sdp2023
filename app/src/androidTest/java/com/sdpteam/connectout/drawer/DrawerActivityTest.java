@@ -8,6 +8,7 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 
 import androidx.core.view.GravityCompat;
 import androidx.test.espresso.contrib.DrawerActions;
@@ -111,6 +112,7 @@ public class DrawerActivityTest {
 
         // Click on the Community Posts menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_posts));
+        waitABit();
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
         onView(withId(R.id.post_fragment_id)).check(matches(isDisplayed()));
     }

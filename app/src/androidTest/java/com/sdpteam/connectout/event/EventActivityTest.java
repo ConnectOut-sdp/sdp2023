@@ -244,9 +244,9 @@ public class EventActivityTest {
         waitABit();
         waitABit();
         waitABit();
-        onView(withId(R.id.event_make_post_button)).check(matches(isDisplayed()));
 
         // click make post button check intent is launched
+        onView(withId(R.id.event_make_post_button)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
         onView(withId(R.id.event_make_post_button)).perform(ViewActions.scrollTo()).check(matches(withText(MAKE_POST)));
         onView(withId(R.id.event_make_post_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         intended(hasComponent(PostCreatorActivity.class.getName()));
