@@ -85,6 +85,8 @@ public class PostsActivityTest {
     @Test
     public void testListFragmentDisplayed() {
         waitABit();
+        waitABit();
+        waitABit();
         onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
         waitABit();
         waitABit(); // for images to load
@@ -92,6 +94,8 @@ public class PostsActivityTest {
 
     @Test
     public void visibilityDisplayedAndClickable() {
+        waitABit();
+        waitABit();
         waitABit();
         onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
         waitABit();
@@ -102,6 +106,8 @@ public class PostsActivityTest {
     @Test
     public void commentsButtonDisplayedAndClickable() {
         waitABit();
+        waitABit();
+        waitABit();
         onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
         waitABit();
         waitABit();
@@ -111,6 +117,8 @@ public class PostsActivityTest {
 
     @Test
     public void likeButtonDisplayedAndClickable() {
+        waitABit();
+        waitABit();
         waitABit();
         onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
         waitABit();
