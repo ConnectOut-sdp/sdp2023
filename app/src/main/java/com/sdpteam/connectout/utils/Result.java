@@ -1,5 +1,8 @@
 package com.sdpteam.connectout.utils;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * It contains the value of the operation if it is successful!
  * This is a immutable object that describe the result of an operation (that return some value of any type)
@@ -18,6 +21,11 @@ public class Result<T> {
         }
         if (msg == null) {
             throw new IllegalArgumentException("msg cannot be null");
+        }
+
+        if (!isSuccess) {
+            // useful warning messages while debugging
+            Logger.getLogger(getClass().getName()).log(Level.WARNING, msg);
         }
 
         this.value = value;

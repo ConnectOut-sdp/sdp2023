@@ -144,6 +144,7 @@ public class ProfileListActivityTest {
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.filter_category_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
         List<Profile> profiles = new ArrayList<>();
@@ -164,6 +165,7 @@ public class ProfileListActivityTest {
     public void filteringByRatingIsOrdered() {
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
         List<Profile> profiles = new ArrayList<>();
 
@@ -190,6 +192,7 @@ public class ProfileListActivityTest {
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.text_filter)).perform(typeText("0;1 I dont know how to use filter "), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
         List<Profile> profiles = new ArrayList<>();
