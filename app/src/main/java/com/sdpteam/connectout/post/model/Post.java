@@ -97,13 +97,6 @@ public class Post {
         return description;
     }
 
-    /**
-     * effectively checks if the event is semi private and if the associated event is not null
-     */
-    public boolean isSemiPrivate() {
-        return getVisibility() != null && getVisibility().equals(SEMIPRIVATE) && getEventId() != null;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

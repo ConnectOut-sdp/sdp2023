@@ -117,8 +117,11 @@ public class PostFirebaseDataSource implements PostDataSource {
                     final List<Post> postList = StreamSupport.stream(dataSnapshot.getChildren().spliterator(), false)
                             .map(childSnapshot -> childSnapshot.getValue(Post.class))
                             .filter(Objects::nonNull)
+                            .filter(post -> post.getProfileId() != null)
+                            .filter(post -> post.getEventId() != null)
+                            .filter(post -> post.getVisibility() != null)
                             .filter(post -> {
-                                if (post.isSemiPrivate()) {
+                                if (post.getVisibility().equals(SEMIPRIVATE)) {
                                     return allEventsUserCanAccess.contains(post.getEventId());
                                 } else {
                                     return true;
@@ -144,12 +147,12 @@ public class PostFirebaseDataSource implements PostDataSource {
 
     @Override
     public CompletableFuture<Result<List<Post>>> fetchAllPostsOfEvent(String userId, String eventId) {
-        return fetchAllPostsFiltered(userId, post -> post.getEventId() != null && post.getEventId().equals(eventId));
+        return fetchAllPostsFiltered(userId, post -> post.getEventId().equals(eventId));
     }
 
     @Override
     public CompletableFuture<Result<List<Post>>> fetchPostMadeByUser(String userId, String authorId) {
-        return fetchAllPostsFiltered(userId, post -> post.getProfileId() != null && post.getProfileId().equals(authorId));
+        return fetchAllPostsFiltered(userId, post -> post.getProfileId().equals(authorId));
     }
 
     private CompletableFuture<Result<List<Post>>> fetchAllPostsFiltered(String userId, Predicate<Post> postFilter) {
