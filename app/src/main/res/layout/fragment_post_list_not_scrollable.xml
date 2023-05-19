@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ListView
+    <com.sdpteam.connectout.utils.MyListView
             android:id="@+id/posts_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
