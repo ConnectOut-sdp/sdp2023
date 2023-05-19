@@ -1,7 +1,6 @@
 package com.sdpteam.connectout.post.model;
 
 import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
-import static com.sdpteam.connectout.post.model.Post.PostVisibility.SEMIPRIVATE;
 
 import java.util.List;
 import java.util.Objects;
@@ -69,7 +68,6 @@ public class PostFirebaseDataSource implements PostDataSource {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult().exists() && !FORCE_FAIL) {
                         final Post post = task.getResult().getValue(Post.class);
-                        System.out.println("Post fetched successfully " + post.toString());
                         subStep.complete(new Result<>(post, true));
                     } else {
                         subStep.complete(new Result<>(null, false, "Error occurred, post may not exist under id " + postId));
@@ -86,9 +84,9 @@ public class PostFirebaseDataSource implements PostDataSource {
 
             if (post.getVisibility() == null) {
                 result.complete(new Result<>(null, false, "Event has visibility set to NULL which is not expected"));
-            } else if (post.getVisibility().equals(PUBLIC)) {
+            } else if (post.isPublic()) {
                 result.complete(new Result<>(post, true));
-            } else if (post.getVisibility().equals(SEMIPRIVATE)) {
+            } else if (post.isSemiPrivate()) {
                 final Event event = (new EventFirebaseDataSource().getEvent(post.getEventId())).join();
                 if (event == null) {
                     result.complete(new Result<>(null, false,
@@ -121,7 +119,7 @@ public class PostFirebaseDataSource implements PostDataSource {
                             .filter(post -> post.getEventId() != null)
                             .filter(post -> post.getVisibility() != null)
                             .filter(post -> {
-                                if (post.getVisibility().equals(SEMIPRIVATE)) {
+                                if (post.isSemiPrivate()) {
                                     return allEventsUserCanAccess.contains(post.getEventId());
                                 } else {
                                     return true;

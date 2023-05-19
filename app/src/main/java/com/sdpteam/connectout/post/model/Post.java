@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.post.model;
 
+import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
 import static com.sdpteam.connectout.post.model.Post.PostVisibility.SEMIPRIVATE;
 
 import java.util.ArrayList;
@@ -114,5 +115,13 @@ public class Post {
     @Override
     public int hashCode() {
         return Objects.hash(id, profileId, eventId, commentsChatId, imagesUrls, nbrLikes, visibility, title, description);
+    }
+
+    public boolean isSemiPrivate() {
+        return visibility != null && visibility == SEMIPRIVATE;
+    }
+
+    public boolean isPublic() {
+        return visibility != null && visibility == PUBLIC;
     }
 }

@@ -5,9 +5,9 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
+
+import org.junit.Test;
 
 public class PostTest {
 
@@ -21,6 +21,8 @@ public class PostTest {
         assertThat(m.getImagesUrls(), is(new ArrayList<>()));
         assertThat(m.getNbrLikes(), is(1));
         assertThat(m.getVisibility(), is(Post.PostVisibility.PUBLIC));
+        assertTrue(m.isPublic());
+        assertFalse(m.isSemiPrivate());
         assertThat(m.getVisibility().getDesc(), is("Everyone in the app can see this post"));
         assertThat(m.getTitle(), is("title"));
         assertThat(m.getDescription(), is("description"));
