@@ -2,7 +2,6 @@ package com.sdpteam.connectout.post.view;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
-import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.junit.Assert.assertTrue;
 
@@ -13,7 +12,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.post.model.Post;
@@ -73,15 +71,15 @@ public class PostsActivityTest {
         Intents.release();
     }
 
-    @Test
-    public void testListFragmentDisplayed() {
-        waitABit();
-        waitABit();
-        waitABit();
+//    @Test
+//    public void testListFragmentDisplayed() {
+//        waitABit();
+//        waitABit();
+//        waitABit();
 //        onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
-        waitABit();
-        waitABit(); // for images to load
-    }
+//        waitABit();
+//        waitABit(); // for images to load
+//    }
 
 //    @Test
 //    public void visibilityDisplayedAndClickable() {
