@@ -328,8 +328,13 @@ public class PostFirebaseDataSourceTest {
 
     @Test
     public void fetchPostsMadeByNonExistingUserReturnsEmptyList() {
+        Result<String> result = fJoin(model.savePost(new Post())); // so the list of posts is not empty
+        assertTrue(result.isSuccess());
+
         Result<List<Post>> listResult = fJoin(model.fetchPostMadeByUser("uid1", "auth1"));
         assertTrue(listResult.isSuccess());
         assertTrue(listResult.value().isEmpty());
+
+        assertTrue(fJoin(model.deletePost(result.value())).isSuccess());
     }
 }

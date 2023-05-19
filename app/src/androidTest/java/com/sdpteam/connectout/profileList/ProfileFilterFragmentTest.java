@@ -53,6 +53,8 @@ public class ProfileFilterFragmentTest {
         onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
         waitABit();
+        waitABit();
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
         List<Profile> profiles = new ArrayList<>();
@@ -80,6 +82,8 @@ public class ProfileFilterFragmentTest {
         closeSoftKeyboard();
         onView(withId(R.id.filter_apply_button)).perform(click());
         waitABit();
+        waitABit();
+        waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
         List<Profile> profiles = new ArrayList<>();
@@ -105,6 +109,8 @@ public class ProfileFilterFragmentTest {
         onView(withId(R.id.rating_switch_button)).perform(click());
         onView(withId(R.id.text_filter)).perform(typeText("I dont know how to use filter "), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
+        waitABit();
         waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 
@@ -134,6 +140,8 @@ public class ProfileFilterFragmentTest {
         closeSoftKeyboard();
         onView(withId(R.id.name_switch_button)).perform(click());
         onView(withId(R.id.filter_apply_button)).perform(click());
+        waitABit();
+        waitABit();
         waitABit();
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
 

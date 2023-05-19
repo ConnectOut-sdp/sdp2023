@@ -2,19 +2,19 @@ package com.sdpteam.connectout.post.view;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.drawer.DrawerFragment;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 /**
  * A fragment representing a list of Posts.
@@ -23,18 +23,18 @@ import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 public class PostsFragment extends DrawerFragment {
     private final String eventId;
     private final String authorId;
+    private boolean seeEventsVisible;
     private ArrayAdapter<Post> adapter;
 
-    public PostsFragment(String eventId, String authorId) {
+    public PostsFragment(String eventId, String authorId, boolean openEventButtonsVisible) {
         this.eventId = eventId;
         this.authorId = authorId;
-
+        this.seeEventsVisible = openEventButtonsVisible;
     }
 
     public PostsFragment() {
-        this(null, null);
+        this(null, null, true);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class PostsFragment extends DrawerFragment {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
 
         if (adapter == null) {
-            adapter = new PostsAdapter(container.getContext(), R.layout.post_list_item_view);
+            adapter = new PostsAdapter(container.getContext(), R.layout.post_list_item_view, seeEventsVisible);
         }
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         String currentUserId = user == null ? NULL_USER : user.uid;

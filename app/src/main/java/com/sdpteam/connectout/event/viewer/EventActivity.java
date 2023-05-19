@@ -4,18 +4,9 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.widget.Toolbar;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
@@ -26,6 +17,7 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.Event.EventRestrictions.RestrictionStatus;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
+import com.sdpteam.connectout.post.view.PostCreatorActivity;
 import com.sdpteam.connectout.post.view.PostsFragment;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
@@ -33,9 +25,17 @@ import com.sdpteam.connectout.profile.ProfileViewModel;
 import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.Toolbar;
 
 public class EventActivity extends WithFragmentActivity {
 
@@ -44,6 +44,8 @@ public class EventActivity extends WithFragmentActivity {
     public final static String INTERESTED = "I'm interested!";
     public final static String NOT_INTERESTED = "No longer interested";
     public final static String LEAVE_EVENT = "Leave event";
+
+    public final static String MAKE_POST = "Make post";
 
     private EventViewModel eventViewModel;
 
@@ -108,12 +110,12 @@ public class EventActivity extends WithFragmentActivity {
         Button interestedBtn = findViewById(R.id.event_interested_button);
         Button restrictionsBtn = findViewById(R.id.event_restrictions_button);
         Button participantsBtn = findViewById(R.id.event_participants_button);
-        ImageButton sharePersonalQrCodeButton = findViewById(R.id.buttonShareEventQrCode);
-
         ImageButton chatBtn = findViewById(R.id.event_chat_btn);
+        ImageButton sharePersonalQrCodeButton = findViewById(R.id.buttonShareEventQrCode);
+        Button makePostBtn = findViewById(R.id.event_make_post_button);
 
         eventViewModel.getEventLiveData().observe(this, event ->
-                updateEventView(event, title, description, joinBtn, interestedBtn, restrictionsBtn, participantsBtn, chatBtn, sharePersonalQrCodeButton)
+                updateEventView(event, title, description, joinBtn, interestedBtn, restrictionsBtn, participantsBtn, chatBtn, sharePersonalQrCodeButton, makePostBtn)
         );
     }
 
@@ -121,7 +123,16 @@ public class EventActivity extends WithFragmentActivity {
      * Upon modification of the given event, changes its view and some btn behaviors.
      */
     @SuppressLint("SetTextI18n")
-    private void updateEventView(Event event, TextView title, TextView description, Button joinBtn, Button interestedBtn, Button restrictionsBtn, Button participantsBtn, ImageButton chatBtn, ImageButton shareQrCodeBtn) {
+    private void updateEventView(Event event,
+                                 TextView title,
+                                 TextView description,
+                                 Button joinBtn,
+                                 Button interestedBtn,
+                                 Button restrictionsBtn,
+                                 Button participantsBtn,
+                                 ImageButton chatBtn,
+                                 ImageButton shareQrCodeBtn,
+                                 Button makePostBtn) {
         title.setText("- " + event.getTitle());
         description.setText(event.getDescription());
 
@@ -171,6 +182,10 @@ public class EventActivity extends WithFragmentActivity {
             }
         });
 
+        makePostBtn.setText(MAKE_POST);
+        makePostBtn.setVisibility(event.hasJoined(currentUserId) || event.getOrganizer().equals(currentUserId) ? VISIBLE : GONE);
+        makePostBtn.setOnClickListener(v -> PostCreatorActivity.openPostCreator(this, currentUserId, eventId, event.getTitle()));
+
         if (!event.hasJoined(currentUserId)) {
             profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
         } else {
@@ -199,7 +214,7 @@ public class EventActivity extends WithFragmentActivity {
     }
 
     private void initPostsFragment() {
-        PostsFragment postsFragment = new PostsFragment(eventId, null);
+        PostsFragment postsFragment = new PostsFragment(eventId, null, false);
         replaceFragment(postsFragment, R.id.event_post_fragment_container);
     }
 
@@ -249,6 +264,7 @@ public class EventActivity extends WithFragmentActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    });
 }
 

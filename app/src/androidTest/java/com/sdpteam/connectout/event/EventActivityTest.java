@@ -10,6 +10,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
+import static com.sdpteam.connectout.event.viewer.EventActivity.MAKE_POST;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
@@ -39,6 +40,7 @@ import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
+import com.sdpteam.connectout.post.view.PostCreatorActivity;
 
 import android.content.Intent;
 import androidx.appcompat.widget.Toolbar;
@@ -231,4 +233,22 @@ public class EventActivityTest {
         onView(ViewMatchers.withId(R.id.event_chat_btn)).check(matches(isNotClickable())); // check that the registration didn't occur
         FirebaseDatabase.getInstance().getReference().child(DATABASE_EVENT_PATH).child(FAKE_EVENT_ID).removeValue();
     }*/
+
+    @Test
+    public void makePostButtonVisibleWhenCurrentUserIsParticipant() {
+        //join event
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).check(matches(withText(JOIN_EVENT)));
+        onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        waitABit();
+        onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        waitABit();
+        waitABit();
+        waitABit();
+
+        // click make post button check intent is launched
+        onView(withId(R.id.event_make_post_button)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
+        onView(withId(R.id.event_make_post_button)).perform(ViewActions.scrollTo()).check(matches(withText(MAKE_POST)));
+        onView(withId(R.id.event_make_post_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
+        intended(hasComponent(PostCreatorActivity.class.getName()));
+    }
 }
