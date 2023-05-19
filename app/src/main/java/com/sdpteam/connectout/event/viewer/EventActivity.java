@@ -266,5 +266,12 @@ public class EventActivity extends WithFragmentActivity {
 
     private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
     });
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        eventViewModel.refreshEvent();
+        initPostsFragment();
+    }
 }
 

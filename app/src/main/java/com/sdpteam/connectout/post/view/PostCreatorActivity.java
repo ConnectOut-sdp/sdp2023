@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class PostCreatorActivity extends AppCompatActivity {
 
+    public static boolean TEST = false;
     PostCreatorViewModel viewModel;
     private Uri selectedImage1;
     private Uri selectedImage2;
@@ -47,6 +48,10 @@ public class PostCreatorActivity extends AppCompatActivity {
         final TextView statusView = findViewById(R.id.post_creator_status);
         viewModel.statusMsgLiveData().observeForever(stringResult -> {
             statusView.setText(stringResult.msg());
+            // main thread:
+            if (stringResult.isSuccess() && !TEST) {
+                new android.os.Handler().postDelayed(this::finish, 1000);
+            }
         });
 
         final Switch visibilitySwitch = findViewById(R.id.post_creator_visibilitySwitch);
