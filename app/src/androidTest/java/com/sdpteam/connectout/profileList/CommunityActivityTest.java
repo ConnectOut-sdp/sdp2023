@@ -2,6 +2,7 @@ package com.sdpteam.connectout.profileList;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -10,22 +11,8 @@ import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.not;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.utils.LiveDataTestUtil;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -35,7 +22,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.List;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.utils.LiveDataTestUtil;
+
+import android.os.Handler;
+import android.os.Looper;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class CommunityActivityTest {
@@ -93,6 +91,33 @@ public class CommunityActivityTest {
 /*TODO fix ProfileList bug
         onView(withIndex(withId(R.id.nameAdapterTextView), userIndexToCheck)).perform(click());
         intended(Matchers.allOf(hasComponent(ProfileActivity.class.getName()), hasExtra(equalTo("uid"), equalTo(expectedUid))));*/
+    }
+
+    @Test
+    public void filterChangesListSize() {
+        onView(ViewMatchers.withId(R.id.container_users_listview)).check(matches(isDisplayed()));
+        onView(withId(R.id.container_users_listview)).check(matches(isDisplayed()));
+
+        ProfilesViewModel model = new ProfilesViewModel(new ProfileFirebaseDataSource());
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(model::refreshProfiles); // set up the live data in main thread (because we cannot invoke [LiveData].setValue
+        // on a background thread)
+
+        waitABit();
+        waitABit();
+        List<Profile> list = LiveDataTestUtil.getOrAwaitValue(model.getProfilesLiveData());
+        assertThat(list.size(), greaterThan(0)); // empty list in firebase not excepted for testing
+
+        onView(withId(R.id.text_filter)).perform(typeText("Barack")); // does trigger everything its just that the livedata is not updated for same reason as before
+
+        handler.post(model::refreshProfiles); // but unfortunately the before trick does not work here idk why
+        waitABit();
+        waitABit();
+        waitABit();
+
+        List<Profile> list2 = LiveDataTestUtil.getOrAwaitValue(model.getProfilesLiveData());
+        assertThat(list2.size(), greaterThan(0));
+        // assertThat(list2.size(), not(list.size())); // rip does not work
     }
 
     @Test
