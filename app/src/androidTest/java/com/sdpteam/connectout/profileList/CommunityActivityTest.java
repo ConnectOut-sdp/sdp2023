@@ -81,6 +81,8 @@ public class CommunityActivityTest {
         handler.post(model::refreshProfiles); // set up the live data in main thread (because we cannot invoke [LiveData].setValue
         // on a background thread)
 
+        waitABit();
+        waitABit();
         List<Profile> list = LiveDataTestUtil.getOrAwaitValue(model.getProfilesLiveData());
         assertThat(list.size(), greaterThan(0)); // empty list in firebase not excepted for testing
         int userIndexToCheck = 0;
