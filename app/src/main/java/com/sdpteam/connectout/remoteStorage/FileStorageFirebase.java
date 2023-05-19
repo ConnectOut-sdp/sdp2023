@@ -1,13 +1,16 @@
 package com.sdpteam.connectout.remoteStorage;
 
-import android.net.Uri;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+import android.net.Uri;
+import android.util.Log;
 
 public class FileStorageFirebase {
 
@@ -42,5 +45,24 @@ public class FileStorageFirebase {
                     }
                 });
         return result;
+    }
+
+    public CompletableFuture<List<Uri>> uploadImages(List<Uri> localUris) {
+        List<CompletableFuture<Uri>> uploadFutures = new ArrayList<>();
+
+        for (Uri uri : localUris) {
+            CompletableFuture<Uri> uploadFuture = uploadFile(uri, "jpg");
+            uploadFutures.add(uploadFuture);
+        }
+
+        CompletableFuture<Void> allUploadsFuture = CompletableFuture.allOf(
+                uploadFutures.toArray(new CompletableFuture[0])
+        );
+
+        return allUploadsFuture.thenApply(v ->
+                uploadFutures.stream()
+                        .map(CompletableFuture::join)
+                        .collect(Collectors.toList())
+        );
     }
 }

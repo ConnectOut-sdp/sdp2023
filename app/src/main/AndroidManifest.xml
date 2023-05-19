@@ -17,12 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ConnectOut"
         tools:targetApi="31">
+
         <activity
-            android:name=".chat.comment.CommentsActivity"
-            android:exported="false" />
+                android:name=".post.view.PostCreatorActivity"
+                android:exported="false"
+                android:theme="@style/Theme.ConnectOut.NoActionBar" />
         <activity
-            android:name=".post.view.PostsActivity"
-            android:exported="false" />
+                android:name=".chat.comment.CommentsActivity"
+                android:exported="false" />
+        <activity
+                android:name=".post.view.PostsActivity"
+                android:exported="false" />
         <activity
             android:name=".profileList.EventParticipantsListActivity"
             android:exported="false"

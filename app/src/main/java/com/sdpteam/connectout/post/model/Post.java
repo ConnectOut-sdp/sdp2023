@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.post.model;
 
+import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
 import static com.sdpteam.connectout.post.model.Post.PostVisibility.SEMIPRIVATE;
 
 import java.util.ArrayList;
@@ -59,8 +60,8 @@ public class Post {
         public String getDesc() {
             return desc;
         }
-
     }
+
     public String getId() {
         return id;
     }
@@ -97,13 +98,6 @@ public class Post {
         return description;
     }
 
-    /**
-     * effectively checks if the event is semi private and if the associated event is not null
-     */
-    public boolean isSemiPrivate() {
-        return getVisibility() != null && getVisibility().equals(SEMIPRIVATE) && getEventId() != null;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -121,5 +115,13 @@ public class Post {
     @Override
     public int hashCode() {
         return Objects.hash(id, profileId, eventId, commentsChatId, imagesUrls, nbrLikes, visibility, title, description);
+    }
+
+    public boolean isSemiPrivate() {
+        return visibility != null && visibility == SEMIPRIVATE;
+    }
+
+    public boolean isPublic() {
+        return visibility != null && visibility == PUBLIC;
     }
 }
