@@ -25,21 +25,27 @@ public class PostsFragment extends DrawerFragment {
     private final String authorId;
     private boolean seeEventsVisible;
     private ArrayAdapter<Post> adapter;
+    private boolean scrollable;
 
-    public PostsFragment(String eventId, String authorId, boolean openEventButtonsVisible) {
+    public PostsFragment(String eventId, String authorId, boolean openEventButtonsVisible, boolean scrollable) {
         this.eventId = eventId;
         this.authorId = authorId;
         this.seeEventsVisible = openEventButtonsVisible;
+        this.scrollable = scrollable;
     }
 
     public PostsFragment() {
-        this(null, null, true);
+        this(null, null, true, true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_post_list, container, false);
+        View view;
+        if (scrollable) {
+            view = inflater.inflate(R.layout.fragment_post_list, container, false);
+        } else {
+            view = inflater.inflate(R.layout.fragment_post_list_not_scrollable, container, false);
+        }
 
         if (adapter == null) {
             adapter = new PostsAdapter(container.getContext(), R.layout.post_list_item_view, seeEventsVisible);
