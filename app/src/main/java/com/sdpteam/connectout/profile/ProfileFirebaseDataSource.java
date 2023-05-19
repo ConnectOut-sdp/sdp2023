@@ -87,7 +87,9 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         allTasks.addOnCompleteListener(dataSnapshots -> {
             for (DataSnapshot dataSnapshot : dataSnapshots.getResult()) {
                 Profile profile = dataSnapshot.getValue(Profile.class);
-                profiles.add(profile);
+                if(profile != null) {
+                    profiles.add(profile);
+                }
             }
             futures.complete(profiles);
         });
@@ -107,7 +109,12 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
 
         query.get().addOnCompleteListener(t -> {
                     final List<Profile> result = new ArrayList<>();
-                    t.getResult().getChildren().forEach(snapshot -> result.add(snapshot.child(PROFILE).getValue(Profile.class)));
+                    t.getResult().getChildren().forEach(snapshot -> {
+                        Profile profile = snapshot.child(PROFILE).getValue(Profile.class);
+                        if (profile != null) {
+                            result.add(profile);
+                        }
+                    });
                     future.complete(result);
                 }
         );

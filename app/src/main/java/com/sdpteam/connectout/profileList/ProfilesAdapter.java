@@ -53,6 +53,7 @@ public class ProfilesAdapter extends ArrayAdapter<Profile> {
             return view; // TODO Understand why it can happen and fix it :)
         }
 
+
         TextView nameTextView = view.findViewById(R.id.nameAdapterTextView);
         TextView emailTextView = view.findViewById(R.id.emailAdapterTextView);
         TextView bioTextView = view.findViewById(R.id.bioAdapterTextView);
