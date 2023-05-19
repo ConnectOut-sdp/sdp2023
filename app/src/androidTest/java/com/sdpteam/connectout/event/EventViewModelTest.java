@@ -10,7 +10,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
@@ -228,7 +227,7 @@ public class EventViewModelTest {
             return null;
         }
 
-        public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
+        public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter) {
             return null;
         }
 

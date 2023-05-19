@@ -10,7 +10,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.sdpteam.connectout.event.creator.EventCreatorViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
@@ -116,7 +115,7 @@ public class EventCreatorViewModelTest {
         }
 
         @Override
-        public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
+        public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter) {
             return CompletableFuture.completedFuture(EVENT_LIST);
         }
 

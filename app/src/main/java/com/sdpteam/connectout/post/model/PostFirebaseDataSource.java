@@ -1,7 +1,5 @@
 package com.sdpteam.connectout.post.model;
 
-import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -14,7 +12,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.utils.Result;
 
 public class PostFirebaseDataSource implements PostDataSource {
@@ -139,7 +136,7 @@ public class PostFirebaseDataSource implements PostDataSource {
         final EventParticipantIdFilter organizerOrParticipant = new EventParticipantIdFilter(userId);
 
         return new EventFirebaseDataSource()
-                .getEventsByFilter(organizerOrParticipant, ProfilesFilter.NONE)
+                .getEventsByFilter(organizerOrParticipant)
                 .thenApply(events -> events.stream().map(Event::getId).filter(Objects::nonNull).collect(Collectors.toList()));
     }
 

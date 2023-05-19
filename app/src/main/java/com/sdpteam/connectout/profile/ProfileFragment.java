@@ -1,6 +1,5 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter.NONE;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
 import android.content.Intent;
@@ -35,6 +34,8 @@ public class ProfileFragment extends DrawerFragment {
     public final static String PASSED_ID_KEY = "uid";
 
     private final ProfileViewModel pvm = new ProfileViewModel(new ProfileFirebaseDataSource());
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    });
 
     /**
      * Method used to launch a Profile Fragment with a given Id.
@@ -86,7 +87,7 @@ public class ProfileFragment extends DrawerFragment {
             sharePersonalQrCodeButton.setVisibility(View.GONE);
         }
 
-            setupToolBar(ratingEditButton, toolbar, buttonText, listener);
+        setupToolBar(ratingEditButton, toolbar, buttonText, listener);
 
         pvm.fetchProfile(userIdToDisplay);
         pvm.getProfileLiveData().observe(getViewLifecycleOwner(), profile -> displayProfile(view, profile));
@@ -109,8 +110,8 @@ public class ProfileFragment extends DrawerFragment {
     }
 
     private void insertEventsListFragment(String userId) {
-        EventsViewModel viewModel = new EventsViewModel(new EventFirebaseDataSource());
-        viewModel.setFilter(new EventParticipantIdFilter(userId), NONE);
+        EventsViewModel viewModel = new ViewModelProvider(requireActivity(), new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
+        viewModel.setFilter(new EventParticipantIdFilter(userId));
         EventsListViewFragment eventsListViewFragment = new EventsListViewFragment(viewModel);
         getChildFragmentManager().beginTransaction().replace(R.id.profile_events_container, eventsListViewFragment).commit();
     }
@@ -145,8 +146,6 @@ public class ProfileFragment extends DrawerFragment {
         intent.putExtra("name", userName);
         startActivity(intent);
     }
-
-    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
 
 }
 

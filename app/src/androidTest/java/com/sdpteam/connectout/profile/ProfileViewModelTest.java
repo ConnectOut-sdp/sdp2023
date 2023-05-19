@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.sdpteam.connectout.profileList.filter.ProfileFilter;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
 import org.junit.Rule;
@@ -66,7 +67,7 @@ public class ProfileViewModelTest {
         }
 
         @Override
-        public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
+        public CompletableFuture<List<Profile>> getProfilesByFilter(ProfileFilter filter) {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
     }

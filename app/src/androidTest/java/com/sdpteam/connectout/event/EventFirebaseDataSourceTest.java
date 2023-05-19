@@ -13,8 +13,6 @@ import static org.junit.Assert.assertTrue;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesNameFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesRatingFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.Profile;
@@ -141,10 +139,7 @@ public class EventFirebaseDataSourceTest {
         waitABit();
 
         final EventFilter filter = e -> eventId1.equals(e.getId()) || eventId2.equals(e.getId());
-        final ProfilesNameFilter profilesNameFilter = new ProfilesNameFilter(p.getName());
-        final ProfilesRatingFilter profilesRatingFilter = new ProfilesRatingFilter(2.0);
-
-        final List<Event> results = fJoin(model.getEventsByFilter(filter, profilesNameFilter.or(profilesRatingFilter)));
+        final List<Event> results = fJoin(model.getEventsByFilter(filter));
 
         assertEquals(2, results.size());
         assertFalse(results.get(0).getParticipants().isEmpty());

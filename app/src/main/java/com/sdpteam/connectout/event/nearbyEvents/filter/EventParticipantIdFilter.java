@@ -10,7 +10,6 @@ public class EventParticipantIdFilter implements EventFilter {
     private final String userId;
 
     public EventParticipantIdFilter(String userId) {
-
         this.userId = userId;
     }
 

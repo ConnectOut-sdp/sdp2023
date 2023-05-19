@@ -40,7 +40,7 @@ import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.Authentication;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileDataSource;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profileList.filter.ProfileFilter;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.After;
@@ -75,7 +75,7 @@ public class CompleteRegistrationFormTest {
         }
 
         @Override
-        public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
+        public CompletableFuture<List<Profile>> getProfilesByFilter(ProfileFilter filter) {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
     };

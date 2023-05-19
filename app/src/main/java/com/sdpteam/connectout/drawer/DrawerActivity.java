@@ -1,17 +1,5 @@
 package com.sdpteam.connectout.drawer;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-
 import com.google.android.material.navigation.NavigationView;
 import com.sdpteam.connectout.QrCode.QRcodeActivity;
 import com.sdpteam.connectout.R;
@@ -21,8 +9,19 @@ import com.sdpteam.connectout.event.nearbyEvents.EventsFragment;
 import com.sdpteam.connectout.event.viewer.MyEventsCalendarFragment;
 import com.sdpteam.connectout.post.view.PostsFragment;
 import com.sdpteam.connectout.profile.ProfileFragment;
-import com.sdpteam.connectout.profileList.ProfilesContainerFragment;
+import com.sdpteam.connectout.profileList.CommunityFragment;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 public class DrawerActivity extends WithFragmentActivity {
     @SuppressLint("NonConstantResourceId")
@@ -73,15 +72,20 @@ public class DrawerActivity extends WithFragmentActivity {
         int containerId = R.id.drawer_fragment_container;
         switch (itemId) {
             case R.id.menu_home:
-                fragment = new EventsFragment(); break;
+                fragment = new EventsFragment();
+                break;
             case R.id.menu_my_account:
-                fragment = new ProfileFragment(); break;
+                fragment = new ProfileFragment();
+                break;
             case R.id.menu_my_events:
-                fragment = new MyEventsCalendarFragment(); break;
+                fragment = new MyEventsCalendarFragment();
+                break;
             case R.id.menu_community:
-                fragment = new ProfilesContainerFragment(); break;
+                fragment = new CommunityFragment();
+                break;
             case R.id.menu_posts:
-                fragment = new PostsFragment(); break;
+                fragment = new PostsFragment();
+                break;
             case R.id.scan_qr_code:
                 startActivity(new Intent(DrawerActivity.this, QRcodeActivity.class));
                 return;
@@ -90,10 +94,10 @@ public class DrawerActivity extends WithFragmentActivity {
                 startActivity(new Intent(getApplicationContext(), GoogleLoginActivity.class));
                 return;
         }
-        if (fragment != null) replaceFragment(fragment, containerId);
+        if (fragment != null) {
+            replaceFragment(fragment, containerId);
+        }
     }
-
-
 
     public void setupButton(String text, View.OnClickListener listener) {
         Button button = findViewById(R.id.drawer_button);

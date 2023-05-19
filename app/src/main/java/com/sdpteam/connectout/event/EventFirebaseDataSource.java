@@ -10,7 +10,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.nearbyEvents.filter.ProfilesFilter;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import java.util.ArrayList;
@@ -155,12 +154,11 @@ public class EventFirebaseDataSource implements EventDataSource {
     }
 
     /**
-     * @param eventFilter    (EventFilter): Custom filter to apply upon the event's attribute
-     * @param profilesFilter (ProfilesFilter): Custom filter to apply upon the participants profile's attribute
+     * @param eventFilter (EventFilter): Custom filter to apply upon the event's attribute
      * @return (CompletableFuture < List < Event > >): a changeable list of different events.
      */
     @Override
-    public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter, ProfilesFilter profilesFilter) {
+    public CompletableFuture<List<Event>> getEventsByFilter(EventFilter eventFilter) {
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
 
         firebaseRef.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
@@ -175,12 +173,9 @@ public class EventFirebaseDataSource implements EventDataSource {
                     for (DataSnapshot child : t.getResult().getChildren()) {
                         Event event = child.getValue(Event.class);
                         if (eventFilter.test(event)) {
-                            CompletableFuture<Void> profilesFuture = profileDatabase.fetchProfiles(event.getParticipants())
-                                    .thenAccept(profileList -> {
-                                        if (profilesFilter.test(profileList)) {
-                                            events.add(event);
-                                        }
-                                    });
+                            CompletableFuture<Void> profilesFuture = profileDatabase
+                                    .fetchProfiles(event.getParticipants())
+                                    .thenAccept(profileList -> events.add(event));
                             allProfilesFutures.add(profilesFuture);
                         }
                     }

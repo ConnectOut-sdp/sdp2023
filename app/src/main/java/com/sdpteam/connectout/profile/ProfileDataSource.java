@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.profile;
 
+import com.sdpteam.connectout.profileList.filter.ProfileFilter;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,9 +20,8 @@ public interface ProfileDataSource {
     CompletableFuture<Profile> fetchProfile(String uid);
 
     /**
-     * @param option (ProfileOrderingOption): option of filtering adopted, random, by name or by rating.
-     * @param values (List<String>): list of parsed users inputs which corresponds to the filters.
+     * @param filter (ProfileFilter) : Custom filter to apply upon the profile's attribute
      * @return (LiveData < List < Profile > >): List of all profiles found that matches the given filters.
      */
-    CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values);
+    CompletableFuture<List<Profile>> getProfilesByFilter(ProfileFilter filter);
 }

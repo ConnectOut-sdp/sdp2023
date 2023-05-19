@@ -49,6 +49,9 @@ public class ProfilesAdapter extends ArrayAdapter<Profile> {
         }
 
         Profile profile = getItem(position);
+        if (profile == null) {
+            return view; // TODO Understand why it can happen and fix it :)
+        }
 
         TextView nameTextView = view.findViewById(R.id.nameAdapterTextView);
         TextView emailTextView = view.findViewById(R.id.emailAdapterTextView);

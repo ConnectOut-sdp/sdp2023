@@ -19,9 +19,9 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 public class EventsFilterDialog extends DialogFragment {
 
+    private static final String SEEKBAR_ALL_DISTANCES = "all distances";
     private static String TEXT_FILTER = "";
     private static int SEEKBAR_VALUE = 100;
-    private static String SEEKBAR_ALL_DISTANCES = "all distances";
     private final EventsViewModel eventsViewModel;
     private GPSCoordinates position;
 
@@ -58,7 +58,7 @@ public class EventsFilterDialog extends DialogFragment {
         final EventFilter locationFilter = new EventLocationFilter(position, seekBar.getProgress());
         final EventFilter eventFilter = textFilter.and(locationFilter);
 
-        eventsViewModel.setFilter(eventFilter, ProfilesFilter.NONE);
+        eventsViewModel.setFilter(eventFilter);
         eventsViewModel.refreshEvents();
 
         // save filter state before dismiss dialog

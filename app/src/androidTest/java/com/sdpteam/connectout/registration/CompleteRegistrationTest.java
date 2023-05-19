@@ -11,7 +11,7 @@ import android.os.Looper;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileDataSource;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profileList.filter.ProfileFilter;
 
 import org.junit.Test;
 
@@ -42,11 +42,7 @@ public class CompleteRegistrationTest {
             }
 
             @Override
-            public CompletableFuture<List<Profile>> getListOfProfile(ProfileFirebaseDataSource.ProfileOrderingOption option, List<String> values) {
-                return CompletableFuture.completedFuture(new ArrayList<>());
-            }
-
-            public CompletableFuture<List<Profile>> getListOfUsers() {
+            public CompletableFuture<List<Profile>> getProfilesByFilter(ProfileFilter filter) {
                 return CompletableFuture.completedFuture(new ArrayList<>());
             }
         };
