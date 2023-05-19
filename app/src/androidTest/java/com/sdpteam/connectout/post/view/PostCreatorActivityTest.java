@@ -11,6 +11,7 @@ import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,11 @@ public class PostCreatorActivityTest {
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
+    @Before
+    public void setUp() throws Exception {
+        PostCreatorActivity.TEST = true;
+    }
 
     @Test
     public void failedCreatePostShowsErrorMsg() {
