@@ -4,7 +4,7 @@ import com.google.firebase.database.Query;
 
 public class ProfileParticipationFilter implements ProfileFilter {
 
-    private final String eventId;
+    public final String eventId;
 
     public ProfileParticipationFilter(String eventId) {
         this.eventId = eventId;

@@ -13,7 +13,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.profileList.filter.ProfileFilter;
+import com.sdpteam.connectout.profileList.filter.ProfileParticipationFilter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,6 +97,11 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     @Override
     public CompletableFuture<List<Profile>> getProfilesByFilter(ProfileFilter filter) {
         final CompletableFuture<List<Profile>> future = new CompletableFuture<>();
+
+        if (filter instanceof ProfileParticipationFilter) {
+            return new EventFirebaseDataSource().getEvent(((ProfileParticipationFilter) filter).eventId)
+                    .thenCompose(e -> fetchProfiles(e.getParticipants()));
+        }
 
         final Query query = filter.buildQuery(firebaseRef.child(USERS)).limitToFirst(MAX_PROFILES_FETCHED);
 

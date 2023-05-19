@@ -15,8 +15,4 @@ public interface ProfileFilter {
      * @return new query with additional filters
      */
     Query buildQuery(Query root);
-
-    default ProfileFilter and(ProfileFilter other) {
-        return root -> buildQuery(other.buildQuery(root));
-    }
 }
