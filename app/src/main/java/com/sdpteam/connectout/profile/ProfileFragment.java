@@ -16,7 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
@@ -25,7 +24,6 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.drawer.DrawerFragment;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.squareup.picasso.Picasso;
@@ -110,7 +108,7 @@ public class ProfileFragment extends DrawerFragment {
     }
 
     private void insertEventsListFragment(String userId) {
-        EventsViewModel viewModel = new ViewModelProvider(requireActivity(), new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
+        EventsViewModel viewModel = new EventsViewModel(new EventFirebaseDataSource());
         viewModel.setFilter(new EventParticipantIdFilter(userId));
         EventsListViewFragment eventsListViewFragment = new EventsListViewFragment(viewModel);
         getChildFragmentManager().beginTransaction().replace(R.id.profile_events_container, eventsListViewFragment).commit();
