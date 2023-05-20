@@ -15,10 +15,15 @@ public class EventsViewModel extends ViewModel {
 
     private final EventDataSource model;
     private final MutableLiveData<List<Event>> events = new MutableLiveData<>(new ArrayList<>());
-    private EventFilter eventFilter = EventFilter.NONE;
+    private EventFilter eventFilter;
 
     public EventsViewModel(EventDataSource model) {
+        this(model, EventFilter.NONE);
+    }
+
+    public EventsViewModel(EventDataSource model, EventFilter eventFilter) {
         this.model = model;
+        this.eventFilter = eventFilter;
         refreshEvents();
     }
 
