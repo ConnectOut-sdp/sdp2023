@@ -45,12 +45,7 @@ public class ProfileViewModel extends ViewModel {
     public void saveProfile(Profile profile) {
         try {
             profileDataSource.saveProfile(profile).get(5, TimeUnit.SECONDS);
-        } catch (ExecutionException e) { //TODO check why timeout in ci
-//            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-        } catch (TimeoutException e) {
-//            throw new RuntimeException(e);
+        } catch (ExecutionException | InterruptedException | TimeoutException ignored) {
         }
     }
 
