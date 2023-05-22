@@ -84,4 +84,10 @@ public class EventsMapViewFragment extends MapViewFragment {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(location), DEFAULT_MAP_ZOOM));
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        eventsViewModel.refreshEvents();
+    }
 }
