@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.drawer.DrawerFragment;
@@ -34,7 +33,7 @@ public class EventsFragment extends DrawerFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
-        EventsViewModel viewModel = new ViewModelProvider(requireActivity(), new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
+        EventsViewModel viewModel = new EventsViewModel(new EventFirebaseDataSource());
         eventsMapViewFragment = new EventsMapViewFragment(viewModel);
         eventsListViewFragment = new EventsListViewFragment(viewModel);
 

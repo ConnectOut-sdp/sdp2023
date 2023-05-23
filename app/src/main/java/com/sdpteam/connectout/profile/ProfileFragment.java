@@ -16,7 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
@@ -25,7 +24,6 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.drawer.DrawerFragment;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModelFactory;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.squareup.picasso.Picasso;
@@ -65,7 +63,7 @@ public class ProfileFragment extends DrawerFragment {
         Toolbar toolbar = view.findViewById(R.id.profile_toolbar);
 
         Bundle arguments = getArguments();
-        String userIdToDisplay = arguments != null ? arguments.getString(PASSED_ID_KEY) : null;
+        String displayedUser = arguments != null ? arguments.getString(PASSED_ID_KEY) : null;
         AuthenticatedUser au = new GoogleAuth().loggedUser();
         String uid = (au == null) ? NULL_USER : au.uid;
 
@@ -75,13 +73,13 @@ public class ProfileFragment extends DrawerFragment {
         Button sharePersonalQrCodeButton = initializeSharePersonalQrCodeButton(view, uid);
 
         //If current user is selected one:
-        if (userIdToDisplay == null || uid.equals(userIdToDisplay)) {
-            userIdToDisplay = uid;
+        if (displayedUser == null || uid.equals(displayedUser)) {
+            displayedUser = uid;
             buttonText = "Edit Profile";
             listener = v -> goToEditProfile();
         } else {
             buttonText = "Rate Profile";
-            String finalUserIdToDisplay = userIdToDisplay;
+            String finalUserIdToDisplay = displayedUser;
             listener = v -> goToProfileRate(finalUserIdToDisplay);
 
             sharePersonalQrCodeButton.setVisibility(View.GONE);
@@ -89,10 +87,10 @@ public class ProfileFragment extends DrawerFragment {
 
         setupToolBar(ratingEditButton, toolbar, buttonText, listener);
 
-        pvm.fetchProfile(userIdToDisplay);
+        pvm.fetchProfile(displayedUser);
         pvm.getProfileLiveData().observe(getViewLifecycleOwner(), profile -> displayProfile(view, profile));
 
-        insertEventsListFragment(userIdToDisplay);
+        insertEventsListFragment(displayedUser);
     }
 
     private Button initializeSharePersonalQrCodeButton(@NonNull View view, String uid) {
@@ -110,8 +108,7 @@ public class ProfileFragment extends DrawerFragment {
     }
 
     private void insertEventsListFragment(String userId) {
-        EventsViewModel viewModel = new ViewModelProvider(requireActivity(), new EventsViewModelFactory(new EventFirebaseDataSource())).get(EventsViewModel.class);
-        viewModel.setFilter(new EventParticipantIdFilter(userId));
+        EventsViewModel viewModel = new EventsViewModel(new EventFirebaseDataSource(), new EventParticipantIdFilter(userId));
         EventsListViewFragment eventsListViewFragment = new EventsListViewFragment(viewModel);
         getChildFragmentManager().beginTransaction().replace(R.id.profile_events_container, eventsListViewFragment).commit();
     }

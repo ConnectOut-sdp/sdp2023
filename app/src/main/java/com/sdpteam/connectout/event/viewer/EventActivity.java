@@ -214,7 +214,7 @@ public class EventActivity extends WithFragmentActivity {
     }
 
     private void initPostsFragment() {
-        PostsFragment postsFragment = new PostsFragment(eventId, null, false);
+        PostsFragment postsFragment = new PostsFragment(eventId, null, false, false);
         replaceFragment(postsFragment, R.id.event_post_fragment_container);
     }
 

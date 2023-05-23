@@ -12,6 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
@@ -43,6 +44,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.creator.LocationPicker;
@@ -67,6 +69,8 @@ public class EventCreatorActivityTest {
     private static final String eventTitle3 = generateRandomPath();
     private static final String eventTitle4 = generateRandomPath();
 
+    private static final String eventTitle5 = generateRandomPath();
+
     @Rule
     public ActivityScenarioRule<EventCreatorActivity> activityRule = new ActivityScenarioRule<>(EventCreatorActivity.class);
 
@@ -88,11 +92,17 @@ public class EventCreatorActivityTest {
 
     @AfterClass
     public static void cleanUp() {
+        AuthenticatedUser au = new GoogleAuth().loggedUser();
+        String uid = (au == null) ? NULL_USER : au.uid;
         EventFirebaseDataSource model = new EventFirebaseDataSource();
-        model.deleteEvent(EditProfileActivity.NULL_USER, eventTitle1);
-        model.deleteEvent(EditProfileActivity.NULL_USER, eventTitle2);
-        model.deleteEvent(EditProfileActivity.NULL_USER, eventTitle3);
-        model.deleteEvent(EditProfileActivity.NULL_USER, eventTitle4);
+        model.deleteEvent(uid, eventTitle1);
+        model.deleteEvent(uid, eventTitle2);
+        model.deleteEvent(uid, eventTitle3);
+        model.deleteEvent(uid, eventTitle4);
+        model.deleteEvent(uid, eventTitle5);
+        waitABit();
+        waitABit();
+        waitABit();
     }
 
     @Test
@@ -148,7 +158,7 @@ public class EventCreatorActivityTest {
         String title = eventTitle2;
         String description = "Search for tenis partner a really good player is better";
 
-        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
+        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), NULL_USER);
         EventFirebaseDataSource model = new EventFirebaseDataSource();
         model.saveEvent(e);
 
@@ -159,7 +169,7 @@ public class EventCreatorActivityTest {
         assertThat(foundEvent.getCoordinates().getLatitude(), is(1.5));
         assertThat(foundEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(foundEvent.getDescription(), is(description));
-        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
+        assertThat(foundEvent.getOrganizer(), is(NULL_USER));
     }
 
     @Test
@@ -186,21 +196,18 @@ public class EventCreatorActivityTest {
 
         onView(withId(R.id.event_creator_save_button)).perform(click());
         waitABit();
-        Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, title));
+        Event foundEvent = fJoin(model.getEvent(NULL_USER, title));
 
 
         assertThat(foundEvent.getTitle(), is(title));
-        //assertThat(foundEvent.getCoordinates().getLatitude(), is(not(0.0))); // the method to change the marker is not wotking
-        //assertThat(foundEvent.getCoordinates().getLongitude(), is(not(0.0))); // TODO: fix this for CI
         assertThat(foundEvent.getDescription(), is(description));
-        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
+        assertThat(foundEvent.getOrganizer(), is(NULL_USER));
     }
 
     @Test
     public void testTimeAndDateSelection() throws InterruptedException {
-        String title = generateRandomPath();
         EventFirebaseDataSource model = new EventFirebaseDataSource();
-        onView(ViewMatchers.withId(R.id.event_creator_title)).perform(typeText(title));
+        onView(ViewMatchers.withId(R.id.event_creator_title)).perform(typeText(eventTitle5));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.event_creator_description)).perform(typeText("Spikeball match with the beautiful people of Lausanne"));
         Espresso.closeSoftKeyboard();
@@ -219,7 +226,7 @@ public class EventCreatorActivityTest {
         waitABit();
         assertNull(new GoogleAuth().loggedUser());
 
-        Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, title));
+        Event foundEvent = fJoin(model.getEvent(NULL_USER, eventTitle5));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
         calendar.set(Calendar.YEAR, 2050);
         calendar.set(Calendar.MONTH, 3 - 1); // Calendar.MONTH starts from 0

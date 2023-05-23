@@ -27,8 +27,6 @@ public class EventFirebaseDataSource implements EventDataSource {
     }
 
     /**
-     * TODO refactor in order to return a completable future boolean upon completion from firebase.
-     * <p>
      * Saves an Event into firebase
      *
      * @param event (Event): The given event to save

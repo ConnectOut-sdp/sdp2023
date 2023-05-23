@@ -57,6 +57,9 @@ public class CommunityActivityTest {
     public static void classCleanUp() {
         new ProfileFirebaseDataSource().deleteProfile(profileId1);
         new ProfileFirebaseDataSource().deleteProfile(profileId2);
+        waitABit();
+        waitABit();
+        waitABit();
     }
 
     @Before
