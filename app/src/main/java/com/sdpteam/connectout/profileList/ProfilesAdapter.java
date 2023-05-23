@@ -50,6 +50,7 @@ public class ProfilesAdapter extends ArrayAdapter<Profile> {
 
         Profile profile = getItem(position);
         if (profile == null) {
+            System.out.println("NULL VALUE");
             return view; // TODO Understand why it can happen and fix it :)
         }
 
