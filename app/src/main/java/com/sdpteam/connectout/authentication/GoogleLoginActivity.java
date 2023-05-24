@@ -6,6 +6,7 @@ import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.registration.CompleteRegistrationActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -48,13 +49,14 @@ public class GoogleLoginActivity extends AppCompatActivity {
         redirectIfAuthenticated();
     }
 
+    @SuppressLint("SetTextI18n")
     void redirectIfAuthenticated() {
         AuthenticatedUser authenticatedUser = authentication.loggedUser();
         if (authenticatedUser != null) {
             loginBtn.setVisibility(View.GONE);
 
             infoText.setVisibility(View.VISIBLE);
-            infoText.setText("Hello " + authenticatedUser.name + "\nyou will be redirected in few seconds");
+            infoText.setText(getString(R.string.hello) + authenticatedUser.name + getString(R.string.you_will_be_redirected_in_few_seconds));
 
             progressBar.setVisibility(View.VISIBLE);
 

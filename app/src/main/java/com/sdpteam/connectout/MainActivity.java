@@ -17,13 +17,13 @@ public class MainActivity extends AppCompatActivity {
 
         enablingFirebaseCache();
 
-        NotificationService service = new NotificationService();
+        final NotificationService service = new NotificationService();
         service.createNotificationChannel();
 
-        Intent drawerIntent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
 
         this.finish();
-        this.startActivity(drawerIntent);
+        this.startActivity(intent);
     }
 
     /**
