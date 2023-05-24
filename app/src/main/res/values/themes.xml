@@ -12,6 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <!-- Button style -->
+        <item name="materialButtonStyle">@style/CustomButtonStyle</item>
     </style>
 
     <style name="Theme.ConnectOut.NoActionBar">
@@ -26,6 +29,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Button style -->
+        <item name="materialButtonStyle">@style/CustomButtonStyle</item>
     </style>
 
     <style name="Theme.ConnectOut.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -33,4 +38,9 @@
     </style>
 
     <style name="Theme.ConnectOut.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Custom button style -->
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+    </style>
 </resources>

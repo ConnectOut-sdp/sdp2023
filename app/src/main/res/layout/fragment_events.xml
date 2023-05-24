@@ -10,7 +10,7 @@
             android:id="@+id/events_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorSecondary"
+        android:background="?attr/colorPrimary"
 
             android:theme="@style/Theme.ConnectOut.AppBarOverlay">
 
