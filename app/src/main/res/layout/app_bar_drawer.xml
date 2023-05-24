@@ -16,7 +16,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorSecondaryVariant"
+            android:background="?attr/colorSecondary"
             app:popupTheme="@style/Theme.ConnectOut.PopupOverlay"
                 app:navigationIcon="@drawable/options_image">
 
