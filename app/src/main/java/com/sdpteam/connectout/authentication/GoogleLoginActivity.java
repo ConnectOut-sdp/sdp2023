@@ -66,7 +66,6 @@ public class GoogleLoginActivity extends AppCompatActivity {
         new ProfileFirebaseDataSource().fetchProfile(currentUser.uid).thenAccept(profile -> {
             finish();
             Intent intent = new Intent(GoogleLoginActivity.this, profile == null ? CompleteRegistrationActivity.class : DrawerActivity.class);
-            ;
             intent.putExtra("loginInfo", currentUser.name + " \n" + currentUser.email);
             startActivity(intent);
         });
