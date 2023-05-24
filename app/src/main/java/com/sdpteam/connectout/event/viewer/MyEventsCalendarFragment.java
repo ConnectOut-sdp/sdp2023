@@ -19,6 +19,12 @@ import com.firebase.ui.database.FirebaseListOptions;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.drawer.DrawerFragment;
+import com.sdpteam.connectout.event.EventFirebaseDataSource;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.filter.CalendarEventFilter;
+import com.sdpteam.connectout.event.nearbyEvents.list.EventsCalendarAdapter;
+import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
+import com.sdpteam.connectout.event.nearbyEvents.map.EventsMapViewFragment;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
@@ -33,11 +39,15 @@ import java.util.function.Function;
  */
 public class MyEventsCalendarFragment extends DrawerFragment {
     private final String profileId;
-    public ProfileViewModel viewModel = new ProfileViewModel(new ProfileFirebaseDataSource());
+    private EventsListViewFragment eventsListViewFragment;
+
+    private final EventsViewModel eventsViewModel = new EventsViewModel(new EventFirebaseDataSource());
 
     public MyEventsCalendarFragment() {
         GoogleAuth googleAuth = new GoogleAuth();
         this.profileId = googleAuth.isLoggedIn() ? googleAuth.loggedUser().uid : NULL_USER;
+
+        //eventsViewModel.setFilter(new CalendarEventFilter(profileId));
     }
 
     public MyEventsCalendarFragment(String profileId) {
@@ -49,16 +59,16 @@ public class MyEventsCalendarFragment extends DrawerFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registered_events_calendar, container, false);
 
-        //set up the ListView
-        setUpListAdapter(view);
+        EventsViewModel viewModel = new EventsViewModel(new EventFirebaseDataSource());
 
-        ListView listOfRegisteredEvents = view.findViewById(R.id.list_of_registered_events);
-
+        eventsListViewFragment = new EventsListViewFragment(viewModel, new EventsCalendarAdapter(getContext(), R.layout.registered_event));
+        getChildFragmentManager().beginTransaction().replace(R.id.list_of_registered_events, eventsListViewFragment).commit();
+        /*ListView listOfRegisteredEvents = view.findViewById(R.id.list_of_registered_events);
         //on click, open event
         listOfRegisteredEvents.setOnItemClickListener((parent, v, position, id) -> {
             TextView item = v.findViewById(R.id.registered_event_id);
             EventActivity.openEvent(getContext(), item.getText().toString());
-        });
+        });*/
 
         return view;
     }
@@ -68,7 +78,7 @@ public class MyEventsCalendarFragment extends DrawerFragment {
      * by the model.
      * However, the adapter needs indirect access to the view elements as such we pass lambdas so that
      * the Model has no direct access.
-     */
+     *
     private void setUpListAdapter(View view) {
         ListView listOfRegisteredEvents = view.findViewById(R.id.list_of_registered_events);
         listOfRegisteredEvents.setStackFromBottom(true);
@@ -90,5 +100,5 @@ public class MyEventsCalendarFragment extends DrawerFragment {
         };
         Consumer<ListAdapter> setAdapter = listOfRegisteredEvents::setAdapter;
         viewModel.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
-    }
+    }*/
 }
