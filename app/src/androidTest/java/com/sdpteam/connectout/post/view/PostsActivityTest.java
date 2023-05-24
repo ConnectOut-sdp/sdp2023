@@ -1,9 +1,15 @@
 package com.sdpteam.connectout.post.view;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
+import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -16,6 +22,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
@@ -106,15 +113,19 @@ public class PostsActivityTest {
 //        intended(hasComponent(CommentsActivity.class.getName()));
 //    }
 
-//    @Test
-//    public void likeButtonDisplayedAndClickable() {
-//        waitABit();
-//        waitABit();
-//        waitABit();
-//        onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
-//        waitABit();
-//        waitABit();
-//        waitABit();
-//        onView(withIndex(withId(R.id.post_like_button), 0)).perform(click()); // click this button on the first post in the list
-//    }
+    @Test
+    public void likeButtonDisplayedAndClickable() {
+        waitABit();
+        waitABit();
+        waitABit();
+        onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
+        waitABit();
+        waitABit();
+        waitABit();
+        onView(withIndex(withId(R.id.post_like_button), 0)).perform(click()); // click this button on the first post in the list
+        waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
+    }
 }
