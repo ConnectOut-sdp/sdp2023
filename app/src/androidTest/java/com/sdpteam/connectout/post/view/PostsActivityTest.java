@@ -46,10 +46,8 @@ public class PostsActivityTest {
     @BeforeClass
     public static void setUpClass() {
         imagesUrls.clear();
-        imagesUrls.add("https://firebasestorage.googleapis.com/v0/b/my-project-test-a847f.appspot.com/o/1683269814271_40078ef6-3886-4c15-b013-940b8d3f1614" +
-                ".jpg?alt=media&token=c5abae50-d2af-4361-bb75-d975f8460a6d");
-        imagesUrls.add("https://firebasestorage.googleapis.com/v0/b/my-project-test-a847f.appspot.com/o/1683269290710_5e3659ce-9aea-4f90-aea2-64eb941d6a6c" +
-                ".jpg?alt=media&token=590a4df0-12c1-491a-9b89-f621c8f2bbe3");
+        imagesUrls.add("https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/512px-Flag_of_Switzerland_%28Pantone%29.svg.png");
+        imagesUrls.add("https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/512px-Flag_of_Switzerland_%28Pantone%29.svg.png");
 
         assertTrue(fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT)).isSuccess());
         assertTrue(fJoin(new PostFirebaseDataSource().savePost(TEST_POST_EVENT1)).isSuccess());
