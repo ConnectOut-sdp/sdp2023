@@ -1,18 +1,17 @@
 package com.sdpteam.connectout.profile;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.Authentication;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.validation.EditProfileValidator;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.validation.EditProfileValidator;
 
 public class EditProfileActivity extends AppCompatActivity {
     public final static String NULL_USER = "null_user";
@@ -47,6 +46,18 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
         cancel.setOnClickListener(v -> this.finish());
+
+        String name = getIntent().getStringExtra("name");
+        String email = getIntent().getStringExtra("email");
+        String bio = getIntent().getStringExtra("bio");
+        String gender = getIntent().getStringExtra("gender");
+        male.setChecked(gender.equals("MALE"));
+        female.setChecked(gender.equals("FEMALE"));
+        other.setChecked(gender.equals("OTHER"));
+        String profileImageUrl = getIntent().getStringExtra("profileImageUrl");
+        nameET.setText(name);
+        emailET.setText(email);
+        bioET.setText(bio);
     }
 
     /**

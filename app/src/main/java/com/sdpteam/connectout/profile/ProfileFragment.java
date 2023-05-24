@@ -131,6 +131,12 @@ public class ProfileFragment extends DrawerFragment {
 
     private void goToEditProfile() {
         Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+        Profile p = pvm.getProfileLiveData().getValue();
+        intent.putExtra("name", p.getName());
+        intent.putExtra("email", p.getEmail());
+        intent.putExtra("bio", p.getBio());
+        intent.putExtra("gender", p.getGender().name());
+        intent.putExtra("profileImageUrl", p.getProfileImageUrl());
         startActivity(intent);
     }
 
