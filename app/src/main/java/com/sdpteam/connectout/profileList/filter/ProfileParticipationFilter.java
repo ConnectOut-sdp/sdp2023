@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.profileList.filter;
 
-import com.google.firebase.database.Query;
+import com.sdpteam.connectout.profile.ProfileEntry;
 
 public class ProfileParticipationFilter implements ProfileFilter {
 
@@ -11,10 +11,7 @@ public class ProfileParticipationFilter implements ProfileFilter {
     }
 
     @Override
-    public Query buildQuery(Query root) {
-        if (eventId == null || eventId.isEmpty()) {
-            return root;
-        }
-        return root.orderByChild("RegisteredEvents/eventId").equalTo(eventId);
+    public boolean test(ProfileEntry entry) {
+        return entry.getRegisteredEvents().stream().anyMatch(registeredEvent -> registeredEvent.getEventId().equals(eventId));
     }
 }
