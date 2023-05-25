@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.location.LocationHelper;
@@ -36,7 +37,7 @@ public class EventsMapViewFragment extends MapViewFragment {
 
         eventsViewModel.getEventListLiveData().observe(getViewLifecycleOwner(), this::showEventsOnMap);
 
-        ImageButton refreshButton = rootView.findViewById(R.id.refresh_button);
+        FloatingActionButton refreshButton = rootView.findViewById(R.id.refresh_button);
         refreshButton.setOnClickListener(view -> eventsViewModel.refreshEvents());
     }
 

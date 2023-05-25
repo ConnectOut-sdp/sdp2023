@@ -41,7 +41,7 @@ public class FilteredProfileListFragment extends Fragment {
 
         searchRunnable = () -> {
             final ProfileNameFilter nameFilter = new ProfileNameFilter(searchFilter.getText().toString());
-            viewModel.setFilter(nameFilter);
+            viewModel.setFilter(baseFilter.and(nameFilter));
             viewModel.refreshProfiles();
         };
 

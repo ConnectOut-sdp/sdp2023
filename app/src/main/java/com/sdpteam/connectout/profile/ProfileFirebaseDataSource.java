@@ -13,9 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.profileList.filter.ProfileFilter;
-import com.sdpteam.connectout.profileList.filter.ProfileParticipationFilter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,19 +96,34 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     public CompletableFuture<List<Profile>> getProfilesByFilter(ProfileFilter filter) {
         final CompletableFuture<List<Profile>> future = new CompletableFuture<>();
 
-        if (filter instanceof ProfileParticipationFilter) {
-            return new EventFirebaseDataSource().getEvent(((ProfileParticipationFilter) filter).eventId)
-                    .thenCompose(e -> fetchProfiles(e.getParticipants()));
-        }
+        // Fetch all the users (profile + its registered events)
+        firebaseRef.child(USERS).limitToFirst(MAX_PROFILES_FETCHED).get().addOnCompleteListener(t -> {
+            final List<Profile> result = new ArrayList<>();
 
-        final Query query = filter.buildQuery(firebaseRef.child(USERS)).limitToFirst(MAX_PROFILES_FETCHED);
+            // Iterate over the results
+            for (DataSnapshot snapshot : t.getResult().getChildren()) {
 
-        query.get().addOnCompleteListener(t -> {
-                    final List<Profile> result = new ArrayList<>();
-                    t.getResult().getChildren().forEach(snapshot -> result.add(snapshot.child(PROFILE).getValue(Profile.class)));
-                    future.complete(result);
+                // Get the profile class
+                final Profile profile = snapshot.child(PROFILE).getValue(Profile.class);
+                if (profile == null || profile.getNameLowercase() == null) {
+                    continue;
                 }
-        );
+
+                // Get the registered events list
+                final List<RegisteredEvent> registeredEvents = new ArrayList<>();
+                for (DataSnapshot child : snapshot.child(REGISTERED_EVENTS).getChildren()) {
+                    final RegisteredEvent event = child.getValue(RegisteredEvent.class);
+                    registeredEvents.add(event);
+                }
+
+                // Check if the entry satisfies the filter
+                final ProfileEntry entry = new ProfileEntry(profile, registeredEvents);
+                if (filter.test(entry)) {
+                    result.add(entry.getProfile());
+                }
+            }
+            future.complete(result);
+        });
         return future;
     }
 
