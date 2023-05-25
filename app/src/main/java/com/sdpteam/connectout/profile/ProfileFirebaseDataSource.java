@@ -96,21 +96,27 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     public CompletableFuture<List<Profile>> getProfilesByFilter(ProfileFilter filter) {
         final CompletableFuture<List<Profile>> future = new CompletableFuture<>();
 
+        // Fetch all the users (profile + its registered events)
         firebaseRef.child(USERS).limitToFirst(MAX_PROFILES_FETCHED).get().addOnCompleteListener(t -> {
             final List<Profile> result = new ArrayList<>();
 
+            // Iterate over the results
             for (DataSnapshot snapshot : t.getResult().getChildren()) {
+
+                // Get the profile class
                 final Profile profile = snapshot.child(PROFILE).getValue(Profile.class);
                 if (profile == null || profile.getNameLowercase() == null) {
                     continue;
                 }
-                final List<RegisteredEvent> registeredEvents = new ArrayList<>();
 
+                // Get the registered events list
+                final List<RegisteredEvent> registeredEvents = new ArrayList<>();
                 for (DataSnapshot child : snapshot.child(REGISTERED_EVENTS).getChildren()) {
                     final RegisteredEvent event = child.getValue(RegisteredEvent.class);
                     registeredEvents.add(event);
                 }
 
+                // Check if the entry satisfies the filter
                 final ProfileEntry entry = new ProfileEntry(profile, registeredEvents);
                 if (filter.test(entry)) {
                     result.add(entry.getProfile());

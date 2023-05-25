@@ -1,5 +1,9 @@
 package com.sdpteam.connectout.profile;
 
+/**
+ * This class represents the child Users/RegisteredEvents in the Firebase structure.
+ * It is used to build back the {@link ProfileEntry} when we fetch the profiles.
+ */
 public class RegisteredEvent {
     private final long eventDate;
     private final String eventId;
