@@ -14,7 +14,7 @@ import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.utils.DateSelectors;
-import com.sdpteam.connectout.validation.EventCreationValidator;
+import com.sdpteam.connectout.validation.EventValidator;
 
 public class SetEventRestrictionsActivity extends AppCompatActivity {
     private EventViewModel eventViewModel;
@@ -49,7 +49,7 @@ public class SetEventRestrictionsActivity extends AppCompatActivity {
             final long chosenDate = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
 
             // validation
-            if (EventCreationValidator.eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate)) {
+            if (EventValidator.eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate)) {
                 saveEventRestrictions(new Event.EventRestrictions(chosenMinRating, chosenMaxNumParticipants, chosenDate));
                 this.finish();
             }

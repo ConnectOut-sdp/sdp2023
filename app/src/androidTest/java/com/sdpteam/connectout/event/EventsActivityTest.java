@@ -2,6 +2,7 @@ package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -20,6 +21,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -147,4 +149,34 @@ public class EventsActivityTest {
             intended(Matchers.allOf(hasComponent(EventActivity.class.getName()), hasExtra(equalTo(PASSED_ID_KEY), equalTo(expectedUid))));
         }
     }
+    @Test
+    public void clickOnFilterLaunchedCorrectlyWithDate() {
+        onView(withId(R.id.list_switch_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.events_filter_button)).perform(click());
+        waitABit();
+        onView(withId(R.id.popup_events_filter)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.filter_in_date)).perform(ViewActions.typeText("10-10-2023"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.events_filter_apply_btn)).perform(click());
+
+    }
+    @Test
+    public void clickOnFilterLaunchedCorrectlyWithNoFilter() {
+        onView(withId(R.id.list_switch_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.events_filter_button)).perform(click());
+        onView(withId(R.id.popup_events_filter)).check(matches(isDisplayed()));
+        onView(withId(R.id.events_filter_apply_btn)).perform(click());
+
+    }
+    @Test
+    public void clickOnFilterLaunchedCorrectlyWithWrongDate() {
+        onView(withId(R.id.list_switch_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.events_filter_button)).perform(click());
+        onView(withId(R.id.popup_events_filter)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.filter_in_date)).perform(ViewActions.typeText("11"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.events_filter_apply_btn)).perform(click());
+
+    }
+
 }

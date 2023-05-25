@@ -11,7 +11,7 @@ import com.sdpteam.connectout.utils.DateSelectors;
 
 import android.widget.EditText;
 
-public class EventCreationValidator {
+public class EventValidator {
 
     public static final double MAX_RATING = 5;
     public static final int MIN_NAX_NUMBER_PARTICIPANTS = 2;

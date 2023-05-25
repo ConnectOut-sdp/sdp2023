@@ -6,7 +6,7 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
 import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
-import com.sdpteam.connectout.validation.EventCreationValidator;
+import com.sdpteam.connectout.validation.EventValidator;
 
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +50,7 @@ public class EventCreatorActivity extends WithFragmentActivity {
             final long date = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
 
             // validation
-            if (EventCreationValidator.eventCreationValidation(eventTitle, eventDescription, txtDate, txtTime)) {
+            if (EventValidator.eventCreationValidation(eventTitle, eventDescription, txtDate, txtTime)) {
                 saveButton.setText("Saving..");
                 eventCreatorViewModel.uploadImage(selectedImageUri).thenAccept((uploadImageUrl) -> {
                     saveButton.setText("Saving...");
