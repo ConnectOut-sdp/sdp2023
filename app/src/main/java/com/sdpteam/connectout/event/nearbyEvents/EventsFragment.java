@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.drawer.DrawerFragment;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
@@ -51,7 +52,7 @@ public class EventsFragment extends DrawerFragment {
 
         RadioButton mapButton = view.findViewById(R.id.map_switch_button);
         RadioButton listButton = view.findViewById(R.id.list_switch_button);
-        ImageButton mapAddButton = view.findViewById(R.id.events_map_add_button);
+        FloatingActionButton mapAddButton = view.findViewById(R.id.events_map_add_button);
         Button listAddButton = view.findViewById(R.id.events_list_add_button);
 
         mapListButton.setOnCheckedChangeListener(toggleViewMode(mapButton, listButton, mapAddButton, listAddButton));
@@ -62,7 +63,7 @@ public class EventsFragment extends DrawerFragment {
         return view;
     }
 
-    private RadioGroup.OnCheckedChangeListener toggleViewMode(RadioButton mapButton, RadioButton listButton, ImageButton mapAddButton, Button listAddButton) {
+    private RadioGroup.OnCheckedChangeListener toggleViewMode(RadioButton mapButton, RadioButton listButton, FloatingActionButton mapAddButton, Button listAddButton) {
         return (buttonView, isChecked) -> {
             if (R.id.map_switch_button == isChecked) {
                 listButton.setChecked(false);

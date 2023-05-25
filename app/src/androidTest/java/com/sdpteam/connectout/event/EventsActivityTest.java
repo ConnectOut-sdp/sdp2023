@@ -39,6 +39,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
@@ -53,7 +54,7 @@ public class EventsActivityTest {
     @Before
     public void setup() {
         Intents.init();
-        eventDs.saveEvent(new Event(eventId, "Title", "Desc", null, "aa"));
+        eventDs.saveEvent(new Event(eventId, "Title", "Desc", null, "aa", new ArrayList<>(), new ArrayList<>(), 0, new Event.EventRestrictions(), "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/512px-Flag_of_Switzerland_%28Pantone%29.svg.png"));
         waitABit();
     }
 

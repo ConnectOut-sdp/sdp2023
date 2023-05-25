@@ -1,16 +1,6 @@
 package com.sdpteam.connectout.event.nearbyEvents.list;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import java.util.List;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
@@ -19,7 +9,16 @@ import com.sdpteam.connectout.profile.ProfileActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * It is responsible for creating and managing the views for a list of events.
@@ -80,8 +79,12 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         loadOrganizerProfileImage(orgProfileId, profileImageButton);
         profileImageButton.setOnClickListener(v -> ProfileActivity.openProfile(getContext(), orgProfileId));
 
-        ImageView eventImage = view.findViewById(R.id.event_list_event_image);//TODO set event image
+        ImageView eventImage = view.findViewById(R.id.event_list_event_image);
         view.setOnClickListener(v -> EventActivity.openEvent(getContext(), event.getId()));
+        final String imageUrl = event.getPreviewImageUrl();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Picasso.get().load(imageUrl).into(eventImage);
+        }
         return view;
     }
 }

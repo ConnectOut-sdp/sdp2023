@@ -2,11 +2,11 @@ package com.sdpteam.connectout.event;
 
 import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
 
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
 /**
  * This class describes an event
@@ -24,6 +24,8 @@ public class Event {
     private final List<String> interestedParticipants;
     private final long date;
     private final EventRestrictions restrictions;
+
+    private final String previewImageUrl;
 
     private Event() {
         this(NULL_USER, "NullTitle", "NullDescription", new GPSCoordinates(0, 0), NULL_USER, new ArrayList<>(), new ArrayList<>(), 0);
@@ -51,7 +53,7 @@ public class Event {
                  List<String> participants,
                  List<String> interestedParticipants,
                  long date) {
-        this(id, title, description, coordinates, organizer, participants, interestedParticipants, date, new EventRestrictions());
+        this(id, title, description, coordinates, organizer, participants, interestedParticipants, date, new EventRestrictions(), null);
     }
 
     public Event(String id,
@@ -62,7 +64,8 @@ public class Event {
                  List<String> participants,
                  List<String> interestedParticipants,
                  long date,
-                 EventRestrictions restrictions) {
+                 EventRestrictions restrictions,
+                 String previewImageUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -72,6 +75,7 @@ public class Event {
         this.interestedParticipants = interestedParticipants;
         this.date = date;
         this.restrictions = restrictions;
+        this.previewImageUrl = previewImageUrl;
     }
 
     public String getId() {
@@ -116,6 +120,10 @@ public class Event {
 
     public EventRestrictions getRestrictions() {
         return restrictions;
+    }
+
+    public String getPreviewImageUrl() {
+        return previewImageUrl;
     }
 
     /**
