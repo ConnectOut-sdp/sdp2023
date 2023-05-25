@@ -3,6 +3,7 @@ package com.sdpteam.connectout.event;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -76,5 +77,10 @@ public class EventTest {
 
         assertFalse(TEST_EVENT.isInterested("1"));
         assertTrue(TEST_EVENT.hasJoined("1"));
+    }
+
+    @Test
+    public void testImageUrl() {
+        assertNull(TEST_EVENT.getPreviewImageUrl());
     }
 }
