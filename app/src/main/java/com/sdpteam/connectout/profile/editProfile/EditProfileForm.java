@@ -1,6 +1,7 @@
 package com.sdpteam.connectout.profile.editProfile;
 
 import static com.sdpteam.connectout.profile.Profile.Gender;
+import static com.sdpteam.connectout.utils.NullStringUtil.nonNullString;
 
 import java.util.Arrays;
 
@@ -135,10 +136,6 @@ public class EditProfileForm extends Fragment {
         });
 
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    private String nonNullString(String s) {
-        return s == null ? "" : s;
     }
 
     private void submitForm(EditText nameEditor, EditText emailEditor, EditText bioEditor, RadioGroup radioGroup) {

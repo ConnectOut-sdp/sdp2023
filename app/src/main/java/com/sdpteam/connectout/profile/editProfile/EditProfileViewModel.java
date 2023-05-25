@@ -23,11 +23,12 @@ public class EditProfileViewModel extends ViewModel {
      * @param initialProfile existing initialProfile we want to edit, null if want to create for the first time a new initialProfile
      */
     public EditProfileViewModel(EditProfile registration, Profile initialProfile) {
-        this.initialProfile = initialProfile;
-        final AuthenticatedUser authenticatedUser = new GoogleAuth().loggedUser();
+        final AuthenticatedUser user = new GoogleAuth().loggedUser();
+        final AuthenticatedUser authenticatedUser = user == null ? new AuthenticatedUser("", "", "") : user;
         final Profile newProfile = new Profile(authenticatedUser.uid, authenticatedUser.name, authenticatedUser.email, "", Gender.MALE, 0, 0, null);
 
         this.registration = registration;
+        this.initialProfile = initialProfile;
         this.profile = initialProfile == null ? newProfile : initialProfile;
         this.progress = new MutableLiveData<>(false);
         this.errorMessage = new MutableLiveData<>("");
