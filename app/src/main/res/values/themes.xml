@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.ConnectOut" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/green_700</item>
-        <item name="colorPrimaryVariant">@color/green_200</item>
+        <item name="colorPrimary">@color/teal_500</item>
+        <item name="colorPrimaryVariant">@color/teal_900</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/orange_700</item>
-        <item name="colorSecondaryVariant">@color/orange_300</item>
+        <item name="colorSecondary">@color/orange_400</item>
+        <item name="colorSecondaryVariant">@color/orange_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
@@ -20,12 +20,12 @@
     <style name="Theme.ConnectOut.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/green_700</item>
-        <item name="colorPrimaryVariant">@color/green_200</item>
+        <item name="colorPrimary">@color/teal_500</item>
+        <item name="colorPrimaryVariant">@color/teal_900</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/orange_700</item>
-        <item name="colorSecondaryVariant">@color/orange_300</item>
+        <item name="colorSecondary">@color/orange_400</item>
+        <item name="colorSecondaryVariant">@color/orange_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
@@ -42,5 +42,11 @@
     <!-- Custom button style -->
     <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="CustomActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:tint">@color/white</item>
     </style>
 </resources>

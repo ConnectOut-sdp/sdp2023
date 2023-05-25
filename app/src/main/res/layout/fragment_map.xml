@@ -15,6 +15,7 @@
         android:padding="@dimen/fab_margin"
         android:background="?attr/colorPrimary"
         android:src="@drawable/refresh_image"
+        android:tint="@color/white"
         />
 
 </fragment>
