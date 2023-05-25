@@ -74,7 +74,7 @@ public class EditProfileForm extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment();
+        ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment(nonNullString(editProfileViewModel.profile().getProfileImageUrl()));
         imageSelectionFragment.setOnImageSelectedListener(imageUri -> {
             this.selectedImage = imageUri;
         });
@@ -84,15 +84,15 @@ public class EditProfileForm extends Fragment {
 
         EditText nameEditor = view.findViewById(R.id.nameEditText);
         nameEditor.setHint("Name");
-        nameEditor.setText(displayString(editProfileViewModel.profile().getName()));
+        nameEditor.setText(nonNullString(editProfileViewModel.profile().getName()));
 
         EditText emailEditor = view.findViewById(R.id.emailEditText);
         emailEditor.setHint("Email");
-        emailEditor.setText(displayString(editProfileViewModel.profile().getEmail()));
+        emailEditor.setText(nonNullString(editProfileViewModel.profile().getEmail()));
 
         EditText bioEditor = view.findViewById(R.id.bioEditText);
         bioEditor.setHint("Bio");
-        bioEditor.setText(displayString(editProfileViewModel.profile().getBio()));
+        bioEditor.setText(nonNullString(editProfileViewModel.profile().getBio()));
 
         RadioGroup radioGroup = view.findViewById(R.id.radio_group);
         Gender gender = editProfileViewModel.profile().getGender();
@@ -137,7 +137,7 @@ public class EditProfileForm extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private String displayString(String s) {
+    private String nonNullString(String s) {
         return s == null ? "" : s;
     }
 

@@ -2,21 +2,6 @@ package com.sdpteam.connectout.profile;
 
 import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
@@ -28,6 +13,20 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 import com.sdpteam.connectout.profile.editProfile.EditProfileActivity;
 import com.squareup.picasso.Picasso;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 public class ProfileFragment extends DrawerFragment {
     public final static String PASSED_ID_KEY = "uid";
@@ -146,5 +145,12 @@ public class ProfileFragment extends DrawerFragment {
         startActivity(intent);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Profile profile = pvm.getProfileLiveData().getValue();
+        if (profile != null) pvm.fetchProfile(profile.getId()); // refresh when coming back from edit
+
+    }
 }
 

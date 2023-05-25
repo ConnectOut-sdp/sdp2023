@@ -71,7 +71,7 @@ public class Profile {
     }
 
     public enum Gender {
-        FEMALE, MALE, OTHER
+        MALE, FEMALE, OTHER
     }
 
     public static class CalendarEvent {
