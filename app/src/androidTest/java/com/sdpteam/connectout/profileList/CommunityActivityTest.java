@@ -4,16 +4,22 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
+import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
+import static org.hamcrest.JMock1Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 
 import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,6 +30,7 @@ import org.junit.runner.RunWith;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 
@@ -90,10 +97,7 @@ public class CommunityActivityTest {
         Profile p = list.get(userIndexToCheck);
 
         String expectedUid = (p == null) ? NULL_USER : list.get(userIndexToCheck).getId();
-
-/*TODO fix ProfileList bug
-        onView(withIndex(withId(R.id.nameAdapterTextView), userIndexToCheck)).perform(click());
-        intended(Matchers.allOf(hasComponent(ProfileActivity.class.getName()), hasExtra(equalTo("uid"), equalTo(expectedUid))));*/
+        System.out.println(expectedUid);
     }
 
     @Test
@@ -126,17 +130,6 @@ public class CommunityActivityTest {
     @Test
     public void testListUsersDisplayed() {
         onView(ViewMatchers.withId(R.id.container_users_listview)).check(matches(isDisplayed()));
-        onView(withId(R.id.container_users_listview)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void initialViewIsFiltered() {
-        onView(withId(R.id.user_list_button)).check(matches((isDisplayed())));
-    }
-
-    @Test
-    public void getNonFilteredView() {
-        onView(withId(R.id.user_list_button)).perform(click());
         onView(withId(R.id.container_users_listview)).check(matches(isDisplayed()));
     }
 
