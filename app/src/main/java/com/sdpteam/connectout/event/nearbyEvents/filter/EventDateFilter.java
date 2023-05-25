@@ -4,19 +4,18 @@ import android.icu.util.Calendar;
 
 import com.sdpteam.connectout.event.Event;
 
-import java.util.GregorianCalendar;
-
 public class EventDateFilter implements EventFilter {
 
     private final Calendar calendar;
 
-    public EventDateFilter(Calendar calendar){
+    public EventDateFilter(Calendar calendar) {
 
         this.calendar = calendar;
     }
+
     @Override
     public boolean test(Event event) {
-        if(calendar == null){
+        if (calendar == null) {
             return true;
         }
         Calendar eventCalendar = Calendar.getInstance();
