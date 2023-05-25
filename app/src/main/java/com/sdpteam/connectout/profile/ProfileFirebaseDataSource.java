@@ -135,10 +135,10 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     }
 
     /**
-     * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
+     * stores a new Profile.RegisteredEvent (eventId, eventTitle and eventDate)
      * in list of events that a profile is registered to
      * this list of events is stored under USERS/profileId/REGISTERED_EVENTS
-     * each CalendarEvent has an auto generated key
+     * each RegisteredEvent has an auto generated key
      * We make sure that a Calendar Event isn't already in the User's memory before adding it
      * Not very efficient if the user is registered to A LOT of events. Which won't be the case so we re fine
      */
@@ -151,8 +151,6 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    // The event ID doesn't exist in REGISTERED_EVENTS
-                    // Store the CalendarEvent under the event ID
                     firebaseRef.child(USERS)
                             .child(profileId)
                             .child(REGISTERED_EVENTS)
