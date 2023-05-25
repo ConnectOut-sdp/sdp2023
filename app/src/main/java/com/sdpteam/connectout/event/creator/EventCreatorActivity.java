@@ -21,6 +21,11 @@ public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
     private Uri selectedImageUri;
 
+    public static void openEventCreator(Context fromContext) {
+        Intent creationIntent = new Intent(fromContext, EventCreatorActivity.class);
+        fromContext.startActivity(creationIntent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +74,5 @@ public class EventCreatorActivity extends WithFragmentActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.event_creator_selectImage, imageSelectionFragment);
         transaction.commit();
-    }
-
-    public static void openEventCreator(Context fromContext) {
-        Intent creationIntent = new Intent(fromContext, EventCreatorActivity.class);
-        fromContext.startActivity(creationIntent);
     }
 }

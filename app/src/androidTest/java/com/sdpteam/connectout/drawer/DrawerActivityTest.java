@@ -40,9 +40,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 @RunWith(AndroidJUnit4.class)
 public class DrawerActivityTest {
 
+    private static final String postId = "atLeastOnePostId" + generateRandomPath();
     @Rule
     public ActivityScenarioRule<DrawerActivity> activityRule = new ActivityScenarioRule<>(DrawerActivity.class);
-    private static final String postId = "atLeastOnePostId" + generateRandomPath();
 
     @BeforeClass
     public static void beforeClass() {

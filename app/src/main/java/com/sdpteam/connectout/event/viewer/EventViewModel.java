@@ -1,14 +1,14 @@
 package com.sdpteam.connectout.event.viewer;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import java.util.concurrent.CompletableFuture;
 
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventDataSource;
 import com.sdpteam.connectout.notifications.EventNotificationManager;
 
-import java.util.concurrent.CompletableFuture;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 public class EventViewModel extends ViewModel {
 

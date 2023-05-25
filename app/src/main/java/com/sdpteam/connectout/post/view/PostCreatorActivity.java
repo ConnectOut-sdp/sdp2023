@@ -28,6 +28,20 @@ public class PostCreatorActivity extends AppCompatActivity {
     private Uri selectedImage2;
     private Uri selectedImage3;
 
+    /**
+     * Helper method to launch a this activity from the source context
+     * (made it to avoid code duplication)
+     *
+     * @param fromContext from where we are starting the intent
+     */
+    public static void openPostCreator(Context fromContext, String profileId, String eventId, String eventName) {
+        Intent intent = new Intent(fromContext, PostCreatorActivity.class);
+        intent.putExtra("profileId", profileId);
+        intent.putExtra("eventId", eventId);
+        intent.putExtra("eventName", eventName);
+        fromContext.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,19 +108,5 @@ public class PostCreatorActivity extends AppCompatActivity {
         }
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> this.finish());
-    }
-
-    /**
-     * Helper method to launch a this activity from the source context
-     * (made it to avoid code duplication)
-     *
-     * @param fromContext from where we are starting the intent
-     */
-    public static void openPostCreator(Context fromContext, String profileId, String eventId, String eventName) {
-        Intent intent = new Intent(fromContext, PostCreatorActivity.class);
-        intent.putExtra("profileId", profileId);
-        intent.putExtra("eventId", eventId);
-        intent.putExtra("eventName", eventName);
-        fromContext.startActivity(intent);
     }
 }

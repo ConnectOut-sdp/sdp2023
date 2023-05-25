@@ -12,24 +12,7 @@ import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import android.content.Intent;
-import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.contrib.PickerActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.google.firebase.database.FirebaseDatabase;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
+import java.util.Random;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -39,7 +22,23 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Random;
+import com.google.firebase.database.FirebaseDatabase;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
+
+import android.content.Intent;
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.contrib.PickerActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class SetEventRestrictionsActivityTest {
@@ -47,7 +46,8 @@ public class SetEventRestrictionsActivityTest {
 
     private static EventFirebaseDataSource dataSource = new EventFirebaseDataSource();
     @Rule
-    public ActivityScenarioRule<SetEventRestrictionsActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), SetEventRestrictionsActivity.class).putExtra(PASSED_ID_KEY, FAKE_EVENT_ID));
+    public ActivityScenarioRule<SetEventRestrictionsActivity> activityRule =
+            new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), SetEventRestrictionsActivity.class).putExtra(PASSED_ID_KEY, FAKE_EVENT_ID));
 
     @BeforeClass
     public static void setUpBeforeClass() {
@@ -57,9 +57,10 @@ public class SetEventRestrictionsActivityTest {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         Intents.init();
     }
+
     @After
     public void tearDown() {
         FirebaseDatabase.getInstance().getReference().child(DATABASE_EVENT_PATH).child(FAKE_EVENT_ID).removeValue();
@@ -67,7 +68,7 @@ public class SetEventRestrictionsActivityTest {
     }
 
     @Test
-    public void setRestrictions(){
+    public void setRestrictions() {
         onView(withId(R.id.set_event_restrictions_max_num_participants)).perform(ViewActions.typeText("10"));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.set_event_restrictions_min_rating)).perform(ViewActions.typeText("1.5"));

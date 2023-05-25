@@ -14,31 +14,29 @@ import static org.hamcrest.Matchers.anything;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import android.content.Intent;
-import android.view.MenuItem;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.utils.TestMenuItem;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.utils.TestMenuItem;
+
+import android.content.Intent;
+import android.view.MenuItem;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 @RunWith(AndroidJUnit4.class)
 public class ChatActivityTest {
     private final String nameOfTestChat = generateRandomPath();
+    private final ChatFirebaseDataSource model = new ChatFirebaseDataSource();
     @Rule
     public ActivityScenarioRule<ChatActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), ChatActivity.class).putExtra("chatId", nameOfTestChat));
-
-    private final ChatFirebaseDataSource model = new ChatFirebaseDataSource();
 
     @Before
     public final void setUp() {

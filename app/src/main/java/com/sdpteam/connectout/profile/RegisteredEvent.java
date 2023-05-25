@@ -5,13 +5,13 @@ package com.sdpteam.connectout.profile;
  * It is used to build back the {@link ProfileEntry} when we fetch the profiles.
  */
 public class RegisteredEvent {
+    public static final RegisteredEvent NULL_REGISTERED_EVENT = new RegisteredEvent();
     private final String eventId;
 
-    public static final RegisteredEvent NULL_REGISTERED_EVENT = new RegisteredEvent();
-
     private RegisteredEvent() {
-        this( "null_event");
+        this("null_event");
     }
+
     public RegisteredEvent(String eventId) {
         this.eventId = eventId;
     }

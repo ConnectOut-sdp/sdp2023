@@ -46,14 +46,6 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
     private final OnPostLiked onPostLiked;
 
-    interface OnPostLiked {
-        /**
-         * @param post the post that was liked
-         * @return a future that will be completed when the post is liked, the string is just the post id.
-         */
-        CompletableFuture<Result<String>> postLiked(Post post);
-    }
-
     public PostsAdapter(@NonNull Context context, int resource, boolean seeEventsVisible, OnPostLiked onPostLiked) {
         super(context, resource);
         this.postItemResource = resource;
@@ -150,5 +142,13 @@ public class PostsAdapter extends ArrayAdapter<Post> {
             }
         };
         profileViewModel.getProfileLiveData().observeForever(profileObserver);
+    }
+
+    interface OnPostLiked {
+        /**
+         * @param post the post that was liked
+         * @return a future that will be completed when the post is liked, the string is just the post id.
+         */
+        CompletableFuture<Result<String>> postLiked(Post post);
     }
 }

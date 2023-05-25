@@ -41,30 +41,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp" />
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/filter_select_time">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/filter_select_time">
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/filter_in_date"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:hint="dd-mm-yyyy" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/filter_in_date"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:hint="dd-mm-yyyy" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SELECT DATE"
-            android:id="@+id/filter_btn_date"
-            android:layout_alignBottom="@+id/filter_in_date"
-            android:layout_toRightOf="@+id/filter_in_date"
-            android:layout_toEndOf="@+id/filter_in_date"
-            android:layout_marginLeft="50dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SELECT DATE"
+                android:id="@+id/filter_btn_date"
+                android:layout_alignBottom="@+id/filter_in_date"
+                android:layout_toRightOf="@+id/filter_in_date"
+                android:layout_toEndOf="@+id/filter_in_date"
+                android:layout_marginLeft="50dp" />
 
 
     </RelativeLayout>

@@ -87,13 +87,13 @@
             app:layout_constraintBottom_toTopOf="@+id/title_separator" />
 
     <TextView
-        android:id="@+id/title_separator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Participates in those activities (organizer or participant)"
-        app:layout_constraintTop_toBottomOf="@+id/profileBio"
-        tools:layout_editor_absoluteX="-203dp" />
+            android:id="@+id/title_separator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Participates in those activities (organizer or participant)"
+            app:layout_constraintTop_toBottomOf="@+id/profileBio"
+            tools:layout_editor_absoluteX="-203dp" />
 
     <FrameLayout
             android:id="@+id/profile_events_container"
@@ -122,14 +122,14 @@
             tools:layout_editor_absoluteX="0dp" />
 
     <Button
-        android:id="@+id/buttonSharePersonalQrCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
-        android:text="Share Personal QR code"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/buttonSharePersonalQrCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp"
+            android:text="Share Personal QR code"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <Button
             android:id="@+id/buttonRatingEditProfile"

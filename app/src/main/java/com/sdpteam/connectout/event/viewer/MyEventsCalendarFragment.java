@@ -2,14 +2,6 @@ package com.sdpteam.connectout.event.viewer;
 
 import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.drawer.DrawerFragment;
@@ -19,15 +11,21 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.CalendarEventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsCalendarAdapter;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * This fragment sets up the Calendar UserInterface
  * It consists in the list of events to which a user has registered
  */
 public class MyEventsCalendarFragment extends DrawerFragment {
     private final String profileId;
-    private EventsListViewFragment eventsListViewFragment;
-
     private final EventsViewModel eventsViewModel = new EventsViewModel(new EventFirebaseDataSource());
+    private EventsListViewFragment eventsListViewFragment;
 
     public MyEventsCalendarFragment() {
         GoogleAuth googleAuth = new GoogleAuth();

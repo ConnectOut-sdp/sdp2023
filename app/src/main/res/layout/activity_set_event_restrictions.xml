@@ -112,7 +112,7 @@
                     android:layout_toRightOf="@+id/set_event_restrictions_in_date"
                     android:layout_toEndOf="@+id/set_event_restrictions_in_date"
                     android:layout_alignTop="@+id/set_event_restrictions_in_date"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp" />
 
             <EditText
                     android:id="@+id/set_event_restrictions_in_time"

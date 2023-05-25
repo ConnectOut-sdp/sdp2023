@@ -1,9 +1,9 @@
 package com.sdpteam.connectout.event;
 
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 
 public interface EventDataSource {
 

@@ -4,19 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.Test;
+
+import com.google.firebase.messaging.RemoteMessage;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.test.core.app.ApplicationProvider;
-
-import com.google.firebase.messaging.RemoteMessage;
-
-import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class NotificationServiceTest {
 
@@ -70,7 +69,7 @@ public class NotificationServiceTest {
             NotificationManager notificationManager = (NotificationManager) ApplicationProvider.getApplicationContext().getSystemService(NotificationManager.class);
             NotificationChannel channel = notificationManager.getNotificationChannel(NotificationService.NOTIFICATION_CHANNEL_ID);
 
-            if(channel != null) {
+            if (channel != null) {
                 assertEquals(NotificationService.NOTIFICATION_CHANNEL_ID, channel.getId());
                 assertEquals(NotificationService.NOTIFICATION_NAME, channel.getName());
                 assertEquals(NotificationService.NOTIFICATION_DESCRIPTION, channel.getDescription());

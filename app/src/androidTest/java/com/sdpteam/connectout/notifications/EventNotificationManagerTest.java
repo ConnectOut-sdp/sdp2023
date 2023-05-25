@@ -2,12 +2,11 @@ package com.sdpteam.connectout.notifications;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
 
 public class EventNotificationManagerTest {
 
@@ -18,7 +17,7 @@ public class EventNotificationManagerTest {
     @Before
     public void setUp() {
         eventNotificationManager = new EventNotificationManager();
-      }
+    }
 
     @Test
     public void testSubscribeToEventTopic() {
@@ -35,5 +34,4 @@ public class EventNotificationManagerTest {
         subscribers.remove("one");
         assertEquals(0, subscribers.size());
     }
-
 }

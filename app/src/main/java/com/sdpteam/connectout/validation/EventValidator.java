@@ -15,22 +15,19 @@ public class EventValidator {
 
     public static final double MAX_RATING = 5;
     public static final int MIN_NAX_NUMBER_PARTICIPANTS = 2;
+    public static final String DATE_FORMAT_ERROR = "Date format is invalid !";
+    public static final String TIME_FORMAT_ERROR = "Time format is invalid !";
+    public static final String TIME_ERROR = "Time selected is invalid !";
+    public static final String DATE_FORMAT = "dd-MM-yyyy";
+    public static final String TIME_FORMAT = "HH:mm";
     private static final int MIN_EVENT_TITLE_LENGTH = 5;
     public static final String EVENT_TITLE_ERROR = "Title too short, should be at least " + MIN_EVENT_TITLE_LENGTH + " characters";
     private static final int MIN_EVENT_DESCRIPTION_LENGTH = 20;
     public static final String EVENT_DESCRIPTION_ERROR = "Description too short, should be at least " + MIN_EVENT_DESCRIPTION_LENGTH + " characters";
 
-    public static final String DATE_FORMAT_ERROR = "Date format is invalid !";
-
-    public static final String TIME_FORMAT_ERROR = "Time format is invalid !";
-    public static final String TIME_ERROR = "Time selected is invalid !";
-
     public static boolean isValidEventTitle(String title) {
         return title.length() >= MIN_EVENT_TITLE_LENGTH;
     }
-
-    public static final String DATE_FORMAT = "dd-MM-yyyy";
-    public static final String TIME_FORMAT = "HH:mm";
 
     public static boolean isValidFormat(String dateStr, String format) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);

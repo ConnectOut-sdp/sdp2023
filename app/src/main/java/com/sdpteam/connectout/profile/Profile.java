@@ -3,6 +3,7 @@ package com.sdpteam.connectout.profile;
 public class Profile {
 
     public final static Profile NULL_PROFILE = new Profile();
+    public static final String NULL_USER = "null_user";
     private final String name;
     private final String email;
     private final String bio;
@@ -12,7 +13,6 @@ public class Profile {
     private final String id;
     private final String profileImageUrl;
     private final String nameLowercase; // for index in firebase
-    public static final String NULL_USER = "null_user";
 
     private Profile() {
         this(NULL_USER, null, null, null, null, 0, 0, null);

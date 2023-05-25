@@ -2,7 +2,6 @@ package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -17,22 +16,8 @@ import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static com.sdpteam.connectout.utils.WithIndexMatcher.withIndex;
 import static org.hamcrest.Matchers.equalTo;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
-import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.profile.ProfileActivity;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -41,8 +26,21 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.nearbyEvents.EventsActivity;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.event.viewer.EventActivity;
+import com.sdpteam.connectout.profile.ProfileActivity;
+
+import android.os.Handler;
+import android.os.Looper;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class EventsActivityTest {
@@ -56,7 +54,8 @@ public class EventsActivityTest {
     @Before
     public void setup() {
         Intents.init();
-        eventDs.saveEvent(new Event(eventId, "Title", "Desc", null, "aa", new ArrayList<>(), new ArrayList<>(), 0, new Event.EventRestrictions(), "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/512px-Flag_of_Switzerland_%28Pantone%29.svg.png"));
+        eventDs.saveEvent(new Event(eventId, "Title", "Desc", null, "aa", new ArrayList<>(), new ArrayList<>(), 0, new Event.EventRestrictions(), "https://upload.wikimedia" +
+                ".org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/512px-Flag_of_Switzerland_%28Pantone%29.svg.png"));
         waitABit();
     }
 
@@ -149,6 +148,7 @@ public class EventsActivityTest {
             intended(Matchers.allOf(hasComponent(EventActivity.class.getName()), hasExtra(equalTo(PASSED_ID_KEY), equalTo(expectedUid))));
         }
     }
+
     @Test
     public void clickOnFilterLaunchedCorrectlyWithDate() {
         onView(withId(R.id.list_switch_button)).perform(click());
@@ -158,16 +158,16 @@ public class EventsActivityTest {
 
         onView(withId(R.id.filter_in_date)).perform(ViewActions.typeText("10-10-2023"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.events_filter_apply_btn)).perform(click());
-
     }
+
     @Test
     public void clickOnFilterLaunchedCorrectlyWithNoFilter() {
         onView(withId(R.id.list_switch_button)).perform(click());
         onView(ViewMatchers.withId(R.id.events_filter_button)).perform(click());
         onView(withId(R.id.popup_events_filter)).check(matches(isDisplayed()));
         onView(withId(R.id.events_filter_apply_btn)).perform(click());
-
     }
+
     @Test
     public void clickOnFilterLaunchedCorrectlyWithWrongDate() {
         onView(withId(R.id.list_switch_button)).perform(click());
@@ -176,7 +176,5 @@ public class EventsActivityTest {
 
         onView(withId(R.id.filter_in_date)).perform(ViewActions.typeText("11"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.events_filter_apply_btn)).perform(click());
-
     }
-
 }

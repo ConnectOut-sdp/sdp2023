@@ -1,5 +1,10 @@
 package com.sdpteam.connectout.profileList;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profileList.filter.ProfileFilter;
+import com.sdpteam.connectout.profileList.filter.ProfileNameFilter;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -8,13 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import androidx.fragment.app.Fragment;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profileList.filter.ProfileFilter;
-import com.sdpteam.connectout.profileList.filter.ProfileNameFilter;
 
 public class FilteredProfileListFragment extends Fragment {
 

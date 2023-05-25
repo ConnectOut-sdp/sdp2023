@@ -46,9 +46,9 @@ public class EventActivity extends WithFragmentActivity {
     public final static String LEAVE_EVENT = "Leave event";
 
     public final static String MAKE_POST = "Make post";
-
+    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    });
     private EventViewModel eventViewModel;
-
     private ProfileViewModel profileViewModel; //for event registration
     private String eventId;
     private String currentUserId;
@@ -257,9 +257,6 @@ public class EventActivity extends WithFragmentActivity {
     private void impossibleRegistrationToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
-    private final ActivityResultLauncher<Intent> qrCodeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-    });
 
     @Override
     protected void onResume() {

@@ -1,9 +1,9 @@
 package com.sdpteam.connectout.post.view;
 
-import android.os.Bundle;
-
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
+
+import android.os.Bundle;
 
 /**
  * Activity that contains the fragment for the list of posts

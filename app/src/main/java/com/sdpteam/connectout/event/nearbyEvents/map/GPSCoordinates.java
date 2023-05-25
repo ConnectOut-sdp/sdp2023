@@ -6,16 +6,16 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toRadians;
 
-import android.location.Location;
-
 import com.google.android.gms.maps.model.LatLng;
+
+import android.location.Location;
 
 public class GPSCoordinates {
     private static final int EARTH_RADIUS = 6371;
     private final double latitude;
     private final double longitude;
 
-    private GPSCoordinates() {
+    public GPSCoordinates() {
         this(0, 0);
     }
 

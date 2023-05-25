@@ -5,12 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import android.content.Context;
 import android.widget.EditText;
-
 import androidx.test.platform.app.InstrumentationRegistry;
-
-import org.junit.Test;
 
 public class ValidationUtilsTest {
 

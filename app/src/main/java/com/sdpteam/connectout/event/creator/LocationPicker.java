@@ -5,10 +5,6 @@ import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.defaultMarker;
 
-import android.view.View;
-
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -16,6 +12,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sdpteam.connectout.event.location.LocationHelper;
 import com.sdpteam.connectout.event.viewer.MapViewFragment;
+
+import android.view.View;
+import androidx.annotation.NonNull;
 
 public class LocationPicker extends MapViewFragment {
 

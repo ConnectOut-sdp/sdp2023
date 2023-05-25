@@ -21,13 +21,13 @@
                 android:icon="@drawable/event_image"
                 android:title="@string/menu_my_events" />
         <item
-            android:id="@+id/menu_posts"
-            android:icon="@drawable/posts2_image"
-            android:title="@string/community_posts" />
+                android:id="@+id/menu_posts"
+                android:icon="@drawable/posts2_image"
+                android:title="@string/community_posts" />
         <item
-            android:id="@+id/scan_qr_code"
-            android:title="@string/scan_a_qr_code"
-            android:icon="@drawable/qr_code_image" />
+                android:id="@+id/scan_qr_code"
+                android:title="@string/scan_a_qr_code"
+                android:icon="@drawable/qr_code_image" />
     </group>
 
     <item
