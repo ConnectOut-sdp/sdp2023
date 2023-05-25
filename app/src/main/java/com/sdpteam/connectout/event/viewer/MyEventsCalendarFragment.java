@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.event.viewer;
 
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.event;
 
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;

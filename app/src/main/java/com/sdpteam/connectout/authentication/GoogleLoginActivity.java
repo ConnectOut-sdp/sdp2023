@@ -4,7 +4,7 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.drawer.DrawerActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.registration.CompleteRegistrationActivity;
+import com.sdpteam.connectout.profile.editProfile.EditProfileActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -67,8 +67,9 @@ public class GoogleLoginActivity extends AppCompatActivity {
     private void navigateToSecondActivity(AuthenticatedUser currentUser) {
         new ProfileFirebaseDataSource().fetchProfile(currentUser.uid).thenAccept(profile -> {
             finish();
-            Intent intent = new Intent(GoogleLoginActivity.this, profile == null ? CompleteRegistrationActivity.class : DrawerActivity.class);
+            Intent intent = new Intent(GoogleLoginActivity.this, profile == null ? EditProfileActivity.class : DrawerActivity.class);
             intent.putExtra("loginInfo", currentUser.name + " \n" + currentUser.email);
+            EditProfileActivity.profileToEdit = profile; // profile to complete, because intent does not work with Profile object
             startActivity(intent);
         });
     }

@@ -1,6 +1,7 @@
 package com.sdpteam.connectout.event;
 
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
@@ -14,7 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
@@ -83,7 +83,7 @@ public class EventFirebaseDataSourceTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
+        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), NULL_USER);
         model.saveEvent(e);
         waitABit();
         Event foundEvent = fJoin(model.getEvent(eventId1));
@@ -93,7 +93,7 @@ public class EventFirebaseDataSourceTest {
         assertThat(foundEvent.getCoordinates().getLatitude(), is(1.5));
         assertThat(foundEvent.getCoordinates().getLongitude(), is(1.5));
         assertThat(foundEvent.getDescription(), is(description));
-        assertThat(foundEvent.getOrganizer(), is(EditProfileActivity.NULL_USER));
+        assertThat(foundEvent.getOrganizer(), is(NULL_USER));
     }
 
     @Test
@@ -101,10 +101,10 @@ public class EventFirebaseDataSourceTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
+        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), NULL_USER);
         model.saveEvent(e);
         waitABit();
-        Event foundEvent = fJoin(model.getEvent(EditProfileActivity.NULL_USER, "wrong title"));
+        Event foundEvent = fJoin(model.getEvent(NULL_USER, "wrong title"));
 
         assertNull(foundEvent);
     }
@@ -114,7 +114,7 @@ public class EventFirebaseDataSourceTest {
         String title = "Tenis match";
         String description = "Search for tenis partner";
 
-        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), EditProfileActivity.NULL_USER);
+        Event e = new Event(eventId1, title, description, new GPSCoordinates(1.5, 1.5), NULL_USER);
         model.saveEvent(e);
         waitABit();
         Event foundEvent = fJoin(model.getEvent("wrong id", title));

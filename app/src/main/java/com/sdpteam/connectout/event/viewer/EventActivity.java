@@ -2,7 +2,7 @@ package com.sdpteam.connectout.event.viewer;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 
 import java.util.Calendar;
 import java.util.Locale;

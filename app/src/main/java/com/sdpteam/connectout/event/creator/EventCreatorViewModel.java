@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.event.creator;
 
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class EventCreatorViewModel extends EventsViewModel {
      */
     public void saveEvent(String title, GPSCoordinates coordinates, String description, long date, String imageUrl) {
         AuthenticatedUser user = new GoogleAuth().loggedUser();
-        String ownerId = (user == null) ? EditProfileActivity.NULL_USER : user.uid;
+        String ownerId = (user == null) ? NULL_USER : user.uid;
 
         ArrayList<String> participants = new ArrayList<>(singletonList(ownerId));
         String eventId = getUniqueId();

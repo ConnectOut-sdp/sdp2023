@@ -28,6 +28,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.editProfile.EditProfileActivity;
 
 import org.junit.After;
 import org.junit.Before;

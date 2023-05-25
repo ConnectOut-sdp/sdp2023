@@ -1,4 +1,4 @@
-package com.sdpteam.connectout.registration;
+package com.sdpteam.connectout.profile.editProfile;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -16,13 +16,28 @@ import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.Is.is;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileDataSource;
+import com.sdpteam.connectout.profileList.filter.ProfileFilter;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-
 import androidx.annotation.NonNull;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.fragment.app.Fragment;
@@ -35,26 +50,8 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.Authentication;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDataSource;
-import com.sdpteam.connectout.profileList.filter.ProfileFilter;
-
-import org.hamcrest.MatcherAssert;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 @RunWith(AndroidJUnit4.class)
-public class CompleteRegistrationFormTest {
+public class EditProfileFormTest {
 
     private static Profile databaseContent;
     public static final ProfileDataSource fakeProfilesDatabase = new ProfileDataSource() {
@@ -79,42 +76,23 @@ public class CompleteRegistrationFormTest {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
     };
+
     @Rule
-    public ActivityTestRule<CompleteRegistrationActivity> activityTestRule = new ActivityTestRule<>(CompleteRegistrationActivity.class, true, true);
+    public ActivityTestRule<EditProfileActivity> activityTestRule = new ActivityTestRule<>(EditProfileActivity.class, true, true);
+
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-    private RegistrationViewModel viewModel;
+    private EditProfileViewModel viewModel;
 
     @Before
     public void setUp() {
         Intents.init();
 
-        Authentication fakeAuth = new Authentication() {
-            @Override
-            public boolean isLoggedIn() {
-                return true;
-            }
+        Profile profile = new Profile("007", "Donald", "donald@gmail.com", "", FEMALE, 0, 0, "");
+        fJoin(fakeProfilesDatabase.saveProfile(profile));
+        viewModel = new EditProfileViewModel(new EditProfile(fakeProfilesDatabase), profile);
 
-            @Override
-            public AuthenticatedUser loggedUser() {
-                return new AuthenticatedUser("007", "Donald", "donald@gmail.com");
-            }
-
-            @Override
-            public void logout() {
-
-            }
-
-            @Override
-            public Intent buildIntent() {
-                return null;
-            }
-        };
-
-        viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), fakeAuth);
-        fJoin(fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, "")));
-
-        CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
+        EditProfileForm myFragment = new EditProfileForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
             @Override
             public <T extends ViewModel> T create(Class<T> modelClass) {
@@ -122,11 +100,11 @@ public class CompleteRegistrationFormTest {
             }
         };
         // run myFragment :
-        FragmentScenario<CompleteRegistrationForm> scenario = FragmentScenario.launchInContainer(CompleteRegistrationForm.class, null, new FragmentFactory() {
+        FragmentScenario<EditProfileForm> scenario = FragmentScenario.launchInContainer(EditProfileForm.class, null, new FragmentFactory() {
             @NonNull
             @Override
             public Fragment instantiate(@NonNull ClassLoader classLoader, @NonNull String className) {
-                if (className.equals(CompleteRegistrationForm.class.getName())) {
+                if (className.equals(EditProfileForm.class.getName())) {
                     return myFragment;
                 }
                 return super.instantiate(classLoader, className);
@@ -148,7 +126,7 @@ public class CompleteRegistrationFormTest {
     @Test
     public void fieldsInformationAreSentWhenCompletingTheRegistration() {
         onView(withId(R.id.nameEditText)).perform(typeText(" Trump"));
-        onView(withId(R.id.bioEditText)).perform(typeText("My awesome bio"));
+        onView(withId(R.id.bioEditText)).perform(typeText("Make America great again"));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.radioMale)).perform(click());
         onView(withId(R.id.checkBox)).perform(click());
@@ -158,58 +136,8 @@ public class CompleteRegistrationFormTest {
         MatcherAssert.assertThat(updatedProfile.getId(), is("007"));
         MatcherAssert.assertThat(updatedProfile.getName(), is("Donald Trump"));
         MatcherAssert.assertThat(updatedProfile.getEmail(), is("donald@gmail.com"));
-        MatcherAssert.assertThat(updatedProfile.getBio(), is("My awesome bio"));
+        MatcherAssert.assertThat(updatedProfile.getBio(), is("Make America great again"));
         MatcherAssert.assertThat(updatedProfile.getGender(), is(MALE));
-    }
-
-    @Test
-    public void notLoggedShouldThrowErrorMessage() {
-
-        Authentication notLoggedInAuth = new Authentication() {
-            @Override
-            public boolean isLoggedIn() {
-                return false;
-            }
-
-            @Override
-            public AuthenticatedUser loggedUser() {
-                return new AuthenticatedUser("0", "o", "o");
-            }
-
-            @Override
-            public void logout() {
-
-            }
-
-            @Override
-            public Intent buildIntent() {
-                return null;
-            }
-        };
-        viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
-        fJoin(fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, "")));
-
-        CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
-        myFragment.viewModelFactory = new ViewModelProvider.Factory() {
-            @Override
-            public <T extends ViewModel> T create(Class<T> modelClass) {
-                return (T) viewModel; //mock a fake view model (had to do that because otherwise the fragment will use the real one in onCreate() before I can change it to the mocked one)
-            }
-        };
-        // run myFragment :
-        FragmentScenario<CompleteRegistrationForm> scenario = FragmentScenario.launchInContainer(CompleteRegistrationForm.class, null, new FragmentFactory() {
-            @NonNull
-            @Override
-            public Fragment instantiate(@NonNull ClassLoader classLoader, @NonNull String className) {
-                if (className.equals(CompleteRegistrationForm.class.getName())) {
-                    return myFragment;
-                }
-                return super.instantiate(classLoader, className);
-            }
-        });
-        onView(withId(R.id.checkBox)).perform(click());
-        onView(withId(R.id.finishButton)).perform(click());
-        onView((withId(R.id.complete_registration_error_msg))).check(matches(withText("Cannot complete the registration you're not even logged in.")));
     }
 
     @Test
@@ -224,32 +152,11 @@ public class CompleteRegistrationFormTest {
      */
     @Test
     public void completeRegistrationUploadImage() {
+        Profile profile = new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, "");
+        fJoin(fakeProfilesDatabase.saveProfile(profile));
+        viewModel = new EditProfileViewModel(new EditProfile(fakeProfilesDatabase), profile);
 
-        Authentication notLoggedInAuth = new Authentication() {
-            @Override
-            public boolean isLoggedIn() {
-                return true;
-            }
-
-            @Override
-            public AuthenticatedUser loggedUser() {
-                return new AuthenticatedUser("0", "o", "o");
-            }
-
-            @Override
-            public void logout() {
-
-            }
-
-            @Override
-            public Intent buildIntent() {
-                return null;
-            }
-        };
-        viewModel = new RegistrationViewModel(new CompleteRegistration(fakeProfilesDatabase), notLoggedInAuth);
-        fJoin(fakeProfilesDatabase.saveProfile(new Profile("007", "Donald", "donald@gmail.com", "bioooo", FEMALE, 0, 0, "")));
-
-        CompleteRegistrationForm myFragment = new CompleteRegistrationForm();
+        EditProfileForm myFragment = new EditProfileForm();
         myFragment.viewModelFactory = new ViewModelProvider.Factory() {
             @Override
             public <T extends ViewModel> T create(Class<T> modelClass) {
@@ -257,11 +164,11 @@ public class CompleteRegistrationFormTest {
             }
         };
         // run myFragment :
-        FragmentScenario<CompleteRegistrationForm> scenario = FragmentScenario.launchInContainer(CompleteRegistrationForm.class, null, new FragmentFactory() {
+        FragmentScenario<EditProfileForm> scenario = FragmentScenario.launchInContainer(EditProfileForm.class, null, new FragmentFactory() {
             @NonNull
             @Override
             public Fragment instantiate(@NonNull ClassLoader classLoader, @NonNull String className) {
-                if (className.equals(CompleteRegistrationForm.class.getName())) {
+                if (className.equals(EditProfileForm.class.getName())) {
                     return myFragment;
                 }
                 return super.instantiate(classLoader, className);
@@ -277,7 +184,7 @@ public class CompleteRegistrationFormTest {
                 context.getResources().getResourceEntryName(R.drawable.account_image));
 
         getInstrumentation().runOnMainSync(() -> {
-            viewModel.completeRegistration("Donald", "email@test.com", "bio2", MALE, mockedUri);
+            viewModel.saveNewProfile("Donald", "email@test.com", "bio2", MALE, mockedUri);
         });
         waitABit();
         waitABit();

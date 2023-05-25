@@ -1,14 +1,17 @@
-package com.sdpteam.connectout.registration;
+package com.sdpteam.connectout.profile.editProfile;
 
 import static com.sdpteam.connectout.profile.Profile.Gender;
+import static com.sdpteam.connectout.utils.NullStringUtil.nonNullString;
 
 import java.util.Arrays;
 
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.drawer.DrawerActivity;
+import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
+import com.sdpteam.connectout.validation.EditProfileValidator;
+import com.sdpteam.connectout.validation.ValidationUtils;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -29,7 +32,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public class CompleteRegistrationForm extends Fragment {
+public class EditProfileForm extends Fragment {
 
     /**
      * ViewModelProvider.Factory is an interface which have create method.
@@ -38,30 +41,29 @@ public class CompleteRegistrationForm extends Fragment {
      * Or we can use a fake ViewModel for mocking in tests.
      */
     public ViewModelProvider.Factory viewModelFactory; // for testing (mocking)
-    private RegistrationViewModel registrationViewModel;
+    private EditProfileViewModel editProfileViewModel;
 
     private Uri selectedImage = null;
 
     private boolean submitWasClicked = false; //thus waiting for a response (see getProgress() from the view model)
 
-    public static CompleteRegistrationForm newInstance() {
-        CompleteRegistrationForm completeRegistrationForm = new CompleteRegistrationForm();
-        completeRegistrationForm.viewModelFactory = new ViewModelProvider.Factory() {
+    public static EditProfileForm newInstance(@Nullable Profile profileToEdit) {
+        EditProfileForm editProfileForm = new EditProfileForm();
+        editProfileForm.viewModelFactory = new ViewModelProvider.Factory() {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                CompleteRegistration registrationToFirebase = new CompleteRegistration(new ProfileFirebaseDataSource());
-                GoogleAuth googleAuth = new GoogleAuth();
-                return (T) new RegistrationViewModel(registrationToFirebase, googleAuth); // use the real view model
+                EditProfile registrationToFirebase = new EditProfile(new ProfileFirebaseDataSource());
+                return (T) new EditProfileViewModel(registrationToFirebase, profileToEdit); // use the real view model
             }
         };
-        return completeRegistrationForm;
+        return editProfileForm;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registrationViewModel = new ViewModelProvider(this, viewModelFactory).get(RegistrationViewModel.class);
+        editProfileViewModel = new ViewModelProvider(this, viewModelFactory).get(EditProfileViewModel.class);
     }
 
     @Nullable
@@ -73,7 +75,7 @@ public class CompleteRegistrationForm extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment();
+        ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment(nonNullString(editProfileViewModel.profile().getProfileImageUrl()));
         imageSelectionFragment.setOnImageSelectedListener(imageUri -> {
             this.selectedImage = imageUri;
         });
@@ -82,15 +84,21 @@ public class CompleteRegistrationForm extends Fragment {
         transaction.commit();
 
         EditText nameEditor = view.findViewById(R.id.nameEditText);
-        nameEditor.setText(registrationViewModel.currentName());
+        nameEditor.setHint("Name");
+        nameEditor.setText(nonNullString(editProfileViewModel.profile().getName()));
 
         EditText emailEditor = view.findViewById(R.id.emailEditText);
-        emailEditor.setText(registrationViewModel.currentEmail());
+        emailEditor.setHint("Email");
+        emailEditor.setText(nonNullString(editProfileViewModel.profile().getEmail()));
 
         EditText bioEditor = view.findViewById(R.id.bioEditText);
         bioEditor.setHint("Bio");
+        bioEditor.setText(nonNullString(editProfileViewModel.profile().getBio()));
 
         RadioGroup radioGroup = view.findViewById(R.id.radio_group);
+        Gender gender = editProfileViewModel.profile().getGender();
+        int genderOrdinal = gender == null ? 0 : gender.ordinal();
+        radioGroup.check(radioGroup.getChildAt(genderOrdinal).getId());
 
         Button conditionsInfoButton = view.findViewById(R.id.generalConditions);
         conditionsInfoButton.setOnClickListener(v -> {
@@ -99,21 +107,19 @@ public class CompleteRegistrationForm extends Fragment {
             startActivity(intent);
         });
 
-        Button finishButton = view.findViewById(R.id.finishButton);
-        finishButton.setEnabled(false);
-        finishButton.setOnClickListener(v -> {
-            submitForm(nameEditor, emailEditor, bioEditor, radioGroup);
-        });
-
         CheckBox checkBox = view.findViewById(R.id.checkBox);
-        checkBox.setOnClickListener(v -> {
-            finishButton.setEnabled(checkBox.isChecked());
+        Button finishButton = view.findViewById(R.id.finishButton);
+        finishButton.setOnClickListener(v -> {
+            if (EditProfileValidator.editProfileValidation(nameEditor, emailEditor, bioEditor, null, null, null)
+                    & ValidationUtils.handleValidationFailure(checkBox.isChecked(), checkBox, "Must accept")) {
+                submitForm(nameEditor, emailEditor, bioEditor, radioGroup);
+            }
         });
 
         TextView errView = view.findViewById(R.id.complete_registration_error_msg);
         errView.setText("");
 
-        registrationViewModel.getErrorMessage().observeForever(s -> {
+        editProfileViewModel.getErrorMessage().observeForever(s -> {
             if (s != null && s.length() > 0) {
                 errView.setText(s);
                 Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
@@ -122,7 +128,7 @@ public class CompleteRegistrationForm extends Fragment {
             }
         });
 
-        registrationViewModel.getProgress().observeForever(loading -> {
+        editProfileViewModel.getProgress().observeForever(loading -> {
             if (!loading && submitWasClicked && errView.getText().equals("Operation successful")) {
                 finishButton.setEnabled(false);
                 formSubmittedSuccessfully();
@@ -139,12 +145,14 @@ public class CompleteRegistrationForm extends Fragment {
         final String email = emailEditor.getText().toString();
         final String bio = bioEditor.getText().toString();
         submitWasClicked = true;
-        registrationViewModel.completeRegistration(name, email, bio, gender, selectedImage);
+        editProfileViewModel.saveNewProfile(name, email, bio, gender, selectedImage);
     }
 
     private void formSubmittedSuccessfully() {
-        Intent intent = new Intent(getContext(), DrawerActivity.class);
         getActivity().finish();
-        startActivity(intent);
+        if (editProfileViewModel.isFirstTimeFillingProfile()) {
+            Intent intent = new Intent(getContext(), DrawerActivity.class);
+            startActivity(intent);
+        }
     }
 }

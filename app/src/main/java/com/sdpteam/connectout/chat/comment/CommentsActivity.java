@@ -1,6 +1,20 @@
 package com.sdpteam.connectout.chat.comment;
 
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
+
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import com.firebase.ui.database.FirebaseListOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
+import com.sdpteam.connectout.chat.ChatMessage;
+import com.sdpteam.connectout.chat.ChatViewModel;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,23 +28,8 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.firebase.ui.database.FirebaseListOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.chat.ChatFirebaseDataSource;
-import com.sdpteam.connectout.chat.ChatMessage;
-import com.sdpteam.connectout.chat.ChatViewModel;
-
-import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class CommentsActivity extends AppCompatActivity {
 
@@ -69,7 +68,7 @@ public class CommentsActivity extends AppCompatActivity {
      * (made it to avoid code duplication)
      *
      * @param fromContext from where we are starting the intent
-     * @param postId     event Id to open with.
+     * @param postId      event Id to open with.
      */
     public static void openComments(Context fromContext, String postId) {
         Intent intent = new Intent(fromContext, CommentsActivity.class);
