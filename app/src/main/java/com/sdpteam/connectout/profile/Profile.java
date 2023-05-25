@@ -12,9 +12,10 @@ public class Profile {
     private final String id;
     private final String profileImageUrl;
     private final String nameLowercase; // for index in firebase
+    public static final String NULL_USER = "null_user";
 
     private Profile() {
-        this(EditProfileActivity.NULL_USER, null, null, null, null, 0, 0, null);
+        this(NULL_USER, null, null, null, null, 0, 0, null);
     }
 
     public Profile(String id, String name, String email, String bio, Gender gender, double rating, int numRatings, String profileImageUrl) {
@@ -70,7 +71,7 @@ public class Profile {
     }
 
     public enum Gender {
-        FEMALE, MALE, OTHER
+        MALE, FEMALE, OTHER
     }
 
     public static class CalendarEvent {

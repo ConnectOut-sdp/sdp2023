@@ -85,7 +85,9 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         allTasks.addOnCompleteListener(dataSnapshots -> {
             for (DataSnapshot dataSnapshot : dataSnapshots.getResult()) {
                 Profile profile = dataSnapshot.getValue(Profile.class);
-                profiles.add(profile);
+                if(profile != null) {
+                    profiles.add(profile);
+                }
             }
             futures.complete(profiles);
         });

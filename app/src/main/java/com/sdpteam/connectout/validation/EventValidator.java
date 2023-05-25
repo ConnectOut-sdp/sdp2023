@@ -2,14 +2,14 @@ package com.sdpteam.connectout.validation;
 
 import static com.sdpteam.connectout.validation.ValidationUtils.handleValidationFailure;
 
-import android.widget.EditText;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import com.sdpteam.connectout.utils.DateSelectors;
 
-import java.util.Calendar;
-import java.util.TimeZone;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import android.widget.EditText;
 
 public class EventValidator {
 
@@ -56,10 +56,10 @@ public class EventValidator {
     public static boolean eventCreationValidation(EditText eventTitleInput, EditText eventDescriptionInput, EditText txtDateInput, EditText txtTimeInput) {
         final long date = DateSelectors.parseEditTextTimeAndDate(txtDateInput, txtTimeInput);
         return handleValidationFailure(isValidEventTitle(eventTitleInput.getText().toString()), eventTitleInput, EVENT_TITLE_ERROR)
-                && handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR)
-                && handleValidationFailure(isValidFormat(txtDateInput.getText().toString(), DATE_FORMAT), txtDateInput, DATE_FORMAT_ERROR)
-                && handleValidationFailure(isValidFormat(txtTimeInput.getText().toString(), TIME_FORMAT), txtTimeInput, TIME_FORMAT_ERROR)
-                && handleValidationFailure(isValidTime(date), txtTimeInput, TIME_ERROR);
+                & handleValidationFailure(isValidEventDescription(eventDescriptionInput.getText().toString()), eventDescriptionInput, EVENT_DESCRIPTION_ERROR)
+                & handleValidationFailure(isValidFormat(txtDateInput.getText().toString(), DATE_FORMAT), txtDateInput, DATE_FORMAT_ERROR)
+                & handleValidationFailure(isValidFormat(txtTimeInput.getText().toString(), TIME_FORMAT), txtTimeInput, TIME_FORMAT_ERROR)
+                & handleValidationFailure(isValidTime(date), txtTimeInput, TIME_ERROR);
     }
 
     public static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants, long joiningDeadline) {

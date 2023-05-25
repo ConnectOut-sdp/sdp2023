@@ -10,6 +10,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasType;
 import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -108,5 +109,29 @@ public class ImageSelectionFragmentTest {
 
         // Check if the ImageView has the drawable set from the mocked Uri
         onView(withId(R.id.preview_image_view)).check(matches(hasDrawable()));
+    }
+
+    @Test
+    public void preloadARemoteImage() {
+        String imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/512px-Flag_of_Switzerland_%28Pantone%29.svg.png";
+        // Launch the TestActivity
+        ActivityScenario<TestActivity> scenario = ActivityScenario.launch(TestActivity.class);
+
+        // Add ImageSelectionFragment to the TestActivity
+        scenario.onActivity(activity -> {
+            ImageSelectionFragment fragment = new ImageSelectionFragment(imageUrl);
+            fragment.setOnImageSelectedListener(imageUri -> {
+                assertThat(imageUri.getPath(), is(mockedUri.getPath()));
+            });
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.activity_test_container, fragment)
+                    .commitNow();
+        });
+
+        // Check if the ImageView and Button are displayed
+        onView(withId(R.id.preview_image_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.choose_image_button)).check(matches(isDisplayed()));
+        onView(withId(R.id.choose_image_button)).check(matches(withText("Change selection")));
     }
 }
