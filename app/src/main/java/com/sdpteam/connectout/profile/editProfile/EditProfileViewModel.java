@@ -1,6 +1,7 @@
 package com.sdpteam.connectout.profile.editProfile;
 
 import static com.sdpteam.connectout.profile.Profile.Gender;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 
 import com.sdpteam.connectout.authentication.AuthenticatedUser;
 import com.sdpteam.connectout.authentication.GoogleAuth;
@@ -24,7 +25,7 @@ public class EditProfileViewModel extends ViewModel {
      */
     public EditProfileViewModel(EditProfile registration, Profile initialProfile) {
         final AuthenticatedUser user = new GoogleAuth().loggedUser();
-        final AuthenticatedUser authenticatedUser = user == null ? new AuthenticatedUser("", "", "") : user;
+        final AuthenticatedUser authenticatedUser = user == null ? new AuthenticatedUser(NULL_USER, "", "") : user;
         final Profile newProfile = new Profile(authenticatedUser.uid, authenticatedUser.name, authenticatedUser.email, "", Gender.MALE, 0, 0, null);
 
         this.registration = registration;
