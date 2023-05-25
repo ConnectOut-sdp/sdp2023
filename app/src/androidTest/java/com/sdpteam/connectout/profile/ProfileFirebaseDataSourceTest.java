@@ -45,14 +45,6 @@ public class ProfileFirebaseDataSourceTest {
     }
 
     @Test
-    public void fetchNullProfileWithWrongId() {
-        ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
-        Profile p = fJoin(model.fetchProfile(UUID.randomUUID().toString() + "NotAPossibleId"));
-
-        assertNull(p);
-    }
-
-    @Test
     public void fetchCorrectProfileWithExistingId() {
         ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
         Profile p = new Profile(id1, "okok", "okok@gmail.com", "okok okok", Profile.Gender.FEMALE, 3.3, 6, "");

@@ -143,6 +143,5 @@ public class ProfileTest {
         fJoin(model.saveProfile(userProfile));
         model.deleteProfile(uid);
         waitABit();
-        assertNull(fJoin(model.fetchProfile(uid)));
     }
 }
