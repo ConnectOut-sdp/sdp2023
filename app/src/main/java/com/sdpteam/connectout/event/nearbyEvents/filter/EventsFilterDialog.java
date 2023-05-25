@@ -1,5 +1,7 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
+import static com.sdpteam.connectout.utils.DateSelectors.dateToCalendar;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -16,12 +19,15 @@ import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.location.LocationHelper;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.utils.DateSelectors;
+import com.sdpteam.connectout.validation.EventCreationValidator;
 
 public class EventsFilterDialog extends DialogFragment {
 
     private static final String SEEKBAR_ALL_DISTANCES = "all distances";
     private static String TEXT_FILTER = "";
     private static int SEEKBAR_VALUE = 100;
+    private static String DATE_VALUE = "";
     private final EventsViewModel eventsViewModel;
     private GPSCoordinates position;
 
@@ -48,15 +54,21 @@ public class EventsFilterDialog extends DialogFragment {
                 position = GPSCoordinates.fromLocation(location);
             });
         }
+        final EditText txtDate = view.findViewById(R.id.filter_in_date);
+        txtDate.setText(DATE_VALUE);
+        DateSelectors.setDatePickerDialog(getContext(), view.findViewById(R.id.filter_btn_date), txtDate);
 
-        applyBtn.setOnClickListener(v -> applyFilter(search, seekBar));
+        applyBtn.setOnClickListener(v -> applyFilter(search, txtDate, seekBar));
         return view;
     }
 
-    private void applyFilter(EditText search, SeekBar seekBar) {
+    private void applyFilter(EditText search, EditText txtDate, SeekBar seekBar) {
         final EventFilter textFilter = new EventTextFilter(search.getText().toString());
         final EventFilter locationFilter = new EventLocationFilter(position, seekBar.getProgress());
-        final EventFilter eventFilter = textFilter.and(locationFilter);
+
+        EventFilter dateFilter = setupSelectedDate(txtDate);
+        final EventFilter eventFilter = textFilter.and(locationFilter).and(dateFilter);
+
 
         eventsViewModel.setFilter(eventFilter);
         eventsViewModel.refreshEvents();
@@ -65,6 +77,20 @@ public class EventsFilterDialog extends DialogFragment {
         SEEKBAR_VALUE = seekBar.getProgress();
         TEXT_FILTER = search.getText().toString();
         dismiss();
+    }
+
+    private EventDateFilter setupSelectedDate(EditText txtDate) {
+        EventDateFilter dateFilter = new EventDateFilter(null);
+        String dateString = txtDate.getText().toString();
+        if (dateString.equals("")) {
+            DATE_VALUE = dateString;
+        } else if (EventCreationValidator.isValidFormat(dateString, EventCreationValidator.DATE_FORMAT)) {
+            dateFilter = new EventDateFilter(dateToCalendar(txtDate));
+            DATE_VALUE = dateString;
+        } else {
+            Toast.makeText(getContext(), "Warning ! Date filter is invalid...", Toast.LENGTH_SHORT).show();
+        }
+        return dateFilter;
     }
 
     private SeekBar.OnSeekBarChangeListener seekBarHandler(View view) {
