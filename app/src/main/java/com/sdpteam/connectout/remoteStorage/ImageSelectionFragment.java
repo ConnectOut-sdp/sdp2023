@@ -2,6 +2,9 @@ package com.sdpteam.connectout.remoteStorage;
 
 import static android.app.Activity.RESULT_OK;
 
+import com.sdpteam.connectout.R;
+import com.squareup.picasso.Picasso;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,10 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import androidx.fragment.app.Fragment;
-
-import com.sdpteam.connectout.R;
 
 public class ImageSelectionFragment extends Fragment {
 
@@ -22,6 +22,7 @@ public class ImageSelectionFragment extends Fragment {
     private ImageView preview;
     private Button chooseButton;
     private OnImageSelectedListener mListener;
+    private String initialImageRemoteUrl;
 
     public ImageSelectionFragment() {
         this(R.drawable.account_image);
@@ -29,6 +30,14 @@ public class ImageSelectionFragment extends Fragment {
 
     public ImageSelectionFragment(int previewResourceId) {
         this.previewResourceId = previewResourceId;
+    }
+
+    /**
+     * @param initialImageRemoteUrl the initial image to show in the preview
+     */
+    public ImageSelectionFragment(String initialImageRemoteUrl) {
+        this.initialImageRemoteUrl = initialImageRemoteUrl;
+        this.previewResourceId = R.drawable.account_image;
     }
 
     @Override
@@ -43,6 +52,7 @@ public class ImageSelectionFragment extends Fragment {
 
         preview = view.findViewById(R.id.preview_image_view);
         preview.setImageResource(previewResourceId);
+
         chooseButton = view.findViewById(R.id.choose_image_button);
 
         chooseButton.setOnClickListener(v -> {
@@ -51,7 +61,15 @@ public class ImageSelectionFragment extends Fragment {
             startActivityForResult(intent, PICK_IMAGE_REQUEST);
         });
 
+        preselectRemoteImageUrl();
         return view;
+    }
+
+    private void preselectRemoteImageUrl() {
+        if (initialImageRemoteUrl != null && !initialImageRemoteUrl.equals("")) {
+            chooseButton.setText("Change selection");
+            Picasso.get().load(initialImageRemoteUrl).into(preview);
+        }
     }
 
     @Override

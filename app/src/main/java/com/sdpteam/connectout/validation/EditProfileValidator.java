@@ -28,8 +28,8 @@ public class EditProfileValidator {
 
     public static boolean editProfileValidation(EditText nameInput, EditText emailInput, EditText bioInput, RadioButton male, RadioButton female, RadioButton other) {
         return handleValidationFailure(isValidName(nameInput.getText().toString()), nameInput, NAME_ERROR)
-                && handleValidationFailure(isValidEmail(emailInput.getText().toString()), emailInput, EMAIL_ERROR)
-                && handleValidationFailure(isValidBio(bioInput.getText().toString()), bioInput, BIO_ERROR);
+                & handleValidationFailure(isValidEmail(emailInput.getText().toString()), emailInput, EMAIL_ERROR)
+                & handleValidationFailure(isValidBio(bioInput.getText().toString()), bioInput, BIO_ERROR);
     }
 }
 

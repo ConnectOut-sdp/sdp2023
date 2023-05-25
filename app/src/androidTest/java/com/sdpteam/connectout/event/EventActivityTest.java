@@ -12,7 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
 import static com.sdpteam.connectout.event.viewer.EventActivity.MAKE_POST;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
