@@ -83,7 +83,15 @@
                 android:layout_alignParentStart="true"
                 android:paddingRight="15dp"
                 android:background="@null"
-                android:src="@drawable/heart" />
+                android:src="@drawable/heart"/>
+
+        <ProgressBar
+                android:id="@+id/post_like_progress_bar"
+                android:layout_width="27dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:visibility="gone">
+        </ProgressBar>
 
         <TextView
                 android:id="@+id/post_like_count_text"

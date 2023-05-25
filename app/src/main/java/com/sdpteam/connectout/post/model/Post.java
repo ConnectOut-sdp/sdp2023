@@ -124,4 +124,8 @@ public class Post {
     public boolean isPublic() {
         return visibility != null && visibility == PUBLIC;
     }
+
+    public Post withOneMoreLike() {
+        return new Post(id, profileId, eventId, commentsChatId, imagesUrls, nbrLikes + 1, visibility, title, description);
+    }
 }
