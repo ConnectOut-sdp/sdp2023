@@ -40,26 +40,37 @@ public class DateSelectors {
     }
 
     public static long parseEditTextTimeAndDate(EditText txtDate, EditText txtTime) {
-        final String[] yearMonthDay = txtDate.getText().toString().split("-"); //[day, month, year]
+        Calendar calendar = timeAndDateToCalendar(txtDate, txtTime);
+        return calendar == null ? -1 : calendar.getTimeInMillis();
+    }
+    public static Calendar timeAndDateToCalendar(EditText txtDate, EditText txtTime) {
         final String[] hourMin = txtTime.getText().toString().split(":"); //[hour, min]
-        //final Date date;
-        final long date;
-        if (yearMonthDay.length == 3 && hourMin.length == 2) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
-            calendar.set(Calendar.YEAR, Integer.valueOf(yearMonthDay[2]));
-            calendar.set(Calendar.MONTH, Integer.valueOf(yearMonthDay[1]) - 1); // Calendar.MONTH starts from 0
-            calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(yearMonthDay[0]));
-            calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(hourMin[0]));
-            calendar.set(Calendar.MINUTE, Integer.valueOf(hourMin[1]));
+
+        Calendar calendar = dateToCalendar(txtDate);
+        if (calendar != null && hourMin.length == 2) {
+            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hourMin[0]));
+            calendar.set(Calendar.MINUTE, Integer.parseInt(hourMin[1]));
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
-            date = calendar.getTimeInMillis();
-        } else {
-            //TODO should fail if the time is not appropriate (No event shouldn't have a time)
-            //we said that we would do this in a future sprint task
-            date = -666;
         }
-        return date;
+        return calendar;
     }
+    public static Calendar dateToCalendar(EditText txtDate) {
+        final String[] yearMonthDay = txtDate.getText().toString().split("-"); //[day, month, year]
+
+        Calendar calendar = null;
+        if (yearMonthDay.length == 3) {
+            calendar = Calendar.getInstance();
+            calendar.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
+            calendar.set(Calendar.YEAR, Integer.parseInt(yearMonthDay[2]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(yearMonthDay[1]) - 1); // Calendar.MONTH starts from 0
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(yearMonthDay[0]));
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+        }
+        return calendar;
+    }
+
 }
