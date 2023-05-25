@@ -13,6 +13,8 @@ import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.notifications.EventNotificationManager;
 import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.RegisteredEvent;
 import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
 
 import android.net.Uri;
@@ -52,13 +54,17 @@ public class EventCreatorViewModel extends EventsViewModel {
      * @param title       (String): title of the event
      * @param coordinates (GPSCoordinates): position of the event
      * @param description (String): description of the event
+     * @param date (long): date of the event
+     * @param imageUrl (String): url of the event image
      */
     public void saveEvent(String title, GPSCoordinates coordinates, String description, long date, String imageUrl) {
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         String ownerId = (user == null) ? EditProfileActivity.NULL_USER : user.uid;
 
         ArrayList<String> participants = new ArrayList<>(singletonList(ownerId));
-        Event newEvent = new Event(getUniqueId(), title, description, coordinates, ownerId, participants, new ArrayList<>(), date, new Event.EventRestrictions(), imageUrl);
+        String eventId = getUniqueId();
+        new ProfileFirebaseDataSource().registerToEvent(new RegisteredEvent(eventId), ownerId); //owner is registered by default
+        Event newEvent = new Event(eventId, title, description, coordinates, ownerId, participants, new ArrayList<>(), date, new Event.EventRestrictions(), imageUrl);
 
         saveEvent(newEvent);
     }

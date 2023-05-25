@@ -45,9 +45,9 @@ public class MyEventsCalendarFragment extends DrawerFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registered_events_calendar, container, false);
 
-        EventsViewModel viewModel = new EventsViewModel(new EventFirebaseDataSource());
+        eventsViewModel.setFilter(new CalendarEventFilter(profileId));
 
-        eventsListViewFragment = new EventsListViewFragment(viewModel, new EventsCalendarAdapter(getContext(), R.layout.registered_event));
+        eventsListViewFragment = new EventsListViewFragment(eventsViewModel, new EventsCalendarAdapter(getContext(), R.layout.registered_event));
         getChildFragmentManager().beginTransaction().replace(R.id.list_of_registered_events, eventsListViewFragment).commit();
         return view;
     }

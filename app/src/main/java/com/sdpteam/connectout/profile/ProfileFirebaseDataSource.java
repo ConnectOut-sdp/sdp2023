@@ -63,7 +63,7 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         CompletableFuture<Profile> future = new CompletableFuture<>();
         fetchProfiles(new ArrayList<>(Collections.singletonList(userId)))
                 //List has at least a null element.
-                .thenApply(profiles -> future.complete(profiles.get(0)));
+                .thenApply(profiles -> future.complete(profiles.isEmpty() ? null : profiles.get(0)));
         return future;
     }
 
