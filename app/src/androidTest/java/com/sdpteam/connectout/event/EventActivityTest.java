@@ -53,15 +53,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
     private final static String EVENT_TITLE_1 = generateRandomPath();
-    private final static String EVENT_TITLE_QR = generateRandomPath();
-
     private final static Event TEST_EVENT = new Event(generateRandomPath(), EVENT_TITLE_1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
-    private final static Post TEST_POST = new Post(POST_ID, PROFILE_ID, TEST_EVENT.getId(), COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
-    private final static Post TEST_POST2 = new Post(POST_ID + "1", PROFILE_ID, TEST_EVENT.getId(), COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
+
+    private final static String EVENT_TITLE_QR = generateRandomPath();
     private final static Event TEST_EVENT_QR = new Event(generateRandomPath(), EVENT_TITLE_QR, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
+
     private final static String POST_ID = "A_" + generateRandomPath();
     private final static String COMMENT_ID = "A_" + generateRandomPath();
     private final static String PROFILE_ID = "A_" + generateRandomPath();
+    private final static Post TEST_POST = new Post(POST_ID, PROFILE_ID, TEST_EVENT.getId(), COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
+    private final static Post TEST_POST2 = new Post(POST_ID + "1", PROFILE_ID, TEST_EVENT.getId(), COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
     @Rule
     public ActivityScenarioRule<EventActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), EventActivity.class).putExtra(PASSED_ID_KEY,
             TEST_EVENT.getId()));
