@@ -2,7 +2,7 @@ package com.sdpteam.connectout.post.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.CompletableFuture;
 
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostDataSource;
@@ -122,5 +122,13 @@ public class PostsViewModel extends ViewModel {
         ALL,
         EVENT,
         AUTHORED
+    }
+
+    /**
+     * @param likedPost (Post): post to like
+     * @return (CompletableFuture < Result < String > >): a future that will be completed with the result of the operation (String is the post id).
+     */
+    public CompletableFuture<Result<String>> likePost(Post likedPost) {
+        return postDataSource.savePost(likedPost.withOneMoreLike());
     }
 }

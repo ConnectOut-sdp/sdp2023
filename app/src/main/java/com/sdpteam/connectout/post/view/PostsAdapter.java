@@ -2,21 +2,7 @@ package com.sdpteam.connectout.post.view;
 
 import static com.sdpteam.connectout.post.model.Post.PostVisibility.PUBLIC;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-import androidx.viewpager.widget.ViewPager;
+import java.util.concurrent.CompletableFuture;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.chat.comment.CommentsActivity;
@@ -26,8 +12,26 @@ import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.ProfileViewModel;
+import com.sdpteam.connectout.utils.Result;
 import com.squareup.picasso.Picasso;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * ArrayAdapter for the ListView that inflates each posts ui.
@@ -40,10 +44,21 @@ public class PostsAdapter extends ArrayAdapter<Post> {
     private final int postItemResource;
     private final boolean seeEventsVisible;
 
-    public PostsAdapter(@NonNull Context context, int resource, boolean seeEventsVisible) {
+    private final OnPostLiked onPostLiked;
+
+    interface OnPostLiked {
+        /**
+         * @param post the post that was liked
+         * @return a future that will be completed when the post is liked, the string is just the post id.
+         */
+        CompletableFuture<Result<String>> postLiked(Post post);
+    }
+
+    public PostsAdapter(@NonNull Context context, int resource, boolean seeEventsVisible, OnPostLiked onPostLiked) {
         super(context, resource);
-        postItemResource = resource;
+        this.postItemResource = resource;
         this.seeEventsVisible = seeEventsVisible;
+        this.onPostLiked = onPostLiked;
     }
 
     @NonNull
@@ -56,27 +71,20 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         }
         final Post post = getItem(position);
 
-        ViewPager viewPager = view.findViewById(R.id.post_images_view_pager);
+        final ViewPager viewPager = view.findViewById(R.id.post_images_view_pager);
         viewPager.setAdapter(new PagedImagesAdapter(getContext(), post.getImagesUrls()));
 
-        DotsIndicator dotsIndicator = view.findViewById(R.id.post_images_dots_indicator);
+        final DotsIndicator dotsIndicator = view.findViewById(R.id.post_images_dots_indicator);
         dotsIndicator.attachTo(viewPager);
 
-        TextView titleTextView = view.findViewById(R.id.post_title);
+        final TextView titleTextView = view.findViewById(R.id.post_title);
         titleTextView.setText(post.getTitle());
-        TextView descTextView = view.findViewById(R.id.post_description);
+        final TextView descTextView = view.findViewById(R.id.post_description);
         descTextView.setText(post.getDescription());
 
-        TextView countView = view.findViewById(R.id.post_like_count_text);
-        countView.setText(post.getNbrLikes() + " likes");
+        setupLikeButton(view, post);
 
-        ImageButton likeButton = view.findViewById(R.id.post_like_button);
-        likeButton.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Unsupported operation for now", Toast.LENGTH_SHORT).show();
-            // TODO like this post
-        });
-
-        Button commentsButton = view.findViewById(R.id.post_comments_button);
+        final Button commentsButton = view.findViewById(R.id.post_comments_button);
         commentsButton.setOnClickListener(v -> CommentsActivity.openComments(getContext(), post.getCommentsChatId()));
 
         final Button eventButton = view.findViewById(R.id.post_event_button);
@@ -93,6 +101,31 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         displayAuthorInfo(view, post);
 
         return view;
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setupLikeButton(View view, Post post) {
+        final String LIKES = getContext().getString(R.string.likes);
+
+        final TextView countView = view.findViewById(R.id.post_like_count_text);
+        countView.setText(post.getNbrLikes() + LIKES);
+
+        final ImageButton likeButton = view.findViewById(R.id.post_like_button);
+        final ProgressBar likeProgressBar = view.findViewById(R.id.post_like_progress_bar);
+        likeButton.setOnClickListener(v -> {
+            likeButton.setVisibility(View.INVISIBLE);
+            likeProgressBar.setVisibility(View.VISIBLE);
+            onPostLiked.postLiked(post).thenAccept(res -> {
+                likeButton.setVisibility(View.VISIBLE);
+                likeButton.setEnabled(false);
+                likeProgressBar.setVisibility(View.GONE);
+                if (res.isSuccess()) {
+                    countView.setText(post.getNbrLikes() + 1 + LIKES);
+                } else {
+                    Toast.makeText(getContext(), res.msg(), Toast.LENGTH_LONG).show();
+                }
+            });
+        });
     }
 
     private void displayAuthorInfo(View view, Post post) {
