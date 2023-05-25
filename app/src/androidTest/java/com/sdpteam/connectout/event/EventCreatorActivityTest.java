@@ -12,7 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
@@ -49,7 +49,6 @@ import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.event.creator.EventCreatorActivity;
 import com.sdpteam.connectout.event.creator.LocationPicker;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.profile.EditProfileActivity;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;

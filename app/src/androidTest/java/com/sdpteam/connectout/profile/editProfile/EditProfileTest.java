@@ -1,7 +1,6 @@
-package com.sdpteam.connectout.registration;
+package com.sdpteam.connectout.profile.editProfile;
 
 import static com.sdpteam.connectout.profile.Profile.Gender.MALE;
-import static com.sdpteam.connectout.registration.CompleteRegistration.MandatoryFields;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -11,6 +10,7 @@ import android.os.Looper;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileDataSource;
+import com.sdpteam.connectout.profile.editProfile.EditProfile;
 import com.sdpteam.connectout.profileList.filter.ProfileFilter;
 
 import org.junit.Test;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class CompleteRegistrationTest {
+public class EditProfileTest {
 
     @Test
     public void testCompleteRegistrationActuallySetsCorrectValues() {
@@ -46,9 +46,8 @@ public class CompleteRegistrationTest {
                 return CompletableFuture.completedFuture(new ArrayList<>());
             }
         };
-        CompleteRegistration completeRegistration = new CompleteRegistration(fakeProfileDatabase);
-        fJoin(completeRegistration.completeRegistration("007",
-                new MandatoryFields("James", "james.bond@gmail.com", "No bio lol", MALE), null));
+        EditProfile editProfile = new EditProfile(fakeProfileDatabase);
+        fJoin(editProfile.saveProfile(new Profile("007", "James", "james.bond@gmail.com", "No bio lol", MALE, 0, 0, null)));
 
         // add latency so the background tasks gets finished before calling fetchProfile too soon and obviously getting a null value
         //saved.join(); // instead of thread sleep

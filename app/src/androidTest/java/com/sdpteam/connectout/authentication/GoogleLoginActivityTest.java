@@ -5,15 +5,12 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.sdpteam.connectout.registration.CompleteRegistrationActivity;
 
 import android.content.Intent;
 import androidx.test.espresso.intent.Intents;

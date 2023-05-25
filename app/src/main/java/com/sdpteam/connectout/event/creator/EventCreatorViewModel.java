@@ -1,5 +1,6 @@
 package com.sdpteam.connectout.event.creator;
 
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import com.sdpteam.connectout.event.EventDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.notifications.EventNotificationManager;
-import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
 
 import android.net.Uri;
@@ -55,7 +55,7 @@ public class EventCreatorViewModel extends EventsViewModel {
      */
     public void saveEvent(String title, GPSCoordinates coordinates, String description, long date, String imageUrl) {
         AuthenticatedUser user = new GoogleAuth().loggedUser();
-        String ownerId = (user == null) ? EditProfileActivity.NULL_USER : user.uid;
+        String ownerId = (user == null) ? NULL_USER : user.uid;
 
         ArrayList<String> participants = new ArrayList<>(singletonList(ownerId));
         Event newEvent = new Event(getUniqueId(), title, description, coordinates, ownerId, participants, new ArrayList<>(), date, new Event.EventRestrictions(), imageUrl);

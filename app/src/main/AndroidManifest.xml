@@ -67,7 +67,7 @@
             android:name=".profile.ProfileRateActivity"
             android:exported="false" />
         <activity
-            android:name=".registration.CompleteRegistrationActivity"
+            android:name=".profile.editProfile.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".event.viewer.EventActivity"
@@ -99,9 +99,6 @@
             android:exported="false" />
         <activity
             android:name=".authentication.GoogleLoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".profile.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

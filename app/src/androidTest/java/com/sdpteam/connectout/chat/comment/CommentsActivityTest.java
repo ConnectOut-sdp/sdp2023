@@ -9,7 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.chat.comment.CommentsActivity.PASSED_COMMENTS_KEY;
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.Matchers.anything;

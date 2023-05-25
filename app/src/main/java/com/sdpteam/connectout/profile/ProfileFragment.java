@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.profile;
 
-import static com.sdpteam.connectout.profile.EditProfileActivity.NULL_USER;
+import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter;
 import com.sdpteam.connectout.event.nearbyEvents.list.EventsListViewFragment;
+import com.sdpteam.connectout.profile.editProfile.EditProfileActivity;
 import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends DrawerFragment {
@@ -131,12 +132,7 @@ public class ProfileFragment extends DrawerFragment {
 
     private void goToEditProfile() {
         Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-        Profile p = pvm.getProfileLiveData().getValue();
-        intent.putExtra("name", p.getName());
-        intent.putExtra("email", p.getEmail());
-        intent.putExtra("bio", p.getBio());
-        intent.putExtra("gender", p.getGender().name());
-        intent.putExtra("profileImageUrl", p.getProfileImageUrl());
+        EditProfileActivity.profileToEdit = pvm.getProfileLiveData().getValue();
         startActivity(intent);
     }
 
