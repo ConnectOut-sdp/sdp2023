@@ -85,7 +85,7 @@
             android:background="?attr/colorPrimary"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/fab_margin"
+            android:layout_margin="10dp"
             android:layout_above="@+id/nearby_events_container"
             android:minWidth="50dp"
             android:minHeight="50dp" />
