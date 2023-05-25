@@ -11,6 +11,13 @@ import android.net.Uri;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * ViewModel for editing a profile
+ * It is used to edit a profile or create a new one
+ * When opening the view it will prefill info if the profile already exists
+ * (if first time then only the login info name and email can be prefilled otherwise everything available is showed)
+ * It handles errors, thus the view only needs to observe the error message and progress to display them
+ */
 public class EditProfileViewModel extends ViewModel {
 
     private final EditProfile registration;
@@ -20,37 +27,59 @@ public class EditProfileViewModel extends ViewModel {
     private final MutableLiveData<String> errorMessage;
 
     /**
-     * @param registration   the model that allows to upload initialProfile picture and save new initialProfile info
+     * @param editProfile    the model that allows to upload initialProfile picture and save new initialProfile info
      * @param initialProfile existing initialProfile we want to edit, null if want to create for the first time a new initialProfile
      */
-    public EditProfileViewModel(EditProfile registration, Profile initialProfile) {
+    public EditProfileViewModel(EditProfile editProfile, Profile initialProfile) {
         final AuthenticatedUser user = new GoogleAuth().loggedUser();
         final AuthenticatedUser authenticatedUser = user == null ? new AuthenticatedUser(NULL_USER, "", "") : user;
         final Profile newProfile = new Profile(authenticatedUser.uid, authenticatedUser.name, authenticatedUser.email, "", Gender.MALE, 0, 0, null);
 
-        this.registration = registration;
+        this.registration = editProfile;
         this.initialProfile = initialProfile;
         this.profile = initialProfile == null ? newProfile : initialProfile;
         this.progress = new MutableLiveData<>(false);
         this.errorMessage = new MutableLiveData<>("");
     }
 
+    /**
+     * @return true if the user is creating a new profile, false if editing an existing one
+     */
     public Boolean isFirstTimeFillingProfile() {
         return initialProfile == null;
     }
 
+    /**
+     * @return the profile that is being edited
+     */
     public Profile profile() {
         return profile;
     }
 
+    /**
+     * @return boolean indicating if the operation is in progress (saving the image and then the profile)
+     */
     public MutableLiveData<Boolean> getProgress() {
         return progress;
     }
 
+    /**
+     * @return error message to display to the user
+     */
     public MutableLiveData<String> getErrorMessage() {
         return errorMessage;
     }
 
+    /**
+     * Final step of the registration (save Profile info)
+     * Then, display a message to the user and stop the progress
+     *
+     * @param name         name of the user
+     * @param email        email of the user
+     * @param bio          bio of the user
+     * @param g            gender of the user
+     * @param profileImage image url of the user's profile image
+     */
     public void saveNewProfile(String name, String email, String bio, Gender g, Uri profileImage) {
         progress.setValue(true);
         if (profileImage == null) {
