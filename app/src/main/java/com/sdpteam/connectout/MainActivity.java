@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         final NotificationService service = new NotificationService();
         service.createNotificationChannel();
 
+
         final Intent intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
 
         this.finish();
