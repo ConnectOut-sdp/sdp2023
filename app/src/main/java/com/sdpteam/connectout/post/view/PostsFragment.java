@@ -10,6 +10,8 @@ import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,14 +49,15 @@ public class PostsFragment extends DrawerFragment {
             view = inflater.inflate(R.layout.fragment_post_list_not_scrollable, container, false);
         }
 
-        if (adapter == null) {
-            adapter = new PostsAdapter(container.getContext(), R.layout.post_list_item_view, seeEventsVisible);
-        }
         AuthenticatedUser user = new GoogleAuth().loggedUser();
         String currentUserId = user == null ? NULL_USER : user.uid;
 
         PostsViewModel postsViewModel = new PostsViewModel(new PostFirebaseDataSource());
         postsViewModel.getPosts(currentUserId, eventId, authorId);
+
+        if (adapter == null) {
+            adapter = new PostsAdapter(container.getContext(), R.layout.post_list_item_view, seeEventsVisible, postsViewModel::likePost);
+        }
 
         ListView listView = view.findViewById(R.id.posts_list_view);
         listView.setAdapter(adapter);
