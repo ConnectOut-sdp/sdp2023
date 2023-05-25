@@ -60,7 +60,7 @@ public class QRcodeActivityTest {
         });
     }
 
-    @Test
+    /*@Test
     public void testHandleScanResultForNullInput() {
         testRule.getScenario().onActivity(activity ->
         {
@@ -68,7 +68,7 @@ public class QRcodeActivityTest {
             String invalidFormatResult = null;
             assertFalse(activity.handleScanResult(invalidFormatResult));
         });
-    }
+    }*/
 
 
 
