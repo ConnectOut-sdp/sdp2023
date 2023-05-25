@@ -10,7 +10,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.RegisteredEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +85,7 @@ public class EventFirebaseDataSource implements EventDataSource {
      * @return (CompletableFuture < Boolean >): completes to true if participant has joined the event.
      */
     public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
+        new ProfileFirebaseDataSource().registerToEvent(new RegisteredEvent(eventId), participantId);
         return modifyEvent(eventId, event -> event.addParticipant(participantId));
     }
 
@@ -97,6 +100,7 @@ public class EventFirebaseDataSource implements EventDataSource {
      * @return (CompletableFuture < Boolean >): completes to true if participant has left the event.
      */
     public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
+        new ProfileFirebaseDataSource().unregisterToEvent(eventId, participantId);
         return modifyEvent(eventId, event -> event.removeParticipant(participantId));
     }
 
@@ -160,7 +164,7 @@ public class EventFirebaseDataSource implements EventDataSource {
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
 
         firebaseRef.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
-                .limitToFirst(MAX_EVENTS_FETCHED).orderByKey()
+                .limitToFirst(MAX_EVENTS_FETCHED).orderByChild("date")
                 .get()
                 .addOnCompleteListener(t -> {
 

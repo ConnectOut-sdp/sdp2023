@@ -23,6 +23,7 @@ import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.MyEventsCalendarActivity;
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.RegisteredEvent;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -69,11 +70,11 @@ public class MyEventsCalendarActivityTest {
         Profile p = new Profile(userId, "user_test_name", "fake_email", "fake_bio", Profile.Gender.MALE, 0, 0, "");
         fJoin(profileFirebase.saveProfile(p));
 
-        profileFirebase.registerToEvent(new Profile.CalendarEvent(e1.getId(), e1.getTitle(), e1.getDate()), userId);
-        profileFirebase.registerToEvent(new Profile.CalendarEvent(e2.getId(), e2.getTitle(), e2.getDate()), userId);
-        profileFirebase.registerToEvent(new Profile.CalendarEvent(e3.getId(), e3.getTitle(), e3.getDate()), userId);
-        profileFirebase.registerToEvent(new Profile.CalendarEvent(e4.getId(), e4.getTitle(), e4.getDate()), userId);
-        profileFirebase.registerToEvent(new Profile.CalendarEvent(e5.getId(), e5.getTitle(), e5.getDate()), userId);
+        profileFirebase.registerToEvent(new RegisteredEvent(e1.getId()), userId);
+        profileFirebase.registerToEvent(new RegisteredEvent(e2.getId()), userId);
+        profileFirebase.registerToEvent(new RegisteredEvent(e3.getId()), userId);
+        profileFirebase.registerToEvent(new RegisteredEvent(e4.getId()), userId);
+        profileFirebase.registerToEvent(new RegisteredEvent(e5.getId()), userId);
         SystemClock.sleep(2000);
     }
 

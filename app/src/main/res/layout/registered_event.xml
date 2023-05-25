@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="10dp"
+    android:weightSum="4">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/message_box">
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="?attr/colorPrimary"
+        android:orientation="vertical">
 
-    <TextView
-            android:layout_width="fill_parent"
+        <!-- Event Title -->
+        <TextView
+            android:id="@+id/registered_event_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:id="@+id/registered_event_title" />
+            android:text="Texte here"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+        <!-- Event Time -->
+        <TextView
             android:id="@+id/registered_event_time"
-            android:textStyle="normal|bold"
-            android:padding="20dp"
-            android:layout_below="@+id/registered_event_title" />
-
-    <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/registered_event_id"
-            android:visibility="invisible"
+            android:layout_marginTop="8dp"
             android:padding="20dp"
-            android:layout_below="@+id/registered_event_time" />
+            android:text="TIME HERE"
+            android:textSize="16sp" />
 
-</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

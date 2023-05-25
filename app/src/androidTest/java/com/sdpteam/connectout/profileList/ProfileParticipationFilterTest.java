@@ -26,9 +26,9 @@ public class ProfileParticipationFilterTest {
         final ProfileParticipationFilter filter3 = new ProfileParticipationFilter("3");
 
         final List<RegisteredEvent> events = new ArrayList<>();
-        events.add(new RegisteredEvent(1, "1", "title 1"));
-        events.add(new RegisteredEvent(1, "2", "title 1"));
-        events.add(new RegisteredEvent(1, "3", "title 1"));
+        events.add(new RegisteredEvent("1"));
+        events.add(new RegisteredEvent("2"));
+        events.add(new RegisteredEvent("3"));
 
         final ProfileEntry entry = new ProfileEntry(Profile.NULL_PROFILE, events);
 
@@ -42,9 +42,9 @@ public class ProfileParticipationFilterTest {
         final ProfileParticipationFilter filter = new ProfileParticipationFilter("x");
 
         final List<RegisteredEvent> events = new ArrayList<>();
-        events.add(new RegisteredEvent(1, "1", "title 1"));
-        events.add(new RegisteredEvent(1, "2", "title 1"));
-        events.add(new RegisteredEvent(1, "3", "title 1"));
+        events.add(new RegisteredEvent("1"));
+        events.add(new RegisteredEvent("2"));
+        events.add(new RegisteredEvent("3"));
 
         final ProfileEntry entry = new ProfileEntry(Profile.NULL_PROFILE, events);
 

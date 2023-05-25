@@ -76,23 +76,5 @@ public class ProfileViewModel extends ViewModel {
             }
         });
     }
-
-    /**
-     * sets up the FirebaseListAdapter for the registered events view
-     */
-    public void setUpListAdapter(Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout,
-                                 Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
-                                 BiConsumer<View, Profile.CalendarEvent> populateView,
-                                 Consumer<ListAdapter> setAdapter, String profileId) {
-        registeredEventsDataSource.setUpListAdapter(setLayout, setLifecycleOwner, populateView, setAdapter, profileId);
-    }
-
-    /**
-     * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
-     * in list of events that a profile is registered to
-     */
-    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId) {
-        registeredEventsDataSource.registerToEvent(calEvent, profileId);
-    }
 }
 

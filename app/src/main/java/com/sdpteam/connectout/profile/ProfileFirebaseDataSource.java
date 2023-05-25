@@ -5,6 +5,7 @@ import android.widget.ListAdapter;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -62,7 +63,7 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         CompletableFuture<Profile> future = new CompletableFuture<>();
         fetchProfiles(new ArrayList<>(Collections.singletonList(userId)))
                 //List has at least a null element.
-                .thenApply(profiles -> future.complete(profiles.get(0)));
+                .thenApply(profiles -> future.complete(profiles.isEmpty() ? null : profiles.get(0)));
         return future;
     }
 
@@ -134,26 +135,27 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
     }
 
     /**
-     * stores a new Profile.CalendarEvent (eventId, eventTitle and eventDate)
+     * stores a new Profile.RegisteredEvent (eventId, eventTitle and eventDate)
      * in list of events that a profile is registered to
      * this list of events is stored under USERS/profileId/REGISTERED_EVENTS
-     * each CalendarEvent has an auto generated key
+     * each RegisteredEvent has an auto generated key
      * We make sure that a Calendar Event isn't already in the User's memory before adding it
      * Not very efficient if the user is registered to A LOT of events. Which won't be the case so we re fine
      */
-    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId) {
-        Query q = firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).orderByChild("eventId")
-                .equalTo(calEvent.getEventId());
+    public void registerToEvent(RegisteredEvent calEvent, String profileId) {
+        Query q = firebaseRef.child(USERS)
+                .child(profileId)
+                .child(REGISTERED_EVENTS)
+                .child(calEvent.getEventId());
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // The query returned a result, which means the event already exists in the user's registered events
-                    // As such we don't do anything
-                } else {
-                    // The query did not return any results, which means the event does not exist in the user's registered events
-                    // Push the event to the user's registered events in the Firebase database
-                    firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).push().setValue(calEvent);
+                if (!dataSnapshot.exists()) {
+                    firebaseRef.child(USERS)
+                            .child(profileId)
+                            .child(REGISTERED_EVENTS)
+                            .child(calEvent.getEventId())
+                            .setValue(calEvent);
                 }
             }
 
@@ -164,30 +166,11 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         });
     }
 
-    /**
-     * sets up the FirebaseListAdapter for the registered events view
-     * Displays the List of Profile.CalendarEvent that is stored in Firebase under
-     * USERS/profileId/REGISTERED_EVENTS
-     * orders the CalendarEvents by eventDate
-     */
-    public void setUpListAdapter(Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout,
-                                 Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
-                                 BiConsumer<View, Profile.CalendarEvent> populateView,
-                                 Consumer<ListAdapter> setAdapter, String profileId) {
-        Query query = firebaseRef
-                .child(USERS).child(profileId).child(REGISTERED_EVENTS).orderByChild("eventDate");
-
-        FirebaseListOptions<Profile.CalendarEvent> options = setLifecycleOwner.apply(setLayout.apply(new FirebaseListOptions.Builder<>())
-                .setQuery(query, Profile.CalendarEvent.class)).build();
-
-        FirebaseListAdapter<Profile.CalendarEvent> adapter = new FirebaseListAdapter<Profile.CalendarEvent>(options) {
-            @Override
-            protected void populateView(@androidx.annotation.NonNull View v, @androidx.annotation.NonNull Profile.CalendarEvent calendarEvent, int position) {
-                populateView.accept(v, calendarEvent);
-            }
-        };
-
-        setAdapter.accept(adapter);
+    public void unregisterToEvent(String eventId, String profileId) {
+        firebaseRef.child(USERS)
+                .child(profileId)
+                .child(REGISTERED_EVENTS)
+                .child(eventId).removeValue();
     }
 }
 
