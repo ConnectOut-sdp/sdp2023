@@ -48,8 +48,8 @@ public class DateSelectors {
 
         Calendar calendar = dateToCalendar(txtDate);
         if (calendar != null && hourMin.length == 2) {
-            calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(hourMin[0]));
-            calendar.set(Calendar.MINUTE, Integer.valueOf(hourMin[1]));
+            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hourMin[0]));
+            calendar.set(Calendar.MINUTE, Integer.parseInt(hourMin[1]));
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
         }
@@ -62,9 +62,9 @@ public class DateSelectors {
         if (yearMonthDay.length == 3) {
             calendar = Calendar.getInstance();
             calendar.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
-            calendar.set(Calendar.YEAR, Integer.valueOf(yearMonthDay[2]));
-            calendar.set(Calendar.MONTH, Integer.valueOf(yearMonthDay[1]) - 1); // Calendar.MONTH starts from 0
-            calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(yearMonthDay[0]));
+            calendar.set(Calendar.YEAR, Integer.parseInt(yearMonthDay[2]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(yearMonthDay[1]) - 1); // Calendar.MONTH starts from 0
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(yearMonthDay[0]));
             calendar.set(Calendar.HOUR_OF_DAY, 0);
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);

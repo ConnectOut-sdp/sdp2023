@@ -20,7 +20,7 @@ import com.sdpteam.connectout.event.location.LocationHelper;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.utils.DateSelectors;
-import com.sdpteam.connectout.validation.EventCreationValidator;
+import com.sdpteam.connectout.validation.EventValidator;
 
 public class EventsFilterDialog extends DialogFragment {
 
@@ -50,9 +50,7 @@ public class EventsFilterDialog extends DialogFragment {
 
         final LocationHelper locationHelper = LocationHelper.getInstance(getContext());
         if (locationHelper.hasPermission(getActivity())) {
-            locationHelper.getLastLocation(getActivity(), location -> {
-                position = GPSCoordinates.fromLocation(location);
-            });
+            locationHelper.getLastLocation(getActivity(), location -> position = GPSCoordinates.fromLocation(location));
         }
         final EditText txtDate = view.findViewById(R.id.filter_in_date);
         txtDate.setText(DATE_VALUE);
@@ -84,7 +82,7 @@ public class EventsFilterDialog extends DialogFragment {
         String dateString = txtDate.getText().toString();
         if (dateString.equals("")) {
             DATE_VALUE = dateString;
-        } else if (EventCreationValidator.isValidFormat(dateString, EventCreationValidator.DATE_FORMAT)) {
+        } else if (EventValidator.isValidFormat(dateString, EventValidator.DATE_FORMAT)) {
             dateFilter = new EventDateFilter(dateToCalendar(txtDate));
             DATE_VALUE = dateString;
         } else {

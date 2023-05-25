@@ -11,7 +11,7 @@ import java.util.TimeZone;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class EventCreationValidator {
+public class EventValidator {
 
     public static final double MAX_RATING = 5;
     public static final int MIN_NAX_NUMBER_PARTICIPANTS = 2;
