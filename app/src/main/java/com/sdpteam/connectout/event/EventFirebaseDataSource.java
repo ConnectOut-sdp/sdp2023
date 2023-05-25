@@ -164,7 +164,7 @@ public class EventFirebaseDataSource implements EventDataSource {
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
 
         firebaseRef.child(EventFirebaseDataSource.DATABASE_EVENT_PATH)
-                .limitToFirst(MAX_EVENTS_FETCHED).orderByKey()
+                .limitToFirst(MAX_EVENTS_FETCHED).orderByChild("date")
                 .get()
                 .addOnCompleteListener(t -> {
 
