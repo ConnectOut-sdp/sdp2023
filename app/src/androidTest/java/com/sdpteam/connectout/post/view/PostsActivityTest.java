@@ -129,4 +129,22 @@ public class PostsActivityTest {
         waitABit();
         waitABit();
     }
+
+    @Test
+    public void likeButtonDisplayedAndClickableWithErrorMakesAToast() {
+        waitABit();
+        waitABit();
+        waitABit();
+        onView(withId(R.id.posts_list_view)).check(matches(isDisplayed()));
+        waitABit();
+        waitABit();
+        waitABit();
+        PostFirebaseDataSource.FORCE_FAIL = true;
+        onView(withIndex(withId(R.id.post_like_button), 0)).perform(click()); // click this button on the first post in the list
+        waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
+        PostFirebaseDataSource.FORCE_FAIL = false;
+    }
 }
