@@ -74,4 +74,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="community_posts">Community posts</string>
     <string name="scan_a_qr_code">Scan a QR code</string>
+    <string name="you_will_be_redirected_in_few_seconds">\nyou will be redirected in few seconds</string>
+    <string name="hello">"Hello "</string>
+    <string name="likes">" likes"</string>
 </resources>

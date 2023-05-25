@@ -1,31 +1,25 @@
 package com.sdpteam.connectout.event.creator;
 
-import static java.util.Collections.singletonList;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-
-import androidx.appcompat.widget.Toolbar;
-
 import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.notifications.EventNotificationManager;
-import com.sdpteam.connectout.profile.EditProfileActivity;
+import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
 import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.utils.WithFragmentActivity;
 import com.sdpteam.connectout.validation.EventCreationValidator;
 
-import java.util.ArrayList;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 public class EventCreatorActivity extends WithFragmentActivity {
     private EventCreatorViewModel eventCreatorViewModel;
+    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,33 +51,24 @@ public class EventCreatorActivity extends WithFragmentActivity {
 
             // validation
             if (EventCreationValidator.eventCreationValidation(eventTitle, eventDescription, txtDate, txtTime)) {
-                saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date);
-                this.finish();
+                saveButton.setText("Saving..");
+                eventCreatorViewModel.uploadImage(selectedImageUri).thenAccept((uploadImageUrl) -> {
+                    saveButton.setText("Saving...");
+                    eventCreatorViewModel.saveEvent(chosenTitle, chosenCoordinates, chosenDescription, date, uploadImageUrl);
+                    this.finish();
+                });
             }
         });
+
+        setupImageSelector();
     }
 
-    /**
-     * Saves the event into the view model.
-     *
-     * @param title       (String): title of the event
-     * @param coordinates (GPSCoordinates): position of the event
-     * @param description (String): description of the event
-     */
-    private void saveEvent(String title, GPSCoordinates coordinates, String description, long date) {
-        AuthenticatedUser user = new GoogleAuth().loggedUser();
-        String ownerId = (user == null) ? EditProfileActivity.NULL_USER : user.uid;
-
-        //Create associated event.
-        Event newEvent = new Event(eventCreatorViewModel.getUniqueId(), title, description, coordinates, ownerId, new ArrayList<>(singletonList(ownerId)), new ArrayList<>(), date);
-        //Save the event & return to previous activity.
-        if (eventCreatorViewModel.saveEvent(newEvent)) {
-            //TODO add yourself to the participants by default?
-            EventNotificationManager manager = new EventNotificationManager();
-            manager.subscribeToEventTopic(newEvent.getId());
-
-            System.out.println("\n\n\n\nSubscribed to this event : " + newEvent.getId() + "\n\n\n\n");
-        }
+    private void setupImageSelector() {
+        ImageSelectionFragment imageSelectionFragment = new ImageSelectionFragment(R.drawable.mountain_image);
+        imageSelectionFragment.setOnImageSelectedListener(imageUri -> this.selectedImageUri = imageUri);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.event_creator_selectImage, imageSelectionFragment);
+        transaction.commit();
     }
 
     public static void openEventCreator(Context fromContext) {
