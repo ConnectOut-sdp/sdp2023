@@ -1,15 +1,12 @@
 package com.sdpteam.connectout.profileList.filter;
 
-import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.PROFILE;
-
-import com.google.firebase.database.Query;
+import com.sdpteam.connectout.profile.ProfileEntry;
 
 /**
  * Filters participants by their name.
  */
 public class ProfileNameFilter implements ProfileFilter {
 
-    private final static String QUERY_END = "\uf8ff";
     private final String text;
 
     public ProfileNameFilter(String text) {
@@ -17,9 +14,7 @@ public class ProfileNameFilter implements ProfileFilter {
     }
 
     @Override
-    public Query buildQuery(Query root) {
-        // The regex is used to ensure that we retrieve all names starting with the given string
-        return root.orderByChild(PROFILE + "/nameLowercase")
-                .startAt(text).endAt(text + QUERY_END);
+    public boolean test(ProfileEntry entry) {
+        return entry.getProfile().getNameLowercase().contains(text);
     }
 }
