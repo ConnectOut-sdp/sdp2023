@@ -13,7 +13,6 @@ import com.sdpteam.connectout.event.EventDataSource;
 import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.notifications.EventNotificationManager;
-import com.sdpteam.connectout.profile.EditProfileActivity;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 import com.sdpteam.connectout.profile.RegisteredEvent;
 import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
