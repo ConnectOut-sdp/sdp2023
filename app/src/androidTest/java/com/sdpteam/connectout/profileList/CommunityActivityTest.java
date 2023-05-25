@@ -98,10 +98,6 @@ public class CommunityActivityTest {
 
         String expectedUid = (p == null) ? NULL_USER : list.get(userIndexToCheck).getId();
         System.out.println(expectedUid);
-
-        //TODO fix ProfileList bug
-//        onView(withIndex(withId(R.id.nameAdapterTextView), userIndexToCheck)).perform(click());
-//        intended(Matchers.allOf(hasComponent(ProfileActivity.class.getName()), hasExtra(equalTo("uid"), equalTo(expectedUid))));
     }
 
     @Test
