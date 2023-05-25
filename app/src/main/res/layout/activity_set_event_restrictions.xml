@@ -74,25 +74,33 @@
                 android:hint="Maximum number of participants"
                 android:inputType="number" />
 
+        <TextView
+                android:id="@+id/set_event_restrictions_deadline_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Joining event deadline"
+                android:padding="19dp"
+                android:textSize="16sp"
+                android:layout_below="@+id/set_event_restrictions_max_num_participants" />
+
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:id="@+id/set_event_restrictions_select_time"
-                android:layout_below="@+id/set_event_restrictions_max_num_participants">
+                android:layout_below="@+id/set_event_restrictions_deadline_description">
 
             <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/set_event_restrictions_in_date"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="0dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:hint="dd-mm-yyyy" />
 
             <Button
@@ -102,16 +110,18 @@
                     android:id="@+id/set_event_restrictions_btn_date"
                     android:layout_alignBottom="@+id/set_event_restrictions_in_date"
                     android:layout_toRightOf="@+id/set_event_restrictions_in_date"
-                    android:layout_toEndOf="@+id/set_event_restrictions_in_date" />
+                    android:layout_toEndOf="@+id/set_event_restrictions_in_date"
+                    android:layout_alignTop="@+id/set_event_restrictions_in_date"
+                    android:layout_marginLeft="5dp"/>
 
             <EditText
+                    android:id="@+id/set_event_restrictions_in_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/set_event_restrictions_in_time"
                     android:layout_below="@+id/set_event_restrictions_in_date"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:hint="hh:mm:ss" />
 
             <Button
@@ -119,6 +129,7 @@
                     android:layout_height="wrap_content"
                     android:text="SELECT TIME"
                     android:id="@+id/set_event_restrictions_btn_time"
+                    android:layout_alignBottom="@+id/set_event_restrictions_in_time"
                     android:layout_below="@+id/set_event_restrictions_btn_date"
                     android:layout_alignLeft="@+id/set_event_restrictions_btn_date"
                     android:layout_alignStart="@+id/set_event_restrictions_btn_date" />
@@ -132,10 +143,13 @@
                 app:defaultNavHost="true"
                 android:layout_below="@+id/set_event_restrictions_select_time"
 
-                android:layout_margin="@dimen/fab_margin"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin" />
 
 
     </RelativeLayout>

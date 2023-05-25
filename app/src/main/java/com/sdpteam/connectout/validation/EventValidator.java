@@ -62,7 +62,16 @@ public class EventValidator {
                 & handleValidationFailure(isValidTime(date), txtTimeInput, TIME_ERROR);
     }
 
-    public static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants, long joiningDeadline) {
+    public static boolean eventRestrictionsValidation(EditText eventMinRatingInput, EditText eventMaxNumParticipantsInputs, EditText txtDate, EditText txtTime) {
+        final boolean b1 = ValidationUtils.handleValidationFailure(eventMinRatingInput.getText().length() != 0, eventMinRatingInput, "Insert value");
+        final boolean b2 = ValidationUtils.handleValidationFailure(eventMaxNumParticipantsInputs.getText().length() != 0, eventMaxNumParticipantsInputs, "Insert value");
+        final double chosenMinRating = Double.parseDouble(eventMinRatingInput.getText().toString());
+        final int chosenMaxNumParticipants = Integer.parseInt(eventMaxNumParticipantsInputs.getText().toString());
+        final long chosenDate = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
+        return b1 & b2 & eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate);
+    }
+
+    private static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants, long joiningDeadline) {
         long currentTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00")).getTimeInMillis();
         return minRating <= MAX_RATING & maxNumParticipants >= MIN_NAX_NUMBER_PARTICIPANTS & joiningDeadline > currentTime;
     }
