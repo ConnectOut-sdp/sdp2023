@@ -23,8 +23,8 @@ public class ProfileEntryTest {
     @Test
     public void testGetRegisteredEvents() {
         final List<RegisteredEvent> events = new ArrayList<>();
-        events.add(new RegisteredEvent(1, "1", "title 1"));
-        events.add(new RegisteredEvent(2, "2", "title 2"));
+        events.add(new RegisteredEvent("1"));
+        events.add(new RegisteredEvent("2"));
         final ProfileEntry entry = new ProfileEntry(Profile.NULL_PROFILE, events);
 
         assertEquals(events.size(), entry.getRegisteredEvents().size());

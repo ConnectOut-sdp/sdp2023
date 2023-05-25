@@ -140,7 +140,7 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
      * We make sure that a Calendar Event isn't already in the User's memory before adding it
      * Not very efficient if the user is registered to A LOT of events. Which won't be the case so we re fine
      */
-    public void registerToEvent(Profile.CalendarEvent calEvent, String profileId) {
+    public void registerToEvent(RegisteredEvent calEvent, String profileId) {
         Query q = firebaseRef.child(USERS)
                 .child(profileId)
                 .child(REGISTERED_EVENTS)

@@ -72,20 +72,4 @@ public class Profile {
     public enum Gender {
         FEMALE, MALE, OTHER
     }
-
-    public static class CalendarEvent {
-        private final String eventId;
-
-        public CalendarEvent() {
-            this("null_event");
-        }
-
-        public CalendarEvent(String eventId) {
-            this.eventId = eventId;
-        }
-
-        public String getEventId() {
-            return eventId;
-        }
-    }
 }
