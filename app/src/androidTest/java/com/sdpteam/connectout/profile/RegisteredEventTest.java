@@ -19,6 +19,6 @@ public class RegisteredEventTest {
 
     @Test
     public void testNullRegisteredEvent() {
-        assertEquals("null_user", NULL_REGISTERED_EVENT.getEventId());
+        assertEquals("null_event", NULL_REGISTERED_EVENT.getEventId());
     }
 }
