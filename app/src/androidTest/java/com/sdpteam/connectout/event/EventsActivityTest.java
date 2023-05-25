@@ -152,7 +152,8 @@ public class EventsActivityTest {
     @Test
     public void clickOnFilterLaunchedCorrectlyWithDate() {
         onView(withId(R.id.list_switch_button)).perform(click());
-        onView(ViewMatchers.withId(R.id.events_filter_button)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.events_filter_button)).perform(click());
+        waitABit();
         onView(withId(R.id.popup_events_filter)).check(matches(isDisplayed()));
 
         onView(withId(R.id.filter_in_date)).perform(ViewActions.typeText("10-10-2023"), ViewActions.closeSoftKeyboard());
@@ -162,7 +163,7 @@ public class EventsActivityTest {
     @Test
     public void clickOnFilterLaunchedCorrectlyWithNoFilter() {
         onView(withId(R.id.list_switch_button)).perform(click());
-        onView(ViewMatchers.withId(R.id.events_filter_button)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.events_filter_button)).perform(click());
         onView(withId(R.id.popup_events_filter)).check(matches(isDisplayed()));
         onView(withId(R.id.events_filter_apply_btn)).perform(click());
 
@@ -170,7 +171,7 @@ public class EventsActivityTest {
     @Test
     public void clickOnFilterLaunchedCorrectlyWithWrongDate() {
         onView(withId(R.id.list_switch_button)).perform(click());
-        onView(ViewMatchers.withId(R.id.events_filter_button)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.events_filter_button)).perform(click());
         onView(withId(R.id.popup_events_filter)).check(matches(isDisplayed()));
 
         onView(withId(R.id.filter_in_date)).perform(ViewActions.typeText("11"), ViewActions.closeSoftKeyboard());
