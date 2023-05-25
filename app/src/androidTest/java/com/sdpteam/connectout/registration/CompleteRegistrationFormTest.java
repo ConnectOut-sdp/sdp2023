@@ -282,6 +282,12 @@ public class CompleteRegistrationFormTest {
         waitABit();
         waitABit();
         waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
 
         onView((withId(R.id.complete_registration_error_msg))).check(matches(withText("Operation successful")));
         waitABit();

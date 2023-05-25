@@ -22,9 +22,7 @@ public class CommunityFragment extends DrawerFragment {
 
         final Toolbar toolbar = view.findViewById(R.id.user_list_toolbar);
         final Button filterBtn = view.findViewById(R.id.user_list_button);
-        setupToolBar(filterBtn, toolbar, "Filter", v -> {
-            // TODO open dialog
-        });
+        setupToolBar(filterBtn, toolbar, "Filter", null); // to hide/remove button
 
         final FilteredProfileListFragment profilesFragment = new FilteredProfileListFragment();
         getChildFragmentManager().beginTransaction().replace(R.id.container_users_listview, profilesFragment).commit();

@@ -1,6 +1,6 @@
 package com.sdpteam.connectout.profileList.filter;
 
-import com.google.firebase.database.Query;
+import com.sdpteam.connectout.profile.ProfileEntry;
 
 /**
  * Filters participants by their ratings within a custom range
@@ -20,7 +20,7 @@ public class ProfileRatingFilter implements ProfileFilter {
     }
 
     @Override
-    public Query buildQuery(Query root) {
-        return root.startAt(minRating).endAt(maxRating);
+    public boolean test(ProfileEntry entry) {
+        return minRating <= entry.getProfile().getRating() && entry.getProfile().getRating() <= maxRating;
     }
 }

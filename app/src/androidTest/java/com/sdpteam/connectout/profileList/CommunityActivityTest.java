@@ -130,17 +130,6 @@ public class CommunityActivityTest {
     }
 
     @Test
-    public void initialViewIsFiltered() {
-        onView(withId(R.id.user_list_button)).check(matches((isDisplayed())));
-    }
-
-    @Test
-    public void getNonFilteredView() {
-        onView(withId(R.id.user_list_button)).perform(click());
-        onView(withId(R.id.container_users_listview)).check(matches(isDisplayed()));
-    }
-
-    @Test
     public void swappingDisplaysFilterView() {
         onView(withId(R.id.filter_container)).check(matches(isDisplayed()));
     }

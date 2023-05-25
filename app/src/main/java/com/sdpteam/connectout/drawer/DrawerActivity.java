@@ -91,6 +91,7 @@ public class DrawerActivity extends WithFragmentActivity {
                 return;
             case R.id.menu_logout:
                 new GoogleAuth().logout();
+                finish();
                 startActivity(new Intent(getApplicationContext(), GoogleLoginActivity.class));
                 return;
         }
