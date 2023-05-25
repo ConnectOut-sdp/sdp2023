@@ -9,25 +9,28 @@
                 android:icon="@drawable/home_image"
                 android:title="@string/menu_home" />
         <item
+                android:id="@+id/menu_posts"
+                android:icon="@drawable/posts2_image"
+                android:title="@string/community_posts" />
+
+        <item
                 android:id="@+id/menu_community"
                 android:icon="@drawable/profiles_image"
                 android:title="@string/community" />
+
         <item
-                android:id="@+id/menu_my_account"
-                android:icon="@drawable/account_image"
-                android:title="@string/menu_my_account" />
+                android:id="@+id/scan_qr_code"
+                android:title="@string/scan_a_qr_code"
+                android:icon="@drawable/qr_code_image" />
         <item
                 android:id="@+id/menu_my_events"
                 android:icon="@drawable/event_image"
                 android:title="@string/menu_my_events" />
         <item
-                android:id="@+id/menu_posts"
-                android:icon="@drawable/posts2_image"
-                android:title="@string/community_posts" />
-        <item
-                android:id="@+id/scan_qr_code"
-                android:title="@string/scan_a_qr_code"
-                android:icon="@drawable/qr_code_image" />
+                android:id="@+id/menu_my_account"
+                android:icon="@drawable/account_image"
+                android:title="@string/menu_my_account" />
+
     </group>
 
     <item
