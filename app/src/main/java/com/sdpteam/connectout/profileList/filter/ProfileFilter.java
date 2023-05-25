@@ -1,18 +1,23 @@
 package com.sdpteam.connectout.profileList.filter;
 
-import static com.sdpteam.connectout.profile.ProfileFirebaseDataSource.PROFILE;
+import com.sdpteam.connectout.profile.ProfileEntry;
 
-import com.google.firebase.database.Query;
+import java.util.function.Predicate;
 
-public interface ProfileFilter {
+public interface ProfileFilter extends Predicate<ProfileEntry> {
 
-    ProfileFilter NONE = root -> root.orderByChild(PROFILE + "/nameLowercase");
+    ProfileFilter NONE = entry -> true;
+
+    @Override
+    boolean test(ProfileEntry entry);
 
     /**
-     * Build up a more constrained query based on top of some root query
+     * Combine two filters with the "AND" operator.
      *
-     * @param root (Query): query on which we add constraints
-     * @return new query with additional filters
+     * @param otherFilter (ProfileFilter): the other filter to combine with.
+     * @return new combined filter.
      */
-    Query buildQuery(Query root);
+    default ProfileFilter and(ProfileFilter otherFilter) {
+        return entry -> test(entry) && otherFilter.test(entry);
+    }
 }
