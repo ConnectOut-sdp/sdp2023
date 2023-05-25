@@ -3,19 +3,18 @@ package com.sdpteam.connectout.QrCode;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class QRcodeActivityTest {
 
     @Rule
     public ActivityScenarioRule<QRcodeActivity> testRule = new ActivityScenarioRule<>(QRcodeActivity.class);
-
 
     @Test
     public void testHandleScanResultForProfile() {
@@ -60,7 +59,7 @@ public class QRcodeActivityTest {
         });
     }
 
-    /*@Test
+    @Test
     public void testHandleScanResultForNullInput() {
         testRule.getScenario().onActivity(activity ->
         {
@@ -68,10 +67,7 @@ public class QRcodeActivityTest {
             String invalidFormatResult = null;
             assertFalse(activity.handleScanResult(invalidFormatResult));
         });
-    }*/
-
-
-
+    }
 }
 
 

@@ -1,13 +1,12 @@
 package com.sdpteam.connectout;
 
-import android.content.Intent;
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.notifications.NotificationService;
+
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
         final NotificationService service = new NotificationService();
         service.createNotificationChannel();
-
 
         final Intent intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
 
