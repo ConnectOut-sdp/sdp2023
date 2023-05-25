@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventFilter;
+import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
 
 import java.util.ArrayList;
@@ -83,6 +84,7 @@ public class EventFirebaseDataSource implements EventDataSource {
      * @return (CompletableFuture < Boolean >): completes to true if participant has joined the event.
      */
     public CompletableFuture<Boolean> joinEvent(String eventId, String participantId) {
+        new ProfileFirebaseDataSource().registerToEvent(new Profile.CalendarEvent(eventId), participantId);
         return modifyEvent(eventId, event -> event.addParticipant(participantId));
     }
 
@@ -97,6 +99,7 @@ public class EventFirebaseDataSource implements EventDataSource {
      * @return (CompletableFuture < Boolean >): completes to true if participant has left the event.
      */
     public CompletableFuture<Boolean> leaveEvent(String eventId, String participantId) {
+        new ProfileFirebaseDataSource().unregisterToEvent(eventId, participantId);
         return modifyEvent(eventId, event -> event.removeParticipant(participantId));
     }
 

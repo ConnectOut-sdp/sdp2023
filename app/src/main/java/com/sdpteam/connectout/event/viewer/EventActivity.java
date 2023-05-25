@@ -185,12 +185,6 @@ public class EventActivity extends WithFragmentActivity {
         makePostBtn.setText(MAKE_POST);
         makePostBtn.setVisibility(event.hasJoined(currentUserId) || event.getOrganizer().equals(currentUserId) ? VISIBLE : GONE);
         makePostBtn.setOnClickListener(v -> PostCreatorActivity.openPostCreator(this, currentUserId, eventId, event.getTitle()));
-
-        if (!event.hasJoined(currentUserId)) {
-            profileViewModel.registerToEvent(new Profile.CalendarEvent(event.getId(), event.getTitle(), event.getDate()), currentUserId);
-        } else {
-            //TODO unregister from event (need to create function in profileDataSource)
-        }
     }
 
     private void openRestrictions(String eventId) {

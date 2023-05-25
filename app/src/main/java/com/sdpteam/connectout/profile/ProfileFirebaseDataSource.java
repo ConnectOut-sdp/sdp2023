@@ -5,6 +5,7 @@ import android.widget.ListAdapter;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -140,18 +141,21 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
      * Not very efficient if the user is registered to A LOT of events. Which won't be the case so we re fine
      */
     public void registerToEvent(Profile.CalendarEvent calEvent, String profileId) {
-        Query q = firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).orderByChild("eventId")
-                .equalTo(calEvent.getEventId());
+        Query q = firebaseRef.child(USERS)
+                .child(profileId)
+                .child(REGISTERED_EVENTS)
+                .child(calEvent.getEventId());
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // The query returned a result, which means the event already exists in the user's registered events
-                    // As such we don't do anything
-                } else {
-                    // The query did not return any results, which means the event does not exist in the user's registered events
-                    // Push the event to the user's registered events in the Firebase database
-                    firebaseRef.child(USERS).child(profileId).child(REGISTERED_EVENTS).push().setValue(calEvent);
+                if (!dataSnapshot.exists()) {
+                    // The event ID doesn't exist in REGISTERED_EVENTS
+                    // Store the CalendarEvent under the event ID
+                    firebaseRef.child(USERS)
+                            .child(profileId)
+                            .child(REGISTERED_EVENTS)
+                            .child(calEvent.getEventId())
+                            .setValue(calEvent);
                 }
             }
 
@@ -162,30 +166,11 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         });
     }
 
-    /**
-     * sets up the FirebaseListAdapter for the registered events view
-     * Displays the List of Profile.CalendarEvent that is stored in Firebase under
-     * USERS/profileId/REGISTERED_EVENTS
-     * orders the CalendarEvents by eventDate
-     */
-    public void setUpListAdapter(Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLayout,
-                                 Function<FirebaseListOptions.Builder<Profile.CalendarEvent>, FirebaseListOptions.Builder<Profile.CalendarEvent>> setLifecycleOwner,
-                                 BiConsumer<View, Profile.CalendarEvent> populateView,
-                                 Consumer<ListAdapter> setAdapter, String profileId) {
-        Query query = firebaseRef
-                .child(USERS).child(profileId).child(REGISTERED_EVENTS).orderByChild("eventDate");
-
-        FirebaseListOptions<Profile.CalendarEvent> options = setLifecycleOwner.apply(setLayout.apply(new FirebaseListOptions.Builder<>())
-                .setQuery(query, Profile.CalendarEvent.class)).build();
-
-        FirebaseListAdapter<Profile.CalendarEvent> adapter = new FirebaseListAdapter<Profile.CalendarEvent>(options) {
-            @Override
-            protected void populateView(@androidx.annotation.NonNull View v, @androidx.annotation.NonNull Profile.CalendarEvent calendarEvent, int position) {
-                populateView.accept(v, calendarEvent);
-            }
-        };
-
-        setAdapter.accept(adapter);
+    public void unregisterToEvent(String eventId, String profileId) {
+        firebaseRef.child(USERS)
+                .child(profileId)
+                .child(REGISTERED_EVENTS)
+                .child(eventId).removeValue();
     }
 }
 
