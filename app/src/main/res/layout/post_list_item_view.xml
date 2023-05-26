@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="Post Title, give a like!" />
+            android:text="Post Title, give a like!"
+            android:minHeight="25dp" />
 
     <TextView
             android:id="@+id/post_description"
@@ -70,7 +71,8 @@
             app:dotsColor="@color/teal_300"
             app:selectedDotColor="@color/teal_700"
             app:dotsSize="16dp"
-            app:progressMode="true" />
+            app:progressMode="true"
+            android:minHeight="16dp" />
 
     <RelativeLayout
             android:layout_width="match_parent"
