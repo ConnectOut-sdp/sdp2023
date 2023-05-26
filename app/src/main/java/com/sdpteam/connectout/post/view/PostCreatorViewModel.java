@@ -2,6 +2,7 @@ package com.sdpteam.connectout.post.view;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.sdpteam.connectout.post.model.Post;
@@ -54,7 +55,7 @@ public class PostCreatorViewModel {
         final Post finalPost = new Post(tmpPost.getId(),
                 tmpPost.getProfileId(),
                 tmpPost.getEventId(),
-                "",
+                UUID.randomUUID().toString(),
                 imageUrls,
                 tmpPost.getNbrLikes(),
                 tmpPost.getVisibility(),
