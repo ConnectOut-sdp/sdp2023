@@ -73,6 +73,8 @@ public class EventsActivityTest {
     @Test
     public void switchButtonChangesToListView() {
         onView(withId(R.id.list_switch_button)).perform(click());
+        waitABit();
+        waitABit();
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
     }
 
@@ -80,6 +82,8 @@ public class EventsActivityTest {
     public void switchButtonDoubleClickReturnToMapView() {
         // Click the switch button twice to return to the map view
         onView(withId(R.id.list_switch_button)).perform(click());
+        waitABit();
+        waitABit();
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.map_switch_button)).perform(click());
         onView(withId(R.id.map)).check(matches(isDisplayed()));
@@ -88,6 +92,8 @@ public class EventsActivityTest {
     @Test
     public void firstEventInTheListHasCorrectTitleAndDescription() {
         onView(withId(R.id.list_switch_button)).perform(click());
+        waitABit();
+        waitABit();
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
         List<Event> events = fJoin(new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE));
@@ -103,13 +109,19 @@ public class EventsActivityTest {
     @Test
     public void clickingOrganizorProfileInTheListTriggersIntent() {
         onView(withId(R.id.list_switch_button)).perform(click());
+        waitABit();
+        waitABit();
+        waitABit();
+        waitABit();
         onView(withId(R.id.event_list)).check(matches(isDisplayed()));
         onView(withId(R.id.events_list_view)).check(matches(isDisplayed()));
         List<Event> events = fJoin(new EventFirebaseDataSource().getEventsByFilter(EventFilter.NONE));
         int listIdx = 0;
         if (!events.isEmpty()) {
             String expectedOrganizer = events.get(listIdx).getOrganizer();
+            waitABit();
             onView(withIndex(withId(R.id.event_list_profile_button), listIdx)).perform(click());
+            waitABit();
             intended(Matchers.allOf(hasComponent(ProfileActivity.class.getName()), hasExtra(equalTo("uid"), equalTo(expectedOrganizer))));
         }
     }
