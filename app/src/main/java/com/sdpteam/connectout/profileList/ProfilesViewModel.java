@@ -1,14 +1,14 @@
 package com.sdpteam.connectout.profileList;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sdpteam.connectout.profile.Profile;
 import com.sdpteam.connectout.profile.ProfileDataSource;
 import com.sdpteam.connectout.profileList.filter.ProfileFilter;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 public class ProfilesViewModel extends ViewModel {
 

@@ -15,22 +15,19 @@ public class EventValidator {
 
     public static final double MAX_RATING = 5;
     public static final int MIN_NAX_NUMBER_PARTICIPANTS = 2;
+    public static final String DATE_FORMAT_ERROR = "Date format is invalid !";
+    public static final String TIME_FORMAT_ERROR = "Time format is invalid !";
+    public static final String TIME_ERROR = "Time selected is invalid !";
+    public static final String DATE_FORMAT = "dd-MM-yyyy";
+    public static final String TIME_FORMAT = "HH:mm";
     private static final int MIN_EVENT_TITLE_LENGTH = 5;
     public static final String EVENT_TITLE_ERROR = "Title too short, should be at least " + MIN_EVENT_TITLE_LENGTH + " characters";
     private static final int MIN_EVENT_DESCRIPTION_LENGTH = 20;
     public static final String EVENT_DESCRIPTION_ERROR = "Description too short, should be at least " + MIN_EVENT_DESCRIPTION_LENGTH + " characters";
 
-    public static final String DATE_FORMAT_ERROR = "Date format is invalid !";
-
-    public static final String TIME_FORMAT_ERROR = "Time format is invalid !";
-    public static final String TIME_ERROR = "Time selected is invalid !";
-
     public static boolean isValidEventTitle(String title) {
         return title.length() >= MIN_EVENT_TITLE_LENGTH;
     }
-
-    public static final String DATE_FORMAT = "dd-MM-yyyy";
-    public static final String TIME_FORMAT = "HH:mm";
 
     public static boolean isValidFormat(String dateStr, String format) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
@@ -62,7 +59,17 @@ public class EventValidator {
                 & handleValidationFailure(isValidTime(date), txtTimeInput, TIME_ERROR);
     }
 
-    public static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants, long joiningDeadline) {
+    public static boolean eventRestrictionsValidation(EditText eventMinRatingInput, EditText eventMaxNumParticipantsInputs, EditText txtDate, EditText txtTime) {
+        final boolean b1 = ValidationUtils.handleValidationFailure(eventMinRatingInput.getText().length() != 0, eventMinRatingInput, "Insert value")
+                & ValidationUtils.handleValidationFailure(eventMaxNumParticipantsInputs.getText().length() != 0, eventMaxNumParticipantsInputs, "Insert value");
+        if (!b1) return false;
+        final double chosenMinRating = Double.parseDouble(eventMinRatingInput.getText().toString());
+        final int chosenMaxNumParticipants = Integer.parseInt(eventMaxNumParticipantsInputs.getText().toString());
+        final long chosenDate = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
+        return eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate);
+    }
+
+    private static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants, long joiningDeadline) {
         long currentTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00")).getTimeInMillis();
         return minRating <= MAX_RATING & maxNumParticipants >= MIN_NAX_NUMBER_PARTICIPANTS & joiningDeadline > currentTime;
     }

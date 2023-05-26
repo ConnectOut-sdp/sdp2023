@@ -5,19 +5,18 @@ import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileDataSource;
-import com.sdpteam.connectout.profile.editProfile.EditProfile;
-import com.sdpteam.connectout.profileList.filter.ProfileFilter;
-
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import org.junit.Test;
+
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileDataSource;
+import com.sdpteam.connectout.profileList.filter.ProfileFilter;
+
+import android.os.Handler;
+import android.os.Looper;
 
 public class EditProfileTest {
 

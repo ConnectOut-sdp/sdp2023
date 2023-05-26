@@ -42,6 +42,19 @@ public class CommentsActivity extends AppCompatActivity {
     public String uid = (au == null) ? NULL_USER : au.uid;
     public String commentsId;
 
+    /**
+     * Helper method to launch a event activity from the source context
+     * (made it to avoid code duplication)
+     *
+     * @param fromContext from where we are starting the intent
+     * @param postId      event Id to open with.
+     */
+    public static void openComments(Context fromContext, String postId) {
+        Intent intent = new Intent(fromContext, CommentsActivity.class);
+        intent.putExtra(PASSED_COMMENTS_KEY, postId);
+        fromContext.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,19 +74,6 @@ public class CommentsActivity extends AppCompatActivity {
         });
 
         setUpListAdapter();
-    }
-
-    /**
-     * Helper method to launch a event activity from the source context
-     * (made it to avoid code duplication)
-     *
-     * @param fromContext from where we are starting the intent
-     * @param postId      event Id to open with.
-     */
-    public static void openComments(Context fromContext, String postId) {
-        Intent intent = new Intent(fromContext, CommentsActivity.class);
-        intent.putExtra(PASSED_COMMENTS_KEY, postId);
-        fromContext.startActivity(intent);
     }
 
     /**

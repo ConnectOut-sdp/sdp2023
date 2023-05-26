@@ -4,9 +4,9 @@
     <string name="nav_header_title">Connect Out</string>
     <string name="nav_header_subtitle">A place to live and share</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_home">Events</string>
     <string name="menu_my_events">My events</string>
-    <string name="menu_my_account">My account</string>
+    <string name="menu_my_account">Profile</string>
     <string name="menu_filters">Filters</string>
     <string name="menu_log_out">Log out</string>
     <string name="open_drawer">Opens the drawer</string>

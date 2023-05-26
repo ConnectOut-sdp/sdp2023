@@ -1,8 +1,8 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
-import android.icu.util.Calendar;
-
 import com.sdpteam.connectout.event.Event;
+
+import android.icu.util.Calendar;
 
 public class EventDateFilter implements EventFilter {
 

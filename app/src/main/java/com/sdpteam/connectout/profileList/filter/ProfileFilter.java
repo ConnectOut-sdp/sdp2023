@@ -1,8 +1,8 @@
 package com.sdpteam.connectout.profileList.filter;
 
-import com.sdpteam.connectout.profile.ProfileEntry;
-
 import java.util.function.Predicate;
+
+import com.sdpteam.connectout.profile.ProfileEntry;
 
 public interface ProfileFilter extends Predicate<ProfileEntry> {
 

@@ -2,6 +2,13 @@ package com.sdpteam.connectout.event.nearbyEvents.filter;
 
 import static com.sdpteam.connectout.utils.DateSelectors.dateToCalendar;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.location.LocationHelper;
+import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.utils.DateSelectors;
+import com.sdpteam.connectout.validation.EventValidator;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,15 +19,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.fragment.app.DialogFragment;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.location.LocationHelper;
-import com.sdpteam.connectout.event.nearbyEvents.EventsViewModel;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.utils.DateSelectors;
-import com.sdpteam.connectout.validation.EventValidator;
 
 public class EventsFilterDialog extends DialogFragment {
 
@@ -66,7 +65,6 @@ public class EventsFilterDialog extends DialogFragment {
 
         EventFilter dateFilter = setupSelectedDate(txtDate);
         final EventFilter eventFilter = textFilter.and(locationFilter).and(dateFilter);
-
 
         eventsViewModel.setFilter(eventFilter);
         eventsViewModel.refreshEvents();

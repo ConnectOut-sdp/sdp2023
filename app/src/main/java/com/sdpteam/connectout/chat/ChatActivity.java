@@ -15,6 +15,8 @@ import com.sdpteam.connectout.remoteStorage.FileStorageFirebase;
 import com.sdpteam.connectout.remoteStorage.ImageSelectionFragment;
 import com.squareup.picasso.Picasso;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -186,5 +188,11 @@ public class ChatActivity extends AppCompatActivity {
                 Picasso.get().load(imageUrl).into(messageImage);
             }
         };
+    }
+
+    public static void openChat(Context context, String eventID) {
+        final Intent intent = new Intent(context, ChatActivity.class);
+        intent.putExtra("chatId", eventID);
+        context.startActivity(intent);
     }
 }

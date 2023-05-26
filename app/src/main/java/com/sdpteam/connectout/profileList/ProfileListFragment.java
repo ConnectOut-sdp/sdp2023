@@ -1,16 +1,15 @@
 package com.sdpteam.connectout.profileList;
 
+import java.util.ArrayList;
+
+import com.sdpteam.connectout.R;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import androidx.fragment.app.Fragment;
-
-import com.sdpteam.connectout.R;
-
-import java.util.ArrayList;
 
 public class ProfileListFragment extends Fragment {
 
@@ -37,5 +36,4 @@ public class ProfileListFragment extends Fragment {
 
         return contentView;
     }
-
 }

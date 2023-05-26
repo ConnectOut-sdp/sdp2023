@@ -11,7 +11,9 @@ import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +23,8 @@ import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
 import android.content.Intent;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -43,9 +47,19 @@ public class PostCreatorActivityTest {
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void beforeClass() {
         PostCreatorActivity.TEST = true;
+    }
+
+    @Before
+    public void setUp() {
+        Intents.init();
+    }
+
+    @After
+    public final void tearDown() {
+        Intents.release();
     }
 
     @Test
@@ -69,5 +83,11 @@ public class PostCreatorActivityTest {
         final String postId = testRule.getActivity().viewModel.statusMsgLiveData().getValue().value();
         assertNotNull(postId);
         assertTrue(fJoin(new PostFirebaseDataSource().deletePost(postId)).isSuccess());
+    }
+
+    @Test
+    public void testOpenPostCreatorIntent() {
+        PostCreatorActivity.openPostCreator(testRule.getActivity(), "yourProfileId", "yourEventId", "yourEventName");
+        Intents.intended(IntentMatchers.hasComponent(PostCreatorActivity.class.getName()));
     }
 }

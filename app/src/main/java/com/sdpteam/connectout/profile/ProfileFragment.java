@@ -149,8 +149,9 @@ public class ProfileFragment extends DrawerFragment {
     public void onResume() {
         super.onResume();
         Profile profile = pvm.getProfileLiveData().getValue();
-        if (profile != null) pvm.fetchProfile(profile.getId()); // refresh when coming back from edit
-
+        if (profile != null) {
+            pvm.fetchProfile(profile.getId()); // refresh when coming back from edit
+        }
     }
 }
 

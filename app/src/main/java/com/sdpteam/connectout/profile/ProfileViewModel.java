@@ -1,20 +1,12 @@
 package com.sdpteam.connectout.profile;
 
-import android.view.View;
-import android.widget.ListAdapter;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.firebase.ui.database.FirebaseListOptions;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class ProfileViewModel extends ViewModel {
     private final MutableLiveData<Profile> profileLiveData;

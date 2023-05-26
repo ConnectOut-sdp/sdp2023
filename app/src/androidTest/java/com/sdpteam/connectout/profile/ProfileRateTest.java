@@ -11,21 +11,20 @@ import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.junit.Assert.assertEquals;
 
-import android.content.Intent;
-import android.widget.RatingBar;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.R;
+
+import android.content.Intent;
+import android.widget.RatingBar;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * End to end test for the profile rate activity
@@ -35,6 +34,7 @@ public class ProfileRateTest {
 
     private final static String uid = generateRandomPath();
     private final static String name = "test";
+    private static final ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
     static Intent intent;
 
     static {
@@ -43,7 +43,6 @@ public class ProfileRateTest {
         intent.putExtra(RATED_NAME, name);
     }
 
-    private static final ProfileFirebaseDataSource model = new ProfileFirebaseDataSource();
     @Rule
     public ActivityScenarioRule<ProfileRateActivity> testRule = new ActivityScenarioRule<>(intent);
 

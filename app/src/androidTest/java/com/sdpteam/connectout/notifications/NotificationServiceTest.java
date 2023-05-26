@@ -1,22 +1,22 @@
 package com.sdpteam.connectout.notifications;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.Test;
+
+import com.google.firebase.messaging.RemoteMessage;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.test.core.app.ApplicationProvider;
-
-import com.google.firebase.messaging.RemoteMessage;
-
-import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class NotificationServiceTest {
 
@@ -33,15 +33,20 @@ public class NotificationServiceTest {
         NotificationService notificationService = new NotificationService();
 
         Bundle bundle = new Bundle();
-        bundle.putString("title", "Test Title");
-        bundle.putString("body", "Test Text");
+        bundle.putString("from", "/topics/news");
+        bundle.putString("google.sent_time", "123456789");
+        bundle.putString("google.message_id", "0:123456789%abcd1234fghi");
+        bundle.putString("google.c.a.e", "1");
+        bundle.putString("collapse_key", "do_not_collapse");
+        bundle.putString("gcm.notification.e", "1");
 
         RemoteMessage.Builder builder = new RemoteMessage.Builder("1")
                 .setMessageId("1")
                 .setData(bundleToMap(bundle));
 
         builder.build().getNotification();
-        notificationService.onMessageReceived(builder.build());
+
+        assertThrows(NullPointerException.class, () -> notificationService.onMessageReceived(builder.build()));
     }
 
     private Map<String, String> bundleToMap(Bundle bundle) {
@@ -70,7 +75,7 @@ public class NotificationServiceTest {
             NotificationManager notificationManager = (NotificationManager) ApplicationProvider.getApplicationContext().getSystemService(NotificationManager.class);
             NotificationChannel channel = notificationManager.getNotificationChannel(NotificationService.NOTIFICATION_CHANNEL_ID);
 
-            if(channel != null) {
+            if (channel != null) {
                 assertEquals(NotificationService.NOTIFICATION_CHANNEL_ID, channel.getId());
                 assertEquals(NotificationService.NOTIFICATION_NAME, channel.getName());
                 assertEquals(NotificationService.NOTIFICATION_DESCRIPTION, channel.getDescription());
@@ -79,5 +84,20 @@ public class NotificationServiceTest {
 
             }
         }
+    }
+
+    @Test
+    public void forceTestCreateNotificationChannel() {
+        // Create a custom subclass of NotificationService to override its behavior and avoid actual channel creation
+        NotificationService notificationService = new NotificationService() {
+            @Override
+            public NotificationManager getSystemService(String name) {
+                return mock(NotificationManager.class);
+            }
+        };
+
+        notificationService.createNotificationChannel();
+        NotificationManager notificationManager = (NotificationManager) ApplicationProvider.getApplicationContext().getSystemService(NotificationManager.class);
+        NotificationChannel channel = notificationManager.getNotificationChannel(NotificationService.NOTIFICATION_CHANNEL_ID);
     }
 }

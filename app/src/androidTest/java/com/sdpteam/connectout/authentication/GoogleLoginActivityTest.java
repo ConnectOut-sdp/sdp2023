@@ -1,8 +1,5 @@
 package com.sdpteam.connectout.authentication;
 
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 
 import org.junit.After;
@@ -22,11 +19,6 @@ public class GoogleLoginActivityTest {
 
     @Rule
     public ActivityScenarioRule<GoogleLoginActivity> testRule = new ActivityScenarioRule<>(GoogleLoginActivity.class);
-
-    @Before
-    public void setup() {
-        Intents.init();
-    }
 
     @BeforeClass
     public static void setupClass() {
@@ -51,6 +43,11 @@ public class GoogleLoginActivityTest {
                 return null;
             }
         };
+    }
+
+    @Before
+    public void setup() {
+        Intents.init();
     }
 
     @After

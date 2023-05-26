@@ -43,6 +43,7 @@ public class DateSelectors {
         Calendar calendar = timeAndDateToCalendar(txtDate, txtTime);
         return calendar == null ? -1 : calendar.getTimeInMillis();
     }
+
     public static Calendar timeAndDateToCalendar(EditText txtDate, EditText txtTime) {
         final String[] hourMin = txtTime.getText().toString().split(":"); //[hour, min]
 
@@ -55,6 +56,7 @@ public class DateSelectors {
         }
         return calendar;
     }
+
     public static Calendar dateToCalendar(EditText txtDate) {
         final String[] yearMonthDay = txtDate.getText().toString().split("-"); //[day, month, year]
 
@@ -72,5 +74,4 @@ public class DateSelectors {
         }
         return calendar;
     }
-
 }

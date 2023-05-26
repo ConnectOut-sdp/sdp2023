@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
-                    android:text="'name'"
+                    android:text=""
                     android:textSize="30sp" />
 
             <TextView
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
-                    android:text="'email'" />
+                    android:text="" />
 
         </LinearLayout>
     </LinearLayout>
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="'gender'"
+            android:text=""
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingBottom="10dp"
-            android:text="'Samantha is a freelance writer and aspiring chef who loves to explore new cuisines and cultures. When she's not cooking up a storm in the kitchen, she can be found hiking in the mountains or reading a good book. With a degree in English literature and a passion for storytelling, Samantha is always looking for new ways to express herself creatively. She also enjoys volunteering at her local animal shelter and spending time with her two rescue dogs, Luna and Max.'"
+            android:text=""
             app:layout_constraintTop_toBottomOf="@+id/profileGender"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,13 +87,13 @@
             app:layout_constraintBottom_toTopOf="@+id/title_separator" />
 
     <TextView
-        android:id="@+id/title_separator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Participates in those activities (organizer or participant)"
-        app:layout_constraintTop_toBottomOf="@+id/profileBio"
-        tools:layout_editor_absoluteX="-203dp" />
+            android:id="@+id/title_separator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Participates in those activities (organizer or participant)"
+            app:layout_constraintTop_toBottomOf="@+id/profileBio"
+            tools:layout_editor_absoluteX="-203dp" />
 
     <FrameLayout
             android:id="@+id/profile_events_container"
@@ -122,14 +122,14 @@
             tools:layout_editor_absoluteX="0dp" />
 
     <Button
-        android:id="@+id/buttonSharePersonalQrCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
-        android:text="Share Personal QR code"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/buttonSharePersonalQrCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp"
+            android:text="Share Personal QR code"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <Button
             android:id="@+id/buttonRatingEditProfile"

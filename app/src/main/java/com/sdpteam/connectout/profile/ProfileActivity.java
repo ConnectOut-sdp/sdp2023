@@ -2,12 +2,12 @@ package com.sdpteam.connectout.profile;
 
 import static com.sdpteam.connectout.profile.ProfileFragment.PASSED_ID_KEY;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 /**
  * Activity showing the current user's information

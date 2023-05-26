@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="10dp"
-    android:weightSum="4">
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:background="?attr/colorPrimary"
-        android:orientation="vertical">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:weightSum="4">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="?attr/colorPrimary"
+            android:orientation="vertical">
 
         <!-- Event Title -->
         <TextView
-            android:id="@+id/registered_event_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Texte here"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+                android:id="@+id/registered_event_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="Texte here"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         <!-- Event Time -->
         <TextView
-            android:id="@+id/registered_event_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="20dp"
-            android:text="TIME HERE"
-            android:textSize="16sp" />
+                android:id="@+id/registered_event_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="20dp"
+                android:text="TIME HERE"
+                android:textSize="16sp" />
 
     </LinearLayout>
 </LinearLayout>

@@ -10,7 +10,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.sdpteam.connectout.event.viewer.EventActivity.JOIN_EVENT;
-import static com.sdpteam.connectout.event.viewer.EventActivity.MAKE_POST;
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 import static com.sdpteam.connectout.profile.Profile.NULL_USER;
 import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
@@ -40,7 +39,7 @@ import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
-import com.sdpteam.connectout.post.view.PostCreatorActivity;
+import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
 
 import android.content.Intent;
 import androidx.appcompat.widget.Toolbar;
@@ -55,19 +54,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 @RunWith(AndroidJUnit4.class)
 public class EventActivityTest {
     private final static String EVENT_TITLE_1 = generateRandomPath();
-    private final static String EVENT_TITLE_QR = generateRandomPath();
-
     private final static Event TEST_EVENT = new Event(generateRandomPath(), EVENT_TITLE_1, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
+    private final static String EVENT_TITLE_QR = generateRandomPath();
     private final static Event TEST_EVENT_QR = new Event(generateRandomPath(), EVENT_TITLE_QR, "descr", new GPSCoordinates(1.2, 1.2), "Bob");
 
     private final static String POST_ID = "A_" + generateRandomPath();
     private final static String COMMENT_ID = "A_" + generateRandomPath();
     private final static String PROFILE_ID = "A_" + generateRandomPath();
-
     private final static Post TEST_POST = new Post(POST_ID, PROFILE_ID, TEST_EVENT.getId(), COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
     private final static Post TEST_POST2 = new Post(POST_ID + "1", PROFILE_ID, TEST_EVENT.getId(), COMMENT_ID, new ArrayList<>(), 100, Post.PostVisibility.PUBLIC, "title", "desc");
-
     @Rule
     public ActivityScenarioRule<EventActivity> activityRule = new ActivityScenarioRule<>(new Intent(ApplicationProvider.getApplicationContext(), EventActivity.class).putExtra(PASSED_ID_KEY,
             TEST_EVENT.getId()));
@@ -112,6 +108,13 @@ public class EventActivityTest {
         // Verify that the intent has the expected key
         intended(hasExtraWithKey("title"));
         intended(hasExtraWithKey("qrCodeData"));
+    }
+
+    @Test
+    public void showParticipantsButton() {
+        onView(withId(R.id.event_participants_button)).check(matches(isDisplayed()));
+        onView(withId(R.id.event_participants_button)).perform(click());
+        intended(hasComponent(EventParticipantsListActivity.class.getName()));
     }
 
     @Test

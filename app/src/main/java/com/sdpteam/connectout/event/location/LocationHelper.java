@@ -3,18 +3,17 @@ package com.sdpteam.connectout.event.location;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.location.Location;
-
-import androidx.core.app.ActivityCompat;
+import java.util.Objects;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Objects;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
+import androidx.core.app.ActivityCompat;
 
 public class LocationHelper {
 
@@ -23,8 +22,12 @@ public class LocationHelper {
     private final FusedLocationProviderClient fusedLocationClient;
     private Location lastLocation;
 
-    private LocationHelper(Context context) {
+    LocationHelper(Context context) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+    }
+
+    public LocationHelper() {
+        fusedLocationClient = null; // for test
     }
 
     /**
