@@ -82,6 +82,7 @@ public class DrawerActivityTest {
 
         // Click on the My Account menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_my_account));
+        waitABit();
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
         onView(withId(R.id.profile_fragment_id)).check(matches(isDisplayed()));
     }

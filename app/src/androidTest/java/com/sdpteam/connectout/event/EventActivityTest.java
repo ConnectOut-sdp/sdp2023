@@ -39,6 +39,7 @@ import com.sdpteam.connectout.event.viewer.EventActivity;
 import com.sdpteam.connectout.event.viewer.EventMapViewFragment;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
+import com.sdpteam.connectout.profileList.EventParticipantsListActivity;
 
 import android.content.Intent;
 import androidx.appcompat.widget.Toolbar;
@@ -107,6 +108,13 @@ public class EventActivityTest {
         // Verify that the intent has the expected key
         intended(hasExtraWithKey("title"));
         intended(hasExtraWithKey("qrCodeData"));
+    }
+
+    @Test
+    public void showParticipantsButton() {
+        onView(withId(R.id.event_participants_button)).check(matches(isDisplayed()));
+        onView(withId(R.id.event_participants_button)).perform(click());
+        intended(hasComponent(EventParticipantsListActivity.class.getName()));
     }
 
     @Test
