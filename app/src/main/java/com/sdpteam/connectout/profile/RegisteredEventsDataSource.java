@@ -1,6 +1,5 @@
 package com.sdpteam.connectout.profile;
 
-
 public interface RegisteredEventsDataSource {
 
     /**
@@ -8,6 +7,4 @@ public interface RegisteredEventsDataSource {
      * in list of events that a profile is registered to
      */
     void registerToEvent(RegisteredEvent event, String profileId);
-
-
 }

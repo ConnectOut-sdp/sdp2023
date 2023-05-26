@@ -54,8 +54,8 @@ public class EventCreatorViewModel extends EventsViewModel {
      * @param title       (String): title of the event
      * @param coordinates (GPSCoordinates): position of the event
      * @param description (String): description of the event
-     * @param date (long): date of the event
-     * @param imageUrl (String): url of the event image
+     * @param date        (long): date of the event
+     * @param imageUrl    (String): url of the event image
      */
     public void saveEvent(String title, GPSCoordinates coordinates, String description, long date, String imageUrl) {
         AuthenticatedUser user = new GoogleAuth().loggedUser();

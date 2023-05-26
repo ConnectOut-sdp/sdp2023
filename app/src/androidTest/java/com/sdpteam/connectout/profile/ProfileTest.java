@@ -17,23 +17,21 @@ import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNull;
-
-import android.content.Intent;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
-import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.profile.editProfile.EditProfileActivity;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import com.sdpteam.connectout.QrCode.QRcodeModalActivity;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.profile.editProfile.EditProfileActivity;
+
+import android.content.Intent;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 public class ProfileTest {
 

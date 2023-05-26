@@ -11,19 +11,8 @@ import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomString;
 import static org.hamcrest.Matchers.anything;
 
-import android.os.SystemClock;
-
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-import com.sdpteam.connectout.event.viewer.MyEventsCalendarActivity;
-import com.sdpteam.connectout.profile.Profile;
-import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
-import com.sdpteam.connectout.profile.RegisteredEvent;
+import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,23 +21,40 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.Date;
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+import com.sdpteam.connectout.event.viewer.MyEventsCalendarActivity;
+import com.sdpteam.connectout.profile.Profile;
+import com.sdpteam.connectout.profile.ProfileFirebaseDataSource;
+import com.sdpteam.connectout.profile.RegisteredEvent;
+
+import android.os.SystemClock;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class MyEventsCalendarActivityTest {
 
     private static final String userId = generateRandomString(8);
+    private static final ProfileFirebaseDataSource profileFirebase = new ProfileFirebaseDataSource();
     private final String eventId1 = generateRandomPath();
     private final String eventId2 = generateRandomPath();
     private final String eventId3 = generateRandomPath();
     private final String eventId4 = generateRandomPath();
     private final String eventId5 = generateRandomPath();
-    private static final ProfileFirebaseDataSource profileFirebase = new ProfileFirebaseDataSource();
     private final EventFirebaseDataSource eventFirebase = new EventFirebaseDataSource();
 
     @Rule
     public ActivityScenarioRule<MyEventsCalendarActivity> activityRule = new ActivityScenarioRule<>(MyEventsCalendarActivity.class);
+
+    @AfterClass
+    public static void tearDownClass() {
+        profileFirebase.deleteProfile(userId);
+        waitABit();
+    }
+
     @Before
     public void setUp() {
         Intents.init();
@@ -87,12 +93,6 @@ public class MyEventsCalendarActivityTest {
         eventFirebase.deleteEvent(eventId4);
         eventFirebase.deleteEvent(eventId5);
         SystemClock.sleep(2000);
-        profileFirebase.deleteProfile(userId);
-        waitABit();
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
         profileFirebase.deleteProfile(userId);
         waitABit();
     }

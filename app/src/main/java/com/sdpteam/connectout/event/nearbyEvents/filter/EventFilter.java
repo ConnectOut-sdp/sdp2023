@@ -1,8 +1,8 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
-import com.sdpteam.connectout.event.Event;
-
 import java.util.function.Predicate;
+
+import com.sdpteam.connectout.event.Event;
 
 public interface EventFilter extends Predicate<Event> {
 

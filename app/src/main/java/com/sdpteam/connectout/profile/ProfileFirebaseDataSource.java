@@ -1,11 +1,10 @@
 package com.sdpteam.connectout.profile;
 
-import android.view.View;
-import android.widget.ListAdapter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -15,14 +14,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.sdpteam.connectout.profileList.filter.ProfileFilter;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredEventsDataSource {
     public final static String USERS = "Users";
@@ -86,7 +77,7 @@ public class ProfileFirebaseDataSource implements ProfileDataSource, RegisteredE
         allTasks.addOnCompleteListener(dataSnapshots -> {
             for (DataSnapshot dataSnapshot : dataSnapshots.getResult()) {
                 Profile profile = dataSnapshot.getValue(Profile.class);
-                if(profile != null) {
+                if (profile != null) {
                     profiles.add(profile);
                 }
             }

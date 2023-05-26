@@ -15,10 +15,9 @@ import com.sdpteam.connectout.event.nearbyEvents.filter.EventParticipantIdFilter
 import com.sdpteam.connectout.utils.Result;
 
 public class PostFirebaseDataSource implements PostDataSource {
-    public static boolean FORCE_FAIL = false; // workaround because Mocking the isSuccessful() of the Task class is not possible
-    // (MockitoException: Mockito cannot mock this class: class com.google.android.gms.tasks.Task)
-
     private static final String POSTS = "Posts";
+    // (MockitoException: Mockito cannot mock this class: class com.google.android.gms.tasks.Task)
+    public static boolean FORCE_FAIL = false; // workaround because Mocking the isSuccessful() of the Task class is not possible
 
     @Override
     public CompletableFuture<Result<String>> savePost(Post post) {

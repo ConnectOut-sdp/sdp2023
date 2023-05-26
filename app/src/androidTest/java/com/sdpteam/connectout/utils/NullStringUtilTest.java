@@ -1,6 +1,7 @@
 package com.sdpteam.connectout.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
@@ -21,5 +22,10 @@ public class NullStringUtilTest {
         assertThrows(NullPointerException.class, () -> {
             String s = NullStringUtil.nonNullString(null, null);
         });
+    }
+
+    @Test
+    public void defaultConstructor() {
+        assertNotNull(new NullStringUtil());
     }
 }

@@ -2,9 +2,9 @@ package com.sdpteam.connectout.authentication;
 
 import static org.junit.Assert.assertFalse;
 
-import android.content.Intent;
-
 import org.junit.Test;
+
+import android.content.Intent;
 
 public class GoogleAuthTest {
 

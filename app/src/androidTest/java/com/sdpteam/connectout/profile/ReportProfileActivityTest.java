@@ -13,28 +13,25 @@ import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 import static org.junit.Assert.assertEquals;
 
-import android.content.Intent;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.Espresso;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+
+import android.content.Intent;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.Espresso;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 @RunWith(AndroidJUnit4.class)
 public class ReportProfileActivityTest {
 
     private static final String reportedUid = generateRandomPath();
-    private final ReportFirebaseDataSource model = new ReportFirebaseDataSource();
-
     static Intent intent;
 
     static {
@@ -42,6 +39,7 @@ public class ReportProfileActivityTest {
         intent.putExtra(REPORTED_UID, reportedUid);
     }
 
+    private final ReportFirebaseDataSource model = new ReportFirebaseDataSource();
     @Rule
     public ActivityScenarioRule<ReportProfileActivity> testRule = new ActivityScenarioRule<>(intent);
 

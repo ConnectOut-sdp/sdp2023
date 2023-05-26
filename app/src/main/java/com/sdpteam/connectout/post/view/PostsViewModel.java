@@ -116,19 +116,19 @@ public class PostsViewModel extends ViewModel {
     }
 
     /**
+     * @param likedPost (Post): post to like
+     * @return (CompletableFuture < Result < String > >): a future that will be completed with the result of the operation (String is the post id).
+     */
+    public CompletableFuture<Result<String>> likePost(Post likedPost) {
+        return postDataSource.savePost(likedPost.withOneMoreLike());
+    }
+
+    /**
      * Enumeration indicating the type of post we are using.
      */
     private enum PostOption {
         ALL,
         EVENT,
         AUTHORED
-    }
-
-    /**
-     * @param likedPost (Post): post to like
-     * @return (CompletableFuture < Result < String > >): a future that will be completed with the result of the operation (String is the post id).
-     */
-    public CompletableFuture<Result<String>> likePost(Post likedPost) {
-        return postDataSource.savePost(likedPost.withOneMoreLike());
     }
 }

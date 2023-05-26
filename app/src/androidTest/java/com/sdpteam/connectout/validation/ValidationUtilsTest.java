@@ -2,15 +2,15 @@ package com.sdpteam.connectout.validation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import android.content.Context;
 import android.widget.EditText;
-
 import androidx.test.platform.app.InstrumentationRegistry;
-
-import org.junit.Test;
 
 public class ValidationUtilsTest {
 
@@ -30,5 +30,10 @@ public class ValidationUtilsTest {
         boolean result2 = ValidationUtils.handleValidationFailure(false, editText, error);
         assertFalse(result2);
         assertEquals(error, editText.getError().toString());
+    }
+
+    @Test
+    public void defaultConstructor() {
+        assertNotNull(new ValidationUtils());
     }
 }

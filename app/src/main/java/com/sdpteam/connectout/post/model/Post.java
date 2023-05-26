@@ -44,24 +44,6 @@ public class Post {
         this.description = description;
     }
 
-    /**
-     * PUBLIC means anyone in the app can view this post
-     * SEMIPRIVATE means only users that are taking part (joined) to this event (eventId)
-     */
-    public enum PostVisibility {
-        PUBLIC("Everyone in the app can see this post"), SEMIPRIVATE("People who joined this event can see this post");
-
-        private final String desc;
-
-        PostVisibility(String desc) {
-            this.desc = desc;
-        }
-
-        public String getDesc() {
-            return desc;
-        }
-    }
-
     public String getId() {
         return id;
     }
@@ -127,5 +109,23 @@ public class Post {
 
     public Post withOneMoreLike() {
         return new Post(id, profileId, eventId, commentsChatId, imagesUrls, nbrLikes + 1, visibility, title, description);
+    }
+
+    /**
+     * PUBLIC means anyone in the app can view this post
+     * SEMIPRIVATE means only users that are taking part (joined) to this event (eventId)
+     */
+    public enum PostVisibility {
+        PUBLIC("Everyone in the app can see this post"), SEMIPRIVATE("People who joined this event can see this post");
+
+        private final String desc;
+
+        PostVisibility(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
     }
 }

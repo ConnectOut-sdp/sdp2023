@@ -4,8 +4,7 @@
    for details.
 -->
 <data-extraction-rules>
-    <cloud-backup>
-    </cloud-backup>
+    <cloud-backup></cloud-backup>
     <!--
     <device-transfer>
         <include .../>

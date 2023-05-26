@@ -2,19 +2,20 @@ package com.sdpteam.connectout.event.creator;
 
 import static com.sdpteam.connectout.event.viewer.EventActivity.PASSED_ID_KEY;
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.EventFirebaseDataSource;
 import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.validation.EventValidator;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class SetEventRestrictionsActivity extends AppCompatActivity {
     private EventViewModel eventViewModel;
@@ -44,12 +45,10 @@ public class SetEventRestrictionsActivity extends AppCompatActivity {
         DateSelectors.setTimePickerDialog(this, findViewById(R.id.set_event_restrictions_btn_time), txtTime);
 
         saveButton.setOnClickListener(v -> {
-            final double chosenMinRating = Double.parseDouble(eventMinRating.getText().toString());
-            final int chosenMaxNumParticipants = Integer.parseInt(eventMaxNumParticipants.getText().toString());
-            final long chosenDate = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
-
-            // validation
-            if (EventValidator.eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate)) {
+            if (EventValidator.eventRestrictionsValidation(eventMinRating, eventMaxNumParticipants, txtDate, txtTime)) {
+                final double chosenMinRating = Double.parseDouble(eventMinRating.getText().toString());
+                final int chosenMaxNumParticipants = Integer.parseInt(eventMaxNumParticipants.getText().toString());
+                final long chosenDate = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
                 saveEventRestrictions(new Event.EventRestrictions(chosenMinRating, chosenMaxNumParticipants, chosenDate));
                 this.finish();
             }
@@ -58,5 +57,11 @@ public class SetEventRestrictionsActivity extends AppCompatActivity {
 
     private void saveEventRestrictions(Event.EventRestrictions restrictions) {
         eventViewModel.saveEventRestrictions(eventId, restrictions);
+    }
+
+    public static void openRestrictions(Context context, String eventId) {
+        final Intent intent = new Intent(context, SetEventRestrictionsActivity.class);
+        intent.putExtra(PASSED_ID_KEY, eventId);
+        context.startActivity(intent);
     }
 }

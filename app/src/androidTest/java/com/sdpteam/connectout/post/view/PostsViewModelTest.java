@@ -5,20 +5,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertTrue;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.espresso.core.internal.deps.guava.base.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import org.junit.Rule;
+import org.junit.Test;
 
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostDataSource;
 import com.sdpteam.connectout.utils.LiveDataTestUtil;
 import com.sdpteam.connectout.utils.Result;
 
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.espresso.core.internal.deps.guava.base.Objects;
 
 public class PostsViewModelTest {
 

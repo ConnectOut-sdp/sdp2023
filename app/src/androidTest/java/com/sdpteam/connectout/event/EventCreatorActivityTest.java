@@ -20,6 +20,22 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.authentication.AuthenticatedUser;
+import com.sdpteam.connectout.authentication.GoogleAuth;
+import com.sdpteam.connectout.event.creator.EventCreatorActivity;
+import com.sdpteam.connectout.event.creator.LocationPicker;
+import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
+
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
 import android.os.SystemClock;
@@ -28,7 +44,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.test.espresso.Espresso;
@@ -43,51 +58,20 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.authentication.AuthenticatedUser;
-import com.sdpteam.connectout.authentication.GoogleAuth;
-import com.sdpteam.connectout.event.creator.EventCreatorActivity;
-import com.sdpteam.connectout.event.creator.LocationPicker;
-import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
-
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 @RunWith(AndroidJUnit4.class)
 public class EventCreatorActivityTest {
 
-    private final String eventId1 = generateRandomPath();
     private static final String eventTitle1 = generateRandomPath();
     private static final String eventTitle2 = generateRandomPath();
     private static final String eventTitle3 = generateRandomPath();
     private static final String eventTitle4 = generateRandomPath();
-
     private static final String eventTitle5 = generateRandomPath();
-
+    private final String eventId1 = generateRandomPath();
     @Rule
     public ActivityScenarioRule<EventCreatorActivity> activityRule = new ActivityScenarioRule<>(EventCreatorActivity.class);
 
     @Rule
     public GrantPermissionRule grantLocationRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE, ACCESS_COARSE_LOCATION);
-
-    @Before
-    public void setUp() {
-        new GoogleAuth().logout();
-        Intents.init();
-    }
-
-    @After
-    public void tearDown() {
-        Intents.release();
-        new EventFirebaseDataSource().deleteEvent(eventId1);
-        waitABit();
-    }
 
     @AfterClass
     public static void cleanUp() {
@@ -101,6 +85,19 @@ public class EventCreatorActivityTest {
         model.deleteEvent(uid, eventTitle5);
         waitABit();
         waitABit();
+        waitABit();
+    }
+
+    @Before
+    public void setUp() {
+        new GoogleAuth().logout();
+        Intents.init();
+    }
+
+    @After
+    public void tearDown() {
+        Intents.release();
+        new EventFirebaseDataSource().deleteEvent(eventId1);
         waitABit();
     }
 
@@ -124,7 +121,8 @@ public class EventCreatorActivityTest {
     @Test
     public void clickSaveButtonFinishesActivity() {
         onView(withId(R.id.event_creator_title)).perform(ViewActions.typeText(eventTitle1), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.event_creator_description)).perform(ViewActions.typeText("Test Description Test Description Test Description Test Description Test Description"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.event_creator_description)).perform(ViewActions.typeText("Test Description Test Description Test Description Test Description Test Description"),
+                ViewActions.closeSoftKeyboard());
 
         //we select March 18 th 2054 at 4:20
         onView(ViewMatchers.withId(R.id.btn_date)).perform(click());
@@ -135,7 +133,6 @@ public class EventCreatorActivityTest {
         onView(withText("OK")).perform(click());
 
         onView(withId(R.id.event_creator_save_button)).perform(click());
-
 
         //Might return null if activity already terminated
         try {
@@ -196,7 +193,6 @@ public class EventCreatorActivityTest {
         onView(withId(R.id.event_creator_save_button)).perform(click());
         waitABit();
         Event foundEvent = fJoin(model.getEvent(NULL_USER, title));
-
 
         assertThat(foundEvent.getTitle(), is(title));
         assertThat(foundEvent.getDescription(), is(description));
@@ -264,7 +260,6 @@ public class EventCreatorActivityTest {
             uiController.loopMainThreadUntilIdle();
 
             try {
-
 
                 uiController.injectMotionEvent(MotionEvent.obtain(
                         SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),

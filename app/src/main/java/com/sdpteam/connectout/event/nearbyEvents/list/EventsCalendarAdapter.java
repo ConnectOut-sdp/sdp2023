@@ -1,5 +1,11 @@
 package com.sdpteam.connectout.event.nearbyEvents.list;
 
+import java.util.List;
+
+import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.event.Event;
+import com.sdpteam.connectout.event.viewer.EventActivity;
+
 import android.content.Context;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -7,20 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.sdpteam.connectout.R;
-import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.event.viewer.EventActivity;
-import com.sdpteam.connectout.profile.ProfileActivity;
-
-import java.util.List;
 
 public class EventsCalendarAdapter extends ArrayAdapter<Event> {
 
@@ -53,7 +48,6 @@ public class EventsCalendarAdapter extends ArrayAdapter<Event> {
             view = inflater.inflate(eventListItemResource, parent, false);
         }
 
-
         final Event event = getItem(position);
         final String orgProfileId = event.getOrganizer();
 
@@ -64,7 +58,6 @@ public class EventsCalendarAdapter extends ArrayAdapter<Event> {
         // Format the date before showing it
         registeredEventTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
                 event.getDate()));
-
 
         registeredEventTime.setGravity(Gravity.CENTER);
         eventTitle.setGravity(Gravity.CENTER);

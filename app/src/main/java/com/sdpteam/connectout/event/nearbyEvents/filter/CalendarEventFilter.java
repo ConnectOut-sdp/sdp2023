@@ -1,12 +1,11 @@
 package com.sdpteam.connectout.event.nearbyEvents.filter;
 
 import com.sdpteam.connectout.event.Event;
-import com.sdpteam.connectout.profile.Profile;
 
-public class CalendarEventFilter implements EventFilter{
+public class CalendarEventFilter implements EventFilter {
     String profileId;
 
-    public CalendarEventFilter(String profileId){
+    public CalendarEventFilter(String profileId) {
         this.profileId = profileId;
     }
 

@@ -1,11 +1,11 @@
 package com.sdpteam.connectout.utils;
 
-import android.os.SystemClock;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import android.os.SystemClock;
 
 public class FutureUtils {
     /**

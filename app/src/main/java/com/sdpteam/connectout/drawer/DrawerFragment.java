@@ -1,12 +1,11 @@
 package com.sdpteam.connectout.drawer;
 
+import com.sdpteam.connectout.utils.WithFragmentActivity;
+
 import android.view.View;
 import android.widget.Button;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
-import com.sdpteam.connectout.utils.WithFragmentActivity;
 
 /**
  * Fragments of a drawer.

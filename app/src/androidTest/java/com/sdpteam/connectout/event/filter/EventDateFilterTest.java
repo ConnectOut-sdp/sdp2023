@@ -1,18 +1,16 @@
 package com.sdpteam.connectout.event.filter;
 
-
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import android.icu.util.Calendar;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.sdpteam.connectout.event.Event;
 import com.sdpteam.connectout.event.nearbyEvents.filter.EventDateFilter;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 
-import org.junit.Before;
-import org.junit.Test;
-
+import android.icu.util.Calendar;
 
 public class EventDateFilterTest {
     private EventDateFilter filter;

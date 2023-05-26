@@ -7,22 +7,22 @@ import static com.sdpteam.connectout.utils.FutureUtils.fJoin;
 import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import static com.sdpteam.connectout.utils.RandomPath.generateRandomPath;
 
-import android.content.Intent;
-
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleAuth;
 import com.sdpteam.connectout.event.nearbyEvents.map.GPSCoordinates;
 import com.sdpteam.connectout.event.viewer.EventActivity;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import android.content.Intent;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
 /**
  * Test for the chat button in the event activity
  * NEEDS TO STAY THE UNIQUE TEST IN THIS FILE TO WORK!
@@ -54,8 +54,8 @@ public class EventActivityChatButtonTest {
         // join event
         onView(withId(R.id.event_join_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
-    //    onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
-            //trying without this line which seems to create an issue
+        //    onView(withId(R.id.event_chat_btn)).check(matches(isDisplayed()));
+        //trying without this line which seems to create an issue
         // refresh
         fJoin(new EventFirebaseDataSource().getEvent(TEST_EVENT.getId()));
 
@@ -64,6 +64,6 @@ public class EventActivityChatButtonTest {
         waitABit();
         onView(withId(R.id.refresh_button)).perform(ViewActions.scrollTo()).perform(ViewActions.click());
         waitABit();
-    //    onView(withId(R.id.event_chat_btn)).check(matches(not(isDisplayed())));
+        //    onView(withId(R.id.event_chat_btn)).check(matches(not(isDisplayed())));
     }
 }
