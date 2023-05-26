@@ -104,6 +104,7 @@ public class DrawerActivityTest {
         // Click on the Scan QR Code menu item
         waitABit();
         waitABit();
+        waitABit();
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         waitABit();
         waitABit();
