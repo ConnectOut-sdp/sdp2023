@@ -34,10 +34,6 @@ public class MyEventsCalendarFragment extends DrawerFragment {
         eventsViewModel.setFilter(new CalendarEventFilter(profileId));
     }
 
-    public MyEventsCalendarFragment(String profileId) {
-        this.profileId = profileId;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
