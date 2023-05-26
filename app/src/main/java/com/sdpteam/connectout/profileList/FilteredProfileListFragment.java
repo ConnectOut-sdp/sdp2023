@@ -20,6 +20,7 @@ public class FilteredProfileListFragment extends Fragment {
     private final ProfileFilter baseFilter;
     private final Handler searchHandler = new Handler();
     private Runnable searchRunnable;
+    private ProfilesViewModel viewModel;
 
     public FilteredProfileListFragment() {
         this(ProfileFilter.NONE);
@@ -33,7 +34,7 @@ public class FilteredProfileListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.fragment_filter, container, false);
 
-        final ProfilesViewModel viewModel = new ProfilesViewModel(new ProfileFirebaseDataSource());
+        viewModel = new ProfilesViewModel(new ProfileFirebaseDataSource());
         viewModel.setFilter(baseFilter);
 
         final EditText searchFilter = contentView.findViewById(R.id.text_filter);
@@ -64,6 +65,12 @@ public class FilteredProfileListFragment extends Fragment {
         getChildFragmentManager().beginTransaction().replace(R.id.filter_container, fragment).commit();
 
         return contentView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.refreshProfiles();
     }
 
     @Override
