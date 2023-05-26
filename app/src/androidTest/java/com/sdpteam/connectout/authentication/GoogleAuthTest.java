@@ -1,6 +1,7 @@
 package com.sdpteam.connectout.authentication;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -67,5 +68,10 @@ public class GoogleAuthTest {
         };
         ga.logout();
         assertFalse(ga.isLoggedIn());
+    }
+
+    @Test
+    public void loggedUserIsNull() {
+        assertNull(new GoogleAuth().loggedUser());
     }
 }

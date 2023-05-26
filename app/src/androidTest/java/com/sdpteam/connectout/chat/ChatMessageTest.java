@@ -25,4 +25,14 @@ public class ChatMessageTest {
         assertThat(m.getChatId(), is(NULL_CHAT));
         assertThat(m.getMessageTime(), is(0L));
     }
+
+    @Test
+    public void constructorWorks() {
+        ChatMessage chatMessage = new ChatMessage(NULL_USER, NULL_USER, "test message", NULL_CHAT, "imageUrl");
+        assertThat(chatMessage.getUserName(), is(NULL_USER));
+        assertThat(chatMessage.getUserId(), is(NULL_USER));
+        assertThat(chatMessage.getMessageText(), is("test message"));
+        assertThat(chatMessage.getChatId(), is(NULL_CHAT));
+        assertThat(chatMessage.getImageUrl(), is("imageUrl"));
+    }
 }
