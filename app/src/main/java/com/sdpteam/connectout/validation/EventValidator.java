@@ -60,12 +60,13 @@ public class EventValidator {
     }
 
     public static boolean eventRestrictionsValidation(EditText eventMinRatingInput, EditText eventMaxNumParticipantsInputs, EditText txtDate, EditText txtTime) {
-        final boolean b1 = ValidationUtils.handleValidationFailure(eventMinRatingInput.getText().length() != 0, eventMinRatingInput, "Insert value");
-        final boolean b2 = ValidationUtils.handleValidationFailure(eventMaxNumParticipantsInputs.getText().length() != 0, eventMaxNumParticipantsInputs, "Insert value");
+        final boolean b1 = ValidationUtils.handleValidationFailure(eventMinRatingInput.getText().length() != 0, eventMinRatingInput, "Insert value")
+                & ValidationUtils.handleValidationFailure(eventMaxNumParticipantsInputs.getText().length() != 0, eventMaxNumParticipantsInputs, "Insert value");
+        if (!b1) return false;
         final double chosenMinRating = Double.parseDouble(eventMinRatingInput.getText().toString());
         final int chosenMaxNumParticipants = Integer.parseInt(eventMaxNumParticipantsInputs.getText().toString());
         final long chosenDate = DateSelectors.parseEditTextTimeAndDate(txtDate, txtTime);
-        return b1 & b2 & eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate);
+        return eventRestrictionsValidation(chosenMinRating, chosenMaxNumParticipants, chosenDate);
     }
 
     private static boolean eventRestrictionsValidation(double minRating, int maxNumParticipants, long joiningDeadline) {

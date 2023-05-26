@@ -53,6 +53,11 @@ public class ChatActivityTest {
     }
 
     @Test
+    public void launchChatIntent() {
+        activityRule.getScenario().onActivity(activity -> ChatActivity.openChat(activity, nameOfTestChat));
+    }
+
+    @Test
     public void testOnOptionsItemSelectedWithHomeItemIdFinishActivity() {
         activityRule.getScenario().onActivity(activity ->
         {

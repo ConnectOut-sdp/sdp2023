@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.sdpteam.connectout.R;
+import com.sdpteam.connectout.chat.ChatActivity;
 import com.sdpteam.connectout.event.creator.SetEventRestrictionsActivity;
 
 import android.content.Intent;
@@ -102,5 +103,10 @@ public class SetEventRestrictionsActivityTest {
         calendar.set(Calendar.MILLISECOND, 0);
         long unixTimestamp = calendar.getTimeInMillis();
         assertThat(restrictedEvent.getRestrictions().getJoiningDeadline(), is(unixTimestamp));
+    }
+
+    @Test
+    public void launchIntent() {
+        activityRule.getScenario().onActivity(activity -> SetEventRestrictionsActivity.openRestrictions(activity, "eventId"));
     }
 }

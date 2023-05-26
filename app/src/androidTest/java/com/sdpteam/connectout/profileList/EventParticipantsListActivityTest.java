@@ -5,6 +5,8 @@ import static com.sdpteam.connectout.utils.FutureUtils.waitABit;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.sdpteam.connectout.chat.ChatActivity;
+
 import android.content.Intent;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -22,5 +24,10 @@ public class EventParticipantsListActivityTest {
     @Test
     public void doesNotCrash() {
         waitABit();
+    }
+
+    @Test
+    public void launchParticipantsIntent() {
+         EventParticipantsListActivity.showParticipants(testRule.getActivity(), "eventId");
     }
 }

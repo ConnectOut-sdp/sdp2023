@@ -9,6 +9,8 @@ import com.sdpteam.connectout.event.viewer.EventViewModel;
 import com.sdpteam.connectout.utils.DateSelectors;
 import com.sdpteam.connectout.validation.EventValidator;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,5 +57,11 @@ public class SetEventRestrictionsActivity extends AppCompatActivity {
 
     private void saveEventRestrictions(Event.EventRestrictions restrictions) {
         eventViewModel.saveEventRestrictions(eventId, restrictions);
+    }
+
+    public static void openRestrictions(Context context, String eventId) {
+        final Intent intent = new Intent(context, SetEventRestrictionsActivity.class);
+        intent.putExtra(PASSED_ID_KEY, eventId);
+        context.startActivity(intent);
     }
 }

@@ -143,10 +143,10 @@ public class EventActivity extends WithFragmentActivity {
         interestedBtn.setVisibility(event.getOrganizer().equals(currentUserId) || event.hasJoined(currentUserId) ? GONE : VISIBLE);
 
         restrictionsBtn.setVisibility(event.getOrganizer().equals(currentUserId) ? VISIBLE : GONE);
-        restrictionsBtn.setOnClickListener(v -> openRestrictions(event.getId()));
+        restrictionsBtn.setOnClickListener(v -> SetEventRestrictionsActivity.openRestrictions(this, event.getId()));
 
         chatBtn.setVisibility(event.hasJoined(currentUserId) || event.isInterested(currentUserId) ? VISIBLE : GONE);
-        chatBtn.setOnClickListener(v -> openChat(event.getId()));
+        chatBtn.setOnClickListener(v -> ChatActivity.openChat(this, event.getId()));
 
         shareQrCodeBtn.setOnClickListener(v -> {
             String qrCodeData = "event/" + event.getId();
@@ -157,7 +157,7 @@ public class EventActivity extends WithFragmentActivity {
         });
 
         updateParticipantsButton(event, participantsBtn);
-        participantsBtn.setOnClickListener(v -> showParticipants(event.getId()));
+        participantsBtn.setOnClickListener(v -> EventParticipantsListActivity.showParticipants(this, event.getId()));
 
         joinBtn.setOnClickListener(v -> {
             if (event.hasJoined(currentUserId)) {
@@ -187,18 +187,6 @@ public class EventActivity extends WithFragmentActivity {
         makePostBtn.setOnClickListener(v -> PostCreatorActivity.openPostCreator(this, currentUserId, eventId, event.getTitle()));
     }
 
-    private void openRestrictions(String eventId) {
-        final Intent intent = new Intent(this, SetEventRestrictionsActivity.class);
-        intent.putExtra(PASSED_ID_KEY, eventId);
-        startActivity(intent);
-    }
-
-    private void openChat(String eventID) {
-        final Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("chatId", eventID);
-        startActivity(intent);
-    }
-
     /**
      * Initializes the map of the event.
      */
@@ -210,12 +198,6 @@ public class EventActivity extends WithFragmentActivity {
     private void initPostsFragment() {
         PostsFragment postsFragment = new PostsFragment(eventId, null, false, false);
         replaceFragment(postsFragment, R.id.event_post_fragment_container);
-    }
-
-    private void showParticipants(String eventId) {
-        final Intent intent = new Intent(this, EventParticipantsListActivity.class);
-        intent.putExtra(PASSED_ID_KEY, eventId);
-        startActivity(intent);
     }
 
     /**
