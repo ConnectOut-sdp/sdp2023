@@ -22,8 +22,12 @@ public class LocationHelper {
     private final FusedLocationProviderClient fusedLocationClient;
     private Location lastLocation;
 
-    private LocationHelper(Context context) {
+    LocationHelper(Context context) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+    }
+
+    public LocationHelper() {
+        fusedLocationClient = null; // for test
     }
 
     /**
