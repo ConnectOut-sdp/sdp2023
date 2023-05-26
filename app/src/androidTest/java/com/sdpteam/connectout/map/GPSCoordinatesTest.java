@@ -78,7 +78,7 @@ public class GPSCoordinatesTest {
     @Test
     public void emptyConstructorExists() {
         GPSCoordinates gpsCoordinates = new GPSCoordinates();
-        assertEquals(0, gpsCoordinates.getLatitude());
-        assertEquals(0, gpsCoordinates.getLongitude());
+        assertEquals(0, gpsCoordinates.getLatitude(), 0.00000000000001);
+        assertEquals(0, gpsCoordinates.getLongitude(), 0.00000000000001);
     }
 }
