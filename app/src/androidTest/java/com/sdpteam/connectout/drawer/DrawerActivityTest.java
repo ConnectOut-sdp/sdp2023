@@ -72,6 +72,7 @@ public class DrawerActivityTest {
         waitABit();
         // Click on the Home menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_home));
+        waitABit();
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
         onView(withId(R.id.events_fragment_id)).check(matches(isDisplayed()));
     }
@@ -82,6 +83,7 @@ public class DrawerActivityTest {
         waitABit();
         // Click on the My Account menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_my_account));
+        waitABit();
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
         onView(withId(R.id.profile_fragment_id)).check(matches(isDisplayed()));
     }
@@ -92,6 +94,7 @@ public class DrawerActivityTest {
         waitABit();
         // Click on the My Events menu item
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.menu_my_events));
+        waitABit();
         onView(withId(R.id.drawer_fragment_container)).check(matches(isDisplayed()));
         onView(withId(R.id.activity_registered_events_calendar)).check(matches(isDisplayed()));
     }
@@ -99,7 +102,9 @@ public class DrawerActivityTest {
     @Test
     public void clickProfilesOptionOpensProfilesFragment() {
         // Click on the Scan QR Code menu item
+        waitABit();
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        waitABit();
         waitABit();
         onView(ViewMatchers.withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.scan_qr_code));
 
