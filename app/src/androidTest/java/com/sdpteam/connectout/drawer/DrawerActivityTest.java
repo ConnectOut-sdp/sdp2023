@@ -103,7 +103,9 @@ public class DrawerActivityTest {
     public void clickProfilesOptionOpensProfilesFragment() {
         // Click on the Scan QR Code menu item
         waitABit();
+        waitABit();
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        waitABit();
         waitABit();
         waitABit();
         onView(ViewMatchers.withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.scan_qr_code));
