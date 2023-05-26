@@ -18,8 +18,7 @@ public class QRcodeActivityTest {
 
     @Test
     public void testHandleScanResultForProfile() {
-        testRule.getScenario().onActivity(activity ->
-        {
+        testRule.getScenario().onActivity(activity -> {
             // Given
             String profileResult = "profile/12345";
 
@@ -30,8 +29,7 @@ public class QRcodeActivityTest {
 
     @Test
     public void testHandleScanResultForEvent() {
-        testRule.getScenario().onActivity(activity ->
-        {
+        testRule.getScenario().onActivity(activity -> {
             // Given
             String eventResult = "event/54321";
             assertTrue(activity.handleScanResult(eventResult));
@@ -40,9 +38,7 @@ public class QRcodeActivityTest {
 
     @Test
     public void testHandleScanResultForInvalidType() {
-        testRule.getScenario().onActivity(activity ->
-        {
-
+        testRule.getScenario().onActivity(activity -> {
             // Given
             String invalidTypeResult = "invalidType/12345";
             assertFalse(activity.handleScanResult(invalidTypeResult));
@@ -51,8 +47,7 @@ public class QRcodeActivityTest {
 
     @Test
     public void testHandleScanResultForInvalidFormat() {
-        testRule.getScenario().onActivity(activity ->
-        {
+        testRule.getScenario().onActivity(activity -> {
             // Given
             String invalidFormatResult = "invalidFormat";
             assertFalse(activity.handleScanResult(invalidFormatResult));
@@ -61,8 +56,7 @@ public class QRcodeActivityTest {
 
     @Test
     public void testHandleScanResultForNullInput() {
-        testRule.getScenario().onActivity(activity ->
-        {
+        testRule.getScenario().onActivity(activity -> {
             // Given
             String invalidFormatResult = null;
             assertFalse(activity.handleScanResult(invalidFormatResult));

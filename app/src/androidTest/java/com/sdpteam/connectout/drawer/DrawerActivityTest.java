@@ -2,6 +2,8 @@ package com.sdpteam.connectout.drawer;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.DrawerMatchers.isClosed;
+import static androidx.test.espresso.contrib.DrawerMatchers.isOpen;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -21,11 +23,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.sdpteam.connectout.QrCode.QRcodeActivity;
 import com.sdpteam.connectout.R;
 import com.sdpteam.connectout.authentication.GoogleLoginActivity;
 import com.sdpteam.connectout.post.model.Post;
 import com.sdpteam.connectout.post.model.PostFirebaseDataSource;
 
+import androidx.core.view.GravityCompat;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.NavigationViewActions;
 import androidx.test.espresso.intent.Intents;
@@ -95,12 +99,12 @@ public class DrawerActivityTest {
     @Test
     public void clickProfilesOptionOpensProfilesFragment() {
         // Click on the Scan QR Code menu item
-//        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
-//        waitABit();
-//        onView(ViewMatchers.withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.scan_qr_code));
-//
-//        // Verify that QRCodeActivity is started
-//        intended(hasComponent(QRcodeActivity.class.getName()));
+        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        waitABit();
+        onView(ViewMatchers.withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.scan_qr_code));
+
+        // Verify that QRCodeActivity is started
+        intended(hasComponent(QRcodeActivity.class.getName()));
     }
 
     @Test
@@ -140,12 +144,12 @@ public class DrawerActivityTest {
 
     @Test
     public void drawerIsClosedBeforeClick() {
-//        onView(withId(R.id.drawer_layout)).check(matches(isClosed(GravityCompat.START)));
+        onView(withId(R.id.drawer_layout)).check(matches(isClosed(GravityCompat.START)));
     }
 
     @Test
     public void drawerIsOpenedAfterClick() {
-//        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-//        onView(withId(R.id.drawer_layout)).check(matches(isOpen(GravityCompat.START)));
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.drawer_layout)).check(matches(isOpen(GravityCompat.START)));
     }
 }
