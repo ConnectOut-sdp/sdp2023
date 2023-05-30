@@ -5,15 +5,19 @@
 
 Connect Out is a social activity platform that enables users to join and discover new activities based on their interests. It fosters social interaction and community engagement, making it easier to meet like-minded people and discover new hobbies. Our app features a rating system that discourages bad behaviors while rewarding good ones, ensuring a positive and engaging experience for users.
 
-# Elevator Pitch
+# Project Background
 
-Connect Out is more than just an app it is a platform that foster social interaction and community engagement!
+Connect Out was developed by a team of top engineers during our 3rd year of Bachelor in Computer Science at EPFL. The main goal of this project was not only to create a cutting-edge application but also to gain practical experience in working collaboratively as a team in a professional setting.
 
-Our app enables users to join and discover new activities based on their interest, Making it easier to meet like minded people and discover new hobbies.
+We adopted the Agile Scrum methodology to ensure efficient project management and maximize productivity. The project spanned over 7 sprints, each lasting 2 weeks. During each sprint, we focused on specific goals and deliverables, allowing us to iterate and refine our application in an iterative and incremental manner.
 
-Whether you're looking for a tenis class, a book club association or a spikeball match ConnectOut has you covered! Thanks to its rating system, the app discourages bad behaviors while rewarding good ones.
+To facilitate smooth project execution, we assigned a different team member as the Scrum Master for each sprint. This approach provided us with valuable hands-on experience in leadership, coordination, and ensuring the successful delivery of the project within the set timeline.
 
-In summary, we would say that connect out is tomorrow's instagram but without the annoying filters and the horrible addictions.
+Throughout the development process, we embraced best practices in software engineering, including code reviews, continuous integration, and automated testing. This enabled us to maintain high code quality and ensure the stability and reliability of our application.
+
+By working together as a cohesive team, we tackled complex challenges, made critical design decisions, and successfully implemented a real-world application. This project has not only enhanced our technical skills but also instilled in us the ability to collaborate effectively, communicate efficiently, and deliver high-quality software products.
+
+We are proud to present Connect Out as a testament to our expertise, professionalism, and dedication to creating innovative solutions that foster social interaction and community engagement.
 
 # Prerequisites
 
