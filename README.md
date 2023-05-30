@@ -1,5 +1,5 @@
-<a href="https://codeclimate.com/github/ConnectOut-sdp/sdp2023/maintainability"><img src="https://api.codeclimate.com/v1/badges/64c86a28b0d7d387ce72/maintainability" /></a>
-<a href="https://codeclimate.com/github/ConnectOut-sdp/sdp2023/test_coverage"><img src="https://api.codeclimate.com/v1/badges/64c86a28b0d7d387ce72/test_coverage" /></a>
+<a href="https://codeclimate.com/github/ConnectOut-sdp/sdp2023/maintainability"><img src="https://api.codeclimate.com/v1/badges/ff7f62a53be24522f01a/maintainability" /></a>
+<a href="https://codeclimate.com/github/ConnectOut-sdp/sdp2023/test_coverage"><img src="https://api.codeclimate.com/v1/badges/ff7f62a53be24522f01a/test_coverage" /></a>
 
 # Elevator Pitch
 
@@ -19,5 +19,4 @@ In summary, we would say that connect out is tomorrow's instagram but without th
 3. Launch the application
 
 # Demo of the app
-
-[link to the demo]
+https://youtu.be/Oil0FFvZltE
