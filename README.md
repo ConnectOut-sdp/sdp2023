@@ -1,3 +1,11 @@
-# sdp2023
+# Elevator Pitch
 
-### This is a project we developed during our 3rd year of Bachelor in Computer science at EPFL.
+# Getting Started
+
+1. Download Android studio
+2. Build the project using gradle
+3. Launch the application
+
+# Demo of the app
+
+[link to the demo]
