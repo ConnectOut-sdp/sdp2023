@@ -1,6 +1,6 @@
 <div align="center">
 
- <img src="path/to/your/logo.png" alt="Connect Out Logo">
+  <img src="./logo.svg" alt="Connect Out Logo" width="200" height="200">
   
 # Connect Out - Social Activity Platform
 
