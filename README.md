@@ -1,7 +1,15 @@
+<div align="center">
+
+ <img src="path/to/your/logo.png" alt="Connect Out Logo">
+  
+# Connect Out - Social Activity Platform
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/ff7f62a53be24522f01a/maintainability)](https://codeclimate.com/github/ConnectOut-sdp/sdp2023/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ff7f62a53be24522f01a/test_coverage)](https://codeclimate.com/github/ConnectOut-sdp/sdp2023/test_coverage)
 
-# Connect Out - Social Activity Platform
+
+</div>
+
 
 Connect Out is a social activity platform that enables users to join and discover new activities based on their interests. It fosters social interaction and community engagement, making it easier to meet like-minded people and discover new hobbies. Our app features a rating system that discourages bad behaviors while rewarding good ones, ensuring a positive and engaging experience for users.
 
@@ -23,7 +31,7 @@ We are proud to present Connect Out as a testament to our expertise, professiona
 
 Before running this project, please ensure you have the following:
 
-- Android 13 (Android 11+) installed on your development machine.
+- Android 13 installed on your development machine.
 - Android API Level 32 installed and configured in your development environment.
 
 # Getting Started
